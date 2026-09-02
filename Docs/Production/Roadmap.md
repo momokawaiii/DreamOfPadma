@@ -4,7 +4,7 @@
 
 ## M0 Foundation
 
-Git/LFS, documentation, Agent contract, validation scripts, clean compile, and PIE launch. The packaging entry point remains scaffolded, but executing and learning the Development packaging pipeline is deferred until after MVP completion.
+Git/LFS, documentation, Agent contract, project Role profiles, reusable task/review/learning Skills, worktree and integration workflow, validation scripts, clean compile, and PIE launch. The packaging entry point remains scaffolded, but executing and learning the Development packaging pipeline is deferred until after MVP completion.
 
 ## M1 Core rules
 

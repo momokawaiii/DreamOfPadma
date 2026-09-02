@@ -4,7 +4,7 @@
 
 ## M0 基础设施
 
-Git/LFS、文档、Agent 约定、验证脚本、干净编译和 PIE 启动。保留打包脚本入口，但 Development 打包流水线的实际执行与学习延期到 MVP 完成之后。
+Git/LFS、文档、Agent 约定、项目 Role 配置、可复用的任务/Review/学习 Skill、worktree 与集成工作流、验证脚本、干净编译和 PIE 启动。保留打包脚本入口，但 Development 打包流水线的实际执行与学习延期到 MVP 完成之后。
 
 ## M1 核心规则
 

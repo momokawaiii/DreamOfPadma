@@ -1,0 +1,4 @@
+interface:
+  display_name: "Padma Learning Loop"
+  short_description: "Learn full-stack game development through tasks"
+  default_prompt: "Use $padma-learning-loop to turn the active Padma task into a scoped, evidence-based learning exercise."

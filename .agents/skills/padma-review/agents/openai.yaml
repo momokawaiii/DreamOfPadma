@@ -1,0 +1,4 @@
+interface:
+  display_name: "Padma Review"
+  short_description: "Review a Padma change before integration"
+  default_prompt: "Use $padma-review to review the active task or branch against its contracts and report findings first."

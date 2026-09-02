@@ -16,3 +16,5 @@
 | Release build | platform input, SDK boundaries, hot-update strategy, release governance |
 
 Each task should name one or two learning targets and record evidence in its completion report.
+
+Use [Development Learning Workflow](Workflow.md) to turn each target into a prediction, user-performed practice, observable evidence, teach-back, and transfer. Completion of an Agent-produced artifact is not by itself evidence of user mastery.

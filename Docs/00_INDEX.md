@@ -8,6 +8,9 @@ This file is the first documentation entry point for agents and collaborators. R
 
 - [Project State](ProjectState.md)
 - [Agent Workflow](Agent/Workflow.md)
+- [Codex Project Setup and Roles](Agent/CodexSetup.md)
+- [Git Workflow](Agent/GitWorkflow.md)
+- [End-to-End Multi-Agent Example](Agent/WorkflowExample.md)
 - [Task Template](Production/TaskTemplate.md)
 
 ## Design rules
@@ -63,8 +66,17 @@ The high-level MVP scope and rule interpretation in these documents were accepte
 - [Roadmap](Production/Roadmap.md)
 - [Build Matrix](Production/BuildMatrix.md)
 - [First Foundation Task](Production/Tasks/TASK-001-Foundation.md)
+- [Agent Workflow Bootstrap Task](Production/Tasks/TASK-002-Agent-Workflow-Bootstrap.md)
 - [Learning Curriculum](Learning/Curriculum.md)
+- [Development Learning Loop](Learning/Workflow.md)
 - [GM Commands](Tools/GMCommands.md)
+
+## Agent automation
+
+- Project custom-Agent configuration: `.codex/config.toml` and `.codex/agents/*.toml`
+- Task execution procedure: `.agents/skills/padma-task-runner/SKILL.md`
+- Independent review procedure: `.agents/skills/padma-review/SKILL.md`
+- Evidence-based learning procedure: `.agents/skills/padma-learning-loop/SKILL.md`
 
 ## Content
 

@@ -6,12 +6,14 @@ Dream of Padma is a UE5 C++ learning and development project focused on a data-d
 
 ## Current status
 
-The repository contains the blank C++ UE project, the initial project-governance scaffold, and an accepted high-level MVP design and architecture baseline. Explicitly deferred parameters remain open. The next milestone is foundation verification followed by the Core rules slice: calendar, resources, deterministic random streams, card definitions, and synthesis tests.
+The repository contains the blank C++ UE project, an accepted high-level MVP design and architecture baseline, and a project-scoped multi-Agent workflow with Role profiles, task/review/learning Skills, worktree isolation, bilingual task contracts, and Git handoff rules. Explicitly deferred parameters remain open. The next gate is the pending PIE foundation check, followed by an approved Core-contract task and the M1 rules slices.
 
 ## Repository rules
 
 - Read `AGENTS.md` before working.
 - Read `Docs/00_INDEX.md` to locate the current design and architecture documents.
+- Read `Docs/Agent/CodexSetup.md` and `Docs/Agent/Workflow.md` before coordinating multiple Agents or worktrees.
+- Follow `Docs/Agent/GitWorkflow.md` for staging, committing, integrating, and GitHub backup.
 - Use `Scripts/ValidateProject.ps1` for a quick repository check.
 - Use `Scripts/AuditDocs.ps1` after Markdown changes to verify English/Chinese pairs.
 - Use `Scripts/RunTests.ps1` and `Scripts/PackageDevelopment.ps1` only when an Unreal Engine root is configured.

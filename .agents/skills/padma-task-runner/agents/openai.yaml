@@ -1,0 +1,4 @@
+interface:
+  display_name: "Padma Task Runner"
+  short_description: "Run one scoped Padma task safely"
+  default_prompt: "Use $padma-task-runner to execute the active TASK contract and return an integration-ready handoff."

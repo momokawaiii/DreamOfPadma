@@ -25,6 +25,19 @@ Before changing files, read:
 - UE assets: `Content/Padma/`
 - External assets: `Content/ThirdParty/`
 
+## Coordination model
+
+- `AGENTS.md` files define mandatory repository and directory rules.
+- `Docs/` records mutable project truth: accepted design, architecture, decisions, task contracts, state, and learning evidence.
+- `.codex/agents/` defines reusable project-scoped Role profiles for spawned Agents.
+- One active Goal normally maps to one English `TASK-xxx` contract and its Chinese companion.
+- Every writable Goal has exactly one Primary Agent. A worktree belongs to an independently mergeable Goal, not permanently to a Role or logical module.
+- A subagent receives a Role plus a bounded work package, inputs, expected output, constraints, and explicit read/write authority. Read-only delegation is the default.
+- `.agents/skills/` contains stable repeatable procedures. Do not place changing game rules, current progress, or task-specific decisions in a Skill.
+- The integration owner is the only writer to shared integration state and is responsible for merge order.
+
+Read `Docs/Agent/CodexSetup.md` and `Docs/Agent/Workflow.md` when creating, delegating, reviewing, or integrating multi-Agent work.
+
 ## Documentation language contract
 
 - Every tracked Markdown document must have an English source and a Chinese companion.
@@ -51,16 +64,19 @@ If code, data, and a design document disagree, stop and report the conflict. Do 
 
 ## Agent change protocol
 
-1. State the intended scope and affected files.
-2. Make the smallest coherent change.
-3. Run the narrowest relevant validation script or test.
-4. Update the relevant documentation and `Docs/ProjectState.md`.
-5. Report changed files, checks run, remaining risks, and learning targets.
+1. Bind the work to one approved task contract and inspect the current Git state.
+2. State the intended scope, allowed paths, and affected files.
+3. Check that no concurrent writer owns the same file, UE asset, public schema, or central configuration.
+4. Make the smallest coherent change.
+5. Run the narrowest relevant validation script or test.
+6. Update the task report and relevant documentation; the integration owner updates `Docs/ProjectState.md`.
+7. Report changed files, checks run, remaining risks, unresolved questions, and learning evidence.
 
 When a Markdown file changes, its paired English or Chinese document must be changed in the same operation and both paths must be reported.
 Run `Scripts/AuditDocs.ps1` after Markdown changes to verify that no companion is missing.
 
 Do not combine unrelated refactors with a feature task. Do not rename or move large groups of UE assets without an explicit migration task and redirector check.
+Do not merge, force-push, tag, or push to a remote unless the user explicitly authorizes that action.
 
 ## Definition of done
 

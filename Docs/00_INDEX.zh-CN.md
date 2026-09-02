@@ -8,6 +8,9 @@
 
 - [项目状态](ProjectState.zh-CN.md)
 - [Agent 工作流](Agent/Workflow.zh-CN.md)
+- [Codex 项目配置与角色](Agent/CodexSetup.zh-CN.md)
+- [Git 工作流](Agent/GitWorkflow.zh-CN.md)
+- [多 Agent 端到端示例](Agent/WorkflowExample.zh-CN.md)
 - [任务模板](Production/TaskTemplate.zh-CN.md)
 
 ## 设计规则
@@ -53,8 +56,17 @@
 - [路线图](Production/Roadmap.zh-CN.md)
 - [构建矩阵](Production/BuildMatrix.zh-CN.md)
 - [第一个基础任务](Production/Tasks/TASK-001-Foundation.zh-CN.md)
+- [Agent 工作流初始化任务](Production/Tasks/TASK-002-Agent-Workflow-Bootstrap.zh-CN.md)
 - [学习课程](Learning/Curriculum.zh-CN.md)
+- [开发学习闭环](Learning/Workflow.zh-CN.md)
 - [GM 命令](Tools/GMCommands.zh-CN.md)
+
+## Agent 自动化
+
+- 项目自定义 Agent 配置：`.codex/config.toml` 和 `.codex/agents/*.toml`
+- 任务执行流程：`.agents/skills/padma-task-runner/SKILL.md`
+- 独立 Review 流程：`.agents/skills/padma-review/SKILL.md`
+- 基于证据的学习流程：`.agents/skills/padma-learning-loop/SKILL.md`
 
 ## 资源
 
