@@ -1,0 +1,29 @@
+# Unreal Engine generated output
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+
+# Local IDE state and generated compile databases
+.vs/
+.vscode/
+*.sln
+*.slnx
+*.suo
+*.user
+*.userosscache
+*.VC.db
+
+# Build and packaging output
+Artifacts/
+Build/Artifacts/
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+
+# Local logs and temporary files
+*.log
+*.tmp
+
+# Keep the project source, Config, Content, Docs and scripts under version control.

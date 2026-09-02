@@ -1,0 +1,13 @@
+{
+  "name": "WindowsDevelopment",
+  "platform": "Win64",
+  "configuration": "Development",
+  "build": true,
+  "cook": true,
+  "stage": true,
+  "pak": true,
+  "archive": true,
+  "archiveDirectory": "Artifacts/WindowsDevelopment",
+  "gmCommands": true,
+  "notes": "Daily playable build. Do not use this profile as a release profile."
+}
