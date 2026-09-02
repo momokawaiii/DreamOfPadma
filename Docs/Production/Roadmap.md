@@ -4,7 +4,7 @@
 
 ## M0 Foundation
 
-Git/LFS, documentation, Agent contract, validation scripts, clean compile, PIE launch, and Development package.
+Git/LFS, documentation, Agent contract, validation scripts, clean compile, and PIE launch. The packaging entry point remains scaffolded, but executing and learning the Development packaging pipeline is deferred until after MVP completion.
 
 ## M1 Core rules
 
@@ -24,6 +24,6 @@ Strategic/RTS-like sandbox plus one complete playable ACT RealTimeAction loop: c
 
 ## M5 Content and release
 
-Asset Manager, content packs, validation, cook rules, platform profiles, package verification, and release notes.
+Asset Manager, content packs, validation, cook rules, platform profiles, the first Windows Development package verification, packaging study, and release notes.
 
 Each milestone must be playable and leave behind tests, documentation, and a reproducible build.

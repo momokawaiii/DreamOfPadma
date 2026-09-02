@@ -11,7 +11,7 @@
 | Hex world and node mutation | level design, World Partition, PCG, procedural data |
 | Save round trip | USaveGame, serialization, migration, local persistence |
 | Strategic sandbox, Encounter, and ACT RealTimeAction adapters | input mapping, action-timeline gates, shared Tab card repository, ACT MVP background blur and 1/10 bullet time, movement/attack input gating, five-visible-slot paging, camera, possession, inertia, and mode/state patterns; exact Encounter precedence and total page count are deferred |
-| Asset audit and package | Asset Manager, cook, packaging, performance debugging |
+| Post-MVP asset audit and package | Asset Manager, cook, packaging, performance debugging |
 | Environment slice | Nanite, Lumen, virtual shadows, weather, water, foliage |
 | Release build | platform input, SDK boundaries, hot-update strategy, release governance |
 

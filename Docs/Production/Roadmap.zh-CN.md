@@ -4,7 +4,7 @@
 
 ## M0 基础设施
 
-Git/LFS、文档、Agent 约定、验证脚本、干净编译、PIE 启动和 Development 打包。
+Git/LFS、文档、Agent 约定、验证脚本、干净编译和 PIE 启动。保留打包脚本入口，但 Development 打包流水线的实际执行与学习延期到 MVP 完成之后。
 
 ## M1 核心规则
 
@@ -24,6 +24,6 @@ Git/LFS、文档、Agent 约定、验证脚本、干净编译、PIE 启动和 De
 
 ## M5 内容与发布
 
-Asset Manager、内容包、验证、Cook 规则、平台配置、打包验证和发布说明。
+Asset Manager、内容包、验证、Cook 规则、平台配置、首次 Windows Development 打包验证、打包学习和发布说明。
 
 每个里程碑都必须可玩，并留下测试、文档和可复现构建。

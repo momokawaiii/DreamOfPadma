@@ -4,7 +4,7 @@
 
 ## Goal
 
-Verify that the new repository is reproducible on the development machine before adding game rules.
+Verify that the new repository can be validated, compiled, and launched in PIE on the development machine before adding game rules. Packaging is deferred until after MVP completion by product-owner decision.
 
 ## Read first
 
@@ -25,23 +25,26 @@ Verify that the new repository is reproducible on the development machine before
 - Old prototype migration
 - Bulk asset import
 - Engine version upgrade
+- Windows Development packaging
 
 ## Acceptance criteria
 
-- [ ] `Scripts/ValidateProject.ps1` passes.
-- [ ] Git LFS is installed and active for the repository.
-- [ ] The blank project compiles in the recorded UE version.
+- [x] `Scripts/ValidateProject.ps1` passes.
+- [x] Git LFS is installed and active for the repository.
+- [x] The blank project compiles in the recorded UE version.
 - [ ] PIE launches the default map.
-- [ ] A Windows Development package completes or the exact blocker is recorded.
-- [ ] No generated folders are staged.
+- [x] Windows Development packaging is explicitly deferred until after MVP completion and is not a TASK-001 gate.
+- [x] No generated folders are staged.
 
 ## Learning targets
 
 - Git and Git LFS
 - UE project and target files
-- Build.cs and Unreal Automation entry points
+- Build.cs and editor build entry points
 - Reproducible development workflows
+
+Unreal Automation, cooking, staging, packaging, and standalone-build verification are post-MVP learning targets.
 
 ## Completion report
 
-Record commands, engine path, build result, package location, and any environment-specific blocker in `Docs/ProjectState.md`.
+Record commands, engine path, build result, PIE result, and any environment-specific blocker in `Docs/ProjectState.md`.

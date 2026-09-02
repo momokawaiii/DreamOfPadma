@@ -8,7 +8,7 @@
 - Engine association: see `DreamOfPadma.uproject`; do not change it without an ADR.
 - Current milestone: MVP high-level baseline frozen / foundation verification
 - Runtime modules: the generated `DreamOfPadma` module only
-- Git repository: initialized on `main`; verify from the user's normal terminal if Git reports a Windows safe-directory warning
+- Git repository: `main` tracks the private GitHub `origin/main`
 - Git LFS: initialized locally
 
 ## Completed
@@ -32,14 +32,14 @@
 - Synthesis clarification recorded: the documented layered formula remains the source; synthesis failure grants no reward, and resource loops require authored cost/risk while allowing luck to compensate in some cases.
 - User accepted the high-level MVP design and architecture baseline on 2026-09-02. Explicitly open, proposed, deferred, and playtest-only parameters remain unresolved by design.
 - The private GitHub origin and SSH-over-443 authentication were verified from the user's normal terminal.
+- Baseline commit `cbb4da4` and annotated tag `mvp-baseline-v0.1.0` were published to the private origin.
 
 ## Next tasks
 
-1. Publish the initial Git baseline commit and annotated version tag to the private origin.
-2. Complete `TASK-001` foundation verification and record the exact PIE/package result.
-3. Use the architecture and module README ownership model to create the first implementation task.
-4. Implement the first data contracts inside the current DreamOfPadma module; split UE modules only after the boundary is proven.
-5. Add the first automation test before implementing synthesis.
+1. Launch the default map in PIE and close `TASK-001`; Development packaging is not a foundation gate.
+2. Use the architecture and module README ownership model to create the first implementation task.
+3. Implement the first data contracts inside the current DreamOfPadma module; split UE modules only after the boundary is proven.
+4. Add the first automation test before implementing synthesis.
 
 ## Known decisions
 
@@ -58,6 +58,7 @@
 - Local battles can be entered at any calendar phase, pause sandbox time, capture a complete versioned pre-battle snapshot, commit on success, and restore the complete snapshot exactly on defeat or exit.
 - The two MVP victories are ruler-core life reaching zero and war balance reaching the player victory boundary; additional documented victory and defeat methods remain future-extensible outcome definitions.
 - Synthesis failure grants no reward. Resource loops require explicit cost, timing, and risk; luck may compensate a cost in an authored loop.
+- Windows Development packaging, cooking, staging, and packaging-focused learning are deferred until after MVP completion; they are not TASK-001 or M0 gates.
 
 ## Open questions
 
