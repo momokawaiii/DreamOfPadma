@@ -1,6 +1,11 @@
 # TASK-001 Foundation Verification
 
 - Chinese companion for user reading: `Docs/Production/Tasks/TASK-001-Foundation.zh-CN.md`
+- Status: `Done`
+- Parent milestone or integration Goal: `M0 Foundation`
+- Primary Role: `Integration Coordinator`
+- Primary Agent: current Integration Coordinator
+- Branch/worktree: `main`, integration-owned verification
 
 ## Goal
 
@@ -32,7 +37,7 @@ Verify that the new repository can be validated, compiled, and launched in PIE o
 - [x] `Scripts/ValidateProject.ps1` passes.
 - [x] Git LFS is installed and active for the repository.
 - [x] The blank project compiles in the recorded UE version.
-- [ ] PIE launches the default map.
+- [x] PIE launches the default map.
 - [x] Windows Development packaging is explicitly deferred until after MVP completion and is not a TASK-001 gate.
 - [x] No generated folders are staged.
 
@@ -47,4 +52,13 @@ Unreal Automation, cooking, staging, packaging, and standalone-build verificatio
 
 ## Completion report
 
-Record commands, engine path, build result, PIE result, and any environment-specific blocker in `Docs/ProjectState.md`.
+- Final status: `Done`.
+- Primary Agent and Role: current Integration Coordinator / Integration Coordinator.
+- Changed files: foundation validation scripts, build profile/state documentation, and the task pair as recorded by the foundation work.
+- Acceptance evidence: `ValidateProject.ps1`, Git LFS, and the recorded UE5.8 compile checks passed; the user confirmed that the default map launches in PIE on 2026-09-03; no generated folders are staged.
+- Checks run and results: foundation validation and compile evidence are recorded; the PIE manual acceptance is passed.
+- Checks not run and reason: Windows Development packaging, cooking, staging, and standalone-package verification remain deferred until after MVP completion.
+- Review findings resolved or accepted: no gameplay implementation or old-prototype migration was included.
+- Remaining risks and open questions: none blocking TASK-001; packaging remains an intentional post-MVP item.
+- English/Chinese documentation updated: yes.
+- Integration commit or handoff reference: foundation verification is complete; continue from the approved integration state.

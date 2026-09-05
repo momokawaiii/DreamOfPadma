@@ -6,7 +6,7 @@
 
 - 项目：DreamOfPadma
 - 引擎关联：见 `DreamOfPadma.uproject`；没有 ADR 不得修改。
-- 当前里程碑：MVP 高层基线已冻结 / Agent 工作流就绪 / PIE 基础检查待完成
+- 当前里程碑：MVP 高层基线已冻结 / Agent 工作流就绪 / PIE 基础检查已通过 / 等待批准 M1 契约
 - 运行时模块：目前只有生成的 `DreamOfPadma` 模块
 - Git 仓库：`main` 已跟踪私有 GitHub 远端的 `origin/main`。
 - Git LFS：已在本地初始化。
@@ -36,6 +36,7 @@
 - 基线提交 `cbb4da4` 和附注标签 `mvp-baseline-v0.1.0` 已发布到私有远端。
 - `.codex/` 下已加入项目级 Codex 多 Agent 设置和九个有边界的 Role 配置；策划、架构师、Review 和导师默认只读，`module_worker` 是有限范围写入者。
 - `.agents/skills/` 下已有三个项目 Skill，分别定义可重复的任务执行、独立 Review 和基于证据的学习流程。
+- `TASK-001 基础验证` 已完成；用户提供的手工证据确认默认地图可于 2026-09-03 在 PIE 中启动。
 - 已记录认可的层级：一个可独立合并的写入 Goal 通常对应一份任务契约、一个 worktree 和一位 Primary Agent；subagent 接受有限工作包；Skill 保存流程而不是变化中的项目事实。
 - 双语操作文档现已覆盖 Codex 配置、保守并行、集成顺序、Git/GitHub 备份、完整 M1 示例和零基础学习闭环。
 - `TASK-002 Agent 工作流初始化` 已完成；任务模板现在可以记录决策状态、确切写入集合、委派、集成顺序、验证、恢复，以及彼此分开的 Agent/用户学习证据。
@@ -43,10 +44,9 @@
 ## 下一步
 
 1. 用户 Review 新的 Agent/Git/学习工作流；准备好后新建 Codex 项目任务，使项目本地 Role 和 Skill 从新基线开始发现。
-2. 在 PIE 中启动默认地图、记录手工证据并关闭 `TASK-001`；Development 打包不作为基础阶段门槛。
-3. 使用新模板创建并批准第一个实现任务；较合适的是先串行完成核心契约切片，再并行展开 M1。不得把 `WorkflowExample.md` 中的假设任务 ID 当成活动任务。
-4. 在当前 DreamOfPadma 模块内实现第一批数据契约；边界被证明后再拆分 UE 模块。
-5. 在实现合成前加入第一个自动化测试。
+2. Review 并批准 [TASK-003 第一个核心规则契约切片](Production/Tasks/TASK-003-Core-Contracts.zh-CN.md)，它是 M1 的串行前置任务。只有该任务完成后，才能创建可独立合并的 Calendar、Resource Ledger 和 Deterministic Random Goal。不得把 `WorkflowExample.md` 中其他假设任务 ID 当成活动任务。
+3. 在当前 DreamOfPadma 模块内实现第一批数据契约；边界被证明后再拆分 UE 模块。
+4. 在实现合成前加入第一个自动化测试。
 
 ## 已知决定
 
@@ -68,6 +68,7 @@
 - Windows Development 打包、Cook、Stage 及打包专项学习延期到 MVP 完成之后，不作为 TASK-001 或 M0 的门槛。
 - 仓库协作使用相互独立的单元：`AGENTS.md` 保存强制规则，`Docs/` 保存会变化的事实，Role 配置定义专家行为，一个 Goal/TASK 配对对应一次交付结果，worktree 提供独立写入隔离，Primary Agent 承担责任，subagent 负责有限委派，Skill 保存可重复流程。
 - worktree 分配给可独立合并的写入 Goal，不永久属于某个 Role 或逻辑模块。共享契约、地图、二进制 UE 资源、中心配置、Editor 会话和最终集成保持串行。
+- 临时协作选择（2026-09-03）：近期开发可以使用从 `main` 派生的 Local feature branch（拟议分支：`feature/TASK-001-gameplay-flow`）；在确实需要独立写入隔离前，Worktree 暂不默认创建。既有的同文件所有权、Review 和集成规则仍然适用。
 - 初始并发上限为每个父会话四个被拉起的 subagent、最多两个可写 worktree，以及一条 UE 构建/Editor/PIE 通道。只有集成证据支持时才能调整。
 - 推送远端、创建标签、发布、破坏性 Git 操作和实质扩大范围必须获得用户明确授权。
 

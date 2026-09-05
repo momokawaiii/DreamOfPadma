@@ -6,7 +6,7 @@
 
 - Project: DreamOfPadma
 - Engine association: see `DreamOfPadma.uproject`; do not change it without an ADR.
-- Current milestone: MVP high-level baseline frozen / Agent workflow ready / PIE foundation check pending
+- Current milestone: MVP high-level baseline frozen / Agent workflow ready / PIE foundation verified / M1 contract approval pending
 - Runtime modules: the generated `DreamOfPadma` module only
 - Git repository: `main` tracks the private GitHub `origin/main`
 - Git LFS: initialized locally
@@ -35,6 +35,7 @@
 - Baseline commit `cbb4da4` and annotated tag `mvp-baseline-v0.1.0` were published to the private origin.
 - Project-scoped Codex multi-Agent settings and nine bounded Role profiles were added under `.codex/`; planner, architect, reviewer, and tutor profiles are read-only by default, while `module_worker` is the scoped writer.
 - Three project Skills now define repeatable task execution, independent review, and evidence-based learning under `.agents/skills/`.
+- `TASK-001 Foundation Verification` is complete; the user-provided manual evidence confirms that the default map launches in PIE on 2026-09-03.
 - The approved hierarchy is documented: one independently mergeable writable Goal normally has one task contract, one worktree, and one Primary Agent; subagents receive bounded work packages; Skills store procedure rather than mutable project truth.
 - Bilingual operating documents now cover Codex setup, conservative parallelism, integration order, Git/GitHub backup, a complete M1 example, and the novice learning loop.
 - `TASK-002 Agent Workflow Bootstrap` is complete, and the task template now records decision state, exact write set, delegation, integration order, verification, recovery, and separate Agent/user learning evidence.
@@ -42,10 +43,9 @@
 ## Next tasks
 
 1. User reviews the new Agent/Git/learning workflow and starts a fresh Codex project task when ready so project-local Role and Skill discovery begins from the new baseline.
-2. Launch the default map in PIE, record the manual evidence, and close `TASK-001`; Development packaging is not a foundation gate.
-3. Create and approve the first implementation task from the new template, likely a serial core-contract slice before parallel M1 work. Do not treat the illustrative task IDs in `WorkflowExample.md` as active tasks.
-4. Implement the first data contracts inside the current DreamOfPadma module; split UE modules only after the boundary is proven.
-5. Add the first automation test before implementing synthesis.
+2. Review and approve [TASK-003 Core Rule Contract Slice](Production/Tasks/TASK-003-Core-Contracts.md), the serial prerequisite for M1. Only after it is complete should independently mergeable Calendar, Resource Ledger, and Deterministic Random Goals be created. Do not treat other illustrative task IDs in `WorkflowExample.md` as active tasks.
+3. Implement the first data contracts inside the current DreamOfPadma module; split UE modules only after the boundary is proven.
+4. Add the first automation test before implementing synthesis.
 
 ## Known decisions
 
@@ -67,6 +67,7 @@
 - Windows Development packaging, cooking, staging, and packaging-focused learning are deferred until after MVP completion; they are not TASK-001 or M0 gates.
 - Repository coordination uses these distinct units: `AGENTS.md` for mandatory rules, `Docs/` for mutable truth, Role profiles for specialist behavior, one Goal/TASK pair for one delivery result, a worktree for independent write isolation, a Primary Agent for accountability, subagents for bounded delegation, and Skills for repeatable procedure.
 - A worktree is allocated to an independently mergeable writable Goal, not permanently to a Role or logical module. Shared contracts, maps, binary UE assets, central configuration, Editor sessions, and final integration stay serial.
+- Temporary operating choice (2026-09-03): near-term development may use a Local feature branch from `main` (proposed branch: `feature/TASK-001-gameplay-flow`); Worktree is optional and is not created by default until independent write isolation is needed. Existing same-file ownership, review, and integration rules still apply.
 - Initial concurrency is capped at four spawned subagents per parent session, no more than two writable worktrees, and one UE build/Editor/PIE lane. These limits may change only after integration evidence supports it.
 - Remote push, tags, releases, destructive Git operations, and meaningful scope expansion require explicit user authorization.
 

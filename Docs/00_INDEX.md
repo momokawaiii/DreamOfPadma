@@ -67,6 +67,7 @@ The high-level MVP scope and rule interpretation in these documents were accepte
 - [Build Matrix](Production/BuildMatrix.md)
 - [First Foundation Task](Production/Tasks/TASK-001-Foundation.md)
 - [Agent Workflow Bootstrap Task](Production/Tasks/TASK-002-Agent-Workflow-Bootstrap.md)
+- [First Core Rule Contract Slice](Production/Tasks/TASK-003-Core-Contracts.md)
 - [Learning Curriculum](Learning/Curriculum.md)
 - [Development Learning Loop](Learning/Workflow.md)
 - [GM Commands](Tools/GMCommands.md)
