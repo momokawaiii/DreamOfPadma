@@ -7,6 +7,7 @@
 - Owner：Gameplay 模块 Agent
 - 当前实现：Source/DreamOfPadma/ 是临时共享运行时模块
 - 上级架构：../../ProgramArchitecture.zh-CN.md、../../DataDrivenArchitecture.zh-CN.md
+- 未来 ACT 开发契约：ACTDevelopmentContract.zh-CN.md
 
 ## 1. 目的
 
@@ -84,8 +85,8 @@ Gameplay 依赖 PadmaCore 契约。它通过合法的命令/查询/事件契约�
 2. 加入遭遇战回合状态，并使用占位实体加入一次遭遇。
 3. 加入统治者策略和一次反攻。
 4. 加入示例遭遇所需的最小状态子集。
-5. 遭遇战行动条路径稳定后，按照 `Tab`/背景虚化/1/10 输入契约加入完整 ACT RealTimeAction 路线。
-6. 只有卡牌生命周期和能力所有权确实需要时，再加入 GAS。
+5. 只有遭遇战行动条路径稳定且有边界的 ACT 任务获批后，才按照 `ACTDevelopmentContract.zh-CN.md` 与 `Tab`/背景虚化/1/10 输入契约加入完整 ACT RealTimeAction 路线。
+6. 只有 ACT 垂直切片确实需要且依赖变更获批后，才加入内置 GAS；外部 GAS 插件需要独立 ADR。
 
 ## 9. 学习目标与风险
 

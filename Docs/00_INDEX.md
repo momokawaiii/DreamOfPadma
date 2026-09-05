@@ -56,6 +56,7 @@ The high-level MVP scope and rule interpretation in these documents were accepte
 - [PadmaCore](Architecture/Modules/PadmaCore/README.md)
 - [PadmaGame](Architecture/Modules/PadmaGame/README.md)
 - [PadmaGameplay](Architecture/Modules/PadmaGameplay/README.md)
+- [Future ACT Development Agent Contract](Architecture/Modules/PadmaGameplay/ACTDevelopmentContract.md)
 - [PadmaWorld](Architecture/Modules/PadmaWorld/README.md)
 - [PadmaUI](Architecture/Modules/PadmaUI/README.md)
 - [PadmaEditor](Architecture/Modules/PadmaEditor/README.md)
@@ -68,6 +69,7 @@ The high-level MVP scope and rule interpretation in these documents were accepte
 - [First Foundation Task](Production/Tasks/TASK-001-Foundation.md)
 - [Agent Workflow Bootstrap Task](Production/Tasks/TASK-002-Agent-Workflow-Bootstrap.md)
 - [First Core Rule Contract Slice](Production/Tasks/TASK-003-Core-Contracts.md)
+- [ACT Architecture Decision Integration](Production/Tasks/TASK-004-ACT-Architecture-Decision.md)
 - [Learning Curriculum](Learning/Curriculum.md)
 - [Development Learning Loop](Learning/Workflow.md)
 - [GM Commands](Tools/GMCommands.md)
@@ -86,6 +88,7 @@ The high-level MVP scope and rule interpretation in these documents were accepte
 ## Decision records
 
 - [ADR-0001 Project Structure](Decisions/ADR-0001-ProjectStructure.md)
+- [ADR-0002 Encounter-First ACT Preparation](Decisions/ADR-0002-Encounter-First-ACT-Preparation.md)
 
 The design-baseline rules are documented in [Design Agent Rules](Design/AGENTS.md).
 

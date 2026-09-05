@@ -6,7 +6,7 @@
 
 - 项目：DreamOfPadma
 - 引擎关联：见 `DreamOfPadma.uproject`；没有 ADR 不得修改。
-- 当前里程碑：MVP 高层基线已冻结 / Agent 工作流就绪 / PIE 基础检查已通过 / 等待批准 M1 契约
+- 当前里程碑：MVP 高层基线已冻结 / Agent 工作流就绪 / PIE 基础检查已通过 / 未来 ACT 架构边界已接受 / 等待批准 M1 Core 契约
 - 运行时模块：目前只有生成的 `DreamOfPadma` 模块
 - Git 仓库：`main` 已跟踪私有 GitHub 远端的 `origin/main`。
 - Git LFS：已在本地初始化。
@@ -40,13 +40,14 @@
 - 已记录认可的层级：一个可独立合并的写入 Goal 通常对应一份任务契约、一个 worktree 和一位 Primary Agent；subagent 接受有限工作包；Skill 保存流程而不是变化中的项目事实。
 - 双语操作文档现已覆盖 Codex 配置、保守并行、集成顺序、Git/GitHub 备份、完整 M1 示例和零基础学习闭环。
 - `TASK-002 Agent 工作流初始化` 已完成；任务模板现在可以记录决策状态、确切写入集合、委派、集成顺序、验证、恢复，以及彼此分开的 Agent/用户学习证据。
+- `TASK-004 ACT 架构决策集成` 将 ADR-0002 和《未来 ACT 开发 Agent 契约》记录为已接受的纯文档边界：Encounter 保持优先，ACT 需要另一份已批准任务，内置 GAS 需要已批准的依赖变更，外部玩法插件需要另一份 ADR。
 
 ## 下一步
 
-1. 用户 Review 新的 Agent/Git/学习工作流；准备好后新建 Codex 项目任务，使项目本地 Role 和 Skill 从新基线开始发现。
-2. Review 并批准 [TASK-003 第一个核心规则契约切片](Production/Tasks/TASK-003-Core-Contracts.zh-CN.md)，它是 M1 的串行前置任务。只有该任务完成后，才能创建可独立合并的 Calendar、Resource Ledger 和 Deterministic Random Goal。不得把 `WorkflowExample.md` 中其他假设任务 ID 当成活动任务。
-3. 在当前 DreamOfPadma 模块内实现第一批数据契约；边界被证明后再拆分 UE 模块。
-4. 在实现合成前加入第一个自动化测试。
+1. Review、批准并关闭 [TASK-003 第一个核心规则契约切片](Production/Tasks/TASK-003-Core-Contracts.zh-CN.md)，它是 M1 Core 实现的串行前置任务。不得把这个纯设计任务交给 `module_worker` 编写代码。
+2. TASK-003 达到 `Done` 后，先创建并批准一份最小下游实现 TASK，写明确切写入集合、验收证据、测试和停止条件，再分配 Primary Agent。
+3. 每个已批准的可写 Goal 启动一个 `module_worker` Primary Agent。当前一次一个功能/一个写入者的流程默认使用 Local feature branch；只有需要独立并发隔离时才引入 Worktree。
+4. 在当前 DreamOfPadma 模块内实现第一批数据契约，并在实现合成前纳入第一个相关自动化测试；边界被证明后再拆分 UE 模块。
 
 ## 已知决定
 
@@ -60,6 +61,7 @@
 - 英文架构文档是 Agent 使用的技术规范源，中文文件是用户阅读镜像。
 - 遭遇战是行动条驱动的回合制战斗，不是固定玩家/统治者轮换；场地和卡牌技能可以影响先攻、优先级、反应、打断、额外行动和非回合窗口。高层行为已经确定，但行动条公式、优先级和这些窗口的出牌额度等精确规则，等实现用到时再确认。
 - 第一种 RealTimeAction 模式是 ACT，MVP 要求完成一轮完整可玩的 ACT 战斗闭环。
+- ADR-0002 确立 Encounter 优先交付和未来以 C++ 为主、数据驱动的 ACT 边界。它不授权实现 ACT/GAS；内置 GAS 需要已批准的依赖任务，外部玩法插件需要独立 ADR，确切模式以及全部 Open/Deferred 玩法语义仍未决定。
 - 基础非 A 战斗手牌只能在局部战斗中打出：遭遇战每个符合条件的玩家行动回合最多一张，ACT MVP 的 RealTimeAction 通过 `Tab`/子弹时间/数字卡槽输入；每页可见五个卡槽。生命周期概率和总页数暂时留空。
 - ABC 卡主动技能默认可以从 Sandbox 发动，特殊限制由每个技能配置；是否允许额外的战斗内发动尚未决定。
 - 局部战斗可在任意日历阶段进入，会暂停沙盘时间，记录完整版本化战前快照，胜利提交，失败或退出时精确恢复完整快照。

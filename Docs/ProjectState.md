@@ -6,7 +6,7 @@
 
 - Project: DreamOfPadma
 - Engine association: see `DreamOfPadma.uproject`; do not change it without an ADR.
-- Current milestone: MVP high-level baseline frozen / Agent workflow ready / PIE foundation verified / M1 contract approval pending
+- Current milestone: MVP high-level baseline frozen / Agent workflow ready / PIE foundation verified / future ACT architecture boundary accepted / M1 Core contract approval pending
 - Runtime modules: the generated `DreamOfPadma` module only
 - Git repository: `main` tracks the private GitHub `origin/main`
 - Git LFS: initialized locally
@@ -39,13 +39,14 @@
 - The approved hierarchy is documented: one independently mergeable writable Goal normally has one task contract, one worktree, and one Primary Agent; subagents receive bounded work packages; Skills store procedure rather than mutable project truth.
 - Bilingual operating documents now cover Codex setup, conservative parallelism, integration order, Git/GitHub backup, a complete M1 example, and the novice learning loop.
 - `TASK-002 Agent Workflow Bootstrap` is complete, and the task template now records decision state, exact write set, delegation, integration order, verification, recovery, and separate Agent/user learning evidence.
+- `TASK-004 ACT Architecture Decision Integration` records ADR-0002 and the Future ACT Development Agent Contract as an accepted documentation-only boundary: Encounter remains first, ACT requires a separate approved task, built-in GAS requires an approved dependency change, and external gameplay plugins require another ADR.
 
 ## Next tasks
 
-1. User reviews the new Agent/Git/learning workflow and starts a fresh Codex project task when ready so project-local Role and Skill discovery begins from the new baseline.
-2. Review and approve [TASK-003 Core Rule Contract Slice](Production/Tasks/TASK-003-Core-Contracts.md), the serial prerequisite for M1. Only after it is complete should independently mergeable Calendar, Resource Ledger, and Deterministic Random Goals be created. Do not treat other illustrative task IDs in `WorkflowExample.md` as active tasks.
-3. Implement the first data contracts inside the current DreamOfPadma module; split UE modules only after the boundary is proven.
-4. Add the first automation test before implementing synthesis.
+1. Review, approve, and close [TASK-003 Core Rule Contract Slice](Production/Tasks/TASK-003-Core-Contracts.md), the serial prerequisite for M1 Core implementation. Do not give this design-only task to `module_worker` for coding.
+2. After TASK-003 is `Done`, create and approve the smallest downstream implementation TASK with an exact write set, acceptance evidence, tests, and stop conditions before assigning a Primary Agent.
+3. Start one `module_worker` Primary Agent per approved writable Goal. Use a Local feature branch by default for the current one-feature/one-writer workflow; introduce a Worktree only when independent concurrent isolation is needed.
+4. Implement the first data contracts inside the current DreamOfPadma module and include the first relevant automation test before synthesis implementation; split UE modules only after a boundary is proven.
 
 ## Known decisions
 
@@ -59,6 +60,7 @@
 - The English architecture documents are the technical source for Agents; Chinese companions are user-facing mirrors.
 - Encounter battles are turn-based action-timeline battles rather than fixed player/ruler alternation; terrain and card abilities can affect initiative, priority, reactions, interrupts, extra actions, and non-turn windows. The high-level behavior is fixed, but the exact action-bar formula, precedence, and window card allowance are intentionally deferred until implementation needs them.
 - The first RealTimeAction mode is ACT, and the MVP requires one complete playable ACT battle loop.
+- ADR-0002 establishes Encounter-first delivery and a future C++-first, data-driven ACT boundary. It does not authorize ACT/GAS implementation; built-in GAS needs an approved dependency task, external gameplay plugins need a separate ADR, and exact schemas plus all Open/Deferred gameplay semantics remain unresolved.
 - Basic non-A hand skill cards are legal only in local battle, with at most one during each eligible player action turn in Encounter and ACT MVP `Tab`/bullet-time/numeric-slot input in RealTimeAction; the visible slots are 1-5 per page. Lifecycle probabilities and total page count are intentionally deferred.
 - ABC-card active abilities are Sandbox-available by default, with exceptional restrictions configured per ability; their additional in-battle legality is not yet decided.
 - Local battles can be entered at any calendar phase, pause sandbox time, capture a complete versioned pre-battle snapshot, commit on success, and restore the complete snapshot exactly on defeat or exit.

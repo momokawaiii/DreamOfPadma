@@ -8,6 +8,7 @@
 - Owner: Gameplay Module Agent
 - Current implementation: Source/DreamOfPadma/ is the temporary shared runtime module
 - Parent architecture: ../../ProgramArchitecture.md and ../../DataDrivenArchitecture.md
+- Future ACT development contract: ACTDevelopmentContract.md
 
 ## 1. Purpose
 
@@ -85,8 +86,8 @@ Debug output should show input entities, data IDs, damage stages, status layers,
 2. Add Encounter turn state and one encounter with placeholder entities.
 3. Add the ruler policy and one counterattack.
 4. Add the minimum status subset used by the sample encounter.
-5. Add the complete ACT RealTimeAction route after the Encounter action-timeline path is stable, using the `Tab`/blur/1-10 input contract.
-6. Add GAS only when the card lifecycle and ability ownership require it.
+5. Add the complete ACT RealTimeAction route only after the Encounter action-timeline path is stable and a bounded ACT task is approved, following `ACTDevelopmentContract.md` and the `Tab`/blur/1-10 input contract.
+6. Add built-in GAS only through an approved dependency change when the ACT vertical slice requires it; external GAS plugins require a separate ADR.
 
 ## 9. Learning targets and risks
 

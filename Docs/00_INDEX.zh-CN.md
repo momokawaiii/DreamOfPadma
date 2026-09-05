@@ -46,6 +46,7 @@
 - [PadmaCore](Architecture/Modules/PadmaCore/README.zh-CN.md)
 - [PadmaGame](Architecture/Modules/PadmaGame/README.zh-CN.md)
 - [PadmaGameplay](Architecture/Modules/PadmaGameplay/README.zh-CN.md)
+- [未来 ACT 开发 Agent 契约](Architecture/Modules/PadmaGameplay/ACTDevelopmentContract.zh-CN.md)
 - [PadmaWorld](Architecture/Modules/PadmaWorld/README.zh-CN.md)
 - [PadmaUI](Architecture/Modules/PadmaUI/README.zh-CN.md)
 - [PadmaEditor](Architecture/Modules/PadmaEditor/README.zh-CN.md)
@@ -58,6 +59,7 @@
 - [第一个基础任务](Production/Tasks/TASK-001-Foundation.zh-CN.md)
 - [Agent 工作流初始化任务](Production/Tasks/TASK-002-Agent-Workflow-Bootstrap.zh-CN.md)
 - [第一个核心规则契约切片](Production/Tasks/TASK-003-Core-Contracts.zh-CN.md)
+- [ACT 架构决策集成](Production/Tasks/TASK-004-ACT-Architecture-Decision.zh-CN.md)
 - [学习课程](Learning/Curriculum.zh-CN.md)
 - [开发学习闭环](Learning/Workflow.zh-CN.md)
 - [GM 命令](Tools/GMCommands.zh-CN.md)
@@ -76,5 +78,6 @@
 ## 决策记录
 
 - [ADR-0001 项目结构](Decisions/ADR-0001-ProjectStructure.zh-CN.md)
+- [ADR-0002 Encounter 优先与 ACT 准备](Decisions/ADR-0002-Encounter-First-ACT-Preparation.zh-CN.md)
 
 策划基线的双语同步规则见 [Design/AGENTS.zh-CN.md](Design/AGENTS.zh-CN.md)。
