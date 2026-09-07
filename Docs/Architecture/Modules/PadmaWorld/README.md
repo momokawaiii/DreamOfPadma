@@ -53,7 +53,7 @@ World state may expose legal queries and accept commands, but mutation must rema
 
 Coordinates and level assets are presentation data. Stable IDs are the identity used by events, saves, and tests.
 
-The TASK-007 implementation converts a transient tile hit into `FDemoNodeId`; no Actor pointer or raw coordinate enters `FDemoTransitionContext`. World exposes typed transition publisher/consumer callbacks, while the PadmaGame session boundary binds those callbacks after map load and owns the `UDemoTransitionSessionSubsystem` publish/peek/consume operations.
+The TASK-007 implementation converts a transient tile hit into `FDemoNodeId`; no Actor pointer or raw coordinate enters `FDemoTransitionContext`. World exposes typed transition publisher/consumer callbacks, while the PadmaGame session boundary binds those callbacks after the world actors are initialized and owns the `UDemoTransitionSessionSubsystem` publish/peek/consume operations.
 
 ## 5. Data and runtime ownership
 
@@ -65,7 +65,7 @@ The first map is a rules testbed. World Partition, PCG, large terrain, water, we
 
 World depends on PadmaCore IDs, commands, state values, and events. It is composed by PadmaGame and exchanges Encounter/ACT battle-route requests/results with PadmaGameplay.
 
-For TASK-007, World produces typed selection and confirmation results without including the concrete Game/session subsystem. PadmaGame binds the World callbacks after map load and forwards valid contexts to the session store, which validates all three IDs before replacing a pending context. An invalid fixture therefore leaves an existing context unchanged while preserving the Game -> World composition direction.
+For TASK-007, World produces typed selection and confirmation results without including the concrete Game/session subsystem. PadmaGame binds the World callbacks after the world actors are initialized and forwards valid contexts to the session store, which validates all three IDs before replacing a pending context. An invalid fixture therefore leaves an existing context unchanged while preserving the Game -> World composition direction.
 
 PadmaWorld must not call UI code or use a widget as authority for capture or route state.
 

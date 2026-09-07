@@ -13,7 +13,7 @@
 
 PadmaGame is the runtime composition root. It connects Core contracts to Gameplay, World, UI, persistence, and control-mode presentation without owning their detailed rules.
 
-For TASK-007, the composition boundary is the GameInstance-lifetime `UDemoTransitionSessionSubsystem`. After a map loads, it binds the World presentation's typed transition publisher/consumer callbacks, validates and stores `FDemoTransitionContext` across a future world change, and exposes publish/peek/consume operations to the next scene. The World presentation does not include this concrete subsystem.
+For TASK-007, the composition boundary is the GameInstance-lifetime `UDemoTransitionSessionSubsystem`. After the world actors are initialized, it binds the World presentation's typed transition publisher/consumer callbacks, validates and stores `FDemoTransitionContext` across a future world change, and exposes publish/peek/consume operations to the next scene. The World presentation does not include this concrete subsystem.
 
 ## 2. Responsibilities
 

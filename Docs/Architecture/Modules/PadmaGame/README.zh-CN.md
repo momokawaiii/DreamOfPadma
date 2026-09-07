@@ -12,7 +12,7 @@
 
 PadmaGame 是运行时组合根。它把 Core 契约连接到 Gameplay、World、UI、持久化和控制模式表现，但不拥有这些模块的具体规则。
 
-在 TASK-007 中，组合边界是 GameInstance 生命周期内的 `UDemoTransitionSessionSubsystem`。地图加载后，它绑定 World 表现层的强类型切场发布/消费回调，校验并保存跨未来世界切换的 `FDemoTransitionContext`，并向下一个场景提供发布/查看/消费操作。World 表现层不包含这个具体子系统。
+在 TASK-007 中，组合边界是 GameInstance 生命周期内的 `UDemoTransitionSessionSubsystem`。地图中的 Actor 完成初始化后，它绑定 World 表现层的强类型切场发布/消费回调，校验并保存跨未来世界切换的 `FDemoTransitionContext`，并向下一个场景提供发布/查看/消费操作。World 表现层不包含这个具体子系统。
 
 ## 2. 负责事项
 

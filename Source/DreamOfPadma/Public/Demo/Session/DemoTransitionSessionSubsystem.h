@@ -8,6 +8,7 @@
 
 class ADemoSandboxWorld;
 class UWorld;
+struct FActorsInitializedParams;
 
 /** Map-free atomic store used by the session boundary and its narrow tests. */
 class DREAMOFPADMA_API FDemoTransitionContextStore
@@ -61,6 +62,7 @@ public:
 
 private:
 	void HandlePostLoadMap(UWorld* LoadedWorld);
+	void HandleWorldInitializedActors(const FActorsInitializedParams& Params);
 	void BindToSandboxWorld(UWorld* World);
 	void UnbindFromSandboxWorld();
 	bool PublishFromSandboxWorld(const FDemoTransitionContext& InContext, FText& OutFailure);
@@ -68,5 +70,6 @@ private:
 
 	FDemoTransitionContextStore ContextStore;
 	FDelegateHandle PostLoadMapHandle;
+	FDelegateHandle WorldInitializedActorsHandle;
 	TWeakObjectPtr<ADemoSandboxWorld> BoundSandboxWorld;
 };
