@@ -63,6 +63,9 @@ void UDemoTransitionSessionSubsystem::Initialize(FSubsystemCollectionBase& Colle
 	PostLoadMapHandle = FCoreUObjectDelegates::PostLoadMapWithWorld.AddUObject(
 		this,
 		&UDemoTransitionSessionSubsystem::HandlePostLoadMap);
+	WorldInitializedActorsHandle = FWorldDelegates::OnWorldInitializedActors.AddUObject(
+		this,
+		&UDemoTransitionSessionSubsystem::HandleWorldInitializedActors);
 
 	if (UGameInstance* GameInstance = GetGameInstance())
 	{
@@ -80,6 +83,12 @@ void UDemoTransitionSessionSubsystem::Deinitialize()
 		PostLoadMapHandle.Reset();
 	}
 
+	if (WorldInitializedActorsHandle.IsValid())
+	{
+		FWorldDelegates::OnWorldInitializedActors.Remove(WorldInitializedActorsHandle);
+		WorldInitializedActorsHandle.Reset();
+	}
+
 	Super::Deinitialize();
 }
 
@@ -88,14 +97,28 @@ void UDemoTransitionSessionSubsystem::HandlePostLoadMap(UWorld* LoadedWorld)
 	BindToSandboxWorld(LoadedWorld);
 }
 
+void UDemoTransitionSessionSubsystem::HandleWorldInitializedActors(const FActorsInitializedParams& Params)
+{
+	if (Params.World == nullptr || Params.World->GetGameInstance() != GetGameInstance())
+	{
+		return;
+	}
+
+	BindToSandboxWorld(Params.World);
+	if (!BoundSandboxWorld.IsValid())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("[TASK-007] No Demo Sandbox transition callback target was found after actors initialized."));
+	}
+}
+
 void UDemoTransitionSessionSubsystem::BindToSandboxWorld(UWorld* World)
 {
-	UnbindFromSandboxWorld();
-
 	if (World == nullptr || World->GetGameInstance() != GetGameInstance())
 	{
 		return;
 	}
+
+	UnbindFromSandboxWorld();
 
 	for (TActorIterator<ADemoSandboxWorld> It(World); It; ++It)
 	{
@@ -118,7 +141,7 @@ void UDemoTransitionSessionSubsystem::BindToSandboxWorld(UWorld* World)
 		return;
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("[TASK-007] No Demo Sandbox transition callback target was found after map load."));
+	UE_LOG(LogTemp, Verbose, TEXT("[TASK-007] Demo Sandbox actor is not initialized yet; waiting for the actors-initialized callback."));
 }
 
 void UDemoTransitionSessionSubsystem::UnbindFromSandboxWorld()
