@@ -1,17 +1,19 @@
 # PadmaGame Module Program Document
 
 - Document ID: ARCH-MODULE-GAME-001
-- Version: 0.1
-- Status: Planned logical boundary; no standalone UE module yet
+- Version: 0.2
+- Status: Planned logical boundary; TASK-007 session handoff is implemented in the staging module; no standalone UE module yet
 - Canonical language: English for Agent consumption
 - Chinese companion: README.zh-CN.md
 - Owner: Game Composition Module Agent
-- Current implementation: Source/DreamOfPadma/ is the temporary shared runtime module
+- Current implementation: Source/DreamOfPadma/ is the temporary shared runtime module; TASK-007 adds only the Demo session boundary and does not change default-map configuration
 - Parent architecture: ../../ProgramArchitecture.md and ../../DataDrivenArchitecture.md
 
 ## 1. Purpose
 
 PadmaGame is the runtime composition root. It connects Core contracts to Gameplay, World, UI, persistence, and control-mode presentation without owning their detailed rules.
+
+For TASK-007, the composition boundary is the GameInstance-lifetime `UDemoTransitionSessionSubsystem`. It stores a validated `FDemoTransitionContext` across a future world change and exposes publish/peek/consume operations to the next scene.
 
 ## 2. Responsibilities
 
@@ -25,6 +27,7 @@ PadmaGame is the runtime composition root. It connects Core contracts to Gamepla
 - Routing strategic sandbox, condition-driven turn-based Encounter, and RealTimeAction mode requests, including the complete MVP ACT route and future FPS/other variants.
 - Coordinating engagement-route constraints supplied by both sides, terrain, and card/story effects without owning their detailed rules; the resolved route can select/trigger Encounter, ACT, or a future RealTimeAction presentation and story consequence.
 - Exposing runtime status to UI through read-only views or events.
+- Owning the session lifetime of the fixed Demo transition context without serializing a map Actor, level coordinate, or widget state.
 
 ## 3. Non-responsibilities
 
@@ -34,6 +37,7 @@ PadmaGame must not own:
 - Widget internals or direct input-device interpretation.
 - Node layout or world mutation rules.
 - A universal mutable Manager containing every system.
+- The Demo tile's selection/highlight presentation or the World fixture's graph rules.
 
 It may coordinate a service, but the service owns its own state and contract.
 
@@ -47,6 +51,7 @@ It may coordinate a service, but the service owns its own state and contract.
 - Control-mode and engagement-route transition request and result.
 - Complete versioned pre-battle snapshot, battle commit, and exact battle rollback notifications.
 - Read-only state snapshots for presentation.
+- `FDemoTransitionContext` handoff through `UDemoTransitionSessionSubsystem::PublishTransition`, `PeekTransition`, and `ConsumeTransition`.
 
 The Game layer must pass typed commands and results rather than expose subsystem internals.
 
@@ -55,6 +60,8 @@ The Game layer must pass typed commands and results rather than expose subsystem
 PadmaGame owns session-level state such as active run identity, lifecycle, save orchestration, and final outcome lock. It consumes Core, World, and Gameplay state views; it does not duplicate their mutable values.
 
 The outcome table and scenario profile are data inputs. The resolver applies them against authoritative state and records the resulting OutcomeId.
+
+The TASK-007 `FDemoTransitionContextStore` validates the node, scenario, and spawn-point IDs before replacing pending state. An invalid replacement reports a readable failure and preserves the previous context.
 
 ## 6. Dependencies and integration
 
@@ -74,12 +81,13 @@ Required tests:
 - Sandbox-to-battle route, including an ABC-card character moving onto an enemy-occupied point, joint engagement-route constraints, mode/story trigger resolution, and control-mode request routing without changing rule state.
 - Encounter action-timeline lifecycle and complete ACT RealTimeAction battle-loop routing.
 - PIE smoke test and clean shutdown.
+- TASK-007 context automation test and DemoSandbox map-load smoke.
 
 Debug output should show service initialization order, active profile IDs, phase transitions, save boundaries, outcome checks, and command routing failures.
 
 ## 8. Implementation stages
 
-1. Keep composition in the generated DreamOfPadma module.
+1. Keep composition in the generated DreamOfPadma module and provide the TASK-007 session-lifetime Demo handoff.
 2. Add explicit service ownership and state views.
 3. Add sandbox-to-Encounter routing when an ABC-card character reaches an enemy-occupied point, action-timeline orchestration, and complete battle transaction boundaries.
 4. Add save and outcome orchestration after Core and World contracts exist.
@@ -88,6 +96,6 @@ Debug output should show service initialization order, active profile IDs, phase
 
 ## 9. Learning targets and risks
 
-Learning targets: Unreal Gameplay Framework, subsystem lifetimes, composition roots, session state, save orchestration, mode routing, and integration testing.
+Learning targets: Unreal Gameplay Framework, subsystem lifetimes, composition roots, typed session state, save orchestration, mode routing, and integration testing. TASK-007 introduces the session-lifetime handoff; user teach-back remains pending.
 
 Main risk: using GameMode or GameInstance as a universal rules container instead of a coordinator.
