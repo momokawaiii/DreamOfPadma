@@ -45,7 +45,7 @@
 
 ## 下一步
 
-1. Review 并批准第一份下游实现 TASK，选择最小的 Core 切片。当前提议是“Deterministic Random Foundation”；此时尚未授权启动实现 Agent。
+1. Review 并批准目前处于 `Review` 的 [TASK-005 确定性随机基础](Production/Tasks/TASK-005-Deterministic-Random-Foundation.zh-CN.md)；此时尚未授权启动实现 Agent。
 2. 该 TASK 达到 `Ready` 后，为其已批准的可写 Goal 启动一位 `module_worker` Primary Agent。当前默认使用 Local feature branch；只有需要独立并发隔离时才引入 Worktree。
 3. 在当前 DreamOfPadma 模块内实现第一批数据契约，并在实现合成前纳入第一个相关自动化测试；边界被证明后再拆分 UE 模块。
 4. 只有明确解决索引起点决定后才评估 Calendar；只有完成值/上限/债务/循环策略后才评估 Resource Ledger；不得猜测这两组规则。

@@ -60,6 +60,7 @@
 - [Agent 工作流初始化任务](Production/Tasks/TASK-002-Agent-Workflow-Bootstrap.zh-CN.md)
 - [第一个核心规则契约切片](Production/Tasks/TASK-003-Core-Contracts.zh-CN.md)
 - [ACT 架构决策集成](Production/Tasks/TASK-004-ACT-Architecture-Decision.zh-CN.md)
+- [确定性随机基础](Production/Tasks/TASK-005-Deterministic-Random-Foundation.zh-CN.md)
 - [学习课程](Learning/Curriculum.zh-CN.md)
 - [开发学习闭环](Learning/Workflow.zh-CN.md)
 - [GM 命令](Tools/GMCommands.zh-CN.md)

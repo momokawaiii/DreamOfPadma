@@ -44,7 +44,7 @@
 
 ## Next tasks
 
-1. Review and approve the first downstream implementation TASK for the smallest Core slice. The proposed slice is Deterministic Random Foundation; no implementation Agent is authorized yet.
+1. Review and approve [TASK-005 Deterministic Random Foundation](Production/Tasks/TASK-005-Deterministic-Random-Foundation.md), currently `Review`; no implementation Agent is authorized yet.
 2. After that TASK is `Ready`, start one `module_worker` Primary Agent for its approved writable Goal. Use a Local feature branch by default; introduce a Worktree only when independent concurrent isolation is needed.
 3. Implement the first data contract slice inside the current DreamOfPadma module and include the first relevant automation test before synthesis implementation; split UE modules only after a boundary is proven.
 4. Evaluate Calendar only after its index-origin decision is explicitly resolved, and evaluate Resource Ledger only after its value/cap/debt/loop policies are authored; do not guess either set of rules.

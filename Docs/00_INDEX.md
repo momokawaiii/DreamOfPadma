@@ -70,6 +70,7 @@ The high-level MVP scope and rule interpretation in these documents were accepte
 - [Agent Workflow Bootstrap Task](Production/Tasks/TASK-002-Agent-Workflow-Bootstrap.md)
 - [First Core Rule Contract Slice](Production/Tasks/TASK-003-Core-Contracts.md)
 - [ACT Architecture Decision Integration](Production/Tasks/TASK-004-ACT-Architecture-Decision.md)
+- [Deterministic Random Foundation](Production/Tasks/TASK-005-Deterministic-Random-Foundation.md)
 - [Learning Curriculum](Learning/Curriculum.md)
 - [Development Learning Loop](Learning/Workflow.md)
 - [GM Commands](Tools/GMCommands.md)
