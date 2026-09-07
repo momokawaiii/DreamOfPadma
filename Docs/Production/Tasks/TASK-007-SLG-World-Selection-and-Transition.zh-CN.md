@@ -113,8 +113,8 @@ Primary Agent 对整体负责。只能针对一个明确问题请求只读专家
 
 ## 验收标准
 
-- [ ] 项目自有 Demo Sandbox 地图可以在 PIE 中加载，且不修改生成目录。
-- [ ] 一个 Demo 地块有稳定的 playtest 身份，可以被选择、高亮和取消选择。
+- [x] 项目自有 Demo Sandbox 地图可以在 PIE 中加载，且不修改生成目录。
+- [x] 一个 Demo 地块有稳定的 playtest 身份，可以被选择、高亮和取消选择。
 - [x] 选中地块通过强类型查询/请求暴露 Demo 场景和出生点上下文，而不是用 Actor 指针作为身份。
 - [x] 确认选择后产生可在切场后消费的上下文；fixture 缺失或无效时给出可读失败，且不留下部分切场状态。
 - [x] 实现不扣除资源、不解析通用路线、不修改持久世界状态，也不发明正式节点/ID/导入策略。
@@ -146,7 +146,7 @@ Primary Agent 对整体负责。只能针对一个明确问题请求只读专家
 ### 必需证据
 
 - 编译输出。
-- 展示地图、地块选择和切场结果的 PIE 截图或短视频。
+- 一份简洁的自然语言 PIE 观察记录，覆盖地图、地块选择/高亮、取消选择、确认和无效 Fixture 结果；截图或视频为可选项。
 - 若实现窄测试，提供上下文/失败测试输出。
 - 变更路径列表和独立 Review 报告。
 
@@ -172,13 +172,13 @@ Primary Agent 对整体负责。只能针对一个明确问题请求只读专家
 - 最终状态：`Review`；实现已准备交给独立 Review。用户已于 2026-09-07 批准契约。
 - Primary Agent 和 Role：`module_worker` / World Module Agent。
 - 修改文件：`Source/DreamOfPadma/Public/Demo/Session/`、`Source/DreamOfPadma/Private/Demo/Session/`、`Source/DreamOfPadma/Public/Demo/World/`、`Source/DreamOfPadma/Private/Demo/World/`、`Content/Padma/Demo/World/DemoSandbox.umap`、PadmaWorld README 双语对、PadmaGame README 双语对以及本 TASK-007 双语对。
-- 验收证据：项目自有 `DemoSandbox.umap` 已在 unattended runtime smoke 中加载，`ADemoSandboxWorld::BeginPlay` 输出 TASK-007 初始化提示；强类型请求/上下文路径和 GameInstance 会话边界已实现；无效会话替换和缺失 fixture 字段由窄范围自动化测试覆盖；用户已手工观察最终带光照地图的选择、取消、确认、稳定 ID 状态和无效 fixture 诊断流程。最终 Review 包仍需附加截图或视频证据。
+- 验收证据：项目自有 `DemoSandbox.umap` 已在 unattended runtime smoke 中加载，`ADemoSandboxWorld::BeginPlay` 输出 TASK-007 初始化提示；强类型请求/上下文路径和 GameInstance 会话边界已实现；无效会话替换和缺失 fixture 字段由窄范围自动化测试覆盖；用户已手工观察最终带光照地图的选择、取消、确认、稳定 ID 状态和无效 fixture 诊断流程。根据用户的证据决定，这份自然语言 PIE 观察记录已经足够，截图或视频为可选项。
 - 已运行检查及结果：依赖方向重构后的 UE5.8 `DreamOfPadmaEditor Win64 Development` 编译通过；窄范围 `DreamOfPadma.Demo.TASK007.TransitionContext` 自动化测试在临时 `-DDC-ForceMemoryCache -ddc=NoZenLocalFallback` 启动参数下通过，结果为 `succeeded=1 / failed=0`；`UnrealEditor-Cmd.exe ... /Game/Padma/Demo/World/DemoSandbox -game -nullrhi ... -ExecCmds=quit` 成功加载最终地图、进入 Play 并输出 `[TASK-007]` BeginPlay 日志；`pwsh -NoProfile -File .\Scripts\AuditDocs.ps1` 通过，共检查 124 个 Markdown 文件和 62 对语言文档；`pwsh -NoProfile -File .\Scripts\ValidateProject.ps1 -Strict` 通过；`git diff --check` 通过；精确变更路径审计通过。
-- 未运行检查及原因：当前环境无法控制原生应用，因此尚未捕获最终视觉截图/视频；地图加载 smoke 是运行时证据，但不能单独证明点击/高亮/取消/确认的可读性。独立 Reviewer 证据尚未取得。第一次通过 `RunTests.ps1` 的包装调用在测试启动前遇到机器上的不可写 Installed DDC 图；之后使用临时内存 DDC 参数直接重跑并通过，没有修改项目配置。
+- 未运行检查及原因：当前环境无法控制原生应用，因此未执行 Agent 侧视觉捕获；根据用户的证据决定，截图或视频为可选项，改用自然语言 PIE 观察记录。独立 Reviewer 证据尚未取得。第一次通过 `RunTests.ps1` 的包装调用在测试启动前遇到机器上的不可写 Installed DDC 图；之后使用临时内存 DDC 参数直接重跑并通过，没有修改项目配置。
 - 已解决或接受的 Review 问题：最终带光照的 `DemoSandbox.umap` 已在原实现提交 `859fe5a` 之后通过本地提交 `f80f727` 纳入分支；已移除 World -> 具体 Game/Session 的依赖，World 现在暴露强类型发布/消费回调，GameInstance 会话子系统在地图加载后绑定这些回调。第一次测试暴露的直接构造 `UGameInstanceSubsystem` Outer 无效问题仍通过可脱离地图的 `FDemoTransitionContextStore` 委托解决。Changelog 表述已限定为只在同一 GameInstance/会话内保留。集成前仍需独立实现 Review。
-- 剩余风险和未决问题：默认地图配置和 Encounter 场景仍由 TASK-010/TASK-008 负责；所有 Open/Proposed/Deferred 的世界、路线、ID 命名空间、导入、存档和 World Partition 决策保持不变。最终视觉截图/视频和独立 Review 待完成。
+- 剩余风险和未决问题：默认地图配置和 Encounter 场景仍由 TASK-010/TASK-008 负责；所有 Open/Proposed/Deferred 的世界、路线、ID 命名空间、导入、存档和 World Partition 决策保持不变。独立 Review 待完成。
 - 已更新的中英文文档：是；两个模块 README 双语对和 TASK-007 双语对已同步。
-- Changelog 草稿：日期 `2026-09-08`；TASK/Goal `TASK-007 SLG World Selection and Transition`；类别 `Added`；面向用户摘要 `增加项目自有 Demo Sandbox，提供一个可选择地块，以及可在同一 GameInstance/会话内跨场景保留的节点/场景/出生点强类型切场上下文`；影响区域 `Demo World 表现、Demo Session 切场交接、PadmaWorld/PadmaGame 模块边界`；验证证据 `依赖方向重构后的 UE5.8 Editor 编译、TASK-007 上下文自动化测试 Success、unattended DemoSandbox 地图加载 smoke、用户 PIE 观察`；未解决/延期事项 `最终视觉截图/视频附件、独立 Review、默认地图集成、Encounter 场景以及所有延期世界规则仍保持开放`。
+- Changelog 草稿：日期 `2026-09-08`；TASK/Goal `TASK-007 SLG World Selection and Transition`；类别 `Added`；面向用户摘要 `增加项目自有 Demo Sandbox，提供一个可选择地块，以及可在同一 GameInstance/会话内跨场景保留的节点/场景/出生点强类型切场上下文`；影响区域 `Demo World 表现、Demo Session 切场交接、PadmaWorld/PadmaGame 模块边界`；验证证据 `依赖方向重构后的 UE5.8 Editor 编译、TASK-007 上下文自动化测试 Success、unattended DemoSandbox 地图加载 smoke、用户 PIE 观察`；未解决/延期事项 `独立 Review、默认地图集成、Encounter 场景以及所有延期世界规则仍保持开放`。
 - Agent 产生的学习证据：稳定身份与表现坐标、跨场景所有权两个目标均为 `Introduced`：前者由强类型 ID 和自动化断言体现，后者由 World selection model -> 强类型 session store -> GameInstance subsystem 路径体现。不宣称用户已完成讲解回授。
 - 用户产生的学习证据：待补充；用户仍需完成只改显示位置的练习、比较三个身份字段并回答迁移问题，之后目标才可标记为 `Demonstrated`。
-- 集成提交或交接引用：Local 分支 `feature/TASK-007-world-selection-transition`，提交为 `859fe5a` 和 `f80f727`，未合并、未推送；附加最终视觉证据后即可交给独立 Review。原有 `AGENTS.md` 双语修改仍单独保存在 `stash@{0}`，未混入本 TASK。
+- 集成提交或交接引用：Local 分支 `feature/TASK-007-world-selection-transition`，提交为 `859fe5a` 和 `f80f727`，未合并、未推送；可交给独立 Review。原有 `AGENTS.md` 双语修改仍单独保存在 `stash@{0}`，未混入本 TASK。
