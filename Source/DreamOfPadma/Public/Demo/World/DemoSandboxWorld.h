@@ -9,12 +9,24 @@
 class UCameraComponent;
 class UStaticMeshComponent;
 class UTextRenderComponent;
-class UDemoTransitionSessionSubsystem;
 class ADemoWorldTile;
+
+DECLARE_DELEGATE_RetVal_TwoParams(
+	bool,
+	FDemoTransitionContextPublisher,
+	const FDemoTransitionContext&,
+	FText&);
+
+DECLARE_DELEGATE_RetVal_TwoParams(
+	bool,
+	FDemoTransitionContextConsumer,
+	FDemoTransitionContext&,
+	FText&);
 
 /**
  * Project-owned fixed Demo Sandbox presentation. It translates mouse/keyboard
- * input into typed requests and delegates cross-level state to the session
+ * input into typed requests. Game composition injects the session handoff
+ * callbacks so this World presentation does not depend on a concrete Game
  * subsystem.
  */
 UCLASS()
@@ -38,6 +50,10 @@ public:
 		const FDemoConfirmNodeSelectionRequest& Request,
 		FDemoTransitionContext& OutContext,
 		FText& OutFailure);
+
+	/** Game composition supplies the typed session handoff implementation. */
+	void SetTransitionPublisher(FDemoTransitionContextPublisher InPublisher);
+	void SetTransitionConsumer(FDemoTransitionContextConsumer InConsumer);
 
 	/** Narrow fixture failure test hooks; these do not mutate session state. */
 	void InvalidateSelectedFixtureForTesting();
@@ -73,8 +89,10 @@ private:
 
 	const FDemoWorldTileDefinition* FindAuthoredFixture(const FDemoNodeId& NodeId) const;
 	ADemoWorldTile* FindTileActor(const FDemoNodeId& NodeId) const;
-	UDemoTransitionSessionSubsystem* GetSessionSubsystem() const;
 	APlayerController* GetPlayerController() const;
+
+	FDemoTransitionContextPublisher TransitionPublisher;
+	FDemoTransitionContextConsumer TransitionConsumer;
 
 	void HandlePrimaryClick();
 	void HandleCancelSelection();

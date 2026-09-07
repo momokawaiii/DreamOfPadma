@@ -52,7 +52,7 @@ World 可以提供合法查询并接受命令，但状态变化必须留在世�
 
 坐标和关卡资产属于表现数据。事件、存档和测试使用稳定 ID 作为身份。
 
-TASK-007 会把一次性地块命中转换为 `FDemoNodeId`；Actor 指针和原始坐标不会进入 `FDemoTransitionContext`。上下文通过 `UDemoTransitionSessionSubsystem` 发布、查看和消费，其生命周期属于 GameInstance/会话边界。
+TASK-007 会把一次性地块命中转换为 `FDemoNodeId`；Actor 指针和原始坐标不会进入 `FDemoTransitionContext`。World 暴露强类型切场发布/消费回调，PadmaGame 会话边界在地图加载后绑定这些回调，并拥有 `UDemoTransitionSessionSubsystem` 的发布/查看/消费操作。
 
 ## 5. 数据与运行时所有权
 
@@ -64,7 +64,7 @@ World 消费 WorldGraph、NodeDefinition、MutationDefinition、EncounterDefinit
 
 World 依赖 PadmaCore 的 ID、命令、状态值和事件。它由 PadmaGame 组合，并与 PadmaGameplay 交换遭遇战/ACT 战斗路线请求和结果。
 
-在 TASK-007 中，World 只调用 PadmaGame 暴露的强类型会话契约。会话存储在替换 pending 上下文前校验三个身份，因此无效 fixture 会失败并保持已有上下文不变。
+在 TASK-007 中，World 只产生强类型选择和确认结果，不包含具体的 Game/会话子系统。PadmaGame 在地图加载后绑定 World 回调，并把有效上下文转交给会话存储；会话存储在替换 pending 上下文前校验三个身份，因此无效 fixture 会失败并保持已有上下文不变，同时保持 Game -> World 的组合方向。
 
 PadmaWorld 不能调用 UI 代码，也不能把 Widget 当作占领或路线状态的权威。
 
