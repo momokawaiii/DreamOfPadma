@@ -4,11 +4,9 @@
 #include "Components/InputComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/TextRenderComponent.h"
-#include "Demo/Session/DemoTransitionSessionSubsystem.h"
 #include "Demo/World/DemoWorldTile.h"
 #include "DrawDebugHelpers.h"
 #include "Engine/Engine.h"
-#include "Engine/GameInstance.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
 #include "Kismet/GameplayStatics.h"
@@ -189,15 +187,14 @@ bool ADemoSandboxWorld::ConfirmSelectedTile(
 		return false;
 	}
 
-	UDemoTransitionSessionSubsystem* SessionSubsystem = GetSessionSubsystem();
-	if (SessionSubsystem == nullptr)
+	if (!TransitionPublisher.IsBound())
 	{
-		OutFailure = FText::FromString(TEXT("Demo transition session is unavailable."));
+		OutFailure = FText::FromString(TEXT("Demo transition session publisher is unavailable."));
 		SetStatus(FText::FromString(FString::Printf(TEXT("Transition failed: %s (existing session context unchanged)."), *OutFailure.ToString())), FColor::Red);
 		return false;
 	}
 
-	if (!SessionSubsystem->PublishTransition(Candidate, OutFailure))
+	if (!TransitionPublisher.Execute(Candidate, OutFailure))
 	{
 		SetStatus(FText::FromString(FString::Printf(TEXT("Transition failed: %s (existing session context unchanged)."), *OutFailure.ToString())), FColor::Red);
 		return false;
@@ -210,6 +207,16 @@ bool ADemoSandboxWorld::ConfirmSelectedTile(
 		*Candidate.TargetScenarioId.ToDebugString(),
 		*Candidate.SpawnPointId.ToDebugString())), FColor::Green);
 	return true;
+}
+
+void ADemoSandboxWorld::SetTransitionPublisher(FDemoTransitionContextPublisher InPublisher)
+{
+	TransitionPublisher = InPublisher;
+}
+
+void ADemoSandboxWorld::SetTransitionConsumer(FDemoTransitionContextConsumer InConsumer)
+{
+	TransitionConsumer = InConsumer;
 }
 
 void ADemoSandboxWorld::RefreshTilePresentation()
@@ -260,15 +267,6 @@ ADemoWorldTile* ADemoSandboxWorld::FindTileActor(const FDemoNodeId& NodeId) cons
 	if (const TObjectPtr<ADemoWorldTile>* FoundTile = TileActors.Find(NodeId))
 	{
 		return FoundTile->Get();
-	}
-	return nullptr;
-}
-
-UDemoTransitionSessionSubsystem* ADemoSandboxWorld::GetSessionSubsystem() const
-{
-	if (UGameInstance* GameInstance = GetGameInstance())
-	{
-		return GameInstance->GetSubsystem<UDemoTransitionSessionSubsystem>();
 	}
 	return nullptr;
 }
@@ -387,16 +385,15 @@ void ADemoSandboxWorld::RestoreFixtureForTesting()
 
 void ADemoSandboxWorld::ConsumePendingTransitionForTesting()
 {
-	UDemoTransitionSessionSubsystem* SessionSubsystem = GetSessionSubsystem();
-	if (SessionSubsystem == nullptr)
+	if (!TransitionConsumer.IsBound())
 	{
-		SetStatus(FText::FromString(TEXT("Demo transition session is unavailable.")), FColor::Red);
+		SetStatus(FText::FromString(TEXT("Demo transition session consumer is unavailable.")), FColor::Red);
 		return;
 	}
 
 	FDemoTransitionContext Context;
 	FText Failure;
-	if (!SessionSubsystem->ConsumeTransition(Context, Failure))
+	if (!TransitionConsumer.Execute(Context, Failure))
 	{
 		SetStatus(Failure, FColor::Yellow);
 		return;

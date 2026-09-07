@@ -6,6 +6,9 @@
 #include "Demo/Session/DemoTransitionTypes.h"
 #include "DemoTransitionSessionSubsystem.generated.h"
 
+class ADemoSandboxWorld;
+class UWorld;
+
 /** Map-free atomic store used by the session boundary and its narrow tests. */
 class DREAMOFPADMA_API FDemoTransitionContextStore
 {
@@ -35,6 +38,9 @@ class DREAMOFPADMA_API UDemoTransitionSessionSubsystem : public UGameInstanceSub
 	GENERATED_BODY()
 
 public:
+	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
+	virtual void Deinitialize() override;
+
 	UFUNCTION(BlueprintCallable, Category = "Demo Transition")
 	bool PublishTransition(const FDemoTransitionContext& InContext, FText& OutFailure);
 
@@ -54,5 +60,13 @@ public:
 	void ClearTransition();
 
 private:
+	void HandlePostLoadMap(UWorld* LoadedWorld);
+	void BindToSandboxWorld(UWorld* World);
+	void UnbindFromSandboxWorld();
+	bool PublishFromSandboxWorld(const FDemoTransitionContext& InContext, FText& OutFailure);
+	bool ConsumeFromSandboxWorld(FDemoTransitionContext& OutContext, FText& OutFailure);
+
 	FDemoTransitionContextStore ContextStore;
+	FDelegateHandle PostLoadMapHandle;
+	TWeakObjectPtr<ADemoSandboxWorld> BoundSandboxWorld;
 };
