@@ -6,7 +6,7 @@
 
 - Project: DreamOfPadma
 - Engine association: see `DreamOfPadma.uproject`; do not change it without an ADR.
-- Current milestone: MVP high-level baseline frozen / Agent workflow ready / PIE foundation verified / future ACT architecture boundary accepted / M1 Core contract approval pending
+- Current milestone: MVP high-level baseline frozen / Agent workflow ready / PIE foundation verified / future ACT architecture boundary accepted / M1 Core contract complete / first implementation TASK pending
 - Runtime modules: the generated `DreamOfPadma` module only
 - Git repository: `main` tracks the private GitHub `origin/main`
 - Git LFS: initialized locally
@@ -39,14 +39,15 @@
 - The approved hierarchy is documented: one independently mergeable writable Goal normally has one task contract, one worktree, and one Primary Agent; subagents receive bounded work packages; Skills store procedure rather than mutable project truth.
 - Bilingual operating documents now cover Codex setup, conservative parallelism, integration order, Git/GitHub backup, a complete M1 example, and the novice learning loop.
 - `TASK-002 Agent Workflow Bootstrap` is complete, and the task template now records decision state, exact write set, delegation, integration order, verification, recovery, and separate Agent/user learning evidence.
+- `TASK-003 Core Rule Contract Slice` is complete after independent read-only review and user approval on 2026-09-07; it freezes the design-only Core contract and downstream test matrix but authorizes no runtime implementation.
 - `TASK-004 ACT Architecture Decision Integration` records ADR-0002 and the Future ACT Development Agent Contract as an accepted documentation-only boundary: Encounter remains first, ACT requires a separate approved task, built-in GAS requires an approved dependency change, and external gameplay plugins require another ADR.
 
 ## Next tasks
 
-1. Review, approve, and close [TASK-003 Core Rule Contract Slice](Production/Tasks/TASK-003-Core-Contracts.md), the serial prerequisite for M1 Core implementation. Do not give this design-only task to `module_worker` for coding.
-2. After TASK-003 is `Done`, create and approve the smallest downstream implementation TASK with an exact write set, acceptance evidence, tests, and stop conditions before assigning a Primary Agent.
-3. Start one `module_worker` Primary Agent per approved writable Goal. Use a Local feature branch by default for the current one-feature/one-writer workflow; introduce a Worktree only when independent concurrent isolation is needed.
-4. Implement the first data contracts inside the current DreamOfPadma module and include the first relevant automation test before synthesis implementation; split UE modules only after a boundary is proven.
+1. Review and approve the first downstream implementation TASK for the smallest Core slice. The proposed slice is Deterministic Random Foundation; no implementation Agent is authorized yet.
+2. After that TASK is `Ready`, start one `module_worker` Primary Agent for its approved writable Goal. Use a Local feature branch by default; introduce a Worktree only when independent concurrent isolation is needed.
+3. Implement the first data contract slice inside the current DreamOfPadma module and include the first relevant automation test before synthesis implementation; split UE modules only after a boundary is proven.
+4. Evaluate Calendar only after its index-origin decision is explicitly resolved, and evaluate Resource Ledger only after its value/cap/debt/loop policies are authored; do not guess either set of rules.
 
 ## Known decisions
 

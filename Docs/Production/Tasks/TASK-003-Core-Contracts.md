@@ -3,7 +3,7 @@
 - Chinese companion for user reading: `TASK-003-Core-Contracts.zh-CN.md`
 - Document ID: `TASK-003`
 - Version: `0.1`
-- Status: `Ready` (contract complete; implementation not started)
+- Status: `Done`
 - Parent milestone or integration Goal: `M1 Core rules / first core-rule foundation`
 - Primary Role: `Integration Coordinator`
 - Primary Agent: `Integration Coordinator` for this serial contract-freeze Goal; downstream implementation Agents are assigned only after this contract is approved
@@ -125,14 +125,14 @@ No writable subagent is authorized. The Integration Coordinator remains accounta
 
 ## Acceptance criteria
 
-- [ ] The English and Chinese task files exist as a synchronized pair with the same Document ID, version, status, and acceptance boundary.
-- [ ] The Goal is one observable serial result: a frozen shared Core contract and downstream test matrix; no runtime implementation is implied.
-- [ ] Stable-ID/value semantics, explicit calendar state/events, separate Flow/Computation ledgers, deterministic trace metadata, and command/result/error/event boundaries are stated without inventing numeric or gameplay policy.
-- [ ] Every Open/Deferred input that could affect this slice is listed as non-binding, with an escalation route; none is converted into a default or hidden rule.
-- [ ] The downstream test obligations cover calendar boundaries, resource transaction isolation/provenance, deterministic reproduction, and readable command failures without depending on UI or maps.
-- [ ] The exact write set, serial conflict list, dependency order, Primary Agent ownership, and no-independent-worktree decision are explicit.
-- [ ] `Docs/00_INDEX.md` and `Docs/00_INDEX.zh-CN.md` link the new task, and the corresponding project-state entries remain synchronized.
-- [ ] The current design-only turn changes no source, asset, config, build, generated, or test implementation file.
+- [x] The English and Chinese task files exist as a synchronized pair with the same Document ID, version, status, and acceptance boundary.
+- [x] The Goal is one observable serial result: a frozen shared Core contract and downstream test matrix; no runtime implementation is implied.
+- [x] Stable-ID/value semantics, explicit calendar state/events, separate Flow/Computation ledgers, deterministic trace metadata, and command/result/error/event boundaries are stated without inventing numeric or gameplay policy.
+- [x] Every Open/Deferred input that could affect this slice is listed as non-binding, with an escalation route; none is converted into a default or hidden rule.
+- [x] The downstream test obligations cover calendar boundaries, resource transaction isolation/provenance, deterministic reproduction, and readable command failures without depending on UI or maps.
+- [x] The exact write set, serial conflict list, dependency order, Primary Agent ownership, and no-independent-worktree decision are explicit.
+- [x] `Docs/00_INDEX.md` and `Docs/00_INDEX.zh-CN.md` link the new task, and the corresponding project-state entries remain synchronized.
+- [x] The current design-only turn changes no source, asset, config, build, generated, or test implementation file.
 
 ## Tests
 
@@ -197,15 +197,16 @@ Choose no more than two primary targets.
 
 ## Completion report
 
-- Final status: `Ready`; contract authored, implementation not started.
+- Integration boundary note: prerequisite checkpoint `9bf49fa` also carried the user's pre-existing TASK-001 bilingual PIE-completion edits. Those two files are separately identified in that checkpoint and were not TASK-003-owned writes. The TASK-003 closure diff is restricted to this task's allowed paths.
+- Final status: `Done`; contract reviewed and approved, implementation not started.
 - Primary Agent and Role: current Integration Coordinator / Integration Coordinator.
 - Changed files: `TASK-003-Core-Contracts.md`, `TASK-003-Core-Contracts.zh-CN.md`, `Docs/00_INDEX.md`, `Docs/00_INDEX.zh-CN.md`, `Docs/ProjectState.md`, and `Docs/ProjectState.zh-CN.md`.
-- Acceptance evidence: bilingual task pair, index links, and synchronized project-state entry are present; exact changed-path audit shows only the six allowed Markdown paths, with no source, asset, config, build, generated, or test implementation file changed.
-- Checks run and results: `Scripts/AuditDocs.ps1` passed for 102 Markdown files and 51 language pairs; `Scripts/ValidateProject.ps1 -Strict` passed; `git diff --check` passed with no output.
+- Acceptance evidence: bilingual task pair, index links, and synchronized project-state entry are present; the TASK-003 closure diff contains only TASK-003 allowed Markdown paths, with no source, asset, config, build, generated, or test implementation file changed. The earlier checkpoint's separate TASK-001 pair is recorded above and remains outside this task's write set.
+- Checks run and results: `Scripts/AuditDocs.ps1` passed for 108 Markdown files and 54 language pairs; `Scripts/ValidateProject.ps1 -Strict` passed; `git diff --check` and `git diff --cached --check` passed with no output; exact staged-scope audit passed for the TASK-003 closure paths.
 - Checks not run and reason: gameplay, UE automation, compile, PIE, packaging, and implementation tests are intentionally not run because this is a design-only task.
-- Review findings resolved or accepted: no independent reviewer result is claimed in this authoring turn; the required read-only checks remain an approval gate.
+- Review findings resolved or accepted: independent read-only Review identified the pre-existing TASK-001 pair carried by checkpoint `9bf49fa`; the boundary is explicitly recorded above, and the TASK-003 closure diff was re-reviewed with no blocking finding. The user approved the contract on 2026-09-07.
 - Remaining risks and open questions: all items under **Deferred or open inputs** remain unresolved by design.
 - English/Chinese documentation updated: yes.
 - Agent-produced learning evidence: task contract and test/learning plan only.
 - User-produced learning evidence: pending the downstream hands-on exercise.
-- Integration commit or handoff reference: pending user approval; do not merge or push as part of this task.
+- Integration commit or handoff reference: TASK-003 closure commit; the resulting hash is reported in the Integration Coordinator handoff. No merge or push is part of this task.

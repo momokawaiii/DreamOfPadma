@@ -6,7 +6,7 @@
 
 - 项目：DreamOfPadma
 - 引擎关联：见 `DreamOfPadma.uproject`；没有 ADR 不得修改。
-- 当前里程碑：MVP 高层基线已冻结 / Agent 工作流就绪 / PIE 基础检查已通过 / 未来 ACT 架构边界已接受 / 等待批准 M1 Core 契约
+- 当前里程碑：MVP 高层基线已冻结 / Agent 工作流就绪 / PIE 基础检查已通过 / 未来 ACT 架构边界已接受 / M1 Core 契约已完成 / 等待第一份实现 TASK
 - 运行时模块：目前只有生成的 `DreamOfPadma` 模块
 - Git 仓库：`main` 已跟踪私有 GitHub 远端的 `origin/main`。
 - Git LFS：已在本地初始化。
@@ -40,14 +40,15 @@
 - 已记录认可的层级：一个可独立合并的写入 Goal 通常对应一份任务契约、一个 worktree 和一位 Primary Agent；subagent 接受有限工作包；Skill 保存流程而不是变化中的项目事实。
 - 双语操作文档现已覆盖 Codex 配置、保守并行、集成顺序、Git/GitHub 备份、完整 M1 示例和零基础学习闭环。
 - `TASK-002 Agent 工作流初始化` 已完成；任务模板现在可以记录决策状态、确切写入集合、委派、集成顺序、验证、恢复，以及彼此分开的 Agent/用户学习证据。
+- `TASK-003 第一个核心规则契约切片` 已在独立只读 Review 和用户于 2026-09-07 批准后完成；它冻结了纯设计 Core 契约和下游测试矩阵，但不授权运行时实现。
 - `TASK-004 ACT 架构决策集成` 将 ADR-0002 和《未来 ACT 开发 Agent 契约》记录为已接受的纯文档边界：Encounter 保持优先，ACT 需要另一份已批准任务，内置 GAS 需要已批准的依赖变更，外部玩法插件需要另一份 ADR。
 
 ## 下一步
 
-1. Review、批准并关闭 [TASK-003 第一个核心规则契约切片](Production/Tasks/TASK-003-Core-Contracts.zh-CN.md)，它是 M1 Core 实现的串行前置任务。不得把这个纯设计任务交给 `module_worker` 编写代码。
-2. TASK-003 达到 `Done` 后，先创建并批准一份最小下游实现 TASK，写明确切写入集合、验收证据、测试和停止条件，再分配 Primary Agent。
-3. 每个已批准的可写 Goal 启动一个 `module_worker` Primary Agent。当前一次一个功能/一个写入者的流程默认使用 Local feature branch；只有需要独立并发隔离时才引入 Worktree。
-4. 在当前 DreamOfPadma 模块内实现第一批数据契约，并在实现合成前纳入第一个相关自动化测试；边界被证明后再拆分 UE 模块。
+1. Review 并批准第一份下游实现 TASK，选择最小的 Core 切片。当前提议是“Deterministic Random Foundation”；此时尚未授权启动实现 Agent。
+2. 该 TASK 达到 `Ready` 后，为其已批准的可写 Goal 启动一位 `module_worker` Primary Agent。当前默认使用 Local feature branch；只有需要独立并发隔离时才引入 Worktree。
+3. 在当前 DreamOfPadma 模块内实现第一批数据契约，并在实现合成前纳入第一个相关自动化测试；边界被证明后再拆分 UE 模块。
+4. 只有明确解决索引起点决定后才评估 Calendar；只有完成值/上限/债务/循环策略后才评估 Resource Ledger；不得猜测这两组规则。
 
 ## 已知决定
 

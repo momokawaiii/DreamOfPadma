@@ -3,7 +3,7 @@
 - 英文原文（Agent 阅读）：`TASK-003-Core-Contracts.md`
 - 文档 ID：`TASK-003`
 - 版本：`0.1`
-- 状态：`Ready`（契约已完成；尚未开始实现）
+- 状态：`Done`
 - 所属里程碑或集成 Goal：`M1 Core rules / 第一个核心规则基础`
 - Primary Role：`Integration Coordinator`
 - Primary Agent：本串行契约冻结 Goal 由 `Integration Coordinator` 负责；只有本契约获批准后才分配下游实现 Agent
@@ -125,14 +125,14 @@ MVP 策划与架构基线已经验收，但当前项目仍只有生成的 `Dream
 
 ## Acceptance criteria
 
-- [ ] 英文和中文 TASK 文件作为同步配对存在，Document ID、版本、状态和验收边界一致。
-- [ ] Goal 是一个可观察的串行结果：冻结共享 Core 契约和下游测试矩阵；不暗示运行时实现。
-- [ ] 稳定 ID/值语义、显式日历状态/事件、分离的 Flow/Computation 账本、确定性追踪元数据、command/result/error/event 边界均已说明，且没有发明数值或玩法政策。
-- [ ] 所有可能影响本切片的 Open/Deferred 输入都作为非绑定内容列出并带有升级路径；没有一个被转换成默认值或隐藏规则。
-- [ ] 下游测试义务覆盖日历边界、资源事务隔离/来源、确定性复现和可读的 command 失败，并且不依赖 UI 或地图。
-- [ ] 确切写入集合、串行冲突列表、依赖顺序、Primary Agent 所有权和不使用独立 worktree 的决定均已明确。
-- [ ] `Docs/00_INDEX.md` 和 `Docs/00_INDEX.zh-CN.md` 链接新任务，对应的项目状态条目保持同步。
-- [ ] 当前仅设计的这一轮没有修改 source、资源、config、build、生成文件或测试实现文件。
+- [x] 英文和中文 TASK 文件作为同步配对存在，Document ID、版本、状态和验收边界一致。
+- [x] Goal 是一个可观察的串行结果：冻结共享 Core 契约和下游测试矩阵；不暗示运行时实现。
+- [x] 稳定 ID/值语义、显式日历状态/事件、分离的 Flow/Computation 账本、确定性追踪元数据、command/result/error/event 边界均已说明，且没有发明数值或玩法政策。
+- [x] 所有可能影响本切片的 Open/Deferred 输入都作为非绑定内容列出并带有升级路径；没有一个被转换成默认值或隐藏规则。
+- [x] 下游测试义务覆盖日历边界、资源事务隔离/来源、确定性复现和可读的 command 失败，并且不依赖 UI 或地图。
+- [x] 确切写入集合、串行冲突列表、依赖顺序、Primary Agent 所有权和不使用独立 worktree 的决定均已明确。
+- [x] `Docs/00_INDEX.md` 和 `Docs/00_INDEX.zh-CN.md` 链接新任务，对应的项目状态条目保持同步。
+- [x] 当前仅设计的这一轮没有修改 source、资源、config、build、生成文件或测试实现文件。
 
 ## Tests
 
@@ -197,15 +197,16 @@ MVP 策划与架构基线已经验收，但当前项目仍只有生成的 `Dream
 
 ## Completion report
 
-- Final status：`Ready`；契约已编写，尚未开始实现。
+- Integration boundary note：前置检查点 `9bf49fa` 同时携带了用户此前已有的 TASK-001 双语 PIE 完成编辑。这两个文件已在该检查点中单独标识，并不是 TASK-003 所有的写入；本次 TASK-003 关闭 diff 限定在本任务允许的路径内。
+- Final status：`Done`；契约已完成 Review 并获批准，尚未开始实现。
 - Primary Agent 和 Role：当前 Integration Coordinator / Integration Coordinator。
 - Changed files：`TASK-003-Core-Contracts.md`、`TASK-003-Core-Contracts.zh-CN.md`、`Docs/00_INDEX.md`、`Docs/00_INDEX.zh-CN.md`、`Docs/ProjectState.md` 和 `Docs/ProjectState.zh-CN.md`。
-- Acceptance evidence：双语任务 pair、索引链接和同步的项目状态条目均已存在；精确变更路径审计显示只有 6 个允许的 Markdown 路径变化，没有 source、资源、config、build、生成文件或测试实现文件变化。
-- Checks run and results：`Scripts/AuditDocs.ps1` 已通过（102 个 Markdown 文件、51 对语言配对）；`Scripts/ValidateProject.ps1 -Strict` 已通过；`git diff --check` 已通过且无输出。
+- Acceptance evidence：双语任务 pair、索引链接和同步的项目状态条目均已存在；TASK-003 关闭 diff 只包含本 TASK 允许的 Markdown 路径，没有 source、资源、config、build、生成文件或测试实现文件变化。前置检查点中独立的 TASK-001 pair 已在上方记录，并继续位于本任务写入集合之外。
+- Checks run and results：`Scripts/AuditDocs.ps1` 通过 108 个 Markdown 文件和 54 对语言文件；`Scripts/ValidateProject.ps1 -Strict` 通过；`git diff --check` 和 `git diff --cached --check` 通过且无输出；TASK-003 关闭路径的精确暂存范围审计通过。
 - Checks not run and reason：由于这是仅设计任务，玩法、UE 自动化、编译、PIE、打包和实现测试有意不运行。
-- Review findings resolved or accepted：本轮没有宣称独立 reviewer 结果；要求的只读检查仍是批准门槛。
+- Review findings resolved or accepted：独立只读 Review 发现检查点 `9bf49fa` 携带了此前已有的 TASK-001 pair；上方已明确记录该边界，TASK-003 关闭 diff 复审后没有阻塞问题。用户已于 2026-09-07 批准本契约。
 - Remaining risks and open questions：**Deferred or open inputs** 下所有项目按设计继续未决定。
 - English/Chinese documentation updated：是。
 - Agent-produced learning evidence：仅有任务契约和测试/学习计划。
 - User-produced learning evidence：等待下游动手练习。
-- Integration commit or handoff reference：等待用户批准；本任务不执行 merge 或 push。
+- Integration commit or handoff reference：TASK-003 关闭提交；最终 hash 由 Integration Coordinator 在交接中报告。本任务不包含合并或推送。
