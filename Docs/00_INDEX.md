@@ -7,6 +7,7 @@ This file is the first documentation entry point for agents and collaborators. R
 ## Current state
 
 - [Project State](ProjectState.md)
+- [Changelog](Changelog.md)
 - [Agent Workflow](Agent/Workflow.md)
 - [Codex Project Setup and Roles](Agent/CodexSetup.md)
 - [Git Workflow](Agent/GitWorkflow.md)

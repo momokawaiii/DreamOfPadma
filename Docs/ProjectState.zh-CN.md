@@ -6,7 +6,7 @@
 
 - 项目：DreamOfPadma
 - 引擎关联：见 `DreamOfPadma.uproject`；没有 ADR 不得修改。
-- 当前里程碑：MVP 高层基线已冻结 / Agent 工作流就绪 / PIE 基础检查已通过 / 未来 ACT 架构边界已接受 / M1 Core 契约已完成 / ADR-0003 已接受 / TASK-006 集群已完成 / TASK-007 等待实现
+- 当前里程碑：MVP 高层基线已冻结 / Agent 工作流就绪 / 双语变更日志流程已建立 / PIE 基础检查已通过 / 未来 ACT 架构边界已接受 / M1 Core 契约已完成 / ADR-0003 已接受 / TASK-006 集群已完成 / TASK-007 等待实现
 - 运行时模块：目前只有生成的 `DreamOfPadma` 模块
 - Git 仓库：`main` 已跟踪私有 GitHub 远端的 `origin/main`。
 - Git LFS：已在本地初始化。
@@ -43,6 +43,7 @@
 - `TASK-003 第一个核心规则契约切片` 已在独立只读 Review 和用户于 2026-09-07 批准后完成；它冻结了纯设计 Core 契约和下游测试矩阵，但不授权运行时实现。
 - `TASK-004 ACT 架构决策集成` 将 ADR-0002 和《未来 ACT 开发 Agent 契约》记录为已接受的纯文档边界：Encounter 保持优先，ACT 需要另一份已批准任务，内置 GAS 需要已批准的依赖变更，外部玩法插件需要另一份 ADR。
 - `ADR-0003 固定可玩原型垂直切片` 已接受，`TASK-006 可玩原型垂直切片集群` 已于 2026-09-07 完成；`TASK-007` 已为 `Ready`，可以开启新的实现会话，而 TASK-008 至 TASK-010 仍需分别放行，尚未启动实现 Agent。
+- 已在 `Docs/Changelog.md` 和 `Docs/Changelog.zh-CN.md` 建立双语、版本更新式实现 Changelog；Primary Agent 提供草稿，Integration Coordinator 在任务进入 `Verified` 或 `Done` 前记录最终共享条目。
 
 ## 下一步
 

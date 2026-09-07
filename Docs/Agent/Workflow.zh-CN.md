@@ -94,6 +94,16 @@ Backlog -> Ready -> In Progress -> Review -> Verified -> Done
 
 工作者需要报告修改文件、执行的命令/测试、必要时的截图或打包证据、未解决风险和文档变化。集成任务负责更新 `Docs/ProjectState.md`。
 
+## 变更日志交接
+
+每个修改代码、数据、UE 资源、配置、构建文件或测试的实现 Goal，都必须在进入 `Verified` 或 `Done` 前产生一份简洁的版本更新式摘要。
+
+- Primary Agent 在完成报告中加入 `Changelog draft`（变更日志草稿），包括日期、TASK/Goal、`Added`、`Changed`、`Fixed` 或 `Removed` 之一、面向用户的摘要、受影响区域、验证证据以及未解决或延期事项。
+- Integration Coordinator 在集成期间定稿，并写入同步的 `Docs/Changelog.md` 和 `Docs/Changelog.zh-CN.md` 条目。
+- Changelog 双语配对文件属于共享集成状态。除非已批准的 TASK 明确授予权限，Primary Agent 和 subagent 不得编辑它。
+- 在用户批准版本号或标签之前统一使用 `Unreleased`。条目只摘要已交付行为，不能替代任务完成报告、`ProjectState.md`、ADR 或测试证据。
+- 纯文档任务只有在改变用户可见的工作流、产品行为或已发布契约时才需要 Changelog 条目。
+
 ## 双语同步
 
 Agent 执行任务时读取英文文档。每次 Markdown 修改都必须在同一个任务和提交中更新中文镜像。中文文件是供用户阅读的镜像，不是独立事实来源。
@@ -142,7 +152,8 @@ Agent 执行任务时读取英文文档。每次 Markdown 修改都必须在同�
 5. 独立 Review Agent 检查真实 diff、验收证据、依赖、规则一致性和双语文档。
 6. 集成负责人按依赖顺序合并，不能按“谁先做完”决定。
 7. 在唯一构建/Editor 通道运行集成验证。集成缺陷应建立新的有限任务，或把原 Goal 退回 `In Progress`。
-8. 更新 `Docs/ProjectState.md`，关闭任务，提交集成状态；只有用户授权后才推送。
+8. 在把任务标记为 `Verified` 或 `Done` 前，根据 Primary Agent 的草稿定稿双语 Changelog 条目。
+9. 更新 `Docs/ProjectState.md`，关闭任务，提交集成状态；只有用户授权后才推送。
 
 交接不能依赖聊天摘要，而应使用提交哈希、任务完成报告、Review 结果、测试证据和明确的未决问题。
 

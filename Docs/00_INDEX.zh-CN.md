@@ -7,6 +7,7 @@
 ## 当前状态
 
 - [项目状态](ProjectState.zh-CN.md)
+- [变更日志](Changelog.zh-CN.md)
 - [Agent 工作流](Agent/Workflow.zh-CN.md)
 - [Codex 项目配置与角色](Agent/CodexSetup.zh-CN.md)
 - [Git 工作流](Agent/GitWorkflow.zh-CN.md)

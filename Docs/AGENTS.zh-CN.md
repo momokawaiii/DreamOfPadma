@@ -11,6 +11,7 @@
 - 每一个 Markdown 都必须有英文原文和中文镜像。Agent 执行任务时读取英文，中文只用于用户阅读。
 - 普通文档使用同目录的 `Name.md` 和 `Name.zh-CN.md`；设计草案继续使用 `Docs/Design/EN/` 和 `Docs/Design/ZH/` 配对。
 - 同一个任务和提交中必须同时修改 Markdown 配对文件，之后运行文档配对审计。
+- 简洁的版本更新式实现摘要放在 `Docs/Changelog.md` 和 `Docs/Changelog.zh-CN.md`；详细任务证据仍记录在任务完成报告和 `ProjectState.md` 中。
 - 实现代码时不能悄悄改变规范规则；应更新规则文档，并在结构变化时增加 ADR。
 - 保持 `Docs/ProjectState.md` 简短且及时。
 - 新文档必须链接到 `Docs/00_INDEX.md`。

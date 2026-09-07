@@ -8,6 +8,7 @@
 - Every Markdown file must have an English source and a Chinese companion. Agents read English for task reasoning; Chinese is a user-facing mirror only.
 - For normal documents use `Name.md` and `Name.zh-CN.md` in the same directory. Keep the existing `Docs/Design/EN/` and `Docs/Design/ZH/` convention for design drafts.
 - Modify both members of a Markdown pair in the same task and commit. Run the documentation-pair audit after changes.
+- Keep the concise release-style implementation summary in `Docs/Changelog.md` and `Docs/Changelog.zh-CN.md`; detailed task evidence remains in the task report and `ProjectState.md`.
 - Keep architecture decisions in `Docs/Architecture/` and `Docs/Decisions/`.
 - Follow `Docs/Architecture/AGENTS.md` and `Docs/Architecture/Modules/AGENTS.md` for technical-document and module-Agent ownership.
 - Keep one task per file under `Docs/Production/Tasks/`.

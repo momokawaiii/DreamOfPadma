@@ -108,6 +108,7 @@ Allowed learning status values are `Not started`, `Introduced`, `Practiced`, and
 - Review findings resolved or accepted:
 - Remaining risks and open questions:
 - English/Chinese documentation updated:
+- Changelog draft (required for code, data, asset, configuration, build, or test changes): category, user-visible summary, affected area, validation evidence, unresolved or deferred notes:
 - Agent-produced learning evidence:
 - User-produced learning evidence:
 - Integration commit or handoff reference:

@@ -94,6 +94,16 @@ A persona alone is not a work package. The parent verifies subagent output again
 
 The worker reports changed files, commands/tests, screenshots or packaged-build evidence where relevant, unresolved risks, and documentation changes. The integration task updates `Docs/ProjectState.md`.
 
+## Change-log handoff
+
+Every implementation Goal that changes code, data, UE assets, configuration, build files, or tests must produce a concise release-style summary before it can become `Verified` or `Done`.
+
+- The Primary Agent includes a `Changelog draft` in the completion report with the date, TASK/Goal, one of `Added`, `Changed`, `Fixed`, or `Removed`, a user-visible summary, affected area, validation evidence, and unresolved or deferred notes.
+- The Integration Coordinator finalizes the draft and writes the synchronized `Docs/Changelog.md` and `Docs/Changelog.zh-CN.md` entries during integration.
+- The Changelog pair is shared integration state. Primary Agents and subagents do not edit it unless the approved TASK explicitly grants that write authority.
+- Use `Unreleased` until the user approves a release version or tag. The entry summarizes delivered behavior; it does not replace the task report, `ProjectState.md`, an ADR, or test evidence.
+- A documentation-only task needs a Changelog entry only when it changes a user-visible workflow, product behavior, or published contract.
+
 ## Language synchronization
 
 Agents read English documents for task reasoning. Every Markdown change must update its Chinese companion in the same task and commit. The Chinese file is a user-facing mirror, not an independent source of truth.
@@ -142,7 +152,8 @@ The design layer answers what and why. The architecture layer answers how, where
 5. A separate Review Agent checks the actual diff, acceptance evidence, dependencies, rule fidelity, and bilingual documents.
 6. The integration owner merges in dependency order, never by whichever Agent finishes first.
 7. Run consolidated validation in the single build/Editor lane. Resolve integration defects in a new scoped task or by returning the owning Goal to `In Progress`.
-8. Update `Docs/ProjectState.md`, close the task, commit the integration state, and push only with user authorization.
+8. Finalize the bilingual Changelog entry from the Primary Agent's draft before marking the task `Verified` or `Done`.
+9. Update `Docs/ProjectState.md`, close the task, commit the integration state, and push only with user authorization.
 
 Do not use chat summaries as handoff. Use commit hashes, task completion reports, review findings, tests, and explicit unresolved questions.
 

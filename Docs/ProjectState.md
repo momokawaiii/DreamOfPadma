@@ -6,7 +6,7 @@
 
 - Project: DreamOfPadma
 - Engine association: see `DreamOfPadma.uproject`; do not change it without an ADR.
-- Current milestone: MVP high-level baseline frozen / Agent workflow ready / PIE foundation verified / future ACT architecture boundary accepted / M1 Core contract complete / ADR-0003 accepted / TASK-006 cluster complete / TASK-007 ready for implementation
+- Current milestone: MVP high-level baseline frozen / Agent workflow ready / bilingual change-log protocol established / PIE foundation verified / future ACT architecture boundary accepted / M1 Core contract complete / ADR-0003 accepted / TASK-006 cluster complete / TASK-007 ready for implementation
 - Runtime modules: the generated `DreamOfPadma` module only
 - Git repository: `main` tracks the private GitHub `origin/main`
 - Git LFS: initialized locally
@@ -42,6 +42,7 @@
 - `TASK-003 Core Rule Contract Slice` is complete after independent read-only review and user approval on 2026-09-07; it freezes the design-only Core contract and downstream test matrix but authorizes no runtime implementation.
 - `TASK-004 ACT Architecture Decision Integration` records ADR-0002 and the Future ACT Development Agent Contract as an accepted documentation-only boundary: Encounter remains first, ACT requires a separate approved task, built-in GAS requires an approved dependency change, and external gameplay plugins require another ADR.
 - `ADR-0003 Fixed Playable Prototype Vertical Slice` was accepted and `TASK-006 Playable Prototype Vertical Slice Cluster` was completed on 2026-09-07; `TASK-007` is now `Ready` for a new implementation session, while TASK-008 through TASK-010 remain separately gated and no implementation Agent has started.
+- A bilingual, release-style implementation Changelog is now established at `Docs/Changelog.md` and `Docs/Changelog.zh-CN.md`; Primary Agents provide drafts and the Integration Coordinator records the final shared entry before `Verified` or `Done`.
 
 ## Next tasks
 
