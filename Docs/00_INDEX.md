@@ -71,6 +71,11 @@ The high-level MVP scope and rule interpretation in these documents were accepte
 - [First Core Rule Contract Slice](Production/Tasks/TASK-003-Core-Contracts.md)
 - [ACT Architecture Decision Integration](Production/Tasks/TASK-004-ACT-Architecture-Decision.md)
 - [Deterministic Random Foundation](Production/Tasks/TASK-005-Deterministic-Random-Foundation.md)
+- [Playable Prototype Vertical Slice Cluster](Production/Tasks/TASK-006-Playable-Prototype-Cluster.md)
+- [SLG World Selection and Transition](Production/Tasks/TASK-007-SLG-World-Selection-and-Transition.md)
+- [Encounter Character and Skill Data](Production/Tasks/TASK-008-Encounter-Character-and-Skill-Data.md)
+- [Card Play and Character Summon](Production/Tasks/TASK-009-Card-Play-and-Character-Summon.md)
+- [Playable Prototype Integration](Production/Tasks/TASK-010-Playable-Prototype-Integration.md)
 - [Learning Curriculum](Learning/Curriculum.md)
 - [Development Learning Loop](Learning/Workflow.md)
 - [GM Commands](Tools/GMCommands.md)
@@ -90,6 +95,7 @@ The high-level MVP scope and rule interpretation in these documents were accepte
 
 - [ADR-0001 Project Structure](Decisions/ADR-0001-ProjectStructure.md)
 - [ADR-0002 Encounter-First ACT Preparation](Decisions/ADR-0002-Encounter-First-ACT-Preparation.md)
+- [ADR-0003 Fixed Playable Prototype Vertical Slice](Decisions/ADR-0003-Playable-Prototype-Vertical-Slice.md)
 
 The design-baseline rules are documented in [Design Agent Rules](Design/AGENTS.md).
 

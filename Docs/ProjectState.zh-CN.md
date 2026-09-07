@@ -6,7 +6,7 @@
 
 - 项目：DreamOfPadma
 - 引擎关联：见 `DreamOfPadma.uproject`；没有 ADR 不得修改。
-- 当前里程碑：MVP 高层基线已冻结 / Agent 工作流就绪 / PIE 基础检查已通过 / 未来 ACT 架构边界已接受 / M1 Core 契约已完成 / 等待第一份实现 TASK
+- 当前里程碑：MVP 高层基线已冻结 / Agent 工作流就绪 / PIE 基础检查已通过 / 未来 ACT 架构边界已接受 / M1 Core 契约已完成 / ADR-0003 已接受 / TASK-006 集群已完成 / TASK-007 等待实现
 - 运行时模块：目前只有生成的 `DreamOfPadma` 模块
 - Git 仓库：`main` 已跟踪私有 GitHub 远端的 `origin/main`。
 - Git LFS：已在本地初始化。
@@ -42,13 +42,15 @@
 - `TASK-002 Agent 工作流初始化` 已完成；任务模板现在可以记录决策状态、确切写入集合、委派、集成顺序、验证、恢复，以及彼此分开的 Agent/用户学习证据。
 - `TASK-003 第一个核心规则契约切片` 已在独立只读 Review 和用户于 2026-09-07 批准后完成；它冻结了纯设计 Core 契约和下游测试矩阵，但不授权运行时实现。
 - `TASK-004 ACT 架构决策集成` 将 ADR-0002 和《未来 ACT 开发 Agent 契约》记录为已接受的纯文档边界：Encounter 保持优先，ACT 需要另一份已批准任务，内置 GAS 需要已批准的依赖变更，外部玩法插件需要另一份 ADR。
+- `ADR-0003 固定可玩原型垂直切片` 已接受，`TASK-006 可玩原型垂直切片集群` 已于 2026-09-07 完成；`TASK-007` 已为 `Ready`，可以开启新的实现会话，而 TASK-008 至 TASK-010 仍需分别放行，尚未启动实现 Agent。
 
 ## 下一步
 
-1. Review 并批准目前处于 `Review` 的 [TASK-005 确定性随机基础](Production/Tasks/TASK-005-Deterministic-Random-Foundation.zh-CN.md)；此时尚未授权启动实现 Agent。
-2. 该 TASK 达到 `Ready` 后，为其已批准的可写 Goal 启动一位 `module_worker` Primary Agent。当前默认使用 Local feature branch；只有需要独立并发隔离时才引入 Worktree。
-3. 在当前 DreamOfPadma 模块内实现第一批数据契约，并在实现合成前纳入第一个相关自动化测试；边界被证明后再拆分 UE 模块。
-4. 只有明确解决索引起点决定后才评估 Calendar；只有完成值/上限/债务/循环策略后才评估 Resource Ledger；不得猜测这两组规则。
+1. `ADR-0003` 已为 `Accepted`，双语 [TASK-006 可玩原型垂直切片集群](Production/Tasks/TASK-006-Playable-Prototype-Cluster.zh-CN.md) 已为 `Done`；`TASK-007` 已为 `Ready`，可以开启新的实现会话。TASK-008 至 TASK-010 仍为 `Review`，并按顺序门控。
+2. 在 Local 分支 `feature/TASK-007-world-selection-transition` 上启动 `TASK-007` 实现；完成其独立 Review 和集成后，再按顺序进入 TASK-008 Encounter 角色/技能运行时 -> TASK-009 卡牌/UI -> TASK-010 集成和 PIE 验收。默认不创建 Worktree。
+3. 第一条表现 Goal 保持固定 fixture 和表现优先：一个 Demo 地块、一个局部场景、一张卡、一个角色和只读技能。不得让它决定任何 Open/Proposed/Deferred 内容。
+4. 保持 [TASK-005 确定性随机基础](Production/Tasks/TASK-005-Deterministic-Random-Foundation.zh-CN.md) 为 `Review`；它不是这条无随机 Demo 集群的前置，也不能被隐式启动。
+5. 可玩切片完成后，再评估完整自动化、Debug 面板、Calendar、Resource Ledger 和正式资源迁移；Calendar 仍需先解决索引起点，Resource Ledger 仍需先完成值/上限/债务/循环策略。
 
 ## 已知决定
 
@@ -72,6 +74,7 @@
 - 仓库协作使用相互独立的单元：`AGENTS.md` 保存强制规则，`Docs/` 保存会变化的事实，Role 配置定义专家行为，一个 Goal/TASK 配对对应一次交付结果，worktree 提供独立写入隔离，Primary Agent 承担责任，subagent 负责有限委派，Skill 保存可重复流程。
 - worktree 分配给可独立合并的写入 Goal，不永久属于某个 Role 或逻辑模块。共享契约、地图、二进制 UE 资源、中心配置、Editor 会话和最终集成保持串行。
 - 临时协作选择（2026-09-03）：近期开发可以使用从 `main` 派生的 Local feature branch（拟议分支：`feature/TASK-001-gameplay-flow`）；在确实需要独立写入隔离前，Worktree 暂不默认创建。既有的同文件所有权、Review 和集成规则仍然适用。
+- 近期可玩切片优先级（2026-09-07）：`TASK-006` 至 `TASK-010` 以固定功能路径为目标，达到可类比 `E:\\2026ue\\padma` 的效果：选择一个 SLG 地块、进入一个对应局部场景、出一张卡、召唤一个角色并读取其技能。参考项目仍只读参考；这次优先级变化不授权整体资源/代码迁移，也不授权任何 Open/Deferred 规则。
 - 初始并发上限为每个父会话四个被拉起的 subagent、最多两个可写 worktree，以及一条 UE 构建/Editor/PIE 通道。只有集成证据支持时才能调整。
 - 推送远端、创建标签、发布、破坏性 Git 操作和实质扩大范围必须获得用户明确授权。
 

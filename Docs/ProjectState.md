@@ -6,7 +6,7 @@
 
 - Project: DreamOfPadma
 - Engine association: see `DreamOfPadma.uproject`; do not change it without an ADR.
-- Current milestone: MVP high-level baseline frozen / Agent workflow ready / PIE foundation verified / future ACT architecture boundary accepted / M1 Core contract complete / first implementation TASK pending
+- Current milestone: MVP high-level baseline frozen / Agent workflow ready / PIE foundation verified / future ACT architecture boundary accepted / M1 Core contract complete / ADR-0003 accepted / TASK-006 cluster complete / TASK-007 ready for implementation
 - Runtime modules: the generated `DreamOfPadma` module only
 - Git repository: `main` tracks the private GitHub `origin/main`
 - Git LFS: initialized locally
@@ -41,13 +41,15 @@
 - `TASK-002 Agent Workflow Bootstrap` is complete, and the task template now records decision state, exact write set, delegation, integration order, verification, recovery, and separate Agent/user learning evidence.
 - `TASK-003 Core Rule Contract Slice` is complete after independent read-only review and user approval on 2026-09-07; it freezes the design-only Core contract and downstream test matrix but authorizes no runtime implementation.
 - `TASK-004 ACT Architecture Decision Integration` records ADR-0002 and the Future ACT Development Agent Contract as an accepted documentation-only boundary: Encounter remains first, ACT requires a separate approved task, built-in GAS requires an approved dependency change, and external gameplay plugins require another ADR.
+- `ADR-0003 Fixed Playable Prototype Vertical Slice` was accepted and `TASK-006 Playable Prototype Vertical Slice Cluster` was completed on 2026-09-07; `TASK-007` is now `Ready` for a new implementation session, while TASK-008 through TASK-010 remain separately gated and no implementation Agent has started.
 
 ## Next tasks
 
-1. Review and approve [TASK-005 Deterministic Random Foundation](Production/Tasks/TASK-005-Deterministic-Random-Foundation.md), currently `Review`; no implementation Agent is authorized yet.
-2. After that TASK is `Ready`, start one `module_worker` Primary Agent for its approved writable Goal. Use a Local feature branch by default; introduce a Worktree only when independent concurrent isolation is needed.
-3. Implement the first data contract slice inside the current DreamOfPadma module and include the first relevant automation test before synthesis implementation; split UE modules only after a boundary is proven.
-4. Evaluate Calendar only after its index-origin decision is explicitly resolved, and evaluate Resource Ledger only after its value/cap/debt/loop policies are authored; do not guess either set of rules.
+1. `ADR-0003` is `Accepted` and the bilingual [TASK-006 Playable Prototype Vertical Slice Cluster](Production/Tasks/TASK-006-Playable-Prototype-Cluster.md) is `Done`; `TASK-007` is `Ready` and may start a new implementation session. TASK-008 through TASK-010 remain `Review` and serially gated.
+2. Start the `TASK-007` implementation on Local branch `feature/TASK-007-world-selection-transition`; after its independent Review and integration, proceed serially to TASK-008 Encounter character/skill runtime -> TASK-009 card/UI -> TASK-010 integration and PIE acceptance. Do not create Worktrees by default.
+3. Keep the first visual Goal fixed-fixture and presentation-first: one Demo tile, one local scene, one card, one character, and read-only skills. Do not let it decide any Open/Proposed/Deferred rule.
+4. Keep [TASK-005 Deterministic Random Foundation](Production/Tasks/TASK-005-Deterministic-Random-Foundation.md) at `Review`; it is not a prerequisite for this non-random Demo cluster and must not be started implicitly.
+5. Re-evaluate broad automation, Debug panel, Calendar, Resource Ledger, and production asset migration after the playable slice; Calendar still requires its index-origin decision, and Resource Ledger still requires authored value/cap/debt/loop policies.
 
 ## Known decisions
 
@@ -71,6 +73,7 @@
 - Repository coordination uses these distinct units: `AGENTS.md` for mandatory rules, `Docs/` for mutable truth, Role profiles for specialist behavior, one Goal/TASK pair for one delivery result, a worktree for independent write isolation, a Primary Agent for accountability, subagents for bounded delegation, and Skills for repeatable procedure.
 - A worktree is allocated to an independently mergeable writable Goal, not permanently to a Role or logical module. Shared contracts, maps, binary UE assets, central configuration, Editor sessions, and final integration stay serial.
 - Temporary operating choice (2026-09-03): near-term development may use a Local feature branch from `main` (proposed branch: `feature/TASK-001-gameplay-flow`); Worktree is optional and is not created by default until independent write isolation is needed. Existing same-file ownership, review, and integration rules still apply.
+- Near-term playable-slice priority (2026-09-07): `TASK-006` through `TASK-010` target a fixed, functional flow comparable to `E:\\2026ue\\padma`—select one SLG tile, enter one mapped local scene, play one card, summon one character, and read its skills. The reference project remains read-only reference material; this priority change does not authorize bulk asset/code migration or any Open/Deferred rule.
 - Initial concurrency is capped at four spawned subagents per parent session, no more than two writable worktrees, and one UE build/Editor/PIE lane. These limits may change only after integration evidence supports it.
 - Remote push, tags, releases, destructive Git operations, and meaningful scope expansion require explicit user authorization.
 

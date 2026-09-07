@@ -61,6 +61,11 @@
 - [第一个核心规则契约切片](Production/Tasks/TASK-003-Core-Contracts.zh-CN.md)
 - [ACT 架构决策集成](Production/Tasks/TASK-004-ACT-Architecture-Decision.zh-CN.md)
 - [确定性随机基础](Production/Tasks/TASK-005-Deterministic-Random-Foundation.zh-CN.md)
+- [可玩原型垂直切片集群](Production/Tasks/TASK-006-Playable-Prototype-Cluster.zh-CN.md)
+- [SLG 世界选择与切场](Production/Tasks/TASK-007-SLG-World-Selection-and-Transition.zh-CN.md)
+- [Encounter 角色与技能数据](Production/Tasks/TASK-008-Encounter-Character-and-Skill-Data.zh-CN.md)
+- [出牌与角色召唤](Production/Tasks/TASK-009-Card-Play-and-Character-Summon.zh-CN.md)
+- [可玩原型集成](Production/Tasks/TASK-010-Playable-Prototype-Integration.zh-CN.md)
 - [学习课程](Learning/Curriculum.zh-CN.md)
 - [开发学习闭环](Learning/Workflow.zh-CN.md)
 - [GM 命令](Tools/GMCommands.zh-CN.md)
@@ -80,5 +85,6 @@
 
 - [ADR-0001 项目结构](Decisions/ADR-0001-ProjectStructure.zh-CN.md)
 - [ADR-0002 Encounter 优先与 ACT 准备](Decisions/ADR-0002-Encounter-First-ACT-Preparation.zh-CN.md)
+- [ADR-0003 固定可玩原型垂直切片](Decisions/ADR-0003-Playable-Prototype-Vertical-Slice.zh-CN.md)
 
 策划基线的双语同步规则见 [Design/AGENTS.zh-CN.md](Design/AGENTS.zh-CN.md)。
