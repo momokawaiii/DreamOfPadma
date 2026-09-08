@@ -44,7 +44,7 @@
 - `TASK-004 ACT 架构决策集成` 将 ADR-0002 和《未来 ACT 开发 Agent 契约》记录为已接受的纯文档边界：Encounter 保持优先，ACT 需要另一份已批准任务，内置 GAS 需要已批准的依赖变更，外部玩法插件需要另一份 ADR。
 - `ADR-0003 固定可玩原型垂直切片` 已接受，`TASK-006 可玩原型垂直切片集群` 已于 2026-09-07 完成；随后 `TASK-007` 已完成实现并通过独立 Review，在本地完成为 `Done`；`TASK-008` 现已为 `Ready`，而 TASK-009 和 TASK-010 仍需分别放行。
 - 已在 `Docs/Changelog.md` 和 `Docs/Changelog.zh-CN.md` 建立双语、版本更新式实现 Changelog；Primary Agent 提供草稿，Integration Coordinator 在任务进入 `Verified` 或 `Done` 前记录最终共享条目。
-- `TASK-007 SLG 世界选择与切场` 已在 2026-09-08 通过独立 Review `Pass` 后完成本地集成；完成报告收尾提交为 `9ea99c7`，共享集成更新也仅在本地完成。用户的 `Config/DefaultEngine.ini` 修改保持未提交，并保留给 TASK-010；`TASK-008` 现已为 `Ready`。
+- `TASK-007 SLG 世界选择与切场` 已在 2026-09-08 通过独立 Review `Pass` 后完成本地集成；完成报告收尾提交为 `9ea99c7`，共享集成更新也仅在本地完成。用户的 `Config/DefaultEngine.ini` 和默认地图修改已保存在独立的本地提交 `d8f107f` 中，保留给 TASK-010，未混入 TASK-007；`TASK-008` 现已为 `Ready`。
 
 ## 下一步
 
