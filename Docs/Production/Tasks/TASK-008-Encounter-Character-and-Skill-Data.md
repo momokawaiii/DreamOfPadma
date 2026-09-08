@@ -3,10 +3,10 @@
 - Chinese companion: `TASK-008-Encounter-Character-and-Skill-Data.zh-CN.md`
 - Document ID: `TASK-008`
 - Version: `0.1`
-- Status: `Review`
+- Status: `Ready`
 - Parent milestone or integration Goal: `TASK-006 fixed playable prototype vertical slice`
 - Primary Role: `Gameplay Module Agent`
-- Primary Agent: `module_worker`, assigned only after TASK-007 is approved and ready
+- Primary Agent: `module_worker`, assigned when the new implementation session starts
 - Branch/worktree: Local feature branch `feature/TASK-008-encounter-character-skill`; no independent Worktree by default
 - Task mode: bounded local-scene runtime, character/skill fixture, and summon boundary; no combat implementation
 
@@ -164,15 +164,15 @@ TASK-009 is responsible for rendering the card and skill panels around this boun
 
 ## Completion report
 
-- Final status: `Review`; contract prepared, implementation not started.
-- Primary Agent and Role: pending approval / `module_worker` / Gameplay Module Agent.
+- Final status: `Ready`; TASK-007 was locally integrated after independent Review Pass on 2026-09-08, so this approved contract is unlocked for a new implementation session; implementation not started.
+- Primary Agent and Role: assigned when the new session starts / `module_worker` / Gameplay Module Agent.
 - Changed files: none yet; implementation paths are listed above.
-- Acceptance evidence: pending implementation.
-- Checks run and results: pending implementation.
-- Checks not run and reason: runtime, compile, automation, and PIE work are not authorized while this contract is under Review.
-- Review findings resolved or accepted: pending implementation Review.
+- Acceptance evidence: predecessor gate satisfied by the locally integrated TASK-007 transition context; TASK-008 runtime acceptance remains pending implementation.
+- Checks run and results: contract and repository documentation gates were validated during TASK-007 integration; no TASK-008 runtime result is claimed.
+- Checks not run and reason: TASK-008 runtime, compile, automation, and PIE work has not started; this Ready transition does not authorize implementation evidence by itself.
+- Review findings resolved or accepted: the contract-level Review gate is complete for the current scope; implementation Review remains required after the Primary Agent handoff.
 - Remaining risks and open questions: all deferred inputs remain unresolved by design.
 - English/Chinese documentation updated: contract pair prepared.
 - Agent-produced learning evidence: pending.
 - User-produced learning evidence: pending.
-- Integration commit or handoff reference: waits for approval; no push.
+- Integration commit or handoff reference: TASK-007 local closeout commit `9ea99c7` satisfies the predecessor gate; TASK-008 is ready for Local branch `feature/TASK-008-encounter-character-skill`; no implementation commit and no push.

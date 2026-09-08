@@ -3,10 +3,10 @@
 - 英文原文（Agent 阅读）：`TASK-007-SLG-World-Selection-and-Transition.md`
 - 文档 ID：`TASK-007`
 - 版本：`0.1`
-- 状态：`Ready`
+- 状态：`Done`
 - 上级里程碑或集成 Goal：`TASK-006 固定可玩原型垂直切片`
 - Primary Role：`World Module Agent`，并获得 Game 组合支持
-- Primary Agent：新实现会话开始时分配 `module_worker`
+- Primary Agent：本实现会话由 `module_worker` / World Module Agent 承担
 - 分支/worktree：Local 分支 `feature/TASK-007-world-selection-transition`；默认不使用独立 Worktree
 - 任务模式：有边界的运行时和 Demo 地图实现；不实现通用世界规则
 
@@ -113,13 +113,13 @@ Primary Agent 对整体负责。只能针对一个明确问题请求只读专家
 
 ## 验收标准
 
-- [ ] 项目自有 Demo Sandbox 地图可以在 PIE 中加载，且不修改生成目录。
-- [ ] 一个 Demo 地块有稳定的 playtest 身份，可以被选择、高亮和取消选择。
-- [ ] 选中地块通过强类型查询/请求暴露 Demo 场景和出生点上下文，而不是用 Actor 指针作为身份。
-- [ ] 确认选择后产生可在切场后消费的上下文；fixture 缺失或无效时给出可读失败，且不留下部分切场状态。
-- [ ] 实现不扣除资源、不解析通用路线、不修改持久世界状态，也不发明正式节点/ID/导入策略。
-- [ ] 世界地图和源实现只位于精确允许路径，World/Game 模块文档配对记录新的边界。
-- [ ] 独立 Reviewer 返回 `Pass`，或只留下在集成前明确接受的 P3 改进。
+- [x] 项目自有 Demo Sandbox 地图可以在 PIE 中加载，且不修改生成目录。
+- [x] 一个 Demo 地块有稳定的 playtest 身份，可以被选择、高亮和取消选择。
+- [x] 选中地块通过强类型查询/请求暴露 Demo 场景和出生点上下文，而不是用 Actor 指针作为身份。
+- [x] 确认选择后产生可在切场后消费的上下文；fixture 缺失或无效时给出可读失败，且不留下部分切场状态。
+- [x] 实现不扣除资源、不解析通用路线、不修改持久世界状态，也不发明正式节点/ID/导入策略。
+- [x] 世界地图和源实现只位于精确允许路径，World/Game 模块文档配对记录新的边界。
+- [x] 独立 Reviewer 返回 `Pass`，或只留下在集成前明确接受的 P3 改进。
 
 ## 验证方案
 
@@ -139,12 +139,14 @@ Primary Agent 对整体负责。只能针对一个明确问题请求只读专家
 4. 确认进入，观察包含节点、场景和出生点身份的切场请求/上下文。
 5. 验证无效或缺失 fixture 会报告失败，并保持原状态不变。
 
+固定地图还提供一个窄范围 fixture 诊断路径供 Review 使用：`F10` 清除当前选中 fixture 的场景 ID，按 `Enter` 验证可读失败和 pending 上下文不变，`F11` 恢复已编写 fixture，`F12` 消费 pending 上下文。这不是通用 Debug 面板，也不是 UI 自动化套件。
+
 后续 TASK-010 负责进入实际 Encounter 地图的完整路径。
 
 ### 必需证据
 
 - 编译输出。
-- 展示地图、地块选择和切场结果的 PIE 截图或短视频。
+- 一份简洁的自然语言 PIE 观察记录，覆盖地图、地块选择/高亮、取消选择、确认和无效 Fixture 结果；截图或视频为可选项。
 - 若实现窄测试，提供上下文/失败测试输出。
 - 变更路径列表和独立 Review 报告。
 
@@ -152,8 +154,8 @@ Primary Agent 对整体负责。只能针对一个明确问题请求只读专家
 
 | 目标 | 所需证据 | 状态 |
 |---|---|---|
-| 稳定身份与表现坐标 | 用户预测地图重建后哪些值仍应相同，并解释坐标/Actor 指针为什么不是存档身份。 | `Not started` |
-| 跨场景指令/上下文所有权 | 用户追踪从地块输入到会话上下文的路径，并指出每项状态由谁允许修改。 | `Not started` |
+| 稳定身份与表现坐标 | 用户预测地图重建后哪些值仍应相同，并解释坐标/Actor 指针为什么不是存档身份。 | `Introduced` |
+| 跨场景指令/上下文所有权 | 用户追踪从地块输入到会话上下文的路径，并指出每项状态由谁允许修改。 | `Introduced` |
 
 - 学习者亲手练习：只改变 Demo 地块的显示位置，不改变稳定身份，然后预测哪些切场字段应保持相同。
 - 迁移问题：如果两个不同的表现地图代表同一个节点，哪些数据必须共享，哪些数据可以不同？
@@ -167,15 +169,16 @@ Primary Agent 对整体负责。只能针对一个明确问题请求只读专家
 
 ## 完成报告
 
-- 最终状态：`Ready`；用户已于 2026-09-07 批准契约，尚未实现。
-- Primary Agent 和 Role：`module_worker` / World Module Agent；等待新的实现会话分配。
-- 修改文件：尚无；实现路径已在上方列明。
-- 验收证据：等待实现。
-- 已运行检查及结果：等待实现。
-- 未运行检查及原因：本任务已为 Ready 但尚未开始实现；不宣称运行时或 PIE 证据。
-- 已解决或接受的 Review 问题：设计 Review 和用户批准已接受；集成前仍需独立实现 Review。
-- 剩余风险和未决问题：所有延期输入按设计保持未决。
-- 已更新的中英文文档：契约配对已准备。
-- Agent 产生的学习证据：等待。
-- 用户产生的学习证据：等待。
-- 集成提交或交接引用：可以开启新的实现会话；不推送。
+- 最终状态：`Done`；实现和修复后的 PIE 确认已通过独立 Review，TASK-007 已于 2026-09-08 在本地完成集成。用户已于 2026-09-07 批准契约。
+- Primary Agent 和 Role：`module_worker` / World Module Agent。
+- 修改文件：`Source/DreamOfPadma/Public/Demo/Session/`、`Source/DreamOfPadma/Private/Demo/Session/`、`Source/DreamOfPadma/Public/Demo/World/`、`Source/DreamOfPadma/Private/Demo/World/`、`Content/Padma/Demo/World/DemoSandbox.umap`、PadmaWorld README 双语对、PadmaGame README 双语对以及本 TASK-007 双语对。
+- 验收证据：项目自有 `DemoSandbox.umap` 已在 unattended runtime smoke 中加载，`ADemoSandboxWorld::BeginPlay` 输出 TASK-007 初始化提示；强类型请求/上下文路径和 GameInstance 会话边界已实现；无效会话替换和缺失 fixture 字段由窄范围自动化测试覆盖。用户已完成修复后的交互式 PIE 流程，并观察到选择/高亮、取消选择、成功发布 Node/Scenario/Spawn 上下文、无效 fixture 失败且已有上下文保持不变、fixture 恢复，以及 `publisher is unavailable` 未再出现。最新 Editor 日志也记录了回调绑定、发布、消费和无效 fixture 失败。根据用户的证据决定，自然语言 PIE 观察记录已经足够，截图或视频为可选项。
+- 已运行检查及结果：Actor 初始化绑定修复后的 UE5.8 `DreamOfPadmaEditor Win64 Development` 编译通过；窄范围 `DreamOfPadma.Demo.TASK007.TransitionContext` 自动化测试在临时 `-DDC-ForceMemoryCache -ddc=NoZenLocalFallback` 启动参数下重跑通过，结果为 `succeeded=1 / failed=0`；`UnrealEditor-Cmd.exe ... /Game/Padma/Demo/World/DemoSandbox -game -nullrhi ... -ExecCmds=quit` 成功加载地图，并在进入 Play 后、TASK-007 提示前输出 `Game session bound to Demo Sandbox transition callbacks`；用户已完成修复后的 PIE 选择/高亮/取消/确认/F10/F11/F12 检查，`Saved/Logs/DreamOfPadma.log` 记录了稳定 ID 的成功发布/消费，以及缺失场景 ID 时未再次发布的可读失败；`pwsh -NoProfile -File .\Scripts\AuditDocs.ps1` 通过，共检查 124 个 Markdown 文件和 62 对语言文档；`pwsh -NoProfile -File .\Scripts\ValidateProject.ps1 -Strict` 通过；TASK-007 变更路径的 `git diff --check` 通过；精确提交路径审计通过。
+- 未运行检查及原因：只读 Reviewer 没有再次启动 UE 编译、自动化测试、地图 smoke 或 PIE，因为这些检查会更新生成输出；本次改为核对既有产物和用户修复后的 PIE 日志。截图/视频为可选项，本次不要求。全工作树 `git diff --check` 仍为非零，因为用户既有的 `Config/DefaultEngine.ini` 改动包含文件末尾新增空行；该未提交文件还修改了 `GameDefaultMap` 与 `EditorStartupMap`，被明确归类为后续 TASK-010/集成工作，而不是 TASK-007。第一次通过 `RunTests.ps1` 的包装调用在测试启动前遇到机器上的不可写 Installed DDC 图；之后使用临时内存 DDC 参数直接重跑并通过，没有修改项目配置。
+- 已解决或接受的 Review 问题：最终带光照的 `DemoSandbox.umap` 已在原实现提交 `859fe5a` 之后通过本地提交 `f80f727` 纳入分支；已移除 World -> 具体 Game/Session 的依赖，World 现在暴露强类型发布/消费回调，GameInstance 会话子系统在地图中的 Actor 完成初始化后绑定这些回调。后续修复提交 `4e1bdd4` 增加 `OnWorldInitializedActors` 绑定，消除了只在 `PostLoadMap` 阶段绑定造成的 PIE 生命周期竞态：绑定发生在 Sandbox Actor 初始化之前，导致按下 Enter 时发布器不可用。第一次测试暴露的直接构造 `UGameInstanceSubsystem` Outer 无效问题仍通过可脱离地图的 `FDemoTransitionContextStore` 委托解决。Changelog 表述已限定为只在同一 GameInstance/会话内保留。独立 Review 已于 2026-09-08 检查完整分支、仓库状态、代码、自动化证据、smoke 证据和修复后的 PIE 日志，并返回 `Pass`。
+- 剩余风险和未决问题：Actor 初始化顺序已有编译、unattended smoke 和 PIE 日志证据，但没有专门的自动化生命周期回归测试；最终默认地图配置和 Encounter 场景仍由 TASK-010/TASK-008 负责；未提交的 `Config/DefaultEngine.ini` 改动仍不属于 TASK-007；所有 Open/Proposed/Deferred 的世界、路线、ID 命名空间、导入、存档和 World Partition 决策保持不变。
+- 已更新的中英文文档：是；两个模块 README 双语对和 TASK-007 双语对已同步。
+- Changelog 草稿：日期 `2026-09-08`；TASK/Goal `TASK-007 SLG World Selection and Transition`；类别 `Added`；面向用户摘要 `增加项目自有 Demo Sandbox，提供一个可选择地块，以及可在同一 GameInstance/会话内跨场景保留的节点/场景/出生点强类型切场上下文`；影响区域 `Demo World 表现、Demo Session 切场交接、PadmaWorld/PadmaGame 模块边界`；验证证据 `修复后的 UE5.8 Editor 编译、TASK-007 上下文自动化测试 Success、包含初始化后会话绑定日志的 unattended DemoSandbox 地图加载 smoke、用户完成的修复后 PIE 选择/高亮/取消/确认/无效 fixture 验证，以及独立 Review Pass`；未解决/延期事项 `默认地图集成、Encounter 场景、专门的生命周期回归测试以及所有延期世界规则仍保持开放`。
+- Agent 产生的学习证据：稳定身份与表现坐标、跨场景所有权两个目标均为 `Introduced`：前者由强类型 ID 和自动化断言体现，后者由 World selection model -> 强类型 session store -> GameInstance subsystem 路径体现。不宣称用户已完成讲解回授。
+- 用户产生的学习证据：待补充；用户仍需完成只改显示位置的练习、比较三个身份字段并回答迁移问题，之后目标才可标记为 `Demonstrated`。
+- 集成提交或交接引用：Local 分支 `feature/TASK-007-world-selection-transition`；TASK-007 完成报告收尾提交为 `9ea99c7`，随后完成本地共享状态集成提交；实现提交仍为 `859fe5a`、`f80f727` 和 `4e1bdd4`；未推送、未创建标签。原有 `AGENTS.md` 双语修改仍单独保存在 `stash@{0}`，未混入本 TASK。

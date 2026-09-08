@@ -1,17 +1,19 @@
 # PadmaWorld Module Program Document
 
 - Document ID: ARCH-MODULE-WORLD-001
-- Version: 0.1
-- Status: Planned logical boundary; no standalone UE module yet
+- Version: 0.2
+- Status: Planned logical boundary; TASK-007 fixed Demo fixture is implemented in the staging module; no standalone UE module yet
 - Canonical language: English for Agent consumption
 - Chinese companion: README.zh-CN.md
 - Owner: World Module Agent
-- Current implementation: Source/DreamOfPadma/ is the temporary shared runtime module
+- Current implementation: Source/DreamOfPadma/ is the temporary shared runtime module; TASK-007 owns the project-owned Demo Sandbox fixture under Content/Padma/Demo/World/
 - Parent architecture: ../../ProgramArchitecture.md and ../../DataDrivenArchitecture.md
 
 ## 1. Purpose
 
 PadmaWorld owns the shared sandbox graph and persistent world mutations. It makes player operations and ruler responses visible as changes to stable nodes, ownership, routes, facilities, encounters, and environment flags.
+
+The TASK-007 slice adds one explicitly playtest-only Demo Sandbox fixture. Its presentation owns selection/highlight state, while the transition identity is expressed through typed stable IDs and handed to the Game session boundary. This fixture does not define the production graph or world rules.
 
 ## 2. Responsibilities
 
@@ -24,6 +26,7 @@ PadmaWorld owns the shared sandbox graph and persistent world mutations. It make
 - Local battle-route entry/exit boundaries (Encounter or RealTimeAction), including an ABC-card character moving onto a point occupied by an enemy, jointly constrained engagement routes that can select/trigger the presentation mode and story, and complete pre-battle snapshot-token requests.
 - Terrain, weather, and environment modifiers as data-driven inputs.
 - Story choices that produce persistent world-state changes.
+- One fixed Demo Sandbox tile presentation, typed selection/confirm requests, and fixture validation for the TASK-007 slice.
 
 ## 3. Non-responsibilities
 
@@ -45,8 +48,12 @@ World state may expose legal queries and accept commands, but mutation must rema
 - Local battle-route entry context, engagement-route constraints, selected mode/story trigger, complete snapshot token, and return-to-sandbox commit/rollback result.
 - Read-only graph and ownership queries.
 - Terrain/environment modifier inputs.
+- `FDemoNodeId`, `FDemoScenarioId`, `FDemoSpawnPointId`, `FDemoSelectNodeRequest`, `FDemoConfirmNodeSelectionRequest`, and `FDemoTransitionContext` for the fixed Demo slice.
+- `FDemoWorldTileDefinition` and `FDemoWorldSelectionModel` for map-free fixture lookup and selection state.
 
 Coordinates and level assets are presentation data. Stable IDs are the identity used by events, saves, and tests.
+
+The TASK-007 implementation converts a transient tile hit into `FDemoNodeId`; no Actor pointer or raw coordinate enters `FDemoTransitionContext`. World exposes typed transition publisher/consumer callbacks, while the PadmaGame session boundary binds those callbacks after the world actors are initialized and owns the `UDemoTransitionSessionSubsystem` publish/peek/consume operations.
 
 ## 5. Data and runtime ownership
 
@@ -57,6 +64,8 @@ The first map is a rules testbed. World Partition, PCG, large terrain, water, we
 ## 6. Dependencies and integration
 
 World depends on PadmaCore IDs, commands, state values, and events. It is composed by PadmaGame and exchanges Encounter/ACT battle-route requests/results with PadmaGameplay.
+
+For TASK-007, World produces typed selection and confirmation results without including the concrete Game/session subsystem. PadmaGame binds the World callbacks after the world actors are initialized and forwards valid contexts to the session store, which validates all three IDs before replacing a pending context. An invalid fixture therefore leaves an existing context unchanged while preserving the Game -> World composition direction.
 
 PadmaWorld must not call UI code or use a widget as authority for capture or route state.
 
@@ -72,19 +81,22 @@ Required tests:
 - Local battle-route entry from an ABC-card character reaching an enemy-occupied point, joint engagement-route constraints, mode/story trigger resolution, complete pre-battle snapshot, commit on success, and exact rollback on defeat/exit.
 - Same world event sequence restores the same state.
 - Coordinates can change without changing node identity.
+- TASK-007 automation test: stable node/scenario/spawn IDs survive context creation; invalid replacement and missing fixture fields fail without mutating the prior context.
+- DemoSandbox map-load smoke: the project-owned map starts the fixed fixture and emits the user-readable selection instructions.
 
 Debug output should show command IDs, node IDs, ownership before/after, route conditions, mutation source, encounter context, and event order.
 
 ## 8. Implementation stages
 
-1. Implement a data-defined graph with placeholder visuals.
-2. Add movement, placement, capture, and one mutation.
-3. Add one anecdote, furnace, and safe-house flow.
-4. Add ruler response hooks, joint engagement-route constraints, Encounter/ACT/future-mode trigger seams, and complete snapshot transaction boundaries.
-5. Add environment seams after the rule graph is testable.
+1. Implement the TASK-007 fixed Demo fixture, selection presentation, and typed transition handoff in the staging module.
+2. Implement a data-defined graph with placeholder visuals.
+3. Add movement, placement, capture, and one mutation.
+4. Add one anecdote, furnace, and safe-house flow.
+5. Add ruler response hooks, joint engagement-route constraints, Encounter/ACT/future-mode trigger seams, and complete snapshot transaction boundaries.
+6. Add environment seams after the rule graph is testable.
 
 ## 9. Learning targets and risks
 
-Learning targets: world-state modeling, graph-based level design, Gameplay Framework/World integration, save boundaries, World Partition planning, PCG seams, and environment systems.
+Learning targets: stable world identity versus presentation coordinates, typed selection-to-session handoff, world-state modeling, graph-based level design, Gameplay Framework/World integration, save boundaries, World Partition planning, PCG seams, and environment systems. TASK-007 introduces the first two targets without claiming the user's teach-back evidence.
 
 Main risk: storing gameplay truth in level Actors or coordinates so a map rebuild destroys saves and replay compatibility.
