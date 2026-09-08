@@ -43,7 +43,7 @@
 - `TASK-004 ACT Architecture Decision Integration` records ADR-0002 and the Future ACT Development Agent Contract as an accepted documentation-only boundary: Encounter remains first, ACT requires a separate approved task, built-in GAS requires an approved dependency change, and external gameplay plugins require another ADR.
 - `ADR-0003 Fixed Playable Prototype Vertical Slice` was accepted and `TASK-006 Playable Prototype Vertical Slice Cluster` was completed on 2026-09-07; `TASK-007` was then implemented, independently reviewed, and locally completed as `Done`; `TASK-008` is now `Ready`, while TASK-009 and TASK-010 remain separately gated.
 - A bilingual, release-style implementation Changelog is now established at `Docs/Changelog.md` and `Docs/Changelog.zh-CN.md`; Primary Agents provide drafts and the Integration Coordinator records the final shared entry before `Verified` or `Done`.
-- `TASK-007 SLG Demo World Selection and Transition` was locally integrated on 2026-09-08 after independent Review `Pass`; completion-report closeout commit `9ea99c7` and the shared integration update are local only. The user-owned `Config/DefaultEngine.ini` change remains uncommitted and reserved for TASK-010. `TASK-008` is now `Ready`.
+- `TASK-007 SLG Demo World Selection and Transition` was locally integrated on 2026-09-08 after independent Review `Pass`; completion-report closeout commit `9ea99c7` and the shared integration update are local only. The user-owned `Config/DefaultEngine.ini` and default-map change is preserved in separate local commit `d8f107f` for TASK-010 and was not mixed into TASK-007; `TASK-008` is now `Ready`.
 
 ## Next tasks
 

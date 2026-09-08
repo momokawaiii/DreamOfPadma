@@ -15,7 +15,7 @@ This document is the concise, user-facing release summary for delivered implemen
   - User-visible result: added a project-owned Demo Sandbox with one selectable tile and a typed node/scenario/spawn transition context retained within the same GameInstance/session across scene changes.
   - Verification: follow-up UE5.8 Editor compile, TASK-007 transition-context automation, unattended DemoSandbox map-load smoke, user-completed post-fix PIE selection/highlight/deselect/confirm/invalid-fixture checks, and independent Review `Pass`.
   - Integration: locally closed after completion-report commit `9ea99c7`; no remote push or release tag.
-  - Deferred: default-map integration, Encounter scene, a dedicated lifecycle regression test, and all deferred production world rules remain outside this delivery.
+  - Scope boundary: the TASK-010-owned default-map configuration is present in separate local commit `d8f107f` and was not included as TASK-007 evidence; the Encounter scene, a dedicated lifecycle regression test, and all deferred production world rules remain outside this delivery.
 
 - 2026-09-07 — **Bilingual implementation change-log workflow**
   - Goal: require every implementation Goal that changes code, data, UE assets, configuration, build files, or tests to leave a concise release-style summary.
