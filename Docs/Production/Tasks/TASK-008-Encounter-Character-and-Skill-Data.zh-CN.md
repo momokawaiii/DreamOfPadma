@@ -3,10 +3,10 @@
 - 英文原文（Agent 阅读）：`TASK-008-Encounter-Character-and-Skill-Data.md`
 - 文档 ID：`TASK-008`
 - 版本：`0.1`
-- 状态：`Review`
+- 状态：`Ready`
 - 上级里程碑或集成 Goal：`TASK-006 固定可玩原型垂直切片`
 - Primary Role：`Gameplay Module Agent`
-- Primary Agent：仅在 TASK-007 获批并可执行后分配 `module_worker`
+- Primary Agent：新实现会话开始时分配 `module_worker`
 - 分支/worktree：Local 分支 `feature/TASK-008-encounter-character-skill`；默认不使用独立 Worktree
 - 任务模式：有边界的局部场景运行时、角色/技能 fixture 和召唤边界；不实现战斗
 
@@ -164,15 +164,15 @@ TASK-009 负责围绕该边界绘制卡牌和技能面板。
 
 ## 完成报告
 
-- 最终状态：`Review`；契约已准备，尚未实现。
-- Primary Agent 和 Role：等待批准 / `module_worker` / Gameplay Module Agent。
+- 最终状态：`Ready`；TASK-007 已在 2026-09-08 通过独立 Review 后完成本地集成，因此本已批准契约已解锁新的实现会话；尚未实现。
+- Primary Agent 和 Role：新会话开始时分配 / `module_worker` / Gameplay Module Agent。
 - 修改文件：尚无；实现路径已在上方列明。
-- 验收证据：等待实现。
-- 已运行检查及结果：等待实现。
-- 未运行检查及原因：本契约处于 Review 时不授权运行时、编译、自动化或 PIE 工作。
-- 已解决或接受的 Review 问题：等待实现 Review。
+- 验收证据：前置门槛已由本地集成的 TASK-007 切场上下文满足；TASK-008 运行时验收仍待实现。
+- 已运行检查及结果：TASK-007 集成期间已验证契约和仓库文档门槛；不宣称任何 TASK-008 运行时结果。
+- 未运行检查及原因：TASK-008 尚未开始运行时、编译、自动化或 PIE 工作；推进到 Ready 本身不代表已有实现证据。
+- 已解决或接受的 Review 问题：当前范围的契约级 Review 门槛已完成；Primary Agent 交付后仍必须进行实现 Review。
 - 剩余风险和未决问题：所有延期输入按设计保持未决。
 - 已更新的中英文文档：契约配对已准备。
 - Agent 产生的学习证据：等待。
 - 用户产生的学习证据：等待。
-- 集成提交或交接引用：等待批准；不推送。
+- 集成提交或交接引用：TASK-007 本地收尾提交 `9ea99c7` 已满足前置门槛；TASK-008 已准备在 Local 分支 `feature/TASK-008-encounter-character-skill` 开始；尚无实现提交，不推送。
