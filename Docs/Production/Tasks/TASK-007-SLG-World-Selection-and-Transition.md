@@ -3,7 +3,7 @@
 - Chinese companion: `TASK-007-SLG-World-Selection-and-Transition.zh-CN.md`
 - Document ID: `TASK-007`
 - Version: `0.1`
-- Status: `Review`
+- Status: `Done`
 - Parent milestone or integration Goal: `TASK-006 fixed playable prototype vertical slice`
 - Primary Role: `World Module Agent` with Game composition support
 - Primary Agent: `module_worker` / World Module Agent for this implementation session
@@ -169,7 +169,7 @@ The later TASK-010 performs the complete route into the actual Encounter map.
 
 ## Completion report
 
-- Final status: `Review`; the implementation and post-fix PIE confirmation passed independent Review and are ready for Integration Coordinator handoff. The contract was approved by the user on 2026-09-07.
+- Final status: `Done`; the implementation and post-fix PIE confirmation passed independent Review, and TASK-007 was locally integrated on 2026-09-08. The contract was approved by the user on 2026-09-07.
 - Primary Agent and Role: `module_worker` / World Module Agent.
 - Changed files: `Source/DreamOfPadma/Public/Demo/Session/`, `Source/DreamOfPadma/Private/Demo/Session/`, `Source/DreamOfPadma/Public/Demo/World/`, `Source/DreamOfPadma/Private/Demo/World/`, `Content/Padma/Demo/World/DemoSandbox.umap`, both PadmaWorld README files, both PadmaGame README files, and this TASK-007 pair.
 - Acceptance evidence: the project-owned `DemoSandbox.umap` loads in an unattended runtime smoke and `ADemoSandboxWorld::BeginPlay` emits the TASK-007 initialization prompt; the typed request/context path and GameInstance session boundary are implemented; invalid session replacement and missing fixture fields are covered by the narrow automation test. The user completed the post-fix interactive PIE flow and observed selection/highlight, deselection, successful Node/Scenario/Spawn context publication, invalid-fixture failure with the existing context preserved, fixture restore, and no recurrence of `publisher is unavailable`. The latest Editor log corroborates callback binding, publication, consumption, and invalid-fixture failure. Per the user's evidence decision, written PIE observations are sufficient; screenshots/video are optional.
@@ -181,4 +181,4 @@ The later TASK-010 performs the complete route into the actual Encounter map.
 - Changelog draft: date `2026-09-08`; TASK/Goal `TASK-007 SLG Demo World Selection and Transition`; category `Added`; user-visible summary `Added a project-owned Demo Sandbox with one selectable tile and a typed node/scenario/spawn transition context retained within the same GameInstance/session across scene changes`; affected area `Demo World presentation, Demo Session transition handoff, PadmaWorld/PadmaGame module boundaries`; validation evidence `follow-up UE5.8 Editor compile, TASK-007 context automation Success, unattended DemoSandbox map-load smoke with post-initialization session binding, user-completed post-fix PIE selection/highlight/deselect/confirm/invalid-fixture verification, and independent Review Pass`; unresolved/deferred notes `default-map integration, Encounter scene, a dedicated lifecycle regression test, and all deferred production world rules remain open`.
 - Agent-produced learning evidence: `Introduced` for stable identity versus presentation coordinates (typed ID structs and the automation assertions) and cross-level ownership (World selection model -> typed session store -> GameInstance subsystem). No user teach-back is claimed.
 - User-produced learning evidence: pending; the user still needs to perform the display-location-only exercise, compare the three unchanged IDs, and answer the transfer question before either target can be `Demonstrated`.
-- Integration commit or handoff reference: Local branch `feature/TASK-007-world-selection-transition`, reviewed HEAD `87ae85e` including implementation commits `859fe5a`, `f80f727`, and `4e1bdd4`, no merge or push; independent Review returned `Pass` and the task is ready for Integration Coordinator handoff once this synchronized completion-report update is committed. The pre-existing `AGENTS.md` pair remains preserved separately in `stash@{0}` and was not included in this TASK.
+- Integration commit or handoff reference: Local branch `feature/TASK-007-world-selection-transition`; TASK-007 completion-report closeout committed as `9ea99c7`, followed by the local shared-state integration commit; implementation commits remain `859fe5a`, `f80f727`, and `4e1bdd4`; no push or tag. The pre-existing `AGENTS.md` pair remains preserved separately in `stash@{0}` and was not included in this TASK.

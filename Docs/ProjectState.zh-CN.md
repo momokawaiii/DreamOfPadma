@@ -6,7 +6,7 @@
 
 - 项目：DreamOfPadma
 - 引擎关联：见 `DreamOfPadma.uproject`；没有 ADR 不得修改。
-- 当前里程碑：MVP 高层基线已冻结 / Agent 工作流就绪 / 双语变更日志流程已建立 / PIE 基础检查已通过 / 未来 ACT 架构边界已接受 / M1 Core 契约已完成 / ADR-0003 已接受 / TASK-006 集群已完成 / TASK-007 等待实现
+- 当前里程碑：MVP 高层基线已冻结 / Agent 工作流就绪 / 双语变更日志流程已建立 / PIE 基础检查已通过 / 未来 ACT 架构边界已接受 / M1 Core 契约已完成 / ADR-0003 已接受 / TASK-006 集群已完成 / TASK-007 已在本地集成 / TASK-008 等待实现
 - 运行时模块：目前只有生成的 `DreamOfPadma` 模块
 - Git 仓库：`main` 已跟踪私有 GitHub 远端的 `origin/main`。
 - Git LFS：已在本地初始化。
@@ -42,13 +42,14 @@
 - `TASK-002 Agent 工作流初始化` 已完成；任务模板现在可以记录决策状态、确切写入集合、委派、集成顺序、验证、恢复，以及彼此分开的 Agent/用户学习证据。
 - `TASK-003 第一个核心规则契约切片` 已在独立只读 Review 和用户于 2026-09-07 批准后完成；它冻结了纯设计 Core 契约和下游测试矩阵，但不授权运行时实现。
 - `TASK-004 ACT 架构决策集成` 将 ADR-0002 和《未来 ACT 开发 Agent 契约》记录为已接受的纯文档边界：Encounter 保持优先，ACT 需要另一份已批准任务，内置 GAS 需要已批准的依赖变更，外部玩法插件需要另一份 ADR。
-- `ADR-0003 固定可玩原型垂直切片` 已接受，`TASK-006 可玩原型垂直切片集群` 已于 2026-09-07 完成；`TASK-007` 已为 `Ready`，可以开启新的实现会话，而 TASK-008 至 TASK-010 仍需分别放行，尚未启动实现 Agent。
+- `ADR-0003 固定可玩原型垂直切片` 已接受，`TASK-006 可玩原型垂直切片集群` 已于 2026-09-07 完成；随后 `TASK-007` 已完成实现并通过独立 Review，在本地完成为 `Done`；`TASK-008` 现已为 `Ready`，而 TASK-009 和 TASK-010 仍需分别放行。
 - 已在 `Docs/Changelog.md` 和 `Docs/Changelog.zh-CN.md` 建立双语、版本更新式实现 Changelog；Primary Agent 提供草稿，Integration Coordinator 在任务进入 `Verified` 或 `Done` 前记录最终共享条目。
+- `TASK-007 SLG 世界选择与切场` 已在 2026-09-08 通过独立 Review `Pass` 后完成本地集成；完成报告收尾提交为 `9ea99c7`，共享集成更新也仅在本地完成。用户的 `Config/DefaultEngine.ini` 修改保持未提交，并保留给 TASK-010；`TASK-008` 现已为 `Ready`。
 
 ## 下一步
 
-1. `ADR-0003` 已为 `Accepted`，双语 [TASK-006 可玩原型垂直切片集群](Production/Tasks/TASK-006-Playable-Prototype-Cluster.zh-CN.md) 已为 `Done`；`TASK-007` 已为 `Ready`，可以开启新的实现会话。TASK-008 至 TASK-010 仍为 `Review`，并按顺序门控。
-2. 在 Local 分支 `feature/TASK-007-world-selection-transition` 上启动 `TASK-007` 实现；完成其独立 Review 和集成后，再按顺序进入 TASK-008 Encounter 角色/技能运行时 -> TASK-009 卡牌/UI -> TASK-010 集成和 PIE 验收。默认不创建 Worktree。
+1. `ADR-0003` 已为 `Accepted`，双语 [TASK-006 可玩原型垂直切片集群](Production/Tasks/TASK-006-Playable-Prototype-Cluster.zh-CN.md) 已为 `Done`，`TASK-007` 已在独立 Review `Pass` 后于本地完成 `Done`；`TASK-008` 现已为 `Ready`，可以开启新的实现会话。TASK-009 和 TASK-010 仍为 `Review`，并按顺序门控。
+2. 在 Local 分支 `feature/TASK-008-encounter-character-skill` 上启动 `TASK-008` 实现；完成其独立 Review 和集成后，再按顺序进入 TASK-009 卡牌/UI -> TASK-010 集成和 PIE 验收。默认不创建 Worktree。
 3. 第一条表现 Goal 保持固定 fixture 和表现优先：一个 Demo 地块、一个局部场景、一张卡、一个角色和只读技能。不得让它决定任何 Open/Proposed/Deferred 内容。
 4. 保持 [TASK-005 确定性随机基础](Production/Tasks/TASK-005-Deterministic-Random-Foundation.zh-CN.md) 为 `Review`；它不是这条无随机 Demo 集群的前置，也不能被隐式启动。
 5. 可玩切片完成后，再评估完整自动化、Debug 面板、Calendar、Resource Ledger 和正式资源迁移；Calendar 仍需先解决索引起点，Resource Ledger 仍需先完成值/上限/债务/循环策略。

@@ -6,7 +6,7 @@
 
 - Project: DreamOfPadma
 - Engine association: see `DreamOfPadma.uproject`; do not change it without an ADR.
-- Current milestone: MVP high-level baseline frozen / Agent workflow ready / bilingual change-log protocol established / PIE foundation verified / future ACT architecture boundary accepted / M1 Core contract complete / ADR-0003 accepted / TASK-006 cluster complete / TASK-007 ready for implementation
+- Current milestone: MVP high-level baseline frozen / Agent workflow ready / bilingual change-log protocol established / PIE foundation verified / future ACT architecture boundary accepted / M1 Core contract complete / ADR-0003 accepted / TASK-006 cluster complete / TASK-007 integrated locally / TASK-008 ready for implementation
 - Runtime modules: the generated `DreamOfPadma` module only
 - Git repository: `main` tracks the private GitHub `origin/main`
 - Git LFS: initialized locally
@@ -41,13 +41,14 @@
 - `TASK-002 Agent Workflow Bootstrap` is complete, and the task template now records decision state, exact write set, delegation, integration order, verification, recovery, and separate Agent/user learning evidence.
 - `TASK-003 Core Rule Contract Slice` is complete after independent read-only review and user approval on 2026-09-07; it freezes the design-only Core contract and downstream test matrix but authorizes no runtime implementation.
 - `TASK-004 ACT Architecture Decision Integration` records ADR-0002 and the Future ACT Development Agent Contract as an accepted documentation-only boundary: Encounter remains first, ACT requires a separate approved task, built-in GAS requires an approved dependency change, and external gameplay plugins require another ADR.
-- `ADR-0003 Fixed Playable Prototype Vertical Slice` was accepted and `TASK-006 Playable Prototype Vertical Slice Cluster` was completed on 2026-09-07; `TASK-007` is now `Ready` for a new implementation session, while TASK-008 through TASK-010 remain separately gated and no implementation Agent has started.
+- `ADR-0003 Fixed Playable Prototype Vertical Slice` was accepted and `TASK-006 Playable Prototype Vertical Slice Cluster` was completed on 2026-09-07; `TASK-007` was then implemented, independently reviewed, and locally completed as `Done`; `TASK-008` is now `Ready`, while TASK-009 and TASK-010 remain separately gated.
 - A bilingual, release-style implementation Changelog is now established at `Docs/Changelog.md` and `Docs/Changelog.zh-CN.md`; Primary Agents provide drafts and the Integration Coordinator records the final shared entry before `Verified` or `Done`.
+- `TASK-007 SLG Demo World Selection and Transition` was locally integrated on 2026-09-08 after independent Review `Pass`; completion-report closeout commit `9ea99c7` and the shared integration update are local only. The user-owned `Config/DefaultEngine.ini` change remains uncommitted and reserved for TASK-010. `TASK-008` is now `Ready`.
 
 ## Next tasks
 
-1. `ADR-0003` is `Accepted` and the bilingual [TASK-006 Playable Prototype Vertical Slice Cluster](Production/Tasks/TASK-006-Playable-Prototype-Cluster.md) is `Done`; `TASK-007` is `Ready` and may start a new implementation session. TASK-008 through TASK-010 remain `Review` and serially gated.
-2. Start the `TASK-007` implementation on Local branch `feature/TASK-007-world-selection-transition`; after its independent Review and integration, proceed serially to TASK-008 Encounter character/skill runtime -> TASK-009 card/UI -> TASK-010 integration and PIE acceptance. Do not create Worktrees by default.
+1. `ADR-0003` is `Accepted`, the bilingual [TASK-006 Playable Prototype Vertical Slice Cluster](Production/Tasks/TASK-006-Playable-Prototype-Cluster.md) is `Done`, and `TASK-007` is locally `Done` after independent Review `Pass`; `TASK-008` is now `Ready` for a new implementation session. TASK-009 and TASK-010 remain `Review` and serially gated.
+2. Start the `TASK-008` implementation on Local branch `feature/TASK-008-encounter-character-skill`; after its independent Review and integration, proceed serially to TASK-009 card/UI -> TASK-010 integration and PIE acceptance. Do not create Worktrees by default.
 3. Keep the first visual Goal fixed-fixture and presentation-first: one Demo tile, one local scene, one card, one character, and read-only skills. Do not let it decide any Open/Proposed/Deferred rule.
 4. Keep [TASK-005 Deterministic Random Foundation](Production/Tasks/TASK-005-Deterministic-Random-Foundation.md) at `Review`; it is not a prerequisite for this non-random Demo cluster and must not be started implicitly.
 5. Re-evaluate broad automation, Debug panel, Calendar, Resource Ledger, and production asset migration after the playable slice; Calendar still requires its index-origin decision, and Resource Ledger still requires authored value/cap/debt/loop policies.

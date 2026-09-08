@@ -3,7 +3,7 @@
 - 英文原文（Agent 阅读）：`TASK-007-SLG-World-Selection-and-Transition.md`
 - 文档 ID：`TASK-007`
 - 版本：`0.1`
-- 状态：`Review`
+- 状态：`Done`
 - 上级里程碑或集成 Goal：`TASK-006 固定可玩原型垂直切片`
 - Primary Role：`World Module Agent`，并获得 Game 组合支持
 - Primary Agent：本实现会话由 `module_worker` / World Module Agent 承担
@@ -169,7 +169,7 @@ Primary Agent 对整体负责。只能针对一个明确问题请求只读专家
 
 ## 完成报告
 
-- 最终状态：`Review`；实现和修复后的 PIE 确认已通过独立 Review，可交给 Integration Coordinator。用户已于 2026-09-07 批准契约。
+- 最终状态：`Done`；实现和修复后的 PIE 确认已通过独立 Review，TASK-007 已于 2026-09-08 在本地完成集成。用户已于 2026-09-07 批准契约。
 - Primary Agent 和 Role：`module_worker` / World Module Agent。
 - 修改文件：`Source/DreamOfPadma/Public/Demo/Session/`、`Source/DreamOfPadma/Private/Demo/Session/`、`Source/DreamOfPadma/Public/Demo/World/`、`Source/DreamOfPadma/Private/Demo/World/`、`Content/Padma/Demo/World/DemoSandbox.umap`、PadmaWorld README 双语对、PadmaGame README 双语对以及本 TASK-007 双语对。
 - 验收证据：项目自有 `DemoSandbox.umap` 已在 unattended runtime smoke 中加载，`ADemoSandboxWorld::BeginPlay` 输出 TASK-007 初始化提示；强类型请求/上下文路径和 GameInstance 会话边界已实现；无效会话替换和缺失 fixture 字段由窄范围自动化测试覆盖。用户已完成修复后的交互式 PIE 流程，并观察到选择/高亮、取消选择、成功发布 Node/Scenario/Spawn 上下文、无效 fixture 失败且已有上下文保持不变、fixture 恢复，以及 `publisher is unavailable` 未再出现。最新 Editor 日志也记录了回调绑定、发布、消费和无效 fixture 失败。根据用户的证据决定，自然语言 PIE 观察记录已经足够，截图或视频为可选项。
@@ -181,4 +181,4 @@ Primary Agent 对整体负责。只能针对一个明确问题请求只读专家
 - Changelog 草稿：日期 `2026-09-08`；TASK/Goal `TASK-007 SLG World Selection and Transition`；类别 `Added`；面向用户摘要 `增加项目自有 Demo Sandbox，提供一个可选择地块，以及可在同一 GameInstance/会话内跨场景保留的节点/场景/出生点强类型切场上下文`；影响区域 `Demo World 表现、Demo Session 切场交接、PadmaWorld/PadmaGame 模块边界`；验证证据 `修复后的 UE5.8 Editor 编译、TASK-007 上下文自动化测试 Success、包含初始化后会话绑定日志的 unattended DemoSandbox 地图加载 smoke、用户完成的修复后 PIE 选择/高亮/取消/确认/无效 fixture 验证，以及独立 Review Pass`；未解决/延期事项 `默认地图集成、Encounter 场景、专门的生命周期回归测试以及所有延期世界规则仍保持开放`。
 - Agent 产生的学习证据：稳定身份与表现坐标、跨场景所有权两个目标均为 `Introduced`：前者由强类型 ID 和自动化断言体现，后者由 World selection model -> 强类型 session store -> GameInstance subsystem 路径体现。不宣称用户已完成讲解回授。
 - 用户产生的学习证据：待补充；用户仍需完成只改显示位置的练习、比较三个身份字段并回答迁移问题，之后目标才可标记为 `Demonstrated`。
-- 集成提交或交接引用：Local 分支 `feature/TASK-007-world-selection-transition`，已 Review 的 HEAD 为 `87ae85e`，其中包含实现提交 `859fe5a`、`f80f727` 和 `4e1bdd4`；未合并、未推送；独立 Review 已返回 `Pass`，提交本次同步完成报告更新后即可交给 Integration Coordinator。原有 `AGENTS.md` 双语修改仍单独保存在 `stash@{0}`，未混入本 TASK。
+- 集成提交或交接引用：Local 分支 `feature/TASK-007-world-selection-transition`；TASK-007 完成报告收尾提交为 `9ea99c7`，随后完成本地共享状态集成提交；实现提交仍为 `859fe5a`、`f80f727` 和 `4e1bdd4`；未推送、未创建标签。原有 `AGENTS.md` 双语修改仍单独保存在 `stash@{0}`，未混入本 TASK。
