@@ -3,10 +3,10 @@
 - Chinese companion: `TASK-007-SLG-World-Selection-and-Transition.zh-CN.md`
 - Document ID: `TASK-007`
 - Version: `0.1`
-- Status: `Ready`
+- Status: `Done`
 - Parent milestone or integration Goal: `TASK-006 fixed playable prototype vertical slice`
 - Primary Role: `World Module Agent` with Game composition support
-- Primary Agent: `module_worker`, to be assigned when the new implementation session starts
+- Primary Agent: `module_worker` / World Module Agent for this implementation session
 - Branch/worktree: Local feature branch `feature/TASK-007-world-selection-transition`; no independent Worktree by default
 - Task mode: bounded runtime and demo-map implementation; no general world-rule implementation
 
@@ -113,13 +113,13 @@ No second writer is authorized for the map, session context, or world source pat
 
 ## Acceptance criteria
 
-- [ ] The project-owned Demo Sandbox map loads in PIE without modifying generated folders.
-- [ ] One demo tile has a stable playtest identity and can be selected, highlighted, and deselected.
-- [ ] The selected tile exposes its demo scenario and spawn-point context through a typed query/request, not an Actor pointer as identity.
-- [ ] Confirming the selection produces a transition context that can be consumed after a scene change; missing or invalid fixture data produces a readable failure and no partial transition state.
-- [ ] The implementation does not charge a resource, resolve a general route, mutate persistent world state, or invent a final node/ID/import policy.
-- [ ] The world map and source implementation remain in the exact allowed paths, and World/Game module documentation pairs describe the new boundary.
-- [ ] An independent Reviewer returns `Pass` or records only explicitly accepted P3 improvements before integration.
+- [x] The project-owned Demo Sandbox map loads in PIE without modifying generated folders.
+- [x] One demo tile has a stable playtest identity and can be selected, highlighted, and deselected.
+- [x] The selected tile exposes its demo scenario and spawn-point context through a typed query/request, not an Actor pointer as identity.
+- [x] Confirming the selection produces a transition context that can be consumed after a scene change; missing or invalid fixture data produces a readable failure and no partial transition state.
+- [x] The implementation does not charge a resource, resolve a general route, mutate persistent world state, or invent a final node/ID/import policy.
+- [x] The world map and source implementation remain in the exact allowed paths, and World/Game module documentation pairs describe the new boundary.
+- [x] An independent Reviewer returns `Pass` or records only explicitly accepted P3 improvements before integration.
 
 ## Verification plan
 
@@ -139,12 +139,14 @@ No second writer is authorized for the map, session context, or world source pat
 4. Confirm entry; observe a transition request/context containing node, scenario, and spawn-point identities.
 5. Verify an invalid/missing fixture reports failure and leaves the prior state unchanged.
 
+The fixed map also exposes a narrow fixture diagnostic path for review: `F10` clears the selected fixture's scenario ID, `Enter` verifies the readable failure and unchanged pending context, `F11` restores the authored fixture, and `F12` consumes the pending context. This is not a general Debug panel or UI automation suite.
+
 The later TASK-010 performs the complete route into the actual Encounter map.
 
 ### Required evidence
 
 - Compile output.
-- A short PIE capture or screenshots showing the map, tile selection, and transition result.
+- A concise written PIE observation covering the map, tile selection/highlight, deselection, confirmation, and invalid-fixture result; screenshots or video are optional.
 - Context/failure test output if the narrow test is implemented.
 - Changed-path list and independent Review report.
 
@@ -152,8 +154,8 @@ The later TASK-010 performs the complete route into the actual Encounter map.
 
 | Target | Evidence required | Status |
 |---|---|---|
-| Stable identity versus presentation coordinates | The user predicts which values survive a map rebuild and identifies why coordinates/Actor pointers are not save identity. | `Not started` |
-| Cross-level command/context ownership | The user traces the transition request from tile input to session context and names the owner that may mutate each state. | `Not started` |
+| Stable identity versus presentation coordinates | The user predicts which values survive a map rebuild and identifies why coordinates/Actor pointers are not save identity. | `Introduced` |
+| Cross-level command/context ownership | The user traces the transition request from tile input to session context and names the owner that may mutate each state. | `Introduced` |
 
 - Learner's hands-on exercise: change the demo tile's display location without changing its stable identity, then predict which transition fields remain equal.
 - Transfer question: if two different visual maps represent the same node, which data must remain shared and which data may differ?
@@ -167,15 +169,16 @@ The later TASK-010 performs the complete route into the actual Encounter map.
 
 ## Completion report
 
-- Final status: `Ready`; contract approved by the user on 2026-09-07, implementation not started.
-- Primary Agent and Role: `module_worker` / World Module Agent; assignment is pending the new implementation session.
-- Changed files: none yet; implementation files are listed above for future work.
-- Acceptance evidence: pending implementation.
-- Checks run and results: pending implementation.
-- Checks not run and reason: this task is Ready but implementation has not started; no runtime or PIE evidence is claimed.
-- Review findings resolved or accepted: design Review and user approval accepted; independent implementation Review remains required before integration.
-- Remaining risks and open questions: all deferred inputs remain unresolved by design.
-- English/Chinese documentation updated: contract pair prepared.
-- Agent-produced learning evidence: pending.
-- User-produced learning evidence: pending.
-- Integration commit or handoff reference: ready for a new implementation session; no push.
+- Final status: `Done`; the implementation and post-fix PIE confirmation passed independent Review, and TASK-007 was locally integrated on 2026-09-08. The contract was approved by the user on 2026-09-07.
+- Primary Agent and Role: `module_worker` / World Module Agent.
+- Changed files: `Source/DreamOfPadma/Public/Demo/Session/`, `Source/DreamOfPadma/Private/Demo/Session/`, `Source/DreamOfPadma/Public/Demo/World/`, `Source/DreamOfPadma/Private/Demo/World/`, `Content/Padma/Demo/World/DemoSandbox.umap`, both PadmaWorld README files, both PadmaGame README files, and this TASK-007 pair.
+- Acceptance evidence: the project-owned `DemoSandbox.umap` loads in an unattended runtime smoke and `ADemoSandboxWorld::BeginPlay` emits the TASK-007 initialization prompt; the typed request/context path and GameInstance session boundary are implemented; invalid session replacement and missing fixture fields are covered by the narrow automation test. The user completed the post-fix interactive PIE flow and observed selection/highlight, deselection, successful Node/Scenario/Spawn context publication, invalid-fixture failure with the existing context preserved, fixture restore, and no recurrence of `publisher is unavailable`. The latest Editor log corroborates callback binding, publication, consumption, and invalid-fixture failure. Per the user's evidence decision, written PIE observations are sufficient; screenshots/video are optional.
+- Checks run and results: the follow-up UE5.8 `DreamOfPadmaEditor Win64 Development` compile passed after the actor-initialization binding fix; the narrow `DreamOfPadma.Demo.TASK007.TransitionContext` automation rerun passed with `succeeded=1 / failed=0` using temporary `-DDC-ForceMemoryCache -ddc=NoZenLocalFallback` startup flags; `UnrealEditor-Cmd.exe ... /Game/Padma/Demo/World/DemoSandbox -game -nullrhi ... -ExecCmds=quit` loaded the map and logged `Game session bound to Demo Sandbox transition callbacks` after the world entered play and before the TASK-007 prompt; the user completed the post-fix PIE selection/highlight/deselect/confirm/F10/F11/F12 checks, and `Saved/Logs/DreamOfPadma.log` records successful stable-ID publication/consumption plus the readable missing-scenario failure without another publish; `pwsh -NoProfile -File .\Scripts\AuditDocs.ps1` passed with 124 Markdown files and 62 language pairs; `pwsh -NoProfile -File .\Scripts\ValidateProject.ps1 -Strict` passed; the TASK-007 changed-path `git diff --check` passed; exact committed-path audit passed.
+- Checks not run and reason: the read-only Reviewer did not launch another UE compile, automation run, map smoke, or PIE session because those checks would update generated output; it inspected the existing artifacts and the user's post-fix PIE log instead. Screenshots/video are optional and were not required. Full working-tree `git diff --check` remains nonzero because the pre-existing user-owned `Config/DefaultEngine.ini` change includes a new blank line at EOF; that uncommitted file also changes `GameDefaultMap` and `EditorStartupMap` and is classified as later TASK-010/integration work rather than TASK-007. The first wrapper invocation of `RunTests.ps1` hit the machine's non-writable Installed DDC graph before tests started; the direct rerun with temporary in-memory DDC flags passed without changing project configuration.
+- Review findings resolved or accepted: the final lit `DemoSandbox.umap` state is included in local commit `f80f727` after the original implementation commit `859fe5a`; the World -> concrete Game/Session dependency was removed; World now exposes typed publisher/consumer callbacks and the GameInstance session subsystem binds them after world actors are initialized. Follow-up fix commit `4e1bdd4` adds the `OnWorldInitializedActors` binding and removes the PIE lifecycle race where binding only from `PostLoadMap` occurred before the sandbox Actor was initialized, leaving Enter with an unavailable publisher. The initial invalid direct construction of `UGameInstanceSubsystem` remains resolved through map-free `FDemoTransitionContextStore` delegation. The changelog wording now limits retention to the same GameInstance/session. Independent Review returned `Pass` on 2026-09-08 after inspecting the complete branch, repository state, code, automated evidence, smoke evidence, and post-fix PIE log.
+- Remaining risks and open questions: the actor-initialization ordering has compile, unattended smoke, and PIE-log evidence but no dedicated automated lifecycle regression test; final default-map configuration and Encounter scene remain owned by TASK-010/TASK-008; the uncommitted `Config/DefaultEngine.ini` change remains outside TASK-007; all Open/Proposed/Deferred world, route, ID namespace, import, save, and World Partition decisions remain unchanged.
+- English/Chinese documentation updated: yes; both module README pairs and the TASK-007 pair were synchronized.
+- Changelog draft: date `2026-09-08`; TASK/Goal `TASK-007 SLG Demo World Selection and Transition`; category `Added`; user-visible summary `Added a project-owned Demo Sandbox with one selectable tile and a typed node/scenario/spawn transition context retained within the same GameInstance/session across scene changes`; affected area `Demo World presentation, Demo Session transition handoff, PadmaWorld/PadmaGame module boundaries`; validation evidence `follow-up UE5.8 Editor compile, TASK-007 context automation Success, unattended DemoSandbox map-load smoke with post-initialization session binding, user-completed post-fix PIE selection/highlight/deselect/confirm/invalid-fixture verification, and independent Review Pass`; unresolved/deferred notes `default-map integration, Encounter scene, a dedicated lifecycle regression test, and all deferred production world rules remain open`.
+- Agent-produced learning evidence: `Introduced` for stable identity versus presentation coordinates (typed ID structs and the automation assertions) and cross-level ownership (World selection model -> typed session store -> GameInstance subsystem). No user teach-back is claimed.
+- User-produced learning evidence: pending; the user still needs to perform the display-location-only exercise, compare the three unchanged IDs, and answer the transfer question before either target can be `Demonstrated`.
+- Integration commit or handoff reference: Local branch `feature/TASK-007-world-selection-transition`; TASK-007 completion-report closeout committed as `9ea99c7`, followed by the local shared-state integration commit; implementation commits remain `859fe5a`, `f80f727`, and `4e1bdd4`; no push or tag. The pre-existing `AGENTS.md` pair remains preserved separately in `stash@{0}` and was not included in this TASK.
