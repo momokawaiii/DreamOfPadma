@@ -1,7 +1,7 @@
 # PadmaGameplay Module Program Document
 
 - Document ID: ARCH-MODULE-GAMEPLAY-001
-- Version: 0.1
+- Version: 0.3
 - Status: Planned logical boundary; no standalone UE module yet
 - Canonical language: English for Agent consumption
 - Chinese companion: README.zh-CN.md
@@ -9,6 +9,10 @@
 - Current implementation: Source/DreamOfPadma/ is the temporary shared runtime module
 - Parent architecture: ../../ProgramArchitecture.md and ../../DataDrivenArchitecture.md
 - Future ACT development contract: ACTDevelopmentContract.md
+
+## TASK-046 current native implementation
+
+The native slice adds Gameplay/Combat transient ASC actors/attributes, mode-specific clocks, receipts and cleanup; Encounter/PadmaEncounterAbility and ACT/Runtime/PadmaACTAbility are separate GAS activation classes using different typed effect tables. Shared basic effects run on a separate card/environment ASC. Current combat harness supports the HTML actions; importing Combat's full combo system is not claimed. [Native playable guide](../../../Content/NativePlayableDemo.md).
 
 ## 1. Purpose
 
@@ -20,7 +24,7 @@ PadmaGameplay implements local battle families. Encounter is a turn-based battle
 - ACT RealTimeAction battle state, the ACT MVP `Tab` repository transition, background blur, 1/10 world-time scaling, movement/attack input rejection, inertia-preserving scene behavior, and five-visible-slot-per-page card dispatch. Total page count remains deferred.
 - Attack damage, true damage, defense, status, death, and target-resolution stages.
 - C character units, constructions, cores, and combat-facing runtime state.
-- Ability definitions, activation contexts, costs, timing, and future GAS integration seams.
+- Separate Encounter and ACT ability/effect definitions, activation policies, clocks and native GAS execution; only approved infrastructure/calculations without implicit mode rules are shared.
 - F/D/R attribute relationships and era modifiers.
 - Deterministic ruler patrol, detection, reinforcement, counterattack, and threat policy.
 - Combat logs, decision traces, and presentation-neutral results.
@@ -87,10 +91,23 @@ Debug output should show input entities, data IDs, damage stages, status layers,
 3. Add the ruler policy and one counterattack.
 4. Add the minimum status subset used by the sample encounter.
 5. Add the complete ACT RealTimeAction route only after the Encounter action-timeline path is stable and a bounded ACT task is approved, following `ACTDevelopmentContract.md` and the `Tab`/blur/1-10 input contract.
-6. Add built-in GAS only through an approved dependency change when the ACT vertical slice requires it; external GAS plugins require a separate ADR.
+6. TASK-013 supplies the approved native GAS dependency/lifetime foundation for both modes under ADR-0004 before their playable GAS implementations; external plugins still require a separate ADR.
 
 ## 9. Learning targets and risks
 
 Learning targets: Gameplay Framework boundaries, combat services, status effects, targeting, GAS preparation, AI utility policies, animation timing contracts, and deterministic debugging.
 
 Main risk: embedding combat rules in Character, Ability Blueprint, or animation code so they cannot be replayed or tested independently.
+
+## 10. Full-MVP mode ownership
+
+[ADR-0004](../../../Decisions/ADR-0004-Separate-Encounter-and-ACT-GAS.md) assigns TASK-015 to approved shared calculations, TASK-016/017 to Encounter timelines/catalog/abilities, TASK-030 to ACT catalog/sequence/abilities, and TASK-031 to its repository window. Mode definitions and runtime state stay distinct. TASK-035 owns ACT character availability/loadout; the turn-based card system is not its collection.
+
+Required added tests: wrong-mode binding rejection; table/clock/input isolation; restricted traits rejected by direct commands; no stale effects/tasks/callbacks after exit; complete participant recovery including approved run-owned roster/weapon state. Basic-card services are injected by composition; neither mode duplicates the shared card lifecycle or assumes equal effect data.
+
+
+## Retired TASK-008 and current TASK-036 authoring
+
+Historical TASK-008 supplied fixed Demo definitions, query/summon code and an F8 scene fixture. TASK-048 retired that source, its maps/assets and tests. It is not the current battle entry or a model-preview dependency; historical evidence remains in TASK-008.
+
+TASK-036 owns Gameplay/ACT/Authoring and ACTCharacterCards static content. Separate ACT character/weapon/skill assets, typed skill rows and an authoring catalog expose soft references and actionable validation; the catalog holds no roster/run state or GAS handles. See [ACT authoring guide](../../../Content/ACTAuthoring.md). Current native execution is Gameplay/Encounter and Gameplay/ACT/Runtime, with separate GAS classes/tables; TASK-013/030 remain the original ownership references. Required checks cover missing/wrong references, duplicate identities/bindings, skeleton mismatch and explicit trait selectors. Empty templates are intentionally invalid drafts; later cooking/loading and user content remain necessary.

@@ -1,5 +1,7 @@
 # 多 Agent 端到端工作流示例
 
+> 历史教学示例，不是默认执行流程。角色接力、全量阅读、强制教学／审查及逐任务 worktree 的旧流程已由 [当前工作流](Workflow.zh-CN.md) 替代；仅在学习多任务集成时按需阅读。
+
 - 英文原文（Agent 阅读）：`Docs/Agent/WorkflowExample.md`
 
 ## 示例状态

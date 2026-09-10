@@ -2,12 +2,12 @@
 
 - Chinese companion: `TASK-008-Encounter-Character-and-Skill-Data.zh-CN.md`
 - Document ID: `TASK-008`
-- Version: `0.1`
-- Status: `Ready`
+- Version: `0.2`
+- Status: `Verified`
 - Parent milestone or integration Goal: `TASK-006 fixed playable prototype vertical slice`
 - Primary Role: `Gameplay Module Agent`
-- Primary Agent: `module_worker`, assigned when the new implementation session starts
-- Branch/worktree: Local feature branch `feature/TASK-008-encounter-character-skill`; no independent Worktree by default
+- Primary Agent: current root / Gameplay Module Agent
+- Branch/worktree: Local feature branch `codex/mvp-demo-foundations`; no independent Worktree by default
 - Task mode: bounded local-scene runtime, character/skill fixture, and summon boundary; no combat implementation
 
 ## Goal
@@ -60,6 +60,12 @@ TASK-007 supplies the stable scene context. The reference project combines card 
 
 The task may expose a fixture-only query and summon operation, but it must not turn any of these unresolved items into a product rule.
 
+### Implementation amendment (2026-09-08)
+
+The user's implementation request authorizes the missing fixed-scene Game adapter. Session publishes a receipt after committing valid context; delayed travel and consumption check that receipt, GameInstance and World. Initialization waits for the target scene's BeginPlay readiness; failure retains context without an automatic retry loop. Gameplay consumes typed values and does not depend on the concrete session subsystem. Add stale-receipt/F12/duplicate/missing-map checks. Existing world inputs and configuration remain unchanged.
+
+Use mycard page 29's 维特鲁威人 and its three skill descriptions as read-only source text. D22d fixes C→R, but this presentation fixture has no attributes, costs or active effects. Placeholder geometry sizes are presentation parameters. Source text is not numerical approval.
+
 ## Scope
 
 ### Allowed paths and write set
@@ -76,7 +82,16 @@ The Primary Agent may edit only:
 - `Docs/Production/Tasks/TASK-008-Encounter-Character-and-Skill-Data.md`
 - `Docs/Production/Tasks/TASK-008-Encounter-Character-and-Skill-Data.zh-CN.md`
 
-The task does not own TASK-007 session/world paths, `DreamOfPadma.Build.cs`, `Config/DefaultEngine.ini`, card/UI paths, shared ProjectState/index, or the final integration task.
+- `Source/DreamOfPadma/Public/Demo/Integration/`
+- `Source/DreamOfPadma/Private/Demo/Integration/`
+- `Source/DreamOfPadma/Public/Demo/Session/DemoTransitionSessionSubsystem.h`
+- `Source/DreamOfPadma/Private/Demo/Session/DemoTransitionSessionSubsystem.cpp`
+- `Source/DreamOfPadma/Private/Demo/Session/DemoTransitionContextTest.cpp`
+- `Scripts/Editor/AuthorDemoEncounter.py`
+- `Docs/Architecture/Modules/PadmaGame/README.md`
+- `Docs/Architecture/Modules/PadmaGame/README.zh-CN.md`
+
+The task does not own other TASK-007 world/session paths, `DreamOfPadma.Build.cs`, `Config/DefaultEngine.ini`, card/UI paths, shared ProjectState/index, or the final integration task.
 
 ### Out of scope
 
@@ -109,14 +124,14 @@ No second writer is authorized for the Encounter map, character definitions, ski
 
 ## Acceptance criteria
 
-- [ ] The local Demo Encounter scene can initialize from the TASK-007 context or reports a readable missing-context failure without partial state.
-- [ ] One project-owned Demo character definition loads through a typed data boundary and has a stable playtest identity, display data, presentation reference, and at least one skill definition.
-- [ ] The read-only character query returns the character's configured skill list without duplicating the data in a Widget or Actor instance.
-- [ ] The runtime exposes a bounded summon operation that accepts the Demo character identity and an explicit spawn-point context, creates/returns the placeholder runtime representation, and emits a typed success/failure result or event.
-- [ ] The summon operation rejects an unknown character or invalid spawn context without spawning a partial object or mutating unrelated state.
-- [ ] No skill is executed, no combat rule is selected, and no Open/Deferred gameplay decision is invented.
-- [ ] The module README pair documents ownership, data path, summon/query boundary, tests, and remaining risks.
-- [ ] An independent Reviewer returns `Pass` or only explicitly accepted P3 improvements before integration.
+- [x] The local Demo Encounter scene can initialize from the TASK-007 context or reports a readable missing-context failure without partial state.
+- [x] One project-owned Demo character definition loads through a typed data boundary and has a stable playtest identity, display data, presentation reference, and at least one skill definition.
+- [x] The read-only character query returns the character's configured skill list without duplicating the data in a Widget or Actor instance.
+- [x] The runtime exposes a bounded summon operation that accepts the Demo character identity and an explicit spawn-point context, creates/returns the placeholder runtime representation, and emits a typed success/failure result or event.
+- [x] The summon operation rejects an unknown character or invalid spawn context without spawning a partial object or mutating unrelated state.
+- [x] No skill is executed, no combat rule is selected, and no Open/Deferred gameplay decision is invented.
+- [x] The module README pair documents ownership, data path, summon/query boundary, tests, and remaining risks.
+- [x] An independent Reviewer returns `Pass` or only explicitly accepted P3 improvements before integration.
 
 ## Verification plan
 
@@ -164,15 +179,16 @@ TASK-009 is responsible for rendering the card and skill panels around this boun
 
 ## Completion report
 
-- Final status: `Ready`; TASK-007 was locally integrated after independent Review Pass on 2026-09-08, so this approved contract is unlocked for a new implementation session; implementation not started.
-- Primary Agent and Role: assigned when the new session starts / `module_worker` / Gameplay Module Agent.
-- Changed files: none yet; implementation paths are listed above.
-- Acceptance evidence: predecessor gate satisfied by the locally integrated TASK-007 transition context; TASK-008 runtime acceptance remains pending implementation.
-- Checks run and results: contract and repository documentation gates were validated during TASK-007 integration; no TASK-008 runtime result is claimed.
-- Checks not run and reason: TASK-008 runtime, compile, automation, and PIE work has not started; this Ready transition does not authorize implementation evidence by itself.
-- Review findings resolved or accepted: the contract-level Review gate is complete for the current scope; implementation Review remains required after the Primary Agent handoff.
-- Remaining risks and open questions: all deferred inputs remain unresolved by design.
-- English/Chinese documentation updated: contract pair prepared.
-- Agent-produced learning evidence: pending.
-- User-produced learning evidence: pending.
-- Integration commit or handoff reference: TASK-007 local closeout commit `9ea99c7` satisfies the predecessor gate; TASK-008 is ready for Local branch `feature/TASK-008-encounter-character-skill`; no implementation commit and no push.
+- Final status: Verified; root / Gameplay Module Agent on Local codex/mvp-demo-foundations.
+- Implemented: typed character/skill definitions, read-only query, validated world-owned summon service, Encounter scene, fixed Game travel adapter with publication receipts, and a scene GameMode without a default Pawn. The opt-in smoke capture waits eight actual frames; normal play has no automatic summon.
+- Content: L_DemoEncounter.umap, DA_Demo_VitruvianMan and three source skill assets. AuthorDemoEncounter.py creates missing assets and preserves existing content.
+- Verification (2026-09-08): UE5.8.2 Editor compile passed; four project automation tests passed with zero test warnings/failures in automation-reviewed/index.json. The tests cover stale/F12/duplicate receipt handling, failed initialization, zero scale/invalid rotation, definition refresh, invalid/repeated summon, preserved spawn transform and ACT authoring.
+- Real runtime evidence: travel-render-reviewed.log records DemoSandbox → OpenLevel → receipt consumption → one Vitruvian Man representation → three configured skills, with Pending=0. encounter-reviewed.png was captured at frame 11 and visually checked: oblique camera, readable title/status, central spawn marker and one placeholder representation.
+- Asset checks: author-encounter.log and author-finalize.log report zero commandlet errors/warnings; both scripts reran against existing content. Build and validation artifacts are under C:/Users/lenovo/.codex/visualizations/2026/09/08/01a07f68-77cf-7fe0-8479-93a66fb8a4f6/runtime-review.
+- Review fixes: per-axis transform validation; safe failed-test cleanup; correct Sphere asset; stale receipt guard; late-frame capture and no extraneous default Pawn. Independent read-only Reviewer /root/full_mvp_contract_review returned Pass on 2026-09-08 with no remaining P0–P2 findings after inspecting the final build, four-test report, authoring rerun and rendered image.
+- Environment note: Chinese-culture startup smoke has 13 Condition failed assertions already present in pre-change Saved/Logs/DreamOfPadma.log and the 2026.09.07-18.08.16 backup. The final test process used -culture=en and had none; project/user culture was not changed. The older world-context test warning is absent from the latest report. Auto-review initially rejected generated-output commands, then allowed normal UE generation after repository script-rule evidence; no approval block remains.
+- User reproduction: open DemoSandbox, PIE, click its tile, Enter to travel, then F8 to request the fixture summon. Character/skill definitions are under Content/Padma/Demo/Definitions. Card and skill panels remain TASK-009.
+- Documentation: task and module pairs synchronized. Final handoff passed AuditDocs (186 Markdown files / 93 pairs), ValidateProject -Strict, git diff --check, 946 local-link checks, 25 task metadata/dependency checks and the exact 136-path audit (108 Markdown / 28 implementation paths). Protected configuration/build/project hashes match the preflight baseline.
+- Agent learning evidence: definition/query/instance separation, validated commands and receipt lifetime demonstrated by code/tests. User PIE acceptance and teach-back are not claimed.
+- Changelog: the Coordinator finalized the bilingual Added entry — source-based Encounter scene/query/summon and fixed scene travel. Active effects, GAS combat, card lifecycle, full graph/map storage, calendar, economy and saving are not implemented by this task.
+- Integration: working-tree candidate only; no commit, merge or push.

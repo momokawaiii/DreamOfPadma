@@ -1,93 +1,55 @@
 # 项目状态
 
-- 英文原文（Agent 阅读）：`Docs/ProjectState.md`
+- 英文原文：ProjectState.md
+- 更新：2026-09-10；只放当前事实，操作前核对 Git 与受影响文件。
+- 工作区：E:/2026ue/DreamOfPadma；当前 Local 分支 codex/mvp-demo-foundations。保留无关工作区修改。
 
-## 基线
+## 当前优先级
 
-- 项目：DreamOfPadma
-- 引擎关联：见 `DreamOfPadma.uproject`；没有 ADR 不得修改。
-- 当前里程碑：MVP 高层基线已冻结 / Agent 工作流就绪 / 双语变更日志流程已建立 / PIE 基础检查已通过 / 未来 ACT 架构边界已接受 / M1 Core 契约已完成 / ADR-0003 已接受 / TASK-006 集群已完成 / TASK-007 已在本地集成 / TASK-008 等待实现
-- 运行时模块：目前只有生成的 `DreamOfPadma` 模块
-- Git 仓库：`main` 已跟踪私有 GitHub 远端的 `origin/main`。
-- Git LFS：已在本地初始化。
+下一产品交付是可安装的离线第零章 Demo：实际操作核心玩法，在不同节点先 Encounter 后唯一 ACT，最终占领王庭结束。Development 与 Shipping 均需测试；最终路径数值来自获批生产数据，卡牌文档待提供。见 [ChapterZero](Rules/ChapterZero.zh-CN.md) 和 [Roadmap](Production/Roadmap.zh-CN.md)。
 
-## 已完成
+[TASK-053](Production/Tasks/TASK-053-Grill-Technical-Docs.zh-CN.md) 将 grill 决策收敛到简洁的技术主文档，文档检查与聚焦独立评审已通过。目标新增编辑器烘焙地图/清单身份、章节运行时、存档阶段剧情分配，以及教程跳过/重玩奖励身份；本次文档修改尚未实现这些功能。Slate 剧情编辑器暂缓，可继续使用当前资产/表流程。
 
-- 空白 C++ UE 项目已创建。
-- 初始仓库布局已添加。
-- Agent 约定和文档索引已添加。
-- Git 忽略规则和 Git LFS 属性已添加。
-- Git 仓库和本地 Git LFS hooks 已初始化。
-- 验证、资源审计、测试和打包脚本入口已添加。
-- 五类 MVP 策划基线已创建英文 Agent 版和中文用户版。
-- 策划基线已根据 `mygame.pdf`、`mycard.pdf` 和项目最新澄清检查。
-- 所有现有 Markdown 已建立英文原文和中文镜像配对。
-- UE5.8 Target 配置已更新，DreamOfPadmaEditor 目标已成功编译。
-- 已加入程序架构、数据驱动架构、架构 Agent 规则和模块 Agent 规则。
-- 已为 PadmaCore、PadmaGame、PadmaGameplay、PadmaWorld、PadmaUI、PadmaEditor 和 PadmaTests 建立逻辑模块文档目录及双语 README 骨架。
-- 已记录战斗模式澄清：遭遇战是带先攻、优先级、反应、打断、额外行动和非回合窗口的条件行动条回合制；RealTimeAction 是 ACT/FPS/其他实时路线，MVP 首先采用 ACT；基础非 A 卡只能在战斗中打出；ABC 卡主动技能默认可从 Sandbox 发动，特殊限制由技能配置。
-- 已记录交互澄清：Encounter 手牌和 RealTimeAction 卡槽通过共享的 `Tab` 卡牌仓库一一对应；ACT MVP 中 `Tab` 打开背景虚化的五张卡面板，将世界时间降至 1/10，并在面板激活期间禁止移动/攻击输入、只接受基础非 A 卡输入；每页可见卡槽为 1—5，鼠标滚轮请求下一页。总页数延期。
-- 已记录 Encounter 触发澄清：玩家控制的 ABC 卡角色或单位移动到敌方停留的地点时，在该地点触发类似《阴阳师》的回合制 Encounter；最终战斗路线可以选择/触发 Encounter、ACT 或未来的其他 RealTimeAction 表现模式和剧情后果。
-- 已记录战斗事务澄清：局部战斗可在任意日历阶段进入，会暂停沙盘时间，记录所有被战斗修改的本局状态的完整版本化快照，胜利提交，失败或退出时精确恢复该快照。
-- 已记录 MVP 结局澄清：两个 MVP 胜利条件是统治者核心生命归零和战争天平达到玩家胜利边界；结局契约仍可扩展文档规定的其他胜利和失败方式。
-- 已记录合成澄清：文档中的分层公式仍是依据；合成失败不产生奖励，资源循环必须有设计代价/风险，但某些循环可以由运气补偿。
-- 用户已于 2026-09-02 验收高层 MVP 策划与架构基线。明确标记为开放、提案、延期和仅供试玩验证的参数按设计继续保持未决定状态。
-- 已从用户正常终端验证私有 GitHub 远程仓库和 SSH over 443 认证。
-- 基线提交 `cbb4da4` 和附注标签 `mvp-baseline-v0.1.0` 已发布到私有远端。
-- `.codex/` 下已加入项目级 Codex 多 Agent 设置和九个有边界的 Role 配置；策划、架构师、Review 和导师默认只读，`module_worker` 是有限范围写入者。
-- `.agents/skills/` 下已有三个项目 Skill，分别定义可重复的任务执行、独立 Review 和基于证据的学习流程。
-- `TASK-001 基础验证` 已完成；用户提供的手工证据确认默认地图可于 2026-09-03 在 PIE 中启动。
-- 已记录认可的层级：一个可独立合并的写入 Goal 通常对应一份任务契约、一个 worktree 和一位 Primary Agent；subagent 接受有限工作包；Skill 保存流程而不是变化中的项目事实。
-- 双语操作文档现已覆盖 Codex 配置、保守并行、集成顺序、Git/GitHub 备份、完整 M1 示例和零基础学习闭环。
-- `TASK-002 Agent 工作流初始化` 已完成；任务模板现在可以记录决策状态、确切写入集合、委派、集成顺序、验证、恢复，以及彼此分开的 Agent/用户学习证据。
-- `TASK-003 第一个核心规则契约切片` 已在独立只读 Review 和用户于 2026-09-07 批准后完成；它冻结了纯设计 Core 契约和下游测试矩阵，但不授权运行时实现。
-- `TASK-004 ACT 架构决策集成` 将 ADR-0002 和《未来 ACT 开发 Agent 契约》记录为已接受的纯文档边界：Encounter 保持优先，ACT 需要另一份已批准任务，内置 GAS 需要已批准的依赖变更，外部玩法插件需要另一份 ADR。
-- `ADR-0003 固定可玩原型垂直切片` 已接受，`TASK-006 可玩原型垂直切片集群` 已于 2026-09-07 完成；随后 `TASK-007` 已完成实现并通过独立 Review，在本地完成为 `Done`；`TASK-008` 现已为 `Ready`，而 TASK-009 和 TASK-010 仍需分别放行。
-- 已在 `Docs/Changelog.md` 和 `Docs/Changelog.zh-CN.md` 建立双语、版本更新式实现 Changelog；Primary Agent 提供草稿，Integration Coordinator 在任务进入 `Verified` 或 `Done` 前记录最终共享条目。
-- `TASK-007 SLG 世界选择与切场` 已在 2026-09-08 通过独立 Review `Pass` 后完成本地集成；完成报告收尾提交为 `9ea99c7`，共享集成更新也仅在本地完成。用户的 `Config/DefaultEngine.ini` 和默认地图修改已保存在独立的本地提交 `d8f107f` 中，保留给 TASK-010，未混入 TASK-007；`TASK-008` 现已为 `Ready`。
+当前原生代码仍是 TASK-052 已验证工作区候选：55 格绘景教程、单击固定详情、A/B 确认、纵向羊皮纸手牌、地图导航、液体战争 UI 和 PIE 退出修复。独立连续地形/PCG 样板仍可用。用户美术/实体长按验收和打包行为未验证，证据保留在各 TASK。
 
-## 下一步
+用户自述已学习蓝图、DataAsset/DataTable/软引用、UMG/CommonUI 基础及 GAS。仅按需教学，不重复入门。
 
-1. `ADR-0003` 已为 `Accepted`，双语 [TASK-006 可玩原型垂直切片集群](Production/Tasks/TASK-006-Playable-Prototype-Cluster.zh-CN.md) 已为 `Done`，`TASK-007` 已在独立 Review `Pass` 后于本地完成 `Done`；`TASK-008` 现已为 `Ready`，可以开启新的实现会话。TASK-009 和 TASK-010 仍为 `Review`，并按顺序门控。
-2. 在 Local 分支 `feature/TASK-008-encounter-character-skill` 上启动 `TASK-008` 实现；完成其独立 Review 和集成后，再按顺序进入 TASK-009 卡牌/UI -> TASK-010 集成和 PIE 验收。默认不创建 Worktree。
-3. 第一条表现 Goal 保持固定 fixture 和表现优先：一个 Demo 地块、一个局部场景、一张卡、一个角色和只读技能。不得让它决定任何 Open/Proposed/Deferred 内容。
-4. 保持 [TASK-005 确定性随机基础](Production/Tasks/TASK-005-Deterministic-Random-Foundation.zh-CN.md) 为 `Review`；它不是这条无随机 Demo 集群的前置，也不能被隐式启动。
-5. 可玩切片完成后，再评估完整自动化、Debug 面板、Calendar、Resource Ledger 和正式资源迁移；Calendar 仍需先解决索引起点，Resource Ledger 仍需先完成值/上限/债务/循环策略。
+## 交付状态
 
-## 已知决定
+| 范围 | 当前结果 |
+|---|---|
+| UE TASK-052 | 已验证的工作区候选：单击固定详情、显式 A／B 部署、五列纵向羊皮纸手牌、55 格新教程、单一所有者绘景输入与 50:50 液体动态 UI；构建、针对性回归及原生证据见 TASK-052 |
+| UE TASK-051 | 固定教程绘景与 GPU 氛围保留；版本 1 的 162 格存档与 TASK-052 新网格继续兼容。此前检查保留在 TASK-051 |
+| UE TASK-007／008 | 旧固定切场／召唤链路已于 TASK-048 退役；旧资产、源码与夹具测试移除 |
+| UE TASK-036／040 | 保留 ACT 配置模板和通用模型目录／预览；坐镇预览已迁移到通用模型资产 |
+| HTML TASK-042／043／044 | 迭代后 HTML 0.4 已获用户确认；旧报告中待手动验收文字属于历史 |
+| UE TASK-046 | 原生工作区候选：日历／资源／ABC／合成／图地图／编队／对话、Encounter 与 ACT GAS、战斗事务及安全存档；Editor 编译和 11 项定向测试通过，地图／归处／双模式进入的真实渲染通过 |
+| UE TASK-047 | 运行命名已迁移；Editor 编译及 12 项定向测试通过，包含旧存档读取。18 张表内容保留，原生类型标签与两张地图引用已重存；真实沙盘／战斗／回滚／沙盘路线通过 |
+| UE TASK-048 | 工作区候选：地图编辑工具、固定锚点、抵达检查点、种子支路、三维镜头／地形／道路／模型与 PCG；Editor 编译及 22 项定向测试通过，PCG 已生成 200 个实例；用户交互验收待进行 |
+| UE TASK-049／050 | 参考图风格策略 HUD、连续地形样板、500 个地表过滤 PCG 实例、7 个样板模型／18 个材质／3 个地标定义及 2 张 UI 皮肤贴图。真实激活栈、嵌套返回／焦点与只读实例／战斗详情；26 项定向测试通过，用户试玩／美术验收待进行 |
+| 已验收 HTML 之外 | 正式 ACT 动作／连招、未覆盖 PDF 能力、好感 buff、FPS 游玩及正式美术仍待完成 |
+| 工作流 TASK-045 | Verified：精简入口、有界委派、按风险审查和可选教学 |
 
-- 旧原型只作为参考。
-- Content 目录整体不忽略，只忽略 UE 生成目录。
-- 核心规则必须独立于表现和具体世界 Actor。
-- 存档使用版本化、基于 ID 的格式。
-- 高层 MVP 策划与架构基线已经冻结。明确标记为开放、提案、延期和仅供试玩验证的内容仍未决定；尚未分配永久模块所有权。
-- 英文策划基线供 Agent 阅读，中文文件是同步的用户阅读镜像。
-- 架构模块目录是逻辑边界和文档归档位置，目前还不是独立 UE 模块。
-- 英文架构文档是 Agent 使用的技术规范源，中文文件是用户阅读镜像。
-- 遭遇战是行动条驱动的回合制战斗，不是固定玩家/统治者轮换；场地和卡牌技能可以影响先攻、优先级、反应、打断、额外行动和非回合窗口。高层行为已经确定，但行动条公式、优先级和这些窗口的出牌额度等精确规则，等实现用到时再确认。
-- 第一种 RealTimeAction 模式是 ACT，MVP 要求完成一轮完整可玩的 ACT 战斗闭环。
-- ADR-0002 确立 Encounter 优先交付和未来以 C++ 为主、数据驱动的 ACT 边界。它不授权实现 ACT/GAS；内置 GAS 需要已批准的依赖任务，外部玩法插件需要独立 ADR，确切模式以及全部 Open/Deferred 玩法语义仍未决定。
-- 基础非 A 战斗手牌只能在局部战斗中打出：遭遇战每个符合条件的玩家行动回合最多一张，ACT MVP 的 RealTimeAction 通过 `Tab`/子弹时间/数字卡槽输入；每页可见五个卡槽。生命周期概率和总页数暂时留空。
-- ABC 卡主动技能默认可以从 Sandbox 发动，特殊限制由每个技能配置；是否允许额外的战斗内发动尚未决定。
-- 局部战斗可在任意日历阶段进入，会暂停沙盘时间，记录完整版本化战前快照，胜利提交，失败或退出时精确恢复完整快照。
-- 两个 MVP 胜利条件是统治者核心生命归零和战争天平达到玩家胜利边界；文档规定的其他胜利和失败方式作为未来可扩展的结局定义。
-- 合成失败不产生奖励。资源循环必须有明确代价、时机和风险；某些设计中的循环可以由运气补偿代价。
-- Windows Development 打包、Cook、Stage 及打包专项学习延期到 MVP 完成之后，不作为 TASK-001 或 M0 的门槛。
-- 仓库协作使用相互独立的单元：`AGENTS.md` 保存强制规则，`Docs/` 保存会变化的事实，Role 配置定义专家行为，一个 Goal/TASK 配对对应一次交付结果，worktree 提供独立写入隔离，Primary Agent 承担责任，subagent 负责有限委派，Skill 保存可重复流程。
-- worktree 分配给可独立合并的写入 Goal，不永久属于某个 Role 或逻辑模块。共享契约、地图、二进制 UE 资源、中心配置、Editor 会话和最终集成保持串行。
-- 临时协作选择（2026-09-03）：近期开发可以使用从 `main` 派生的 Local feature branch（拟议分支：`feature/TASK-001-gameplay-flow`）；在确实需要独立写入隔离前，Worktree 暂不默认创建。既有的同文件所有权、Review 和集成规则仍然适用。
-- 近期可玩切片优先级（2026-09-07）：`TASK-006` 至 `TASK-010` 以固定功能路径为目标，达到可类比 `E:\\2026ue\\padma` 的效果：选择一个 SLG 地块、进入一个对应局部场景、出一张卡、召唤一个角色并读取其技能。参考项目仍只读参考；这次优先级变化不授权整体资源/代码迁移，也不授权任何 Open/Deferred 规则。
-- 初始并发上限为每个父会话四个被拉起的 subagent、最多两个可写 worktree，以及一条 UE 构建/Editor/PIE 通道。只有集成证据支持时才能调整。
-- 推送远端、创建标签、发布、破坏性 Git 操作和实质扩大范围必须获得用户明确授权。
+当前交互、动态与网格兼容性证据见 TASK-052；已接受玩法证据仍在 TASK-046，命名兼容性见 TASK-047。用户美术／实体长按验收和打包版本兼容性仍未验证。此前证据保留在原任务。原型验收不授权提交、合并或推送。
 
-## 开放问题
+## 当前边界
 
-- 文档中已有合成公式；仍需确认其最终系数/限制，以及是否保留西格玛骰子来处理非奖励失败后果。
-- 沙盘和遭遇场景是否共用一个 World Partition 世界。
-- 遭遇战行动条优先级、先攻修正、响应/打断优先级、额外行动规则、非回合窗口、结束回合效果以及这些窗口的精确出牌额度；等相关实现用到时再确认，当前有意留空。
-- ACT MVP 的触发、背景虚化、禁止移动/攻击输入和 1/10 世界时间已经确定。剩余持续/切换细节、页面边界行为和总页数延期。
-- ABC 主动技能是否也能在遭遇战或 RealTimeAction 中发动。
-- 基础非 A 手牌生命周期，以及按卡牌决定弃牌、回牌或冷却的概率；每页五个可见卡槽和鼠标滚轮请求下一页已经确定，但总页数和边界行为等相关卡牌 UI 实现时再确认。
-- 数据导入最终采用 CSV、JSON 还是混合管线。
-- 战斗路线的敌我共同结算数据，包括敌我双方、场地和卡牌效果如何限制距离/路线，以及如何映射到模式和剧情触发。
-- 形意/归墟的确切语义。
+- HTML 提供已实现行为的验收基准，不证明整份 PDF 已实现。规则含义以 Docs/Rules 与最新用户决定为准；正式 ACT 内容、成长、好感 buff 缺项保持明确。
+- Encounter／ACT 使用独立 GAS 执行／配置与角色集合。基础技能共享身份／槽位，效果按模式配置。ACT 装备来自战斗总设置；地形限制必须指明对象。
+- 普通 SLG 地图在六边形外观上使用手工有向节点／连线；固定绘景教程明确生成六边格邻接边，并使用七个绘景专属关键点坐标。新版本 3 网格为 55 格，薪火台有 1 名敌方守军，已存档版本 1 网格保留 162 格；不可通行格和原道路锁定继续有效。SaveGame 根据可信配置冻结布局及变化／剧情状态。单击固定查看，移动到此处移动已部署卡牌。A／B 部署捕获目标，确认时重新校验真实 Core 命令。敌情全公开。
+- A 与附着 B 逐卡校验、整组原子移动；元数据分可移动／不可移动／条件移动。
+- 合成原料成败都弃牌，成功 C 在当前点位登场；B 于晌午累加 A 倾向；共享基础卡独立弃牌／洗回。
+- Encounter 普攻先进入选目标并可取消。基础手牌松手预览、确认释放，以卡牌／环境为来源；真伤不受 C 克制，基础物伤受克制。
+- 局部战斗冻结沙盘时间；胜利提交，失败／退出恢复完整快照。当前两种胜利为统治者核心与战局天平。
+- UI 页面与模态覆盖层使用独立激活栈，只有顶层覆盖层接收输入，详情不结算玩法。绘景 Slate 经 CommonUI 页面拥有导航输入，处理点击／中键拖动／滚轮；取消会清空自身按键与捕获。控制器不重复轮询绘景 WASD，旧三维相机仍由控制器负责。遭遇战详情使敌方自动行动等待，已提交动作可以完成；ACT 详情不改变自身时钟或 Tab 策略。地形和 PCG 属于装饰表现，图结构仍决定玩法。
+- 当前原型可使用占位及标明临时性的 UE Demo 数值；明确无冲突的 mycard 值保留出处。最终离线 Demo 路径按 ChapterZero 使用获批生产值/资产；缺失卡牌/奖励输入仍待定。
+- UE 构建／Editor／PIE 单通道；沿用 Local 并保留无关修改。任务状态不代表 Git 集成或远端操作授权。
+
+## 下一步入口
+
+- 原生 UE 试玩路线、逐文件功能与素材／配表指南：[NativePlayableDemo](Content/NativePlayableDemo.zh-CN.md)、[地图创作指南](Content/WorldMapAuthoring.zh-CN.md)、[策略表现指南](Content/StrategyPresentation.zh-CN.md)。默认地图为 `/Game/Padma/MVP/Playable/Maps/L_PadmaWorld`；在 `/Game/Padma/World/Maps/Editing/L_MapAuthoring` 编辑节点位置。
+- 流程与简短委派：[Agent 工作流](Agent/Workflow.zh-CN.md)。
+- UE 模型／ACT 配置：[ModelAuthoring](Content/ModelAuthoring.zh-CN.md)、[ACTAuthoring](Content/ACTAuthoring.zh-CN.md)。
+- UE 任务依赖：[TASK-011 矩阵](Production/Tasks/TASK-011-Full-MVP-Task-Cluster.zh-CN.md)。启用对应交付时将旧 TASK-009／010 与已接受 HTML 对齐，避免再做一遍过时 UI。
+- 相关未决项：[MVPDecisionRegister](Production/MVPDecisionRegister.zh-CN.md)，只看影响当前切片的条目；最新用户决定优先于旧通用 Backlog 文字。
+- 历史证据与早期决定：[状态快照](Production/History/ProjectState-2026-09-09.zh-CN.md)、[Changelog](Changelog.zh-CN.md)及准确 TASK 报告。常规开工不加载历史。

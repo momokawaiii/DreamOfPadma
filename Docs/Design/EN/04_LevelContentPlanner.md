@@ -127,7 +127,7 @@ World mutations recorded in the MVP include node discovered, node captured, faci
 
 The MVP has one short anecdote with two choices and one consequence visible on the map. It should demonstrate that a story choice is a gameplay command and a persistent state mutation, not only dialogue text.
 
-The full chapter narrative, relationship network, multiple story branches, and thematic victory grading are future content. Their stable IDs should still be supported by the data model.
+The full chapter narrative, complete relationship network, multiple story branches, and thematic victory grading remain future content. The latest user request adds the minimum relationship/bonus capability and its global view through TASK-039/038; named content and exact effects remain D28. Story-character IDs remain distinct from combat-character IDs.
 
 ## 10. Level technical scope
 
@@ -170,3 +170,13 @@ The first map is a rules testbed. It is not the final art direction or final cha
 ## 13. Learning targets
 
 This baseline is intended to teach level design, graph-based content modeling, node ownership, world-state mutation, encounter transitions, story flags, save boundaries, data-driven content, World Partition planning, PCG seams, and later environmental production.
+
+## 14. ACT roster and terrain handoff (2026-09-08)
+
+The deployed sandbox unit is a turn-based character-card representation. When a route selects ACT, carry node/terrain context separately from the ACT character/weapon roster selected in battle settings. The ACT character collection is distinct; a one-to-one conversion from the triggering unit is not assumed. Terrain may disable an authored trait; the exact constraint target, timing, linkage and fallback policy require D20/D14 decisions.
+
+TASK-024/025 supply world and terrain views, TASK-035 supplies roster/eligibility, TASK-027 composes battle entry and TASK-030 enforces ACT execution restrictions. Placeholder assets are imported by the user after work starts. Existing maps/content are extended through task-owned fixtures and later the First Era pack, not bulk-copied from the reference prototype. See [TASK-011](../../Production/Tasks/TASK-011-Full-MVP-Task-Cluster.md).
+
+The user confirmed preset node connections over a hex-shaped map and layered map-definition/.umap/SaveGame storage on 2026-09-08. Camera and hex layout do not imply hex-neighbor movement. See [ADR-0005](../../Decisions/ADR-0005-World-Map-Storage.md).
+
+See [map and preparation design](06_MapAndPreparation.md) for the new hover/local-scene/global UI requirements and the open interaction decisions.

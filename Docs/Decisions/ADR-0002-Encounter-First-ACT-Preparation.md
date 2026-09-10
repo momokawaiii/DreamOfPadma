@@ -1,7 +1,7 @@
 # ADR-0002: Encounter-First Delivery and Future ACT Boundary
 
 - Chinese companion for user reading: `Docs/Decisions/ADR-0002-Encounter-First-ACT-Preparation.zh-CN.md`
-- Status: Accepted
+- Status: Accepted; GAS adoption trigger partially superseded by ADR-0004
 - Date: 2026-09-05
 - Implementation status: Deferred; documentation only
 - Owner: Lead Programmer / Architect Agent
@@ -21,14 +21,14 @@ The project needs a durable future ACT boundary without diverting the current im
 4. An Ability Table row is a roster/assembly record that references a cohesive `AbilityDefinition` Primary Data Asset. Complex skill timing and combo topology belong to an `ACTSequence` Primary Data Asset. This resolves the ACT-specific high-level asset split; exact schemas and the broader project import pipeline remain open.
 5. Stable logical IDs cross table and asset boundaries. Runtime resolvers use the active character catalog. Mutable state never lives in DataTables, Data Assets, or INI.
 6. A future typed `UDeveloperSettings` and custom configuration section may hold project-wide defaults, policy, validation, loading, debugging, and feature gates. It may require an ability archetype to provide Enhanced Input, cooldown, montage, or other typed content, but it does not own a particular ability's binding, duration, montage, sequence, effects, or audiovisual assets.
-7. Unreal's built-in GAS is the intended compatible execution framework when an approved ACT slice demonstrates the need. GAS is not enabled now. GAS Companion, Aurora, or another external gameplay plugin requires a separate ADR and is not assumed.
+7. As updated by ADR-0004 on 2026-09-08, native GAS is intended for both Encounter and ACT through TASK-013, with separate mode systems/tables. Runtime dependencies remain unimplemented until that task runs. External gameplay plugins still require a separate ADR.
 8. Authoritative rules, hit validation, damage, costs, cooldowns, and cleanup live in C++ rule/GAS paths. Animation notifies emit narrow timing markers; Gameplay Cues and UI own cosmetics only. If networking is approved later, prediction is limited to reversible responsiveness while authority revalidates gameplay outcomes.
 9. Combo topology uses explicit nodes and edges plus tag gates. A normal combo should default to one ability activation with runtime node and buffered-input state, rather than one new ability activation per segment.
 10. Exact ACT gameplay semantics remain governed by accepted rule documents and their open/deferred markers. Architectural names in the ACT contract do not silently decide gameplay values or timing rules.
 
 ## Consequences
 
-- Encounter work can proceed without speculative GAS or ACT infrastructure.
+- Fixture-only TASK-007 through TASK-010 remain independent from GAS. Subsequent Encounter combat consumes the approved native GAS foundation without requiring an ACT gameplay framework.
 - Future ACT Agents have a clear ownership, data, authority, Blueprint, and plugin boundary.
 - Per-character content can expand without one universal DataTable or duplicated C++ classes.
 - INI remains useful for policy while typed assets remain the source for authored skill content.
@@ -46,3 +46,7 @@ The project needs a durable future ACT boundary without diverting the current im
 ## Deferred decisions
 
 The first ACT vertical slice, GAS ownership details, networking baseline, tag taxonomy, exact row schemas, phase/cancel/buffer semantics, `Scope` meaning, payload lifecycles, and all design-baseline items already marked open remain unresolved. They require explicit future task or owner decisions.
+
+## 2026-09-08 clarification
+
+[ADR-0004](ADR-0004-Separate-Encounter-and-ACT-GAS.md) replaces the ACT-only GAS trigger and clarifies separate character-card collections, ACT battle-settings loadout and mode-specific effects. The remaining ACT asset architecture and Encounter-first order stand. Read it before TASK-013/017/030/035; historical TASK-004 scope is unchanged.

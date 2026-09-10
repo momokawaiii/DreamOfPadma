@@ -1,59 +1,70 @@
-# 运行时流程
+# 运行流程
 
-- 英文原文（Agent 阅读）：`Docs/Architecture/RuntimeFlow.md`
+- 英文原文：[RuntimeFlow.md](RuntimeFlow.md)
+- 状态：当前原生路径与已接受的第零章目标
+- 归属：Game 组装；Core 结算；Gameplay 模式执行
 
-项目把输入、规则、状态和表现分开。战略沙盘、回合制遭遇战和 RealTimeAction 战斗路线，都进入同一条类型化命令路径：
+## 当前原生流程
 
-```text
-沙盘战略输入
-          \
-遭遇战行动条输入  -----> PlayerCommand
-          /                    ↓
-ACT RealTimeAction 输入   模式和合法性门
-                                  ↓
-                           规则或应用服务
-                                  ↓
-                               结果 / 事件
-                                  ↓
-                          世界状态 / 玩法状态
-                                  ↓
-                   UI / 动画 / VFX / 音频 / 镜头
-```
+`目录加载/校验 → UPadmaRunSubsystem → 世界/UI 组装 → 命令`
 
-命令示例：
+当前默认是绘景教程，旧地图选项使用连续地形/PCG 表现。单击地图固定详情，悬浮只改变反馈。选择 A/B 手牌后点击地块，进入对应确认/附着目标流程。CommonUI 页面/浮层栈负责输入门控，Core 命令合法性独立验证。
 
-- `RequestMoveToNode`
-- `RequestEnterEncounter`
-- `RequestEndEncounterTurn`
-- `RequestPlayBasicBattleCard`
-- `RequestActivateABCAbility`
-- `RequestEnterBulletTime`
-- `RequestPlayBattleCardSlot`
-- `RequestOpenCardRepository`
-- `RequestChangeBattleCardPage`
-- `RequestResolveReactionOrInterrupt`
-- `RequestChangeControlMode`
-- `RequestSaveGame`
+移动到守军节点可创建完整战前局快照和待进入战斗。OpenLevel 保留 GameInstance，战斗控制器创建该模式的临时 GAS 对象。成功仅提交一次；失败、退出、启动/切图失败恢复快照。返回 World 后重建表现。归处页签及可选流送节点场景属于表现，不是独立规则权威。
 
-正常玩家输入、GM 命令、自动化测试和未来网络请求，都应能使用同一条命令路径。
+这是 [NativePlayableDemo](../Content/NativePlayableDemo.zh-CN.md) 中已实现的子集，不证明已有主菜单到结尾的教程。激活与销毁仍由 [ADR-0008](../Decisions/ADR-0008-Activatable-Presentation-Layers.zh-CN.md) 和 TASK-052 拥有。
 
-模式和合法性门是权威校验层：基础非 A 卡在沙盘、遭遇战不属于玩家符合条件的行动回合、超过每个玩家行动回合一张的限制，或 ACT RealTimeAction 缺少子弹时间和数字卡槽输入场景时，必须被拒绝。ACT MVP 中点击 `Tab` 会打开卡牌仓库、使背景虚化、划出五张卡，并将世界时间降至 1/10。该状态禁止移动和攻击输入，只接受基础非 A 卡相关输入，战斗场景在减速和保持惯性的状态下继续运行。反应、打断或额外行动窗口是否额外给予卡牌使用额度，随精确遭遇战规则留空。ABC 卡主动技能默认接受战斗外 Sandbox 发动路径，但必须满足数据配置的条件、限制和消耗。
+## 已接受的 Demo 黄金路径
 
-Encounter 和 ACT 使用同一个卡牌仓库：按下 `Tab` 唤起仓库，当前页面提供 1—5 卡槽，鼠标滚轮请求下一页，Encounter 手牌与 RealTimeAction 卡槽一一对应。ACT MVP 中打开仓库还会触发背景虚化和子弹时间切换。总页数和页面边界行为暂时留空。这些是输入/视图规则，权威服务仍需校验具体卡牌操作。
+`启动 → 主菜单 → 开场 → 第零章 → 移动 → 日历/资源 → ABC 卡 → 合成 → 节点事件/对白 → Encounter → ACT → 占领王庭 → 结尾`
 
-当 ABC 卡控制的角色或单位移动到敌方停留的点位时，路线解析器会同时评估敌我双方的路线约束。解析后的路线可以选择或触发 Encounter、ACT、未来的 RealTimeAction 表现模式以及相关剧情事件；这属于玩法状态切换，而不只是镜头变化。
+Encounter 与唯一 ACT 战斗位于不同节点，均需实际游玩；不设 FPS 节点。每个玩法步骤等待真实操作成功，仅点击按钮或动画结束不能完成教学。准确事件词汇及步骤与节点/卡牌的绑定仍需实现和内容制作。
 
-进入任何局部战斗都会创建包含所有被战斗修改的本局状态的完整版本化战前快照，并暂停沙盘时间。战斗胜利时提交结果；失败或玩家退出时精确恢复该快照，再通过类型化结果把控制权交还沙盘。
+| 阶段 | 协调 / 权威 | 必须看到的结果 |
+|---|---|---|
+| 新局 / 继续 | Game | 新局采用烘焙章节内容；继续时校验并恢复存档内容/状态 |
+| 开场 | Game 剧情运行时 + Presentation | 演出结束/跳过不直接重复发奖 |
+| 地图 / 教程步骤 | Core/Game | 合法操作改变真实状态，推进符合条件的步骤 |
+| 事件 / 对白 | Core/Game 剧情运行时 | 有效选择产生明确效果和稳定后继 |
+| Encounter 后接 ACT | Game + 独立 Gameplay 适配器 | 两场战斗均正确进入、结算/回滚并返回 |
+| 王庭 / 结尾 | Game 结果/章节协调 | 到达作者定义的结尾并记录教程状态 |
 
-## 运行时所有权
+现有其他胜利条件与 Demo 结尾的准确关系需要内容设计；不得静默移除战争天平胜利，也不能强制所有锚点必经。
 
-| 状态 | 建议所有者 |
+## 目标章节与随机剧情生命周期
+
+1. 解析 ChapterDefinition 及匹配烘焙地图；替换当前局前先校验引用。
+2. 继续游戏时恢复已有剧情决定/阶段分配。新进入的日历阶段在首次加载地图时评估有效池、确定节点分配，先于节点检视。
+3. 保存选中的 EventId 和阶段身份。重复读同一存档、打开 UI 或取消对白不会重新抽取。
+4. 新日历阶段重新评估内容；重复策略允许时可再次出现同一事件，普通剧情不统一设为每局一次。
+5. 触发时检查权威条件并进入已选事件。玩家选择/操作返回服务执行，UI/Sequence 仅表现。
+6. 进入主线检查点时仅锁定一次事件/分支；后续 NPC 访问或旗标变化不改写该决定。
+
+Q30 曾允许阶段内变化，但 Q33 后来接受“阶段首次加载分配并存档固定”，以 Q33 为准。阶段键必须区分章/时代/日/阶段的具体发生次序，不能只有“黎明”标签；准确编码待实现。
+
+特殊节点可以影响主线。曾建议的“通过旗标/解锁边供未来检查点消费、不直接跳图”属于未回答 Q39。保持当前检查点行为，新增跨事件机制需明确范围。多事件排序、重复冷却时钟和池冲突优先级需要作者策略。
+
+## 目标教程跳过与重玩
+
+| 状态 / 操作 | 要求 |
 |---|---|
-| 卡牌定义 | Asset Manager / 卡牌目录子系统 |
-| 当前流程和跨关卡状态 | GameInstance 子系统 |
-| 当前世界状态 | WorldState 子系统 |
-| 当前局部战斗、行动条和模式状态 | Battle Director / GameState |
-| 本地玩家输入 | PlayerController |
-| 本地 UI | UI 子系统 / ViewModel |
-| 磁盘持久化 | Save 子系统 / `USaveGame` |
-| 未来网络权威 | Server GameState 和服务器侧服务 |
+| NotStarted → InProgress | 开始带独立身份/版本的一次教程运行 |
+| 教学操作成功 → Completed | 记录实际完成及作者定义的完成奖励 |
+| 跳过整段教程 → Skipped | 执行配置的教程后奖励初始化，解锁后续并显示已跳过 |
+| 只跳过 Cue | 快进表现；不标记整段教程完成，不重复发效果 |
+| 设置中重玩 | 创建新的 TutorialRunId，可再次获得奖励 |
+| 读档 / 崩溃重试 | 恢复同次运行身份及凭据，不重复发该次奖励 |
+
+具体奖励、重玩保留哪些背包内容、存档槽/档案归属及战斗失败恢复点尚未最终确定。唯一性/恢复契约见 [SaveSchema](SaveSchema.zh-CN.md)。教程运行时必须做；自定义 Slate 剧情编辑器不是前置。
+
+## 战斗、输入与时钟
+
+[ADR-0004](../Decisions/ADR-0004-Separate-Encounter-and-ACT-GAS.zh-CN.md) 保留 Encounter/ACT 独立验证器、GAS 对象、定义与时钟。共享基础技能身份选择模式专用绑定。Encounter 的行动回合用卡许可与 ACT 的 Tab/模糊/0.1 时间/五槽位卡牌输入由 [Combat](../Rules/Combat.zh-CN.md) 定义，本文不重复。
+
+两种战斗期间沙盘日历均暂停。场景或浮层不能结算战斗结果或修改战前快照。检视只读：当前 Encounter 在检视时等待敌方自动行动，ACT 检视保留其时钟/Tab 策略。关闭浮层恢复适当焦点/输入，不产生新的玩法操作。
+
+## 失败与验证
+
+在改变当前状态前拒绝缺失内容、不兼容地图及非法选择；不能静默重生成已保存地图或重抽已保存剧情。根据稳定状态重建镜头、Widget 和 GAS 对象。
+
+验证新局/继续、取消、阶段首次分配与读档区别、检查点锁定、教程完成/跳过/重玩奖励、战斗提交/回滚及干净退出。这些是目标验收用例；当前证据见 [ProjectState](../ProjectState.zh-CN.md)。打包端到端证据由 [BuildMatrix](../Production/BuildMatrix.zh-CN.md) 定义。

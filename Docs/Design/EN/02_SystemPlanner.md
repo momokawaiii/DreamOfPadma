@@ -18,15 +18,15 @@ The system layer owns identity, state transitions, resource accounting, card dat
 
 ### 2.1 Card families
 
-| Family | Conceptual role | Default attribute | MVP responsibility |
+| Family | Conceptual role | Attribute source | MVP responsibility |
 |---|---|---|---|
-| A | Root, base, ego; the cause or foundation | F | May occupy a node, provide a basic board effect, carry tendencies, and receive a B attachment. |
-| B | Gospel, medium, catalyst; the transformation context | D | Provides cost, field values, decoration, arrival, and mutation properties. |
-| C | Terminal, creation, self; the generated result | R | Becomes a construction, character, event, or item and carries target values, stats, and abilities. |
+| A | Root, base, ego; the cause or foundation | F; user-confirmed D22d mapping | May occupy a node, provide a basic board effect, carry tendencies, and receive a B attachment. |
+| B | Gospel, medium, catalyst; the transformation context | D; user-confirmed D22d mapping | Provides cost, field values, decoration, arrival, and mutation properties. |
+| C | Terminal, creation, self; the generated result | R; user-confirmed D22d mapping | Becomes a construction, character, event, or item and carries target values, stats, and abilities. |
 | Basic non-A | Basic battle skill hand card | Explicit per card | Can be played only inside a local battle: at most one during each eligible player action turn in Encounter, or through the ACT bullet-time/numeric-slot route in RealTimeAction. |
 | Extra / derivative | Explicit helpers or non-reward failure-side content | No vector contribution by default | Exists outside the normal candidate-vector pool and is resolved by explicit effects; it is not an automatic synthesis reward. |
 
-The source rule is `A_x + B_x -> C_x`. Some A cards are universal cards without a normal attribute. A B card may be played without an A card; the exact consequences are specified below.
+The source rule is `A_x + B_x -> C_x`. The collection's old neutral/cross-family attribute labels require revision to the user-confirmed A→F, B→D, C→R mapping; they do not create implicit exceptions. A B card may be played without an A card; the exact consequences are specified below.
 
 ### 2.2 Card data fields
 
@@ -293,10 +293,18 @@ The recommended paths shown on the example cards, such as `地痕 + 蓍 -> 犹�
 - Exact no-shared-tag fallback behavior.
 - Basic non-A card lifecycle and whether ABC active abilities are also legal during battle.
 - Whether Sigma dice remain, their format, and their non-reward failure consequence.
-- Card upgrade/lifecycle timing; full GAS integration is deferred.
+- Card upgrade/lifecycle timing remains open. Native GAS is planned for both battle modes under ADR-0004; this does not decide the full card lifecycle or upgrade rules.
 - Exact Encounter action-bar precedence, initiative modifiers, reaction/interrupt priority, extra-action rules, non-turn windows, and end-turn effects.
 - Remaining ACT UI details such as dismissal/re-entry behavior and page-boundary behavior; the MVP trigger (`Tab`), background blur, 1/10 world-time scale, movement/attack input rejection, five visible slots per page, and Tab/card-repository mapping are fixed. The total page count is intentionally deferred.
 
 ## 11. Learning targets
 
 This baseline is intended to teach data contracts, `USTRUCT`-style rule data, deterministic random streams, pure services, event-driven state changes, resource accounting, formula testing, preview/execution parity, and versioned save design.
+
+## 12. Card collections and ACT loadout (2026-09-08)
+
+Separate three concepts: (1) the turn-based/ABC card system, including characters deployed on the sandbox for the Encounter route; (2) the separate ACT character-card collection used by battle-settings character/weapon selection; (3) basic non-A skill cards whose identity/slot mapping is shared but whose mode effects are authored separately.
+
+TASK-020 owns the turn-based/ABC lifecycle and shared basic-skill contracts. TASK-035 owns ACT character availability and roster/loadout state. ACT character cards do not automatically participate in ABC synthesis, sandbox deployment or the turn-based pile lifecycle. Definition IDs, owned instances and battle entities are different identities; there is no automatic character-card conversion at mode entry.
+
+An ACT terrain restriction explicitly targets a character, weapon, ability or trait. Exact restriction behavior and roster/preset-versus-run persistence remain D20; restricting a trait does not silently forbid the whole character. Every unaccepted numerical input is individually user-confirmed under D03. See [ADR-0004](../../Decisions/ADR-0004-Separate-Encounter-and-ACT-GAS.md) and the [decision register](../../Production/MVPDecisionRegister.md).

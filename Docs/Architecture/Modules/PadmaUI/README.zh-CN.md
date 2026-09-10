@@ -1,12 +1,16 @@
 # PadmaUI 模块程序文档
 
 - 文档 ID：ARCH-MODULE-UI-001
-- 版本：0.1
+- 版本：0.2
 - 状态：计划中的逻辑边界；尚未建立独立 UE 模块
 - 英文原文（Agent 阅读）：README.md
 - Owner：UI 与输入模块 Agent
 - 当前实现：Source/DreamOfPadma/ 是临时共享运行时模块
 - 上级架构：../../ProgramArchitecture.zh-CN.md、../../DataDrivenArchitecture.zh-CN.md
+
+## TASK-046 当前原生实现
+
+UI/Screens 使用常驻原生根界面和独立 CommonUI 页面/覆盖层栈（TASK-050 / ADR-0008）。玩法页申请 All 输入；模态详情、菜单及确认框申请 Menu 输入并保留父级导航。原生 Escape/B 处理实现返回，避免绑定未配置的默认动作表。值视图、意图与结算仍分离。世界标签使用 Slate 字体回退；原生 Slate 内容由项目自有贴图画刷换肤，尚非设计器可编辑的 WBP 集合。见[界面分层与创作](../../../Content/StrategyPresentation.zh-CN.md)。
 
 ## 1. 目的
 
@@ -93,3 +97,19 @@ PadmaUI 依赖公开的命令、结果、事件和只读视图契约。PadmaGame
 学习目标：UMG、MVVM 或 ViewModel 设计、输入抽象、UI 反馈、本地化、无障碍和表现性能。
 
 主要风险：因为原型方便，就把玩法规则写进 Blueprint Widget。
+
+## 10. 完整 MVP 的表现与输入边界
+
+沙盒部署、共享基础技能卡库和 ACT 战斗总设置阵容保持不同视图。TASK-035 选择 ACT 角色／武器并显示上下文资格；TASK-031 使用 ACT 自有的效果数据呈现共享基础技能槽位。地形禁用特性有明确原因与范围；按钮禁用不能代替权威校验。
+
+用户指定文明 6 式斜俯视 SLG 镜头和节点移动，随后补充悬浮信息及点击进入局部地块场景。D24 现已确定点击只查看，右侧独立“移动到此处”命令移动卡牌。TASK-024 拥有配置拓扑／移动，TASK-037 拥有查看表现。镜头变换不能改变世界身份或存档状态。
+
+TASK-014 通过项目包装使用用户导入的占位模型／动画。正式动画和渲染打磨后做。[MVP 来源提取](../../../Production/MVPSourceExtraction.zh-CN.md) 将 PDF 证据映射到卡牌分类、画面方案与尚未解决的来源冲突。
+
+## 全局配置与地块查看组合
+
+TASK-037 使用 TASK-024 获准视图负责详细地块查看／局部表现。TASK-038 拥有统一配置页面，035 保留 ACT 选择，020 提供共享技能／图鉴，039 提供关系／增益来源。UI 不复制这些权威。D24／D25 确定点击只查看及敌方全公开，D26 排除首版可玩 FPS。D27 开启／修改／时间／预设行为和 D28 具体关系仍待确定。全局配置独立于 ACT Tab／子弹时间。见[画面设计](../../../Design/ZH/06_MapAndPreparation.md)，不宣称新增 UI 运行时。
+
+## TASK-040 交接
+
+TASK-040 的中立 Presentation/Models 资产／Actor 不含模式来源头文件。UI 接收视图，右侧“移动到此处”提交卡实例命令，不改 Actor 变换。首版 FPS 是未来能力。HTML 草图是较早设计依据，原生预览是独立配置界面。

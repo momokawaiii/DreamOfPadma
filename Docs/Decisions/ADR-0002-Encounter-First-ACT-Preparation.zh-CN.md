@@ -1,7 +1,7 @@
 # ADR-0002：Encounter 优先交付与未来 ACT 边界
 
 - 英文原文（Agent 阅读）：`Docs/Decisions/ADR-0002-Encounter-First-ACT-Preparation.md`
-- 状态：Accepted
+- 状态：Accepted；GAS 接入触发条件由 ADR-0004 局部取代
 - 日期：2026-09-05
 - 实现状态：延期；本次仅编写文档
 - Owner：Lead Programmer / Architect Agent
@@ -21,14 +21,14 @@ Dream of Padma 同时需要条件驱动的回合制 Encounter 路线和后续 AC
 4. Ability Table 行是名册/装配记录，引用一个聚合完整技能定义的 `AbilityDefinition` Primary Data Asset。复杂技能时序和连招拓扑属于 `ACTSequence` Primary Data Asset。这解决了 ACT 专属的高层资产拆分；精确模式和项目整体导入管线仍保持开放。
 5. 稳定逻辑 ID 跨越表格和资产边界；运行时解析器通过当前角色目录解析。任何可变状态都不能进入 DataTable、Data Asset 或 INI。
 6. 未来可以使用强类型 `UDeveloperSettings` 和自定义配置区段保存项目级默认值、策略、校验、加载、调试和功能开关。它可以要求某类技能必须提供 Enhanced Input、Cooldown、Montage 或其他强类型内容，但不拥有某个具体技能的绑定、时长、Montage、Sequence、Effect 或视听资产。
-7. 当已批准的 ACT 切片证明需要时，Unreal 内置 GAS 是目标兼容执行框架；现在不启用 GAS。GAS Companion、Aurora 或其他外部玩法插件需要独立 ADR，不能默认依赖。
+7. 按 2026-09-08 的 ADR-0004 更新，Encounter 和 ACT 将通过 TASK-013 使用原生 GAS，模式体系／配表独立。运行依赖在该任务执行前仍未实现。外部玩法插件仍需独立 ADR。
 8. 权威规则、命中校验、伤害、消耗、冷却和清理位于 C++ 规则/GAS 路径。动画 Notify 只发出职责单一的时机标记；Gameplay Cue 与 UI 只负责表现。若未来批准联网，预测仅用于可逆响应，权威端必须重新校验玩法结果。
 9. 连招拓扑使用显式节点和边，再加 Tag 门控。普通连招默认在一次 Ability 激活中保存运行时节点和缓冲输入状态，而不是每一段都激活一个新 Ability。
 10. ACT 的精确玩法语义仍由已接受规则文档及其中开放/延期标记管理。ACT 契约里的架构名称不会暗中决定玩法数值或时序规则。
 
 ## 后果
 
-- Encounter 工作可以在不预建 GAS/ACT 基础设施的情况下继续。
+- 固定夹具 TASK-007 至 TASK-010 仍不依赖 GAS；后续 Encounter 战斗消费获准原生 GAS 基础，不要求先建 ACT 玩法框架。
 - 未来 ACT Agent 获得明确的所有权、数据、权威、蓝图和插件边界。
 - 逐角色内容可以扩展，而不需要一张万能 DataTable 或重复 C++ 类。
 - INI 可继续承担策略，强类型资产则是具体技能内容的来源。
@@ -46,3 +46,7 @@ Dream of Padma 同时需要条件驱动的回合制 Encounter 路线和后续 AC
 ## 延期决策
 
 第一个 ACT 垂直切片、GAS 所有权细节、网络基线、Tag 分类、精确 RowStruct、阶段/取消/缓冲语义、`Scope` 含义、载荷生命周期，以及策划基线中已有的全部开放项仍未解决。它们需要未来任务或 Owner 显式决策。
+
+## 2026-09-08 澄清
+
+[ADR-0004](ADR-0004-Separate-Encounter-and-ACT-GAS.zh-CN.md) 取代仅因 ACT 才接入 GAS 的条件，并明确角色卡集合分离、ACT 战斗总设置阵容及模式专属效果。其余 ACT 资产架构和 Encounter 优先顺序保持有效。TASK-013／017／030／035 前阅读新 ADR；历史 TASK-004 范围不变。

@@ -1,84 +1,37 @@
-# PadmaEditor Module Program Document
+# PadmaEditor
 
 - Document ID: ARCH-MODULE-EDITOR-001
-- Version: 0.1
-- Status: Planned editor-only boundary; no standalone UE module yet
-- Canonical language: English for Agent consumption
-- Chinese companion: README.zh-CN.md
+- Version: 0.2
+- Status: Existing authoring scripts/adapters; custom story editor deferred; no standalone Editor module
+- Chinese companion: [README.zh-CN.md](README.zh-CN.md)
 - Owner: Editor and Content Tools Agent
-- Current implementation: no project-owned editor code yet
-- Parent architecture: ../../ProgramArchitecture.md and ../../DataDrivenArchitecture.md
+- Allowed ownership: Scripts/Editor and editor-gated authoring/preview adapters in the current runtime source; exact write paths per TASK
 
-## 1. Purpose
+## Current tools
 
-PadmaEditor contains editor-only tools that make data-driven content safe to author, inspect, validate, and preview. It must improve the content pipeline without becoming a runtime dependency.
+The project already has Python authoring scripts, ACT/model definitions and map preview/import/validation adapters. “No project-owned editor code” is obsolete. See [WorldMapAuthoring](../../../Content/WorldMapAuthoring.md), [ModelAuthoring](../../../Content/ModelAuthoring.md) and [ACTAuthoring](../../../Content/ACTAuthoring.md) for actual entry points.
 
-## 2. Responsibilities
+Tools create/edit validated definitions and present reports. They do not own current run state or a second copy of combat/synthesis formulas. Reuse runtime evaluators for previews. Keep source configuration and generated output distinct; respect existing authored edits on reruns.
 
-- Data asset and DataTable validation.
-- Stable ID, reference, tag, curve, and probability checks.
-- Card activation-context, Encounter action-timeline/initiative/priority/window rules, ACT RealTimeAction input-profile, five-visible-slot page, and numeric-slot checks. The exact Encounter rules, lifecycle probabilities, and total page count remain deferred.
-- Card, synthesis, outcome, world, encounter, AI, and story preview tools.
-- Import/export adapters when the project chooses CSV, JSON, or a mixed pipeline.
-- Content audit reports and duplicate/opaque-name warnings.
-- Editor-only GM helpers and calculation trace views.
-- Asset creation templates and naming enforcement.
-- Documentation/schema links surfaced to content authors where useful.
+## Near-term responsibility
 
-## 3. Non-responsibilities
+- Validate IDs, references, row/mode compatibility and configured values before consumption.
+- Improve the map generation/bake/metadata/cook path under [ADR-0010](../../../Decisions/ADR-0010-Offline-Demo-Content-and-Map.md).
+- Make errors actionable by asset/field/reason; preserve prior valid content on failed import/generation.
+- Feed required chapter runtime through ordinary typed assets/tables while the specialized editor is postponed.
 
-PadmaEditor must not own:
+Editor APIs may depend on runtime contracts; packaged runtime must not depend on editor-only classes. Existing assets are not a reason to introduce a new standalone module. Add one only when real editor dependencies require that boundary.
 
-- Packaged runtime rules.
-- Runtime save or network behavior.
-- A second implementation of synthesis or combat formulas.
-- Content that bypasses the canonical data contracts.
+## Deferred story editor
 
-Editor previews must call the same pure calculation services as runtime.
+The accepted future design is a separate ChapterSourceAsset with UEdGraph, compiled to runtime ChapterDefinition. A restricted DAG uses Start, Dialogue, Choice, Condition, TutorialAction, Effect and End, with typed execution edges and parameters in Details. No arbitrary Blueprint calls, general data pins or parallel scripting language.
 
-## 4. Public contracts
+Potential UI components are FAssetEditorToolkit, SGraphEditor, Details, FScopedTransaction and FMessageLog. This is preserved design intent, not a current dependency or task to implement. Story graph editing/compilation, text/localization entry tooling and PresentationCue authoring UI are all deferred by the latest user decision. Do not let them block the Demo runtime.
 
-- Validation report with asset ID, field, severity, and reason.
-- Import/export result and source version.
-- Preview request/result for card, synthesis, outcome, world, and encounter data.
-- Preview requests for basic non-A card rejection, Encounter action-timeline windows, ACT RealTimeAction `Tab`/blur/1-10 card-only bullet-time, and ABC-card active abilities outside battle.
-- Content audit report.
-- Editor command wrappers that call normal command paths where possible.
+## Contracts, checks and risks
 
-## 5. Data and runtime ownership
+Public tool results identify source version, asset/field, severity and failure reason; previews return the same typed calculation result as runtime. Import/export round-trip checks apply when that pipeline exists.
 
-PadmaEditor owns authoring-time tooling state and reports. It reads and validates definitions owned by Core, Gameplay, World, and UI content pipelines. It does not own the final runtime state.
+Test duplicate/missing IDs, invalid references/modes, preview parity, failed-edit preservation and bake/cook consistency. Save only stable compiled content IDs at runtime; never UEdGraph or temporary preview Actors. Tools introduce no network authority.
 
-Generated output, intermediate files, and local editor caches remain outside the source-controlled content contract.
-
-## 6. Dependencies and integration
-
-PadmaEditor may depend on runtime data contracts and editor APIs. Runtime modules must not depend on PadmaEditor. All validators must use the same schema version and stable ID rules as runtime.
-
-## 7. Tests and debug evidence
-
-Required tests:
-
-- Duplicate and missing ID detection.
-- Broken reference and invalid tag detection.
-- Probability, curve, threshold, and cost range checks.
-- Basic non-A battle-only contexts, player action-turn/one-card gates, Encounter action-timeline windows, ABC outside-battle contexts, and ACT RealTimeAction `Tab`/blur/1-10 five-visible-slot/page mappings. Validators must not assume a total page count or lifecycle probabilities.
-- World graph and era/chapter hierarchy checks.
-- Preview/runtime parity.
-- Import/export round trip when an import pipeline exists.
-
-Reports should be saved as review evidence without embedding absolute local paths in content.
-
-## 8. Implementation stages
-
-1. Keep the PowerShell audit scripts as the initial static layer.
-2. Add a small editor validator for the first data schema, including card activation contexts.
-3. Add preview tools after the pure calculation service exists.
-4. Add an ACT RealTimeAction `Tab`/blur/1-10 input-profile/page/slot validator when that mode profile is defined; leave total page count and lifecycle probabilities configurable.
-5. Add import pipeline only after the source format is decided.
-
-## 9. Learning targets and risks
-
-Learning targets: Unreal editor extensions, asset tooling, reflection, data validation, import pipelines, and content-authoring UX.
-
-Main risk: letting editor convenience create data that runtime cannot validate or load.
+Learning topics when requested: Unreal reflection, editor extensions, validation, transactions, graph schemas and compilation. Main risk: building a second large editor product before the playable Demo path is complete.

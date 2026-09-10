@@ -1,49 +1,71 @@
-# 存档模式
+# 存档结构
 
-- 英文原文（Agent 阅读）：`Docs/Architecture/SaveSchema.md`
+- 英文原文：[SaveSchema.md](SaveSchema.md)
+- 状态：当前已实现格式 1；第零章新增为已接受目标，不是格式迁移
+- 归属：Core 值/状态校验；Game 磁盘封装与恢复协调
 
-## 必须遵守的原则
+## 当前格式与兼容
 
-- 保存稳定 ID，不保存 Actor 或 UObject 指针。
-- 包含模式版本和迁移路径。
-- 不把临时表现状态写入存档。
-- 如果需要复现结果，保存随机种子或随机流状态。
-- 在支持战斗中途存档前，先保证战斗快照格式稳定；最初可只在安全边界存档。
+[UPadmaRunSaveGame](../../Source/DreamOfPadma/Public/Game/Save/PadmaRunSaveGame.h) 保存 `AppId=padma-native-demo`、`FormatVersion=1` 和反射 `FPadmaRunState`。当前槽为 `PadmaDemo046`。包含日历/资源、随机流位置、卡牌分区、备战、节点状态、旗标/历史、冻结地图布局、Seen/Completed NPC ID 及一次性检查点决定。
 
-## 存档部分
+当前在战斗/对白期间、不兼容封装或非法状态时拒绝存档操作；不是 HTML 导入器，也不是战斗中存档。战斗回滚采用完整局内存快照。全局备战预设不隐式属于局内状态；当前原生备战为局内所有。
 
-```text
-Metadata
-  SchemaVersion, BuildVersion, SaveTime, RunId
-Random
-  MasterSeed, stream/event position
-Calendar
-  Chapter, Era, Day, Phase
-Global
-  SoulFlow, Entropy, Faith, BattleScale, flags
-World
-  Node states, mutations, ownership, discoveries, garrisons, event state
-Player
-  Position, cards, deck, warehouse, upgrades, unlocks
-Encounter
-  Encounter ID、交战路线、战斗模式、单位、稳定值、Buff、冷却，
-  行动条、先攻、反应/打断窗口、额外行动状态，
-  Encounter 当前行动，或明确支持的 ACT RealTimeAction 快照
-BattleTransaction
-  战前快照 ID、进入时世界哈希、提交/回滚状态，
-  所有被战斗修改的本局存档部分的完整版本化副本
-Story
-  Choices, quests, character relations, unlocked events
-EventHistory
-  Ordered world-changing events or a compact history reference
-```
+[ADR-0007](../Decisions/ADR-0007-Anchored-Map-Generation.zh-CN.md) 已覆盖 ADR-0005 的“仅引用静态拓扑”策略：存档保存冻结生成 **值拓扑**，可信配置锚点独立于加载的存档保留。
 
-## MVP 存档范围
+[ADR-0009](../Decisions/ADR-0009-Painted-Tutorial-Hex-Map.zh-CN.md) 记录教程 v1/v2/v3 兼容：缺少六边形字段保留 v1 的 162 格；v2/v3 为 55 格；v3 仅给新局添加邻近守军。旧布局保留占领/驻军。地图/布局/封装标识及 v1 签名不变，不能把这些整数生成器版本重新解释为新清单。
 
-第一版存档应支持日历状态、全局资源、当前节点、卡牌收藏、已完成局部战斗状态、剧情标记和随机种子。进入局部战斗时，创建一个完整的版本化战前快照，覆盖战斗可能修改的全部本局状态，包括世界变化、归属、资源、卡牌位置/生命周期、熵、信仰、威慑力、战争天平、剧情标记、事件历史和确定性随机流位置。胜利提交战斗结果；失败或玩家退出时精确恢复完整快照，不留下部分战斗消耗或状态。战斗中途存档可以等行动条和 ACT 快照格式稳定后再加入。
+## 已接受的目标分区
 
-除非批准独立且确定性的 ACT 快照契约，存档不能序列化临时按键状态、子弹时间输入状态、镜头状态或动画进度。安全边界 MVP 应恢复到战斗前，或恢复到战斗完成后。
+下列名称定义所需信息，不代表当前已有反射成员。
 
-## 迁移
+| 分区 | 持久化信息 | 恢复规则 |
+|---|---|---|
+| 封装 | 结构/构建/内容兼容性、局身份 | 应用任何分区前先校验 |
+| 地图 | MapKey、冻结玩法布局与生成结构 | 加载兼容烘焙视觉；不按当前算法重生成拓扑 |
+| 局内 | 日历、资源、卡牌实例/牌堆、占领/守军、设施/解锁、备战和结果 | 恢复值后重建表现 |
+| 随机 | 玩法/剧情随机流状态或等价确定性抽取位置 | UI 与装饰不推进这些流 |
+| 剧情 | Seen/Completed NPC/事件、旗标、选项、锁定检查点分支、节点剧情分配 | 复用已确定选择和分配 |
+| 教程 | TutorialVersion、TutorialRunId/序号、NotStarted/InProgress/Completed/Skipped、步骤进度与奖励凭据 | 继续同次运行；主动重玩才创建新身份 |
+| 战斗边界 | 所有可能被战斗修改的局内分区的完整版本化战前值 | 成功仅提交一次，失败/退出精确恢复 |
 
-新字段应使用默认值追加。破坏性变化需要迁移函数，以及至少加载一个旧版本夹具的测试。
+节点剧情分配至少包含 NodeId、具体日历阶段发生次序、StoryEventId 和适用池/内容版本。只有“黎明”标签会跨日冲突。序列化结构和随机流拆分仍需实现，不得静默改变既有随机序列。
+
+不保存 Actor/UObject/ASC 指针、活跃技能/效果句柄、镜头句柄、Sequencer Player、编辑器图、Widget 焦点/捕获、按键状态或动画时间；根据稳定定义/状态重建对象。演出中/战斗中保存需要单独支持的快照设计。
+
+## MapKey 与版本校验
+
+`MapKey = ChapterId + Seed + GeneratorVersion`
+
+GeneratorVersion 指向不可变清单，覆盖地形算法、PCG Graph、主题/生物群系、地图配置及生成结构。作者清单与烘焙资产元数据是可信依据，存档元数据不能重定义该依据。
+
+1. 校验存档封装，在已安装烘焙内容目录中查找 MapKey。
+2. 要求烘焙元数据一致，冻结值布局/锚点契约兼容。
+3. 替换当前局之前校验引用内容/ID 和全部状态。
+4. 不匹配时保留当前局/存档并报告不兼容。可随后执行已实现迁移，或由用户选择新局；不能静默重生成、丢弃未知节点或覆盖旧存档。
+
+例如同一 ChapterId/Seed 搭配 MapGenA 与 MapGenB 表示不同地图版本。如果安装包保留 MapGenA，可加载对应资产；否则需已支持迁移或新局。本文不要求永久保留全部历史美术包。
+
+ChapterContentVersion 独立。只改对白不改变地图身份，但已保存 EventId/选项仍需内容兼容校验。地图兼容不自动意味着剧情兼容。
+
+## 教程奖励与恢复不变量
+
+每次教程区分完成与跳过。跳过初始化配置的教程后奖励，并允许继续。设置中主动重玩创建新 TutorialRunId，可再次获奖；加载或重试同次运行不能重复发放。
+
+概念凭据键为 `TutorialRunId + RewardId`。状态变化与凭据必须一致恢复，两者之间崩溃不能造成二次发奖或漏发。事务布局、持久写入协议、奖励内容及重玩背包/档案归属仍未确定；不能仅添加内存布尔值就宣称已实现。
+
+普通可重复剧情奖励需要自己的发生策略；教程凭据不能错误地让所有随机剧情变成每局一次。
+
+## 迁移与验收
+
+添加目标字段需要版本化实现和明确旧档行为。只有语义已定义时新增字段默认值才安全；打开旧档不能推断“教程已完成”、重抽缺失阶段分配或发奖励。
+
+对应实现必须覆盖：
+
+- 同档恢复地图值、占领、随机流和锁定剧情分支，不重运行生成器。
+- 清单/锚点/内容不匹配时原子拒绝，继续覆盖支持的旧绘景布局。
+- 阶段首次加载只抽一次；存读档、取消对白及 UI 检视保持结果，新阶段可重抽。
+- Completed 与 Skipped 可区分；同次重试不重发，新次重玩可获奖。
+- 奖励/存档中断恢复不部分应用状态；战斗失败恢复全部登记局内字段与随机位置。
+- Development 和 Shipping 不依赖编辑器资产、源码路径或活跃对象引用完成恢复。
+
+当前测试证据保留在 TASK-046/047/048/052。文档任务未实现或打包这些新增项。

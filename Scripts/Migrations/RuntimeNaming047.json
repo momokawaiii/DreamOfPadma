@@ -1,0 +1,304 @@
+{
+  "version": 1,
+  "task": "TASK-047",
+  "symbols": {
+    "PadmaDemoCardRow": "PadmaCardDefinitionRow",
+    "PadmaDemoNodeRow": "PadmaWorldNodeDefinitionRow",
+    "PadmaDemoEdgeRow": "PadmaWorldEdgeDefinitionRow",
+    "PadmaDemoProfileRow": "PadmaBalanceParameterRow",
+    "PadmaDemoACTCharacterRow": "PadmaACTCharacterDefinitionRow",
+    "PadmaDemoACTWeaponRow": "PadmaACTWeaponDefinitionRow",
+    "PadmaDemoDisplayRow": "PadmaAppearanceDefinitionRow",
+    "PadmaDemoFPSCharacterRow": "PadmaFPSCharacterDefinitionRow",
+    "PadmaDemoFPSWeaponRow": "PadmaFPSWeaponDefinitionRow",
+    "PadmaDemoSkillRow": "PadmaSkillEffectRowBase",
+    "PadmaDemoEncounterSkillRow": "PadmaEncounterSkillEffectRow",
+    "PadmaDemoACTSkillRow": "PadmaACTSkillEffectRow",
+    "PadmaDemoDialogueChoice": "PadmaDialogueChoice",
+    "PadmaDemoDialogueRow": "PadmaDialogueLineRow",
+    "PadmaDemoCalendar": "PadmaCalendarState",
+    "PadmaDemoResources": "PadmaResourceState",
+    "PadmaDemoRunCard": "PadmaCardInstance",
+    "PadmaDemoRunNode": "PadmaWorldNodeState",
+    "PadmaDemoMobilityPolicy": "PadmaCardMobilityPolicy",
+    "PadmaDemoPreparation": "PadmaPreparationState",
+    "PadmaDemoSynthesisCandidate": "PadmaSynthesisCandidate",
+    "PadmaDemoSynthesisRecord": "PadmaSynthesisRecord",
+    "PadmaDemoRunLog": "PadmaRunLogEntry",
+    "PadmaDemoBattleRecord": "PadmaBattleRecord",
+    "PadmaDemoRunState": "PadmaRunState",
+    "PadmaDemoModelBinding": "PadmaModelBinding",
+    "PadmaDemoEffectBinding": "PadmaEffectBinding",
+    "PadmaDemoNodePresentationBinding": "PadmaNodePresentationBinding",
+    "PadmaDemoACTCharacterBinding": "PadmaACTCharacterBinding",
+    "PadmaDemoACTWeaponBinding": "PadmaACTWeaponBinding",
+    "PadmaDemoACTSkillBinding": "PadmaACTSkillBinding",
+    "PadmaDemoCatalog": "PadmaContentCatalog",
+    "PadmaDemoSaveGame": "PadmaRunSaveGame",
+    "PadmaDemoRunSubsystem": "PadmaRunSubsystem",
+    "PadmaPlayableGameMode": "PadmaGameMode",
+    "PadmaPlayableController": "PadmaPlayerController",
+    "PadmaPlayableHex": "PadmaWorldNodeActor",
+    "PadmaPlayableWorld": "PadmaWorldMapActor",
+    "PadmaPlayableScreen": "PadmaGameScreen",
+    "PadmaDemoContent": "PadmaContentSnapshot",
+    "PadmaDemoRunRules": "PadmaRunRules",
+    "PadmaDemoCommandEffect": "PadmaRunCommandEffect",
+    "PadmaDemoCommandResult": "PadmaRunCommandResult",
+    "PadmaDemoMoveCheck": "PadmaCardMoveCheck",
+    "PadmaDemoMovePreview": "PadmaCardMovePreview",
+    "PadmaDemoPendingBattle": "PadmaBattleRequest",
+    "PadmaDemoDialogue": "PadmaDialogueState",
+    "PadmaPlayableView": "PadmaGameView"
+  },
+  "redirects": [
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoCardRow",
+      "new": "/Script/DreamOfPadma.PadmaCardDefinitionRow"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoNodeRow",
+      "new": "/Script/DreamOfPadma.PadmaWorldNodeDefinitionRow"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoEdgeRow",
+      "new": "/Script/DreamOfPadma.PadmaWorldEdgeDefinitionRow"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoProfileRow",
+      "new": "/Script/DreamOfPadma.PadmaBalanceParameterRow"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoACTCharacterRow",
+      "new": "/Script/DreamOfPadma.PadmaACTCharacterDefinitionRow"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoACTWeaponRow",
+      "new": "/Script/DreamOfPadma.PadmaACTWeaponDefinitionRow"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoDisplayRow",
+      "new": "/Script/DreamOfPadma.PadmaAppearanceDefinitionRow"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoFPSCharacterRow",
+      "new": "/Script/DreamOfPadma.PadmaFPSCharacterDefinitionRow"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoFPSWeaponRow",
+      "new": "/Script/DreamOfPadma.PadmaFPSWeaponDefinitionRow"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoSkillRow",
+      "new": "/Script/DreamOfPadma.PadmaSkillEffectRowBase"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoEncounterSkillRow",
+      "new": "/Script/DreamOfPadma.PadmaEncounterSkillEffectRow"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoACTSkillRow",
+      "new": "/Script/DreamOfPadma.PadmaACTSkillEffectRow"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoDialogueChoice",
+      "new": "/Script/DreamOfPadma.PadmaDialogueChoice"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoDialogueRow",
+      "new": "/Script/DreamOfPadma.PadmaDialogueLineRow"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoCalendar",
+      "new": "/Script/DreamOfPadma.PadmaCalendarState"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoResources",
+      "new": "/Script/DreamOfPadma.PadmaResourceState"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoRunCard",
+      "new": "/Script/DreamOfPadma.PadmaCardInstance"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoRunNode",
+      "new": "/Script/DreamOfPadma.PadmaWorldNodeState"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoMobilityPolicy",
+      "new": "/Script/DreamOfPadma.PadmaCardMobilityPolicy"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoPreparation",
+      "new": "/Script/DreamOfPadma.PadmaPreparationState"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoSynthesisCandidate",
+      "new": "/Script/DreamOfPadma.PadmaSynthesisCandidate"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoSynthesisRecord",
+      "new": "/Script/DreamOfPadma.PadmaSynthesisRecord"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoRunLog",
+      "new": "/Script/DreamOfPadma.PadmaRunLogEntry"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoBattleRecord",
+      "new": "/Script/DreamOfPadma.PadmaBattleRecord"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoRunState",
+      "new": "/Script/DreamOfPadma.PadmaRunState"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoModelBinding",
+      "new": "/Script/DreamOfPadma.PadmaModelBinding"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoEffectBinding",
+      "new": "/Script/DreamOfPadma.PadmaEffectBinding"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoNodePresentationBinding",
+      "new": "/Script/DreamOfPadma.PadmaNodePresentationBinding"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoACTCharacterBinding",
+      "new": "/Script/DreamOfPadma.PadmaACTCharacterBinding"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoACTWeaponBinding",
+      "new": "/Script/DreamOfPadma.PadmaACTWeaponBinding"
+    },
+    {
+      "kind": "Struct",
+      "old": "/Script/DreamOfPadma.PadmaDemoACTSkillBinding",
+      "new": "/Script/DreamOfPadma.PadmaACTSkillBinding"
+    },
+    {
+      "kind": "Class",
+      "old": "/Script/DreamOfPadma.PadmaDemoCatalog",
+      "new": "/Script/DreamOfPadma.PadmaContentCatalog"
+    },
+    {
+      "kind": "Class",
+      "old": "/Script/DreamOfPadma.PadmaDemoSaveGame",
+      "new": "/Script/DreamOfPadma.PadmaRunSaveGame"
+    },
+    {
+      "kind": "Class",
+      "old": "/Script/DreamOfPadma.PadmaDemoRunSubsystem",
+      "new": "/Script/DreamOfPadma.PadmaRunSubsystem"
+    },
+    {
+      "kind": "Class",
+      "old": "/Script/DreamOfPadma.PadmaPlayableGameMode",
+      "new": "/Script/DreamOfPadma.PadmaGameMode"
+    },
+    {
+      "kind": "Class",
+      "old": "/Script/DreamOfPadma.PadmaPlayableController",
+      "new": "/Script/DreamOfPadma.PadmaPlayerController"
+    },
+    {
+      "kind": "Class",
+      "old": "/Script/DreamOfPadma.PadmaPlayableHex",
+      "new": "/Script/DreamOfPadma.PadmaWorldNodeActor"
+    },
+    {
+      "kind": "Class",
+      "old": "/Script/DreamOfPadma.PadmaPlayableWorld",
+      "new": "/Script/DreamOfPadma.PadmaWorldMapActor"
+    },
+    {
+      "kind": "Class",
+      "old": "/Script/DreamOfPadma.PadmaPlayableScreen",
+      "new": "/Script/DreamOfPadma.PadmaGameScreen"
+    }
+  ],
+  "sourceFiles": {
+    "Source/DreamOfPadma/Private/MVP/Core/Cards/PadmaCardMobility.cpp": "Source/DreamOfPadma/Private/Core/Cards/PadmaCardMobility.cpp",
+    "Source/DreamOfPadma/Private/MVP/Core/Content/PadmaDemoContent.cpp": "Source/DreamOfPadma/Private/Core/Content/PadmaContentTypes.cpp",
+    "Source/DreamOfPadma/Private/MVP/Core/Run/PadmaDemoRunRules.cpp": "Source/DreamOfPadma/Private/Core/Run/PadmaRunRules.cpp",
+    "Source/DreamOfPadma/Private/MVP/Game/Content/PadmaDemoCatalog.cpp": "Source/DreamOfPadma/Private/Game/Content/PadmaContentCatalog.cpp",
+    "Source/DreamOfPadma/Private/MVP/Game/Playable/PadmaBattleComposition.cpp": "Source/DreamOfPadma/Private/Game/Framework/PadmaPlayerControllerCombat.cpp",
+    "Source/DreamOfPadma/Private/MVP/Game/Playable/PadmaPlayableGame.cpp": "Source/DreamOfPadma/Private/Game/Framework/PadmaPlayerController.cpp",
+    "Source/DreamOfPadma/Private/MVP/Game/Playable/PadmaPlayableInterface.cpp": "Source/DreamOfPadma/Private/Game/Framework/PadmaPlayerControllerUI.cpp",
+    "Source/DreamOfPadma/Private/MVP/Game/Presentation/PadmaNodePreview.cpp": "Source/DreamOfPadma/Private/Game/Presentation/PadmaNodePreview.cpp",
+    "Source/DreamOfPadma/Private/MVP/Game/Presentation/PadmaPresentationCatalog.cpp": "Source/DreamOfPadma/Private/Game/Presentation/PadmaPresentationCatalog.cpp",
+    "Source/DreamOfPadma/Private/MVP/Game/Run/PadmaDemoRunSubsystem.cpp": "Source/DreamOfPadma/Private/Game/Run/PadmaRunSubsystem.cpp",
+    "Source/DreamOfPadma/Private/MVP/Gameplay/Combat/PadmaCombatAttributes.cpp": "Source/DreamOfPadma/Private/Gameplay/Combat/PadmaCombatAttributes.cpp",
+    "Source/DreamOfPadma/Private/MVP/Gameplay/Combat/PadmaCombatComponent.cpp": "Source/DreamOfPadma/Private/Gameplay/Combat/PadmaCombatComponent.cpp",
+    "Source/DreamOfPadma/Private/MVP/Gameplay/Combat/PadmaCombatUnit.cpp": "Source/DreamOfPadma/Private/Gameplay/Combat/PadmaCombatUnit.cpp",
+    "Source/DreamOfPadma/Private/MVP/Gameplay/Encounter/PadmaEncounterAbility.cpp": "Source/DreamOfPadma/Private/Gameplay/Encounter/PadmaEncounterAbility.cpp",
+    "Source/DreamOfPadma/Private/MVP/Gameplay/ACT/Authoring/PadmaACTAuthoring.cpp": "Source/DreamOfPadma/Private/Gameplay/ACT/Authoring/PadmaACTAuthoring.cpp",
+    "Source/DreamOfPadma/Private/MVP/Gameplay/ACT/Runtime/PadmaACTAbility.cpp": "Source/DreamOfPadma/Private/Gameplay/ACT/Runtime/PadmaACTAbility.cpp",
+    "Source/DreamOfPadma/Private/MVP/Presentation/Models/PadmaModelPresentation.cpp": "Source/DreamOfPadma/Private/Presentation/Models/PadmaModelPresentation.cpp",
+    "Source/DreamOfPadma/Private/MVP/UI/Playable/PadmaPlayableScreen.cpp": "Source/DreamOfPadma/Private/UI/Screens/PadmaGameScreen.cpp",
+    "Source/DreamOfPadma/Private/MVP/World/Playable/PadmaCombatFeedback.cpp": "Source/DreamOfPadma/Private/World/Combat/PadmaCombatFeedback.cpp",
+    "Source/DreamOfPadma/Private/MVP/World/Playable/PadmaPlayableWorld.cpp": "Source/DreamOfPadma/Private/World/Map/PadmaWorldMapActor.cpp",
+    "Source/DreamOfPadma/Public/MVP/Core/Cards/PadmaCardMobility.h": "Source/DreamOfPadma/Public/Core/Cards/PadmaCardMobility.h",
+    "Source/DreamOfPadma/Public/MVP/Core/Content/PadmaDemoContent.h": "Source/DreamOfPadma/Public/Core/Content/PadmaContentTypes.h",
+    "Source/DreamOfPadma/Public/MVP/Core/Run/PadmaDemoRunRules.h": "Source/DreamOfPadma/Public/Core/Run/PadmaRunRules.h",
+    "Source/DreamOfPadma/Public/MVP/Game/Content/PadmaDemoCatalog.h": "Source/DreamOfPadma/Public/Game/Content/PadmaContentCatalog.h",
+    "Source/DreamOfPadma/Public/MVP/Game/Playable/PadmaPlayableGame.h": "Source/DreamOfPadma/Public/Game/Framework/PadmaPlayerController.h",
+    "Source/DreamOfPadma/Public/MVP/Game/Presentation/PadmaNodePreview.h": "Source/DreamOfPadma/Public/Game/Presentation/PadmaNodePreview.h",
+    "Source/DreamOfPadma/Public/MVP/Game/Presentation/PadmaPresentationCatalog.h": "Source/DreamOfPadma/Public/Game/Presentation/PadmaPresentationCatalog.h",
+    "Source/DreamOfPadma/Public/MVP/Game/Run/PadmaDemoRunSubsystem.h": "Source/DreamOfPadma/Public/Game/Run/PadmaRunSubsystem.h",
+    "Source/DreamOfPadma/Public/MVP/Gameplay/Combat/PadmaCombatAttributes.h": "Source/DreamOfPadma/Public/Gameplay/Combat/PadmaCombatAttributes.h",
+    "Source/DreamOfPadma/Public/MVP/Gameplay/Combat/PadmaCombatComponent.h": "Source/DreamOfPadma/Public/Gameplay/Combat/PadmaCombatComponent.h",
+    "Source/DreamOfPadma/Public/MVP/Gameplay/Combat/PadmaCombatTypes.h": "Source/DreamOfPadma/Public/Gameplay/Combat/PadmaCombatTypes.h",
+    "Source/DreamOfPadma/Public/MVP/Gameplay/Combat/PadmaCombatUnit.h": "Source/DreamOfPadma/Public/Gameplay/Combat/PadmaCombatUnit.h",
+    "Source/DreamOfPadma/Public/MVP/Gameplay/Encounter/PadmaEncounterAbility.h": "Source/DreamOfPadma/Public/Gameplay/Encounter/PadmaEncounterAbility.h",
+    "Source/DreamOfPadma/Public/MVP/Gameplay/ACT/Authoring/PadmaACTAuthoring.h": "Source/DreamOfPadma/Public/Gameplay/ACT/Authoring/PadmaACTAuthoring.h",
+    "Source/DreamOfPadma/Public/MVP/Gameplay/ACT/Runtime/PadmaACTAbility.h": "Source/DreamOfPadma/Public/Gameplay/ACT/Runtime/PadmaACTAbility.h",
+    "Source/DreamOfPadma/Public/MVP/Presentation/Models/PadmaModelPresentation.h": "Source/DreamOfPadma/Public/Presentation/Models/PadmaModelPresentation.h",
+    "Source/DreamOfPadma/Public/MVP/UI/Playable/PadmaPlayableScreen.h": "Source/DreamOfPadma/Public/UI/Screens/PadmaGameScreen.h",
+    "Source/DreamOfPadma/Public/MVP/World/Playable/PadmaCombatFeedback.h": "Source/DreamOfPadma/Public/World/Combat/PadmaCombatFeedback.h",
+    "Source/DreamOfPadma/Public/MVP/World/Playable/PadmaPlayableWorld.h": "Source/DreamOfPadma/Public/World/Map/PadmaWorldMapActor.h"
+  },
+  "addedSourceFiles": [
+    "Source/DreamOfPadma/Public/Game/Framework/PadmaGameMode.h",
+    "Source/DreamOfPadma/Private/Game/Framework/PadmaGameMode.cpp",
+    "Source/DreamOfPadma/Public/Game/Save/PadmaRunSaveGame.h",
+    "Source/DreamOfPadma/Private/Game/Save/PadmaRunSaveGame.cpp"
+  ],
+  "preserved": {
+    "contentRoot": "/Game/Padma/MVP/Playable",
+    "saveSlot": "PadmaDemo046",
+    "saveAppId": "padma-native-demo",
+    "saveFormatVersion": 1
+  }
+}

@@ -1,5 +1,7 @@
 # End-to-End Multi-Agent Workflow Example
 
+> Historical teaching example, not the default execution path. Role relays, full reading, mandatory lessons/reviews and per-task worktrees are superseded by [the current workflow](Workflow.md). Read only when studying multi-task integration.
+
 - Chinese companion for user reading: `Docs/Agent/WorkflowExample.zh-CN.md`
 
 ## Status of this example

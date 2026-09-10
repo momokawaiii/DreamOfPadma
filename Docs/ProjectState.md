@@ -1,92 +1,55 @@
 # Project State
 
-- Chinese companion for user reading: `Docs/ProjectState.zh-CN.md`
+- Chinese companion: ProjectState.zh-CN.md
+- Updated: 2026-09-10; current facts only. Check Git and affected files before acting.
+- Workspace: E:/2026ue/DreamOfPadma; current Local branch codex/mvp-demo-foundations. Preserve unrelated working changes.
 
-## Baseline
+## Current priority
 
-- Project: DreamOfPadma
-- Engine association: see `DreamOfPadma.uproject`; do not change it without an ADR.
-- Current milestone: MVP high-level baseline frozen / Agent workflow ready / bilingual change-log protocol established / PIE foundation verified / future ACT architecture boundary accepted / M1 Core contract complete / ADR-0003 accepted / TASK-006 cluster complete / TASK-007 integrated locally / TASK-008 ready for implementation
-- Runtime modules: the generated `DreamOfPadma` module only
-- Git repository: `main` tracks the private GitHub `origin/main`
-- Git LFS: initialized locally
+The next product delivery is an installable offline Chapter Zero Demo: real core operations, Encounter then one ACT at separate nodes, and royal-court ending. Both Development and Shipping must be tested. Final path values must come from approved production data; the card document is pending. See [ChapterZero](Rules/ChapterZero.md) and [Roadmap](Production/Roadmap.md).
 
-## Completed
+[TASK-053](Production/Tasks/TASK-053-Grill-Technical-Docs.md) reconciles the grill decisions into concise technical owners; documentation checks and focused independent review passed. The target adds editor-baked map/manifest identity, chapter runtime, saved stage-story assignment and tutorial skip/replay reward identity. These are not implemented by this documentation change. The Slate story editor is deferred; current data/table workflows remain available.
 
-- Blank C++ UE project created.
-- Initial repository layout added.
-- Agent contract and documentation index added.
-- Git ignore and Git LFS attributes added.
-- Git repository and local Git LFS hooks initialized.
-- Validation, asset-audit, test, and packaging script entry points added.
-- Five MVP design baseline documents created in English for Agents and Chinese for user review.
-- The baseline documents were checked against `mygame.pdf`, `mycard.pdf`, and the latest project clarifications.
-- UE5.8 Target settings updated and the DreamOfPadmaEditor target compiled successfully.
-- Program architecture, data-driven architecture, architecture Agent rules, and module Agent rules added.
-- Logical module documentation directories and bilingual module README skeletons added for PadmaCore, PadmaGame, PadmaGameplay, PadmaWorld, PadmaUI, PadmaEditor, and PadmaTests.
-- Battle-mode clarification recorded: Encounter is a condition-driven turn-based action timeline with initiative, priority, reactions, interrupts, extra actions, and non-turn windows; RealTimeAction is the ACT/FPS/other real-time route with ACT as the first MVP mode; basic non-A cards are battle-only; ABC-card active abilities are Sandbox-available by default with per-ability restrictions.
-- Interaction clarification recorded: Encounter hand and RealTimeAction slots are one-to-one through the shared `Tab` card repository; ACT MVP `Tab` opens a blurred five-card panel, sets world time to 1/10, and rejects movement/attack input while accepting only basic non-A card input; slots are 1-5 per page and the mouse wheel requests the next page. Total page count is deferred.
-- Encounter trigger clarification recorded: when an ABC-card-controlled character or unit moves onto a point where an enemy is staying, the point triggers an Onmyoji-like turn-based Encounter; the resolved battle route can select/trigger Encounter, ACT, or a future RealTimeAction presentation and story consequence.
-- Battle transaction clarification recorded: local battles may be entered at any calendar phase, pause sandbox time, record a complete versioned snapshot of all battle-mutated run state, commit on success, and restore that snapshot exactly on defeat or exit.
-- MVP outcome clarification recorded: the two MVP victories are ruler-core life reaching zero and war balance reaching the player victory boundary; the outcome contract remains extensible for the other documented victory and defeat methods.
-- Synthesis clarification recorded: the documented layered formula remains the source; synthesis failure grants no reward, and resource loops require authored cost/risk while allowing luck to compensate in some cases.
-- User accepted the high-level MVP design and architecture baseline on 2026-09-02. Explicitly open, proposed, deferred, and playtest-only parameters remain unresolved by design.
-- The private GitHub origin and SSH-over-443 authentication were verified from the user's normal terminal.
-- Baseline commit `cbb4da4` and annotated tag `mvp-baseline-v0.1.0` were published to the private origin.
-- Project-scoped Codex multi-Agent settings and nine bounded Role profiles were added under `.codex/`; planner, architect, reviewer, and tutor profiles are read-only by default, while `module_worker` is the scoped writer.
-- Three project Skills now define repeatable task execution, independent review, and evidence-based learning under `.agents/skills/`.
-- `TASK-001 Foundation Verification` is complete; the user-provided manual evidence confirms that the default map launches in PIE on 2026-09-03.
-- The approved hierarchy is documented: one independently mergeable writable Goal normally has one task contract, one worktree, and one Primary Agent; subagents receive bounded work packages; Skills store procedure rather than mutable project truth.
-- Bilingual operating documents now cover Codex setup, conservative parallelism, integration order, Git/GitHub backup, a complete M1 example, and the novice learning loop.
-- `TASK-002 Agent Workflow Bootstrap` is complete, and the task template now records decision state, exact write set, delegation, integration order, verification, recovery, and separate Agent/user learning evidence.
-- `TASK-003 Core Rule Contract Slice` is complete after independent read-only review and user approval on 2026-09-07; it freezes the design-only Core contract and downstream test matrix but authorizes no runtime implementation.
-- `TASK-004 ACT Architecture Decision Integration` records ADR-0002 and the Future ACT Development Agent Contract as an accepted documentation-only boundary: Encounter remains first, ACT requires a separate approved task, built-in GAS requires an approved dependency change, and external gameplay plugins require another ADR.
-- `ADR-0003 Fixed Playable Prototype Vertical Slice` was accepted and `TASK-006 Playable Prototype Vertical Slice Cluster` was completed on 2026-09-07; `TASK-007` was then implemented, independently reviewed, and locally completed as `Done`; `TASK-008` is now `Ready`, while TASK-009 and TASK-010 remain separately gated.
-- A bilingual, release-style implementation Changelog is now established at `Docs/Changelog.md` and `Docs/Changelog.zh-CN.md`; Primary Agents provide drafts and the Integration Coordinator records the final shared entry before `Verified` or `Done`.
-- `TASK-007 SLG Demo World Selection and Transition` was locally integrated on 2026-09-08 after independent Review `Pass`; completion-report closeout commit `9ea99c7` and the shared integration update are local only. The user-owned `Config/DefaultEngine.ini` and default-map change is preserved in separate local commit `d8f107f` for TASK-010 and was not mixed into TASK-007; `TASK-008` is now `Ready`.
+Current native work remains TASK-052's verified working-tree candidate: 55-cell painted tutorial, click-pinned details, A/B confirmation, vertical parchment hand, map navigation, liquid war UI and PIE-exit fixes. The separate continuous-terrain/PCG sample remains available. User art/physical long-hold acceptance and packaged behavior remain unverified; evidence stays in the individual TASKs.
 
-## Next tasks
+The user reports prior Blueprint, DataAsset/DataTable/soft-reference, UMG/CommonUI basics and GAS study. Teach only when requested; do not repeat onboarding.
 
-1. `ADR-0003` is `Accepted`, the bilingual [TASK-006 Playable Prototype Vertical Slice Cluster](Production/Tasks/TASK-006-Playable-Prototype-Cluster.md) is `Done`, and `TASK-007` is locally `Done` after independent Review `Pass`; `TASK-008` is now `Ready` for a new implementation session. TASK-009 and TASK-010 remain `Review` and serially gated.
-2. Start the `TASK-008` implementation on Local branch `feature/TASK-008-encounter-character-skill`; after its independent Review and integration, proceed serially to TASK-009 card/UI -> TASK-010 integration and PIE acceptance. Do not create Worktrees by default.
-3. Keep the first visual Goal fixed-fixture and presentation-first: one Demo tile, one local scene, one card, one character, and read-only skills. Do not let it decide any Open/Proposed/Deferred rule.
-4. Keep [TASK-005 Deterministic Random Foundation](Production/Tasks/TASK-005-Deterministic-Random-Foundation.md) at `Review`; it is not a prerequisite for this non-random Demo cluster and must not be started implicitly.
-5. Re-evaluate broad automation, Debug panel, Calendar, Resource Ledger, and production asset migration after the playable slice; Calendar still requires its index-origin decision, and Resource Ledger still requires authored value/cap/debt/loop policies.
+## Delivery state
 
-## Known decisions
+| Area | Current result |
+|---|---|
+| UE TASK-052 | Working-tree verified candidate: click-pinned details, explicit A/B placement, five-column vertical parchment hand, 55-cell new tutorial, single-owner painted-map input and 50:50 liquid motion UI; build, targeted regression and native evidence in TASK-052 |
+| UE TASK-051 | Fixed tutorial painting and GPU atmosphere retained; version-1 162-cell saves remain supported alongside TASK-052's new grid. Earlier checks remain in TASK-051 |
+| UE TASK-007 / 008 | Historical fixed travel/summon chain retired in TASK-048; old assets, source and fixture tests removed |
+| UE TASK-036 / 040 | ACT authoring templates and reusable model catalog/preview retained; garrison preview migrated to a general model asset |
+| HTML TASK-042 / 043 / 044 | HTML 0.4 accepted by user after iteration; older manual-pending notes in reports are historical |
+| UE TASK-046 | Native working-tree candidate: calendar/resources/ABC/synthesis/graph/preparation/dialogue, Encounter and ACT GAS, transactions and safe saves; Editor build and 11 focused tests passed; real map/home/two-mode entry rendering passed |
+| UE TASK-047 | Runtime naming migrated; Editor build and 12 focused tests passed, including legacy save reading. All 18 table contents preserved, native type tags and two map references re-saved; real world/battle/rollback/world route passed |
+| UE TASK-048 | Working-tree candidate: editable map kit, fixed anchors, arrival checkpoints, seeded branches, 3D camera/terrain/roads/models and PCG; Editor build and 22 focused tests passed; PCG generated 200 instances. User interaction acceptance pending |
+| UE TASK-049 / 050 | Reference-inspired strategy HUD, continuous terrain sample, 500 surface-filtered PCG instances, 7 sample meshes/18 materials/3 landmark definitions and 2 UI skin textures. Real activatable stacks, nested Back/focus and readonly instance/battle inspection; 26 focused tests passed. User playtest/art acceptance pending |
+| Beyond accepted HTML | Formal ACT actions/combos, unsupported PDF abilities, relationship buffs, FPS gameplay and production art remain |
+| Workflow TASK-045 | Verified: concise routing, scoped delegation, risk-based review and optional teaching |
 
-- The old prototype is reference-only.
-- Content is not ignored as a whole; generated UE folders are ignored.
-- Core rules must be independent from presentation and concrete world Actors.
-- Save data is versioned and ID-based.
-- The high-level MVP design and architecture baseline is frozen. Explicitly open, proposed, deferred, and playtest-only items remain unresolved; permanent module ownership has not been assigned.
-- English design baseline documents are the Agent-facing versions; Chinese files are synchronized user-facing companions.
-- Architecture module directories are logical boundaries and documentation homes; they are not standalone UE modules yet.
-- The English architecture documents are the technical source for Agents; Chinese companions are user-facing mirrors.
-- Encounter battles are turn-based action-timeline battles rather than fixed player/ruler alternation; terrain and card abilities can affect initiative, priority, reactions, interrupts, extra actions, and non-turn windows. The high-level behavior is fixed, but the exact action-bar formula, precedence, and window card allowance are intentionally deferred until implementation needs them.
-- The first RealTimeAction mode is ACT, and the MVP requires one complete playable ACT battle loop.
-- ADR-0002 establishes Encounter-first delivery and a future C++-first, data-driven ACT boundary. It does not authorize ACT/GAS implementation; built-in GAS needs an approved dependency task, external gameplay plugins need a separate ADR, and exact schemas plus all Open/Deferred gameplay semantics remain unresolved.
-- Basic non-A hand skill cards are legal only in local battle, with at most one during each eligible player action turn in Encounter and ACT MVP `Tab`/bullet-time/numeric-slot input in RealTimeAction; the visible slots are 1-5 per page. Lifecycle probabilities and total page count are intentionally deferred.
-- ABC-card active abilities are Sandbox-available by default, with exceptional restrictions configured per ability; their additional in-battle legality is not yet decided.
-- Local battles can be entered at any calendar phase, pause sandbox time, capture a complete versioned pre-battle snapshot, commit on success, and restore the complete snapshot exactly on defeat or exit.
-- The two MVP victories are ruler-core life reaching zero and war balance reaching the player victory boundary; additional documented victory and defeat methods remain future-extensible outcome definitions.
-- Synthesis failure grants no reward. Resource loops require explicit cost, timing, and risk; luck may compensate a cost in an authored loop.
-- Windows Development packaging, cooking, staging, and packaging-focused learning are deferred until after MVP completion; they are not TASK-001 or M0 gates.
-- Repository coordination uses these distinct units: `AGENTS.md` for mandatory rules, `Docs/` for mutable truth, Role profiles for specialist behavior, one Goal/TASK pair for one delivery result, a worktree for independent write isolation, a Primary Agent for accountability, subagents for bounded delegation, and Skills for repeatable procedure.
-- A worktree is allocated to an independently mergeable writable Goal, not permanently to a Role or logical module. Shared contracts, maps, binary UE assets, central configuration, Editor sessions, and final integration stay serial.
-- Temporary operating choice (2026-09-03): near-term development may use a Local feature branch from `main` (proposed branch: `feature/TASK-001-gameplay-flow`); Worktree is optional and is not created by default until independent write isolation is needed. Existing same-file ownership, review, and integration rules still apply.
-- Near-term playable-slice priority (2026-09-07): `TASK-006` through `TASK-010` target a fixed, functional flow comparable to `E:\\2026ue\\padma`—select one SLG tile, enter one mapped local scene, play one card, summon one character, and read its skills. The reference project remains read-only reference material; this priority change does not authorize bulk asset/code migration or any Open/Deferred rule.
-- Initial concurrency is capped at four spawned subagents per parent session, no more than two writable worktrees, and one UE build/Editor/PIE lane. These limits may change only after integration evidence supports it.
-- Remote push, tags, releases, destructive Git operations, and meaningful scope expansion require explicit user authorization.
+Current interaction, motion and grid-compatibility evidence is in TASK-052; accepted gameplay evidence remains in TASK-046 and naming compatibility in TASK-047. User art/physical hold acceptance and packaged-build compatibility remain unverified. Earlier evidence stays in its original task. No commit, merge or push is authorized by prototype acceptance.
 
-## Open questions
+## Active boundaries
 
-- Final numerical coefficients/clamping for the documented synthesis formula, and whether Sigma dice remain for any non-reward failure consequence.
-- Whether the overworld and encounter scene share one World Partition world.
-- Exact Encounter action-bar precedence, initiative modifiers, response/interrupt priority, extra-action rules, non-turn windows, end-turn effects, and the precise card allowance of those windows; this is intentionally left blank until the relevant implementation task.
-- ACT MVP trigger, background blur, movement/attack input rejection, and 1/10 world-time scale are decided. Remaining duration/toggle details, page-boundary behavior, and total page count are deferred.
-- Whether ABC active abilities are also legal during Encounter or RealTimeAction.
-- Basic non-A hand lifecycle and its card-specific probabilities for discard, return, or cooldown; five visible slots per page and mouse-wheel next-page input are decided, but total page count and boundary behavior are deferred until the relevant card UI implementation.
-- The final source format for data import: CSV, JSON, or a mixed pipeline.
-- The exact joint battle-route resolution data, including how both sides and terrain/card effects constrain distance/route and map to mode/story triggers.
-- The exact semantics of Shape/Returning Ruin.
+- HTML supplies accepted implemented behavior, not proof that the entire PDF is implemented. Use Docs/Rules and the latest user decisions for semantics; missing formal ACT content, progression and relationship buffs remain explicit.
+- Encounter and ACT use separate GAS execution/configuration and separate character collections. Basic skills share identity/slots with separately authored mode effects. ACT equipment comes from battle settings; terrain restrictions name their target.
+- Ordinary SLG maps use directed authored nodes/edges over a hex appearance. The fixed painting tutorial explicitly opts into generated hex adjacency with seven painting-specific key positions; new version-3 grids have 55 cells and one enemy guard at fire and saved version-1 grids retain 162. Impassable cells and authored road locks remain enforced. SaveGame freezes layout and mutable/story state against trusted configuration. Click pins inspection; Move Here moves deployed cards. A/B placement captures a target and revalidates the live Core command on confirmation. Enemy information is public.
+- A with attached B moves atomically with each card validated; movement supports movable/immovable/conditional metadata.
+- Synthesis inputs discard on success/failure; successful C appears at the current node. B accumulates A tendencies at noon. Shared basic cards have an independent discard/recycle pile.
+- Encounter ordinary attack arms target selection and allows cancellation. Basic hand cards preview on drop, confirm to play, and have a card/environment source. True damage ignores C resistance; physical basic damage does not.
+- Local battle time freezes the sandbox. Success commits; defeat/exit restores the complete snapshot. Current two victory routes are ruler core and war balance.
+- UI pages and modal overlays use separate activation stacks. Only the top overlay accepts input; details never settle gameplay. Painted-map Slate owns its navigation through the CommonUI page and handles clicks/middle drag/wheel; cancellation clears its keys and capture. The controller does not also poll painted WASD; the legacy 3D camera remains controller-owned. Encounter inspection waits for enemy autoplay, while committed actions can finish. ACT inspection does not change its clock or Tab policy. Terrain and PCG are cosmetic; the graph remains authoritative.
+- Current prototypes may use placeholders and labelled temporary UE Demo numbers; clear non-conflicting mycard values retain provenance. The final offline Demo path requires approved production values/assets under ChapterZero; missing card/reward inputs remain unresolved.
+- One UE build/Editor/PIE lane; keep current Local work and unrelated changes. Task status never authorizes Git integration or remote operations.
+
+## Next entry points
+
+- Native UE play route, exact source map and art/table authoring: [NativePlayableDemo](Content/NativePlayableDemo.md), [WorldMapAuthoring](Content/WorldMapAuthoring.md), [StrategyPresentation](Content/StrategyPresentation.md). Default map is `/Game/Padma/MVP/Playable/Maps/L_PadmaWorld`; author positions in `/Game/Padma/World/Maps/Editing/L_MapAuthoring`.
+- Workflow and compact delegation: [Agent Workflow](Agent/Workflow.md).
+- UE model/ACT preparation: [ModelAuthoring](Content/ModelAuthoring.md), [ACTAuthoring](Content/ACTAuthoring.md).
+- UE task dependencies: [TASK-011 matrix](Production/Tasks/TASK-011-Full-MVP-Task-Cluster.md). Reconcile old TASK-009/010 fixture scope with accepted HTML when activating that delivery; do not create a redundant old UI.
+- Relevant unresolved decisions: [MVPDecisionRegister](Production/MVPDecisionRegister.md); use only entries affecting the chosen slice. Latest user decisions override stale generic backlog prose.
+- Historical evidence and earlier decisions: [state snapshot](Production/History/ProjectState-2026-09-09.md), [Changelog](Changelog.md), exact TASK reports. Do not load history for routine startup.
