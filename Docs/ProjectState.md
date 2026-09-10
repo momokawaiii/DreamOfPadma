@@ -2,7 +2,7 @@
 
 - Chinese companion: ProjectState.zh-CN.md
 - Updated: 2026-09-10; current facts only. Check Git and affected files before acting.
-- Workspace: E:/2026ue/DreamOfPadma; current Local branch codex/mvp-demo-foundations. Preserve unrelated working changes.
+- Workspace: E:/2026ue/DreamOfPadma; current Local branch main at MVP baseline 00b894d. Keep future Demo rewrite work on a separate Local branch.
 
 ## Current priority
 
@@ -11,6 +11,8 @@ The next product delivery is an installable offline Chapter Zero Demo: real core
 [TASK-053](Production/Tasks/TASK-053-Grill-Technical-Docs.md) reconciles the grill decisions into concise technical owners; documentation checks and focused independent review passed. The target adds editor-baked map/manifest identity, chapter runtime, saved stage-story assignment and tutorial skip/replay reward identity. These are not implemented by this documentation change. The Slate story editor is deferred; current data/table workflows remain available.
 
 Current native work remains TASK-052's verified working-tree candidate: 55-cell painted tutorial, click-pinned details, A/B confirmation, vertical parchment hand, map navigation, liquid war UI and PIE-exit fixes. The separate continuous-terrain/PCG sample remains available. User art/physical long-hold acceptance and packaged behavior remain unverified; evidence stays in the individual TASKs.
+
+The current MVP snapshot was committed as `00b894d` and fast-forwarded into local `main` on 2026-09-10. Keep `main` as this baseline while Demo rewrite work proceeds on a new branch.
 
 The user reports prior Blueprint, DataAsset/DataTable/soft-reference, UMG/CommonUI basics and GAS study. Teach only when requested; do not repeat onboarding.
 
@@ -30,7 +32,7 @@ The user reports prior Blueprint, DataAsset/DataTable/soft-reference, UMG/Common
 | Beyond accepted HTML | Formal ACT actions/combos, unsupported PDF abilities, relationship buffs, FPS gameplay and production art remain |
 | Workflow TASK-045 | Verified: concise routing, scoped delegation, risk-based review and optional teaching |
 
-Current interaction, motion and grid-compatibility evidence is in TASK-052; accepted gameplay evidence remains in TASK-046 and naming compatibility in TASK-047. User art/physical hold acceptance and packaged-build compatibility remain unverified. Earlier evidence stays in its original task. No commit, merge or push is authorized by prototype acceptance.
+Current interaction, motion and grid-compatibility evidence is in TASK-052; accepted gameplay evidence remains in TASK-046 and naming compatibility in TASK-047. User art/physical hold acceptance and packaged-build compatibility remain unverified. Earlier evidence stays in its original task. The playable MVP snapshot is integrated in local `main`; remote synchronization is handled by this delivery.
 
 ## Active boundaries
 

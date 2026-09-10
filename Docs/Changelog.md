@@ -11,6 +11,8 @@ This document is the concise, user-facing release summary for delivered implemen
 
 ### Added
 
+- 2026-09-10 — **Playable MVP baseline integrated**: commits the complete current MVP snapshot as `00b894d` and fast-forwards local `main`; 472 tracked files covering UE code/assets/maps, data, UI, prototypes and bilingual documentation are now represented in the baseline. UE5.8 Editor Development build, documentation/project validation, staged diff check and Git LFS fsck passed. Packaging and user art/physical-hold acceptance remain unverified.
+
 - 2026-09-10 — **TASK-053 technical documentation**: consolidates architecture/data/runtime/save ownership around the accepted offline Chapter Zero Demo. Records immutable baked MapKey, persisted stage stories and tutorial replay rewards as pending targets; defers the story editor and requires Development/Shipping acceptance. Preserves unanswered grill proposals and existing prototype compatibility. No runtime or asset changes.
 
 - 2026-09-10 — **TASK-052 exit and selection follow-up**: explicitly releases CommonUI stack caches and removes button-material session retention; clicks pin the sidebar and hover no longer changes targets. Fresh tutorials give nearby fire one enemy guard. Editor build, 32 regressions and three actual PIE exits passed; v1/v2 save compatibility is retained. See TASK-052 ClickExit evidence.
