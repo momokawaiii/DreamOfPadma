@@ -2,7 +2,13 @@
 
 - Chinese companion for user reading: `Docs/Rules/Synthesis.zh-CN.md`
 
-This document is the rule contract. Numerical coefficients remain configurable data and must not be invented in code.
+This document is the rule contract. Production numerical coefficients remain configurable data and must not be invented in code. On 2026-09-09 the user authorized editable temporary numbers for the HTML rule prototype only; they do not become UE production defaults.
+
+## Material lifecycle (accepted 2026-09-09)
+
+After a synthesis attempt resolves, all participating A and B cards enter the discard pile, on both success and failure. Failure grants no reward and paid Flow is not refunded. Validation rejection is not an attempt and consumes neither cards nor resources. A tendencies accumulate into each attached B field once when the calendar enters Morning each day; previewing or reopening a screen does not accumulate them.
+
+On success, C appears directly at the participating A/B pair's current node, including a destination they previously moved to. Preserve that stable NodeId before discarding the inputs. C does not enter hand and requires no second deployment action or fee. This is the user's correction to the first HTML implementation; imported or initially held C cards retain their separate hand-deployment path.
 
 ## Resolution order
 

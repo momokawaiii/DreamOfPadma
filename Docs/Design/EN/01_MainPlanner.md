@@ -118,9 +118,9 @@ A local battle is a separate mode transaction. Entering it pauses sandbox time a
 
 ### 7.1 Cards
 
-- A cards represent roots, bases, or egos and normally belong to F.
-- B cards represent gospels, media, or catalysts and normally belong to D.
-- C cards represent terminals, creations, or selves and normally belong to R.
+- A cards represent roots, bases, or egos. Its attribute is F, confirmed by the user for D22d on 2026-09-08; conflicting collection labels require revision.
+- B cards represent gospels, media, or catalysts. Its attribute is D, confirmed by the user for D22d on 2026-09-08; conflicting collection labels require revision.
+- C cards represent terminals, creations, or selves. Its attribute is R, confirmed by the user for D22d on 2026-09-08; conflicting collection labels require revision.
 - C cards can function as constructions, characters, events, or items.
 - Basic non-A cards are battle skill cards, not general sandbox actions. They can be played only while a local battle is active: at most one during each eligible player action turn in Encounter, or through the ACT MVP `Tab` bullet-time plus numeric-slot input route in RealTimeAction. Outside the turn-based route there is no per-turn count cap; lifecycle and other costs remain data-defined and their probabilities are deferred.
 - Active abilities carried by ABC cards are allowed from the sandbox by default, with exceptional restrictions configured per ability. This is ability activation, not the same operation as playing a basic non-A hand card.
@@ -194,3 +194,9 @@ The user accepted the following high-level interpretation on 2026-09-02:
 ## 11. Learning targets
 
 This baseline is intended to teach product scoping, core-loop definition, system decomposition, requirements writing, acceptance criteria, versioned design decisions, and communication between design and engineering.
+
+## 12. Full-MVP delivery clarification (2026-09-08)
+
+The complete seven-day MVP is now decomposed in [TASK-011](../../Production/Tasks/TASK-011-Full-MVP-Task-Cluster.md). Both battle modes use native GAS while retaining different configuration and execution systems. Turn-based character cards are deployed on the map; a separate ACT character-card collection supplies the characters/weapons selected in battle settings. Terrain may restrict an ACT character-card trait. Basic non-A battle skill cards continue to share identity/slots, with mode-specific effects.
+
+The user will import placeholder assets once implementation starts; detailed animation and final rendering are later art work. Every previously unaccepted numerical value, including a test-profile value, requires individual user confirmation. These decisions preserve the full MVP scope while avoiding a mandatory final-art dependency. Exact roster and restriction policies remain in the [decision register](../../Production/MVPDecisionRegister.md).

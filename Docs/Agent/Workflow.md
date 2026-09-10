@@ -1,170 +1,74 @@
 # Agent Workflow
 
-- Chinese companion for user reading: `Docs/Agent/Workflow.zh-CN.md`
+- Chinese companion: Workflow.zh-CN.md
+- Current procedure: TASK-045; replaces generic process defaults in older examples/tasks. Specific game decisions and technical acceptance remain.
 
-## Shared context
+## Default loop
 
-Codex conversations are workers; the repository is the shared source of truth. Agents must not rely on hidden conversation history. Use Git, task files, `ProjectState.md`, ADRs, and test results to communicate.
+Read the current state and active TASK -> inspect affected sources -> implement -> run relevant checks -> update the TASK -> user playtest where applicable.
 
-Authority flows from the current user request to `AGENTS.md`, accepted English design/rule documents, architecture and ADRs, the active task contract, and then implementation evidence. A lower layer may refine but must not silently contradict a higher layer. Chinese documents mirror the English source for user review.
+One Primary can coordinate and implement. Keep serial work in the current Local checkout; use a worktree only when actual concurrent independent writes need isolation or the user requests it. New chats are user-requested, not an automatic consequence of task length. No planner/reviewer/tutor relay for routine changes.
 
-## Coordination vocabulary
+## Context budget
 
-| Unit | Purpose | Ownership |
+- AGENTS contains stable constraints; ProjectState contains current facts; TASK contains this change; roles contain specialties; Skills contain procedures.
+- Use the index to find a source, not to load the library. Read the relevant English sections only. Verify current affected files; reuse unchanged source content already read.
+- A TASK input list should name the decision or section needed. Older long lists are lookup aids. Do not reread all predecessor reports or both languages at startup.
+- Resume from outcome, current files, checks and next action. Query actual state if it can have changed.
+- Tool output should return matching sections or compact results. Do not repeatedly print whole files, unchanged status, or full successful logs.
+
+## Delegate when it pays
+
+Use a child for an independent bounded question or disjoint patch when saved time, expertise or context isolation justifies the extra model work. Keep dependent steps local. Start with one useful child; the configured capacity is a ceiling, not a target.
+
+Where supported, prefer fork_turns=none with a self-contained package; otherwise supply only relevant history. Do not omit constraints merely to shorten the prompt. The package includes: result, source paths/sections and relevant decisions, authority, checks, and a short return format. Writers are told that others share the codebase and must preserve/adapt to their edits.
+
+Children read applicable AGENTS and assigned sources, not the whole onboarding bundle. They return paths, conclusion/change, evidence and unresolved risk. Reuse a suitable existing child for follow-up; do not rediscover its completed work without a concrete discrepancy. The Primary reconciles interfaces and remains responsible for delivery.
+
+## Verification and review
+
+| Change | Minimum useful evidence | Independent review |
 |---|---|---|
-| Milestone | Groups outcomes that produce one project capability | Integration Coordinator |
-| Integration Goal | Coordinates dependent Goals and owns final repository state | One integration owner |
-| Goal | One observable, independently acceptable result | One Primary Agent |
-| TASK contract | Versioned scope, decisions, write set, acceptance, verification, and learning evidence for one Goal | Primary Agent; integration owner closes it |
-| Worktree | Git isolation for one independently mergeable writable Goal | One Primary Agent; temporary, not a permanent module home |
-| Role | A specialist viewpoint and authority boundary | May be reused by many Goals or Agents |
-| Subagent | A temporary worker for one bounded package inside a Goal | Parent/Primary Agent remains accountable |
-| Skill | A reusable procedure for repeated work | Repository-level process asset, not current project truth |
+| Text, layout, reversible visual configuration | Relevant syntax/asset validation and a reproducible user check | On request or a concrete additional risk |
+| Bounded gameplay logic | Tests for changed rules/state transitions; Editor compile for changed native code | When the risk below applies |
+| Save/rollback, determinism, public contracts, GAS ownership/lifecycle, module/build dependencies, shared binary integration | Targeted regression cases plus applicable build/runtime evidence | One focused read-only pass before integration, unless the user explicitly chooses another acceptance route |
 
-The hierarchy is:
+- User playtesting covers interaction/layout; it does not imply C++ compilation or save/rollback correctness.
+- Reuse checks that still apply to unchanged code/environment. Rerun affected checks after changes or failures; do not repeat a full suite just because another role joined.
+- AuditDocs after Markdown changes. ValidateProject -Strict for repository structure/shared configuration changes. UE build/Editor/PIE stays serial.
+- Review examines the actual assigned diff and evidence. Recheck fixes/affected boundaries, not another full project review. A user waiver changes review, not required technical checks.
+- Report unknowns accurately. No screenshots, videos, teach-back or extra approval solely to satisfy a generic checklist.
 
-```text
-Project
-└─ Milestone
-   └─ Integration Goal / integration owner
-      ├─ Goal + TASK + worktree + Primary Agent
-      │  ├─ read-only specialist subagent
-      │  └─ bounded worker subagent when its write set is exclusive
-      └─ Goal + TASK + worktree + Primary Agent
-```
+## TASK and state
 
-## Work decomposition
+A new delivery uses the compact TaskTemplate. Small fixes/clarifications within the current acceptance boundary amend the existing TASK. A read-only explanation needs no artificial implementation TASK.
 
-Parallel work should use non-overlapping ownership:
+Backlog = not authorized; Ready = relevant decisions and scope sufficient; In Progress = owned; Review = an actual reviewer or user check remains; Verified = applicable checks/required acceptance passed; Done = separately authorized integration completed. Review can be skipped when no separate gate applies. Never infer integration/push authorization from Verified.
 
-- Core rules and tests
-- Gameplay and combat
-- World and map
-- UI and presentation
-- Tools, build, and documentation
+A current user request can authorize a scoped Backlog task; record the applicable decisions and promote it before writing. Ask only for missing game meaning, a real scope/ownership conflict or required authorization; an old status alone is not a reason to ask again.
 
-Do not parallel-edit the same UE map, `.uasset`, central config file, or public data schema without an integration task.
+Record outcome, paths, check results and remaining work in the TASK once. The Primary also owns shared state when acting as the serial coordinator. Update ProjectState for priority/status/decision changes; update rules/architecture only when their meaning changes; add one concise Changelog entry for delivered behavior or workflow. English/Chinese pairs stay synchronized.
 
-Use this routing test before creating work:
+Learning is optional during delivery. Explain when requested; use the full prediction/practice/teach-back loop only for a chosen lesson, not because an old TASK has a learning section. See Docs/Learning/Workflow.md when teaching.
 
-| Shape | Use when | Result ownership |
-|---|---|---|
-| Independent Goal/worktree | The output has its own acceptance criteria, spans multiple turns, writes files, and can be reviewed/merged independently | Its Primary Agent |
-| Subagent work package | The question is bounded and contributes evidence, a proposal, test design, or a small exclusive patch to the parent's Goal | Parent/Primary Agent |
-| Serial integration work | Work touches a shared schema, map, `.uasset`, central config, module dependency, migration, or the same write set | Integration owner or one designated writer |
+## Reusable prompts
 
-Initial concurrency policy:
+User:
+~~~text
+Continue TASK-xxx on the current Local checkout.
+Outcome: <observable behavior or correction>.
+Acceptance: <what I will see/test>.
+Constraints: <new constraints only>.
+Teach only <topic, if wanted>.
+~~~
 
-- `.codex/config.toml` permits up to four spawned subagent threads per parent session. This is a safety ceiling, not a target.
-- Start with no more than two simultaneous writable worktrees until integration evidence shows the boundaries are stable.
-- Use one UE build/Editor/PIE lane at a time. Read-only analysis can continue while it is occupied, but another Agent must not mutate files consumed by that build.
-- `Docs/ProjectState.md`, roadmap state, shared task indexes, central schemas, maps, and shared UE assets have one integration writer.
+Child:
+~~~text
+Bounded package of TASK-xxx: <result>.
+Inputs: <paths/sections + relevant accepted decisions>.
+Authority: read-only OR write only <paths>; parent owns task/state closure.
+Check: <necessary evidence>. Return: paths, result, check, unresolved risk.
+You are not alone: preserve others' changes and adapt to them.
+~~~
 
-## Task lifecycle
-
-```text
-Backlog → Ready → In Progress → Review → Verified → Done
-```
-
-Every task needs a goal, allowed paths, non-goals, acceptance criteria, test plan, and learning targets.
-
-- `Backlog`: idea recorded, not authorized for implementation.
-- `Ready`: decisions needed for this scope are recorded; dependencies, write set, acceptance, verification, and learning targets are complete.
-- `In Progress`: one Primary Agent owns the Goal/worktree and has announced its write set.
-- `Review`: implementation is stable; an independent reviewer inspects the actual diff and evidence.
-- `Verified`: blocking findings are resolved or explicitly accepted, and required checks pass.
-- `Done`: the approved result is integrated, the task completion report and shared state are updated, and the commit is ready for remote backup.
-
-A Goal is not made Ready by guessing an open rule. If an unresolved item affects acceptance or a public contract, stop and ask the named decision owner. If it does not affect the current slice, list it as deferred and keep it out of scope.
-
-## Primary Agent and subagent contract
-
-The Primary Agent is accountable for the whole Goal even when work is delegated. Every subagent request must include:
-
-1. Role and exact work package;
-2. required inputs and canonical documents;
-3. expected output and evidence format;
-4. constraints, non-goals, and stop conditions;
-5. read-only or exact write authority;
-6. dependency on other work and return deadline/order.
-
-A persona alone is not a work package. The parent verifies subagent output against repository evidence before using it. Subagents do not change Goal scope, close the task, merge, or update shared milestone state.
-
-## Completion report
-
-The worker reports changed files, commands/tests, screenshots or packaged-build evidence where relevant, unresolved risks, and documentation changes. The integration task updates `Docs/ProjectState.md`.
-
-## Change-log handoff
-
-Every implementation Goal that changes code, data, UE assets, configuration, build files, or tests must produce a concise release-style summary before it can become `Verified` or `Done`.
-
-- The Primary Agent includes a `Changelog draft` in the completion report with the date, TASK/Goal, one of `Added`, `Changed`, `Fixed`, or `Removed`, a user-visible summary, affected area, validation evidence, and unresolved or deferred notes.
-- The Integration Coordinator finalizes the draft and writes the synchronized `Docs/Changelog.md` and `Docs/Changelog.zh-CN.md` entries during integration.
-- The Changelog pair is shared integration state. Primary Agents and subagents do not edit it unless the approved TASK explicitly grants that write authority.
-- Use `Unreleased` until the user approves a release version or tag. The entry summarizes delivered behavior; it does not replace the task report, `ProjectState.md`, an ADR, or test evidence.
-- A documentation-only task needs a Changelog entry only when it changes a user-visible workflow, product behavior, or published contract.
-
-## Language synchronization
-
-Agents read English documents for task reasoning. Every Markdown change must update its Chinese companion in the same task and commit. The Chinese file is a user-facing mirror, not an independent source of truth.
-
-## Decision control
-
-Changes to module dependencies, save schema, canonical rules, asset layout, or build targets require an ADR before implementation or in the same change.
-
-## Role and documentation routing
-
-The project uses role ownership rather than one Agent editing every document:
-
-| Role | Primary documentation | Main responsibility |
-|---|---|---|
-| Integration Coordinator | ProjectState, Production, Tasks, Git evidence | Goal routing, write-set isolation, merge order, shared validation, and final state |
-| Chief Planner Agent | Design/EN/01_MainPlanner.md | Product intent, core loop, scope, and acceptance |
-| System Planner Agent | Design/EN/02_SystemPlanner.md and Rules/ | System semantics, state transitions, and rule contracts |
-| Combat/AI Planner Agent | Design/EN/03_CombatAIPlanner.md | Combat vocabulary, encounter behavior, and ruler policy intent |
-| Level/Content Planner Agent | Design/EN/04_LevelContentPlanner.md | Sandbox graph, node content, story mutations, and pacing |
-| Numerical Planner Agent | Design/EN/05_NumericalPlanner.md | Coefficients, tables, curves, fixtures, and balance evidence |
-| Architect Agent | Architecture/ProgramArchitecture.md, DataDrivenArchitecture.md, and ModuleMap.md | Program boundaries, data pipeline, dependencies, persistence, and extension seams |
-| Module Agent | Architecture/Modules/<Module>/README.md | Module implementation, local contracts, tests, and learning evidence |
-| Review Agent | Architecture, Decisions, Production, and changed module docs | Cross-document consistency, dependency safety, and acceptance evidence |
-| Learning Tutor Agent | Learning/Curriculum.md, Learning/Workflow.md, and task learning contract | Novice orientation, practice, evidence, teach-back, and transfer |
-
-The English documents are the Agent-facing source. Chinese companions are synchronized for the user and are never an independent design authority.
-
-## Documentation dependency chain
-
-    Design intent
-        -> Rules and system contracts
-        -> Program and data architecture
-        -> Module technical README
-        -> Production task
-        -> Code / asset / test evidence
-        -> ProjectState update
-
-The design layer answers what and why. The architecture layer answers how, where, and who. A module README answers how one owned boundary is implemented. A task file records one executable change and its acceptance evidence.
-
-## Integration flow
-
-1. The integration owner records or approves task contracts on the integration branch before parallel writes begin.
-2. Freeze shared contracts needed by downstream Goals. Contract changes after fan-out return to serial integration work.
-3. Create one worktree per independently mergeable writable Goal and assign one Primary Agent to each.
-4. Primary Agents may delegate bounded analysis or exclusive patches, then validate their own branch and produce completion reports.
-5. A separate Review Agent checks the actual diff, acceptance evidence, dependencies, rule fidelity, and bilingual documents.
-6. The integration owner merges in dependency order, never by whichever Agent finishes first.
-7. Run consolidated validation in the single build/Editor lane. Resolve integration defects in a new scoped task or by returning the owning Goal to `In Progress`.
-8. Finalize the bilingual Changelog entry from the Primary Agent's draft before marking the task `Verified` or `Done`.
-9. Update `Docs/ProjectState.md`, close the task, commit the integration state, and push only with user authorization.
-
-Do not use chat summaries as handoff. Use commit hashes, task completion reports, review findings, tests, and explicit unresolved questions.
-
-## Cross-module change flow
-
-1. A planner changes a rule meaning or acceptance criterion.
-2. The English design/rule source and Chinese mirror are updated.
-3. The Architect Agent maps the change to a data or runtime contract.
-4. Each affected Module Agent updates its own README, code, data, and tests.
-5. A structural change receives an ADR.
-6. The Review Agent checks dependencies, save/network effects, and bilingual synchronization.
-7. The integration owner updates ProjectState and closes the task.
-
-Module Agents should not edit the central architecture baseline to record local implementation details. The Architect Agent should not change a rule merely to make an implementation easier.
+Role setup and official references: CodexSetup.md. Historical examples are optional learning material.

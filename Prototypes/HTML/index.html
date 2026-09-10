@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>梦生莲 · 可玩规则原型</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="encounter-fx.css">
+  <script defer src="data.js"></script>
+  <script defer src="engine.js"></script>
+  <script defer src="home-ui.js"></script>
+  <script defer src="encounter-fx.js"></script>
+  <script defer src="card-input.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="masthead">
+    <a class="brand" href="#" aria-label="梦生莲首页"><span class="brand-mark">✧</span><span>梦生莲<small>DREAM OF PADMA</small></span></a>
+    <div class="edition">规则试玩 <span>HTML · 0.4</span></div>
+    <nav aria-label="全局操作">
+      <button data-action="help">游玩路线</button>
+      <button data-action="settings">全局配置</button>
+      <button data-action="save">保存</button>
+      <button data-action="continue">继续存档</button>
+      <button data-action="menu">新局 / 参数</button>
+    </nav>
+  </header>
+  <div id="resources" class="resources"></div>
+  <main id="main">
+    <section id="welcome" class="welcome">
+      <div class="welcome-art" aria-hidden="true"><span>✧</span><i></i><b>PADMA</b></div>
+      <div class="welcome-copy"><div class="eyebrow">一张地图，两种战斗，一场梦</div><h1>让规则，<br>在一局游戏里相遇。</h1>
+        <p>部署根源，等待场域生长，再合成你的造物。沿着预设道路推进，用 Encounter 或 ACT 夺取王庭。</p>
+        <div class="welcome-actions"><button class="primary large" data-action="start">开始试玩 <span>↗</span></button><button data-action="profile">调整试玩参数</button></div>
+        <p class="caption">默认参数可以直接开局。约 10–15 分钟 · 本地离线运行<br>真实操作原型；本版卡牌效果覆盖可在图鉴查看，UE 制作暂缓。</p>
+      </div>
+    </section>
+    <section id="world" hidden>
+      <div class="guidebar"><div><span class="eyebrow">下一步</span><p id="nextStep"></p></div><button id="advance" class="primary" data-action="advance"></button></div>
+      <div class="world-layout">
+        <div class="map-column">
+          <div class="panel-heading"><div><span class="eyebrow">第一章 · 临时试玩地图</span><h2>梦的疆域</h2></div><div class="legend"><span class="friendly">● 己方</span><span>● 中立</span><span class="hostile">● 王庭</span></div></div>
+          <div id="mapContainer" class="map-container"><svg id="map" viewBox="0 0 1080 610" role="group" aria-label="节点与预设道路地图"></svg><div id="mapTip" class="map-tooltip" hidden></div><div class="map-note">点击查看信息 · 沿箭头移动卡牌<br>相邻六边形不自动连通</div></div>
+          <div id="selectionBar" class="selection-bar"></div>
+          <section class="journal"><div class="panel-heading"><h3>本局记录</h3><button class="text-button" data-action="journal">展开记录 ↗</button></div><div id="recentLog"></div></section>
+        </div>
+        <aside id="inspector" class="inspector" aria-label="地块信息与移动"></aside>
+      </div>
+      <section class="hand-panel"><div class="panel-heading"><div class="hand-tabs" id="handTabs"></div><span id="deckCount" class="caption"></span></div><div id="hand" class="hand"></div></section>
+    </section>
+    <section id="battle" class="battle" hidden></section>
+    <section id="homeScreen" class="home-screen" hidden aria-label="归处编队与角色展示"></section>
+  </main>
+  <footer><span>HTML 临时数值与占位表现 · 不写回 UE 配置</span><button class="text-button" data-action="coverage">已实现 / 待对齐</button><span id="saveStatus">尚未保存</span></footer>
+  <div id="toast" role="status" class="toast" hidden></div>
+  <div id="cardGhost" class="card-drag-ghost" aria-hidden="true" hidden></div>
+  <dialog id="dialog"><div id="dialogContent"></div></dialog>
+</body>
+</html>

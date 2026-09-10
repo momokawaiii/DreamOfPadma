@@ -1,115 +1,51 @@
-# Codex Project Setup and Roles
+# Codex Setup and Roles
 
-- Chinese companion for user reading: `Docs/Agent/CodexSetup.zh-CN.md`
+- Chinese companion: CodexSetup.zh-CN.md
+- Read this for role/tool setup. Daily execution lives in Workflow.md.
 
-## Purpose
+## Responsibility split
 
-This repository configures Codex as a coordinated development environment, not as a collection of chats that share hidden memory. New tasks can discover the same project contracts, Role profiles, and Skills from version-controlled files.
+AGENTS = stable constraints; ProjectState = current facts; TASK = one delivery; Role = a specialist viewpoint; Skill = a reusable procedure. Put each instruction in its owning layer and link rather than copy. English is canonical; Chinese companions are for user reading.
 
-## Directory responsibilities
+The current primary handles both coordination and serial implementation. A separate Integration Coordinator is useful only when multiple independent deliveries actually require integration. Do not open a chat or worktree simply to activate a Role.
 
-| Location | Meaning | What belongs here |
-|---|---|---|
-| `AGENTS.md` and nested `AGENTS.md` files | Mandatory instructions | Safety, boundaries, reading order, language contract, and directory-specific rules |
-| `Docs/` | Mutable project truth | Design, rules, architecture, ADRs, task contracts, current state, review evidence, and learning evidence |
-| `.codex/config.toml` | Project multi-Agent settings | Enablement and conservative concurrency defaults |
-| `.codex/agents/*.toml` | Custom project Role profiles | Role name, routing description, core instructions, and default sandbox mode |
-| `.agents/skills/<skill>/SKILL.md` | Reusable operating procedure | Stable steps for task execution, review, and learning |
-| `Docs/Production/Tasks/` | Goal contracts | One bilingual `TASK-xxx` pair per observable delivery Goal |
-| Git branch/worktree | Write isolation and history | One independently mergeable writable Goal and its commits; a managed worktree begins detached until a branch is created |
+## Available roles
 
-Do not duplicate current rules or progress inside Role files or Skills. Those facts change and belong in `Docs/`; profiles and Skills point Agents to the canonical documents.
+| Role | Use |
+|---|---|
+| module_worker | A bounded patch with exact write authority |
+| explorer | A specific repository question |
+| reviewer | A scoped correctness/risk review under Workflow.md |
+| architect | A real dependency, contract, lifecycle or persistence question |
+| chief_planner | Unresolved product scope/acceptance |
+| system_planner | Unresolved game-rule semantics |
+| combat_ai_planner | Encounter/ACT timeline or AI semantics |
+| level_content_planner | Node, encounter, story or pacing content |
+| numerical_planner | Authored numbers, curves and reproducible balance evidence |
+| learning_tutor | A user-requested lesson or exercise |
 
-## Project Agent settings
+Project custom profiles keep their existing names and sandbox defaults: module_worker is workspace-write; planners, architect, reviewer and tutor are read-only. Runtime permissions still govern actions. A Role is available expertise, not a standing team to invoke on every task.
 
-`.codex/config.toml` enables multi-Agent work, preserves interruption context, and permits at most four spawned subagent threads per parent session. The project does not pin a model or reasoning effort, so each task can use the current supported model or an explicit task-level choice.
+## Configuration
 
-Four concurrent subagents are a capacity ceiling. The project workflow initially permits no more than two simultaneous writable worktrees and only one UE build/Editor/PIE lane.
+.codex/config.toml currently enables agents, sets a capacity of four spawned threads excluding the Primary, and keeps interruption messages. TASK-045 does not change this capacity, model defaults, reasoning effort or permissions. Limit routine delegation by usefulness rather than configuring a fixed role relay.
 
-Codex detects repository Skill changes automatically; if a Skill does not appear, restart Codex. After changing project Agent configuration, restart or open a fresh task before relying on newly spawned sessions to use the new profile.
+Avoid copying full conversation history to a bounded child. Use the compact work-package prompt in Workflow.md and explicit source references. More agents can save elapsed time while increasing total token use; measure before adding concurrency.
 
-## Available Role profiles
+Changed files are on disk; existing sessions may already contain older injected instructions. Follow the current user amendment in this task and use a fresh user-opened task to verify loading of changed profiles/Skills. Do not claim a hot reload without observing it.
 
-| Codex name | Default access | Use for | Must not do |
-|---|---|---|---|
-| `chief_planner` | Read-only | Product intent, core loop, MVP scope, player-facing acceptance | Resolve deferred rules or choose implementation architecture |
-| `system_planner` | Read-only | System semantics, transitions, invariants, cards, resources, time, outcomes | Invent missing values or conflate rules with implementation |
-| `combat_ai_planner` | Read-only | Encounter/ACT behavior, timing, AI intent, combat-route scenarios | Fill deferred action precedence or card lifecycle |
-| `level_content_planner` | Read-only | Sandbox graph, nodes, encounters, story mutations, content pacing | Claim shared maps/assets or invent unresolved canon |
-| `numerical_planner` | Read-only | Formula domains, coefficients, fixtures, balance hypotheses, exploit analysis | Treat untested numbers as final or overwrite fixed formulas |
-| `architect` | Read-only | Dependencies, contracts, data flow, save/network seams, ADR review | Change game meaning for implementation convenience |
-| `module_worker` | Workspace-write | Execute one approved task inside one exclusive write set | Broaden scope, edit owned files of another Goal, merge, or push |
-| `reviewer` | Read-only | Independent findings against task, rules, architecture, tests, and docs | Trust the worker summary without examining evidence or edit during review |
-| `learning_tutor` | Read-only | Novice explanation, prediction, practice, evidence, teach-back, transfer | Perform the learner's exercise or expand feature scope |
+## Skills
 
-The built-in `explorer` remains useful for fast read-only repository discovery. Role profiles describe specialists; they are not permanent module owners.
+- padma-task-runner: execute/update a TASK; child packages do not repeat parent setup/closure.
+- padma-review: requested or risk-triggered review; direct diff evidence, scoped recheck.
+- padma-learning-loop: requested explanation/exercise; no automatic quiz from legacy learning fields.
 
-## Top-level tasks, Primary Agents, and subagents
+Only load a Skill when its purpose matches the task. A selected Skill reads supporting material only when needed. Existing YAML UI metadata stays intact.
 
-A top-level Codex task is user-visible, long-lived collaboration space. Use a separate project task/worktree when a Goal writes an independently mergeable result. Put these fields in its opening prompt:
+## References
 
-```text
-Primary Role: module_worker
-Goal: <one observable result>
-Task contract: Docs/Production/Tasks/TASK-xxx-Name.md
-Worktree: <selected when the project task starts>
-Branch: <create in the task header before the result must persist or be pushed>
-Allowed paths: <exact write set>
-Required checks: <tests/manual evidence>
-Learning targets: <one or two targets>
-Stop if: <rule, ownership, or dependency condition>
-```
+These document mechanisms, not additional project approval gates:
+- [Customization and progressive disclosure](https://learn.chatgpt.com/docs/customization/overview)
+- [Subagents, costs and custom roles](https://learn.chatgpt.com/docs/agent-configuration/subagents)
 
-Naming a Primary Role tells the task which viewpoint to use; the `TASK-xxx` file remains the enforceable contract. One Primary Agent owns the Goal from preflight through handoff. Codex-managed worktrees start in detached `HEAD`; use **Create branch here** before preserving the result as a branch or pushing it.
-
-Inside that task, the Primary Agent may spawn a custom Role as a subagent. The delegation prompt must contain more than a role name:
-
-```text
-Role: architect
-Work package: Check whether the proposed calendar contract crosses PadmaCore boundaries.
-Inputs: TASK-xxx plus the named architecture and module documents.
-Output: Findings with exact document references and a minimal recommendation.
-Authority: Read-only.
-Non-goals: Do not redesign calendar rules or edit files.
-Return before: implementation begins.
-```
-
-The parent remains accountable for checking and integrating the answer. Use a new top-level task instead of a subagent when the result needs its own branch, acceptance criteria, several turns, or user ownership.
-
-## Project Skills
-
-- `$padma-task-runner`: preflight, execute, validate, teach, and hand off one task contract.
-- `$padma-review`: independently review a task, branch, diff, design, or architecture change; findings come first.
-- `$padma-learning-loop`: turn task learning targets into prediction, practice, evidence, teach-back, and transfer.
-
-Agents may discover these Skills from `.agents/skills/`. A user or parent Agent can also invoke one explicitly by name. The English `SKILL.md` is executable guidance; `SKILL.zh-CN.md` is the synchronized user-facing mirror.
-
-## Starting an integration task
-
-Use one task on the saved project checkout as Integration Coordinator. Its job is to prepare contracts, create or coordinate independent worktrees, monitor results, order reviews, integrate commits, run shared validation, and update project state. It should not also become the default implementation worker for every module.
-
-A suitable opening prompt is:
-
-```text
-Act as the Dream of Padma Integration Coordinator. Read AGENTS.md, Docs/00_INDEX.md,
-Docs/ProjectState.md, Docs/Agent/Workflow.md, and the active integration task.
-Do not implement module work in this checkout. Freeze task contracts, detect write-set
-overlap, route independent Goals to worktrees, delegate bounded read-only specialist
-reviews, merge only after evidence, and keep bilingual state synchronized.
-```
-
-## Permission and safety rules
-
-- Choose the parent task's permission mode deliberately; spawned Agents may inherit active runtime permission overrides.
-- Planner, architect, reviewer, and tutor profiles remain read-only by default.
-- Only a worker with an approved exact write set may write.
-- Never grant multiple Agents write access to the same file or binary UE asset.
-- User approval is required before remote push, tag, release, destructive Git operation, or meaningful scope expansion.
-- The user remains the decision owner for unresolved game design and the final acceptance owner for the playable result.
-
-## Official mechanism references
-
-- [Codex subagents and custom agents](https://learn.chatgpt.com/docs/agent-configuration/subagents)
-- [Build Skills for Codex](https://learn.chatgpt.com/docs/build-skills)
-- [Git worktrees](https://learn.chatgpt.com/docs/environments/git-worktrees)
-- [Long-running work and Goals](https://learn.chatgpt.com/docs/long-running-work)
+Validated against official documentation on 2026-09-09. Schema validation does not prove that an already-running session reloaded a profile.

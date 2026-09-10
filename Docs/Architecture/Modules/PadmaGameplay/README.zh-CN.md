@@ -1,13 +1,17 @@
 # PadmaGameplay 模块程序文档
 
 - 文档 ID：ARCH-MODULE-GAMEPLAY-001
-- 版本：0.1
+- 版本：0.3
 - 状态：计划中的逻辑边界；尚未建立独立 UE 模块
 - 英文原文（Agent 阅读）：README.md
 - Owner：Gameplay 模块 Agent
 - 当前实现：Source/DreamOfPadma/ 是临时共享运行时模块
 - 上级架构：../../ProgramArchitecture.zh-CN.md、../../DataDrivenArchitecture.zh-CN.md
 - 未来 ACT 开发契约：ACTDevelopmentContract.zh-CN.md
+
+## TASK-046 当前原生实现
+
+原生切片增加 Gameplay/Combat 临时 ASC Actor／属性、分模式时钟、事件与清理；Encounter/PadmaEncounterAbility 与 ACT/Runtime/PadmaACTAbility 为独立 GAS 激活类，读取不同类型的效果表。共享基础效果由独立卡牌／环境 ASC 发起。目前战斗执行器支持 HTML 动作，不代表已迁移 Combat 完整连招系统。 [原生可玩指南](../../../Content/NativePlayableDemo.zh-CN.md).
 
 ## 1. 目的
 
@@ -19,7 +23,7 @@ PadmaGameplay 实现局部战斗家族。遭遇战是带条件行动条的回合
 - ACT RealTimeAction 战斗状态、ACT MVP 的 `Tab` 仓库切换、背景虚化、1/10 世界时间、禁止移动/攻击输入、保持场景惯性的处理和每页五个可见卡槽分发。总页数暂时延期。
 - 普通攻击、真实伤害、防御、状态、死亡和目标结算阶段。
 - C 角色、设施、核心和面向战斗的运行时状态。
-- 能力定义、发动场景、消耗、时机和未来 GAS 接口。
+- 独立 Encounter／ACT 技能／效果定义、发动策略、时钟和原生 GAS 执行；只复用获准且不夹带模式规则的基础设施／计算。
 - F/D/R 属性关系和时代修正。
 - 确定性的统治者巡逻、侦测、增援、反攻和威胁策略。
 - 战斗日志、决策追踪和与表现无关的结果。
@@ -86,10 +90,23 @@ Gameplay 依赖 PadmaCore 契约。它通过合法的命令/查询/事件契约�
 3. 加入统治者策略和一次反攻。
 4. 加入示例遭遇所需的最小状态子集。
 5. 只有遭遇战行动条路径稳定且有边界的 ACT 任务获批后，才按照 `ACTDevelopmentContract.zh-CN.md` 与 `Tab`/背景虚化/1/10 输入契约加入完整 ACT RealTimeAction 路线。
-6. 只有 ACT 垂直切片确实需要且依赖变更获批后，才加入内置 GAS；外部 GAS 插件需要独立 ADR。
+6. TASK-013 按 ADR-0004 在双模式可玩 GAS 实现前提供获准原生 GAS 依赖／生命周期基础；外部插件仍需独立 ADR。
 
 ## 9. 学习目标与风险
 
 学习目标：Gameplay Framework 边界、战斗服务、状态效果、目标选择、GAS 准备、AI 效用策略、动画时机契约和确定性调试。
 
 主要风险：把战斗规则埋在 Character、Ability Blueprint 或动画代码中，导致无法独立回放和测试。
+
+## 10. 完整 MVP 模式归属
+
+[ADR-0004](../../../Decisions/ADR-0004-Separate-Encounter-and-ACT-GAS.zh-CN.md) 将获准共享计算归于 TASK-015，将 Encounter 时间线／目录／技能归于 TASK-016／017，将 ACT 目录／序列／技能归于 TASK-030，将其卡库窗口归于 TASK-031。模式定义与运行状态保持区分。TASK-035 拥有 ACT 角色可用性／装备；回合制卡系统不是其集合。
+
+新增必测项：拒绝错误模式绑定；配表／时钟／输入隔离；直接命令拒绝受限特性；退出后无失效效果／Task／回调；完整参与者恢复，包含获准本局阵容／武器状态。基础卡服务由装配层注入；任一模式都不重复实现共享卡生命周期，也不假定效果数据相等。
+
+
+## 已退役 TASK-008 与当前 TASK-036 配置
+
+历史 TASK-008 提供过固定 Demo 定义、查询／召唤代码和 F8 场景 fixture。TASK-048 已退役这些源码、地图／资产和测试；它们不再是当前战斗入口或模型预览依赖，历史证据保留在 TASK-008。
+
+TASK-036 拥有 Gameplay/ACT/Authoring 和 ACTCharacterCards 静态内容。独立 ACT 角色／武器／技能资产、强类型技能行及配置目录提供软引用和可操作校验，目录不保存阵容／本局状态或 GAS 句柄。见 [ACT 配置指南](../../../Content/ACTAuthoring.zh-CN.md)。当前原生执行位于 Gameplay/Encounter 与 Gameplay/ACT/Runtime，使用分离 GAS 类／表；TASK-013／030 保留为最初的职责引用。检查缺失／错误引用、重复身份／绑定、骨架错配与显式特性选择器。空模板有意保持无效草稿，后续仍需烘焙／加载策略和用户内容。

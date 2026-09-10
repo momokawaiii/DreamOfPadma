@@ -1,7 +1,7 @@
 # Future ACT Development Agent Contract
 
 - Document ID: ARCH-GAMEPLAY-ACT-001
-- Version: 0.1
+- Version: 0.2
 - Status: Accepted architecture contract; implementation deferred
 - Canonical language: English for Agent consumption
 - Chinese companion: ACTDevelopmentContract.zh-CN.md
@@ -46,11 +46,11 @@ A future task must verify these facts again because repository and engine state 
 Future ACT work is C++-first and data-driven:
 
 - C++ owns authoritative rules, activation validation, state transitions, targeting, hit resolution, damage application, and cleanup.
-- A C++ Gameplay Ability base owns the common ability lifecycle.
+- An ACT-owned C++ Gameplay Ability base owns the common lifecycle within ACT. Encounter owns separate ability/execution contracts.
 - C++ Ability Tasks own reusable asynchronous timing and sequence interpretation.
 - An `AbilityDefinition` Primary Data Asset owns the coherent immutable definition of one ability.
 - An `ACTSequence` Primary Data Asset owns sequence nodes, transitions, phase actions, and animation timing references.
-- Shared typed C++ row structures back per-character DataTables.
+- Shared typed C++ row structures back per-character ACT DataTables; they do not impose Encounter row schemas.
 - A data-only Ability Blueprint may select a native class and provide asset-facing defaults, but it must not reimplement the common lifecycle or authoritative rules.
 - Gameplay Effects represent costs, cooldowns, attributes, tags, statuses, and damage changes where GAS is the approved execution path.
 - Gameplay Cues carry cosmetic audiovisual presentation and cannot be the authoritative source of damage or state.
@@ -67,7 +67,7 @@ The active implementation priority remains:
 4. The minimum status subset used by the encounter.
 5. ACT only after the Encounter action-timeline path is stable and an ACT task is explicitly approved.
 
-ACT preparation may update planning documents without enabling GAS, changing module dependencies, creating ACT assets, or pre-implementing an ability framework. Reusable Encounter contracts may be shaped so they do not block ACT later, but an Encounter task must not absorb speculative ACT infrastructure.
+Under ADR-0004, TASK-013 provides native GAS infrastructure for both modes before their playable implementations. Encounter remains the first playable combat route. ACT preparation alone does not authorize ACT gameplay/assets; Encounter tasks do not absorb ACT tables, sequences or runtime. TASK-030/031 own that later implementation.
 
 ## 6. Static ACT data model
 
@@ -81,7 +81,7 @@ Each playable ACT character may own a `CharacterACTCatalog` Primary Data Asset t
 - Scope Table, after the meaning of `Scope` is confirmed.
 - Ammo Table.
 
-All character-specific table instances use common typed C++ row structures. DataTables do not form an inheritance hierarchy; reuse comes from shared row types, stable IDs, shared definitions, and explicit overrides.
+All ACT character-specific table instances use common typed C++ row structures within ACT. Encounter uses its own schema. DataTables do not form an inheritance hierarchy; ACT reuse comes from row types, stable IDs, definitions and explicit overrides.
 
 The Ability Table is a roster and assembly index, not a giant skill document. A conceptual row may contain:
 
@@ -221,7 +221,7 @@ If networked ACT is later approved, clients may predict reversible input respons
 
 ## 12. GAS, plugins, Blueprints, and tooling
 
-The architecture is compatible with Unreal's built-in Gameplay Ability System, but adding GAS dependencies is a future dependency change that needs an approved task and the repository's required architecture review. Do not enable GAS during Encounter work merely to prepare for ACT.
+ADR-0004 selects native GAS for both Encounter and ACT, with separate mode domains. TASK-013 owns the reviewed dependency/lifetime foundation; TASK-017 owns Encounter and TASK-030 owns ACT execution. A documentation contract does not itself enable dependencies; Encounter implementation cannot widen into ACT gameplay.
 
 External GAS Companion or Aurora plugins are neither required nor approved. Adding either one requires a separate ADR covering ownership, source availability, version compatibility, packaging, licensing, upgrade risk, and removal strategy.
 
@@ -311,3 +311,13 @@ Stop and request the owning decision when:
 - another Agent owns an overlapping writable file or binary asset.
 
 An ACT Agent must never silently copy the external Combat prototype, edit engine/plugin source, mutate another module's state directly, or broaden an Encounter task into speculative ACT implementation.
+
+## 19. Separate cards, loadout and mode contracts
+
+[ADR-0004](../../../Decisions/ADR-0004-Separate-Encounter-and-ACT-GAS.md) governs the newer separation. TASK-035 owns the separate ACT character-card collection and battle-settings character/weapon loadout; TASK-027 carries terrain/context and the validated roster into TASK-030. Basic skill cards share identity/slots with Encounter but bind separately authored ACT effects.
+
+ACT phases, clocks, AttributeSets, native ability bases and effect instances are not Encounter contracts. Terrain may restrict a specific trait; validation distinguishes trait, ability, weapon and whole-character restrictions, including direct non-UI commands. Capacity, control/switching, restriction timing, trigger-unit linkage and run-owned versus preset state remain D20. Only approved run-owned battle-mutated state participates in the complete transaction/save boundary. All unaccepted numbers require individual user confirmation.
+
+## Static authoring handoff: TASK-036
+
+Consume the public ACT/Authoring character/weapon/skill assets and FPadmaACTSkillRow. Do not redeclare them in TASK-030 ACT/Data or TASK-035 RosterData. Runtime configuration remains separate: resolve AbilityImplementationId through an ACT-only supported GAS registry, validate the selected loadout and enforce approved trait restrictions in authoritative commands. Authoring success is neither combat readiness nor a grant of roster ownership. Soft references require a loading/cooking policy at integration. No gameplay numbers or sequences are supplied by the empty templates.

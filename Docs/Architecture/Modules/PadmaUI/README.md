@@ -1,13 +1,17 @@
 # PadmaUI Module Program Document
 
 - Document ID: ARCH-MODULE-UI-001
-- Version: 0.1
+- Version: 0.2
 - Status: Planned logical boundary; no standalone UE module yet
 - Canonical language: English for Agent consumption
 - Chinese companion: README.zh-CN.md
 - Owner: UI and Input Module Agent
 - Current implementation: Source/DreamOfPadma/ is the temporary shared runtime module
 - Parent architecture: ../../ProgramArchitecture.md and ../../DataDrivenArchitecture.md
+
+## TASK-046 current native implementation
+
+UI/Screens uses a persistent native root with separate CommonUI page and overlay stacks (TASK-050 / ADR-0008). Gameplay pages request All input; modal details, menus and confirmations request Menu input and retain parent navigation. Native Escape/B handling provides Back without an unconfigured default action table. Value views and intents remain separate from settlement. World labels use Slate font fallback; native Slate content is skinned by project-owned texture brushes, not a designer-editable WBP collection. See [presentation layers and authoring](../../../Content/StrategyPresentation.md).
 
 ## 1. Purpose
 
@@ -94,3 +98,19 @@ Manual evidence should include screenshots or a short capture of synthesis previ
 Learning targets: UMG, MVVM or view-model design, input abstraction, UI feedback, localization, accessibility, and presentation performance.
 
 Main risk: placing gameplay rules in Blueprint widgets because it is convenient to prototype.
+
+## 10. Full-MVP presentation and input boundaries
+
+Keep sandbox deployment, shared basic-skill repository and ACT battle-settings roster as distinct views. TASK-035 selects ACT characters/weapons and shows contextual eligibility; TASK-031 presents the shared basic-skill slots using ACT-owned effect data. A terrain-disabled trait has a specific reason and scope; a disabled button never replaces authoritative validation.
+
+The user specified a Civilization VI-like oblique SLG camera with node-based movement and later clarified hover information plus click entry into local node scenes. D24 now confirms inspection-only click and a separate right-side Move Here card command. TASK-024 owns authored topology/movement; TASK-037 owns inspection presentation. Camera transforms cannot change world identity or save state.
+
+TASK-014 uses user-imported placeholder models/animations through project wrappers. Final animation/rendering polish is later work. [MVP source extraction](../../../Production/MVPSourceExtraction.md) maps PDF evidence to card categories, proposed screens and unresolved source conflicts.
+
+## Preparation and node inspection composition
+
+TASK-037 owns detailed node inspection/local presentation, using TASK-024's permitted views. TASK-038 owns the common preparation shell; 035 retains ACT selection, 020 shared skills/codex and 039 relationship/bonus sources. UI never duplicates these authorities. D24/D25 confirm inspection-only click and full enemy disclosure; D26 excludes playable FPS from the first MVP. D27 open/edit/time/preset behavior and D28 concrete relationships remain open. Global preparation is separate from ACT Tab/bullet time. See [screen design](../../../Design/EN/06_MapAndPreparation.md); no new UI runtime is claimed here.
+
+## TASK-040 handoff
+
+TASK-040's neutral Presentation/Models assets/Actor contain no mode-specific source headers. UI receives views; the right-side Move Here button submits card-instance commands, never Actor transforms. FPS is a future capability in the first MVP. The HTML sketch is earlier design evidence; native preview is a separate authoring surface.

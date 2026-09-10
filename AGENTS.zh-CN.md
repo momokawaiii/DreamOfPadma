@@ -1,88 +1,35 @@
-# Dream of Padma Agent 项目约定
+# Dream of Padma Agent 约定
 
-- 供用户阅读的中文镜像：`AGENTS.zh-CN.md`
+- 英文原文：AGENTS.md
 
-## 项目目的
+## 入口与依据
 
-这是《Dream of Padma》的 UE5 C++ 学习和开发基础工程。之前的原型位于 `E:\2026ue\padma`，只能作为参考资料。除非任务明确要求，不得修改或批量复制原型内容。
+- 默认使用当前 Local 工作区。旧 E:/2026ue/padma 原型只作只读参考。
+- Primary 在任务首次实质工作时：把 Docs/00_INDEX.md 作为查找入口，读取 Docs/ProjectState.md、当前 TASK 或用户请求，再读相关目录指令与来源段落。上下文已有且未变化的内容不重复读取；恢复工作时核对 Git 和受影响文件。
+- 用户决定优先于旧项目文字。保留已接受规则；真实的代码／数据／规则矛盾需要报告，等待相关决定时继续不受影响的工作。
+- 规则在 Docs/Rules；架构在 Docs/Architecture 与 Docs/Decisions；当前状态在 Docs/ProjectState.md；任务证据在 Docs/Production/Tasks。实现与 UE 资产在 Source 和 Content/Padma。
+- 常规执行按 Docs/Agent/Workflow.md。只有配置角色／工具时读取 CodexSetup；请求教学时读取学习材料。旧 TASK 的读取清单是查找索引，不表示必须加载所有链接；具体技术验收、检查和未决事项仍有效。
 
-## 阅读顺序
+## 执行边界
 
-修改文件前，先阅读：
+- 一个 Primary 负责一项连贯交付；串行工作中，同一 Agent 可同时协调和实现。小补充留在同一 TASK。新建顶层聊天需要用户提出。
+- 声明范围和准确允许路径，检查 Git，保留无关修改。文件、接口、地图和资产不得有重叠写入者。UE 构建／Editor／PIE 保持单通道。
+- 只委派有独立价值的工作包。提供结果、来源路径／段落、准确读写权限与必要证据。子 Agent 按工作包及适用目录规则执行，不重复全项目开工流程，不关闭父任务。
+- Review 与教学按 Workflow.md 的条件策略执行。它替代旧模板中通用的强制 reviewer／教学／worktree 套话，不替代具体技术验收和授权要求。
+- 未经用户明确授权，不合并、强推、打标签或推送。不破坏性清理无关文件。不修改生成目录 Binaries、DerivedDataCache、Intermediate、Saved、.vscode。
+- Content/ThirdParty 外部资产保持原样，项目包装放入 Content/Padma。
 
-1. `Docs/00_INDEX.md`
-2. `Docs/ProjectState.md`
-3. `Docs/Production/Tasks/` 下的任务文件，或用户当前请求
-4. 与目标目录相关的模块和目录约定
+## 游戏架构不变量
 
-## 信息源
+- PadmaCore 不依赖 UMG、Niagara、具体 Actor、地图或 UGameplayStatics。
+- UI 发出命令，服务负责校验、状态修改与事件；表现层不负责游戏结算。
+- 卡牌、节点、遭遇、任务和存档使用稳定 ID；不把 Actor 指针写入存档。
+- 可复现结果使用带种子的随机流；不新增万能 Manager 全局状态。
+- 保持已接受的模式和数据边界。结构改变需要 ADR；现有边界内的常规实现无需另开 ADR。
 
-- 规则：`Docs/Rules/`
-- 架构：`Docs/Architecture/`
-- 生产状态：`Docs/ProjectState.md` 和 `Docs/Production/`
-- 学习证据：`Docs/Learning/`
-- 运行时代码：`Source/`
-- UE 资源：`Content/Padma/`
-- 外部资源：`Content/ThirdParty/`
+## 文档与完成
 
-## 协作模型
-
-- `AGENTS.md` 文件定义仓库和目录中不可违反的规则。
-- `Docs/` 保存会变化的项目事实：已验收策划、架构、决策、任务契约、状态和学习证据。
-- `.codex/agents/` 定义可复用的项目级 Role 配置，供父 Agent 拉起专职 Agent。
-- 一个活跃 Goal 通常对应一份英文 `TASK-xxx` 契约及其中文镜像。
-- 每个可写 Goal 只有一个 Primary Agent。worktree 属于一个可独立合并的 Goal，不永久属于某个 Role 或逻辑模块。
-- subagent 必须同时获得 Role、有边界的工作包、输入、预期输出、约束和明确读写权限；默认只读委派。
-- `.agents/skills/` 保存稳定、可重复执行的流程。变化中的游戏规则、当前进度和任务专属决定不得写入 Skill。
-- 集成负责人是共享集成状态的唯一写入者，并负责决定合并顺序。
-
-创建、委派、Review 或集成多 Agent 工作前，阅读 `Docs/Agent/CodexSetup.md` 和 `Docs/Agent/Workflow.md`。
-
-如果代码、数据和设计文档不一致，应停止并报告冲突，不得默默创造规则。
-
-## 文档语言约定
-
-- 每个纳入版本管理的 Markdown 文档都必须有英文原文和中文镜像。
-- 英文是 Agent 和实现决策的规范源。
-- Agent 执行任务时读取相关英文文档；中文镜像只为用户阅读方便，不是独立信息源。
-- 普通 Markdown 使用同目录配对：`Name.md` 和 `Name.zh-CN.md`。
-- 设计草案使用现有配对：`Docs/Design/EN/Name.md` 和 `Docs/Design/ZH/Name.md`。
-- 任何 Markdown 修改都必须在同一个任务和提交中同步修改配对文件，包括规则、状态、链接和错字修正。
-- 如果用户通过中文镜像提出语义修改，应先反映到英文原文，再同步中文内容。
-- 如果文档有文档 ID、版本和状态，两个版本必须保持一致且含义一致。
-
-## 边界规则
-
-- `PadmaCore` 不得依赖 UMG、Niagara、具体 Actor、地图或 `UGameplayStatics`。
-- UI 发送命令，不能直接修改世界或玩法状态。
-- 世界和玩法状态变化必须经过服务/命令，并产生事件。
-- 卡牌、节点、遭遇、任务和存档记录使用稳定 ID。存档中不保存 Actor 指针。
-- 需要复现的规则结果使用带种子的随机流。
-- 不要把新的全局状态塞入万能 Manager。
-- 不要原地编辑 `Content/ThirdParty/`；在 `Content/Padma/` 下创建项目包装资源。
-- 不得修改生成目录：`Binaries/`、`DerivedDataCache/`、`Intermediate/`、`Saved/` 和 `.vscode/`。
-
-## Agent 修改流程
-
-1. 把工作绑定到一份已批准的任务契约，并检查当前 Git 状态。
-2. 说明目标范围、允许路径和受影响文件。
-3. 确认没有其他并发写入者负责同一文件、UE 资源、公共模式或中心配置。
-4. 做最小且完整的修改。
-5. 运行最窄范围的验证脚本或测试。
-6. 更新任务报告和相关文档；只有集成负责人更新 `Docs/ProjectState.md`。
-7. 报告修改文件、检查结果、剩余风险、未决问题和学习证据。
-
-Markdown 发生变化时，配对的英文或中文文件必须在同一次操作中同步修改，并在报告中列出两个路径。
-Markdown 修改后运行 `Scripts/AuditDocs.ps1`，确认没有缺失的语言镜像。
-
-不要把无关重构和功能任务混在一起。没有明确迁移任务和重定向器检查，不要成批重命名或移动 UE 资源。
-除非用户明确授权，不得合并、强制推送、创建标签或推送远端。
-
-## 完成标准
-
-- 满足验收标准。
-- 相关测试或可复现的手工检查通过。
-- 没有已知的新编译、反射、资源加载或打包错误。
-- 文档和任务状态已更新。
-- 每一个变更的 Markdown 都有同步的语言镜像。
-- 生成文件和本地文件没有被提交。
+- 英文为规范来源。每份 Markdown 配套中文：Name.md／Name.zh-CN.md，或既有 Design/EN／Design/ZH。ID、版本、状态、含义同步。Agent 读英文作决定；更新或核查翻译时才读中文。
+- 范围、验收和证据在 TASK 记录一次。只更新事实变化的文档；ProjectState 是简短现状，不是工作流水账。
+- 执行 Workflow.md 选定的局部检查；改 Markdown 后运行 AuditDocs.ps1。完成须满足请求行为和相关检查，未验证的运行表现如实报告。
+- 最终交接：结果、修改路径、检查、剩余用户操作／风险。未请求教学时不例行提交学习报告。

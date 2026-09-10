@@ -44,7 +44,7 @@ The source material's four Morning action categories (play A, play B, play C, an
 Global day phases do not replace local battle timing:
 
 - Encounter uses a condition-driven action timeline. The minimum MVP contract is battle start, initiative/action-bar construction, active action resolution, priority, reaction, interrupt, extra-action and non-turn windows, legal basic non-A card play, and typed battle-result events.
-- RealTimeAction uses an ACT action/tick loop. The mode owns world-time scaling, the bullet-time input window, and card-slot dispatch, while the same combat resolver owns the resulting effect, damage, status, and events.
+- RealTimeAction uses an ACT action/tick loop and its own GAS execution and tables. The mode owns world-time scaling, the bullet-time window, card-slot dispatch and effect resolution. Encounter owns a separate resolver; only explicitly identical rule meanings may reuse pure calculations and typed events.
 - A battle returns a typed result to the sandbox. It must not mutate the world by bypassing the normal command/event path; defeat or exit restores the pre-battle snapshot, while success commits the result.
 
 The working contract no longer treats encounter and distance combat as two timing variants. Encounter is turn-based; RealTimeAction is a separate real-time route. If a source term such as distance battle is retained, it must be mapped to one of these routes before implementation.
@@ -192,7 +192,7 @@ The first Encounter should contain:
 - One high-impact war-balance event.
 - Both confirmed MVP campaign victory conditions must be testable: ruler-core life reaching zero and war balance reaching the player victory boundary. The local battle must also expose a configured defeat result that restores the pre-battle snapshot.
 
-The Encounter and ACT battle must be repeatable with the same seed where randomness is involved and must expose a readable combat log for debugging. The ACT slice must demonstrate world-time slowdown, inertia-preserving bullet-time input, five-slot page mapping, card dispatch, and one complete battle result using the same card effect resolver.
+Random rule outcomes in Encounter and ACT must reproduce with the same controlled inputs, definition versions, logical timing and seed, and expose a readable battle log. This is not an arbitrary ACT physics replay guarantee. The ACT slice demonstrates slowdown, inertia-preserving bullet-time input, five-slot mapping, card dispatch and a complete result through its own mode-specific effect resolver; basic skill identity/slots remain shared.
 
 ## 12. Combat acceptance checklist
 
@@ -224,3 +224,9 @@ The Encounter and ACT battle must be repeatable with the same seed where randomn
 ## 14. Learning targets
 
 This baseline is intended to teach Gameplay Framework boundaries, command processing, combat resolution, status effects, GAS preparation, AI state/utility policies, animation timing contracts, physics-facing interactions, deterministic debugging, and strategic-sandbox/Encounter/RealTimeAction input abstraction.
+
+## 15. Independent mode systems and roster (2026-09-08)
+
+Both modes use native GAS under [ADR-0004](../../Decisions/ADR-0004-Separate-Encounter-and-ACT-GAS.md), with independent ability/effect tables, clocks, lifecycle and mode runtime. Turn-based character cards deploy on the sandbox. ACT uses a separate character-card collection and the character/weapon loadout selected in battle settings; basic non-A skill identity/slot mapping is shared with different mode effects.
+
+Terrain/context can restrict an ACT card trait. Eligibility and trait restrictions are authoritative checks, including direct commands that bypass UI; they do not silently convert a trait restriction into character exclusion. TASK-035/027/030 own roster authoring, context handoff and execution respectively. Remaining roster/constraint rules and all unaccepted values are user decisions in D20/D03. A unit death or ability interrupt returns to the Encounter timeline unless approved local outcome rules end the battle.

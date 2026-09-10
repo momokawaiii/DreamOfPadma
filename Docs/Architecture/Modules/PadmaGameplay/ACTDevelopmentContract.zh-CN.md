@@ -1,7 +1,7 @@
 # 未来 ACT 开发 Agent 契约
 
 - 文档 ID：ARCH-GAMEPLAY-ACT-001
-- 版本：0.1
+- 版本：0.2
 - 状态：架构契约已接受；实现延期
 - 英文原文（Agent 阅读）：ACTDevelopmentContract.md
 - Owner：Gameplay 模块 Agent
@@ -45,11 +45,11 @@
 未来 ACT 采用 C++ 为主、数据驱动的方向：
 
 - C++ 负责权威规则、发动校验、状态转换、目标选择、命中结算、伤害施加和清理。
-- C++ Gameplay Ability 父类负责通用技能生命周期。
+- ACT 自有 C++ Gameplay Ability 父类负责 ACT 内部公共生命周期；Encounter 拥有独立技能／执行契约。
 - C++ Ability Task 负责可复用的异步时序和序列解释。
 - `AbilityDefinition` Primary Data Asset 负责一个技能的完整不可变定义。
 - `ACTSequence` Primary Data Asset 负责序列节点、转换、阶段动作和动画时序引用。
-- 所有逐角色 DataTable 使用共享的强类型 C++ RowStruct。
+- ACT 内逐角色 DataTable 共用强类型 C++ RowStruct；它们不规定 Encounter 行结构。
 - Data-only Ability Blueprint 可以选择原生类并提供面向资产的默认值，但不得重复实现公共生命周期或权威规则。
 - 当 GAS 是已批准执行路径时，Gameplay Effect 表达消耗、冷却、属性、标签、状态和伤害变化。
 - Gameplay Cue 只承载视听表现，不能成为伤害或状态的权威来源。
@@ -66,7 +66,7 @@
 4. 该遭遇使用的最小状态子集。
 5. Encounter 行动条路径稳定且 ACT 任务得到明确批准后，再实现 ACT。
 
-ACT 准备阶段可以更新规划文档，但不能启用 GAS、修改模块依赖、创建 ACT 资产或预先实现技能框架。可以让可复用的 Encounter 契约不阻碍未来 ACT，但 Encounter 任务不能吸收推测性的 ACT 基础设施。
+按 ADR-0004，TASK-013 在可玩实现前提供双模式原生 GAS 基础设施，Encounter 仍是先交付的可玩战斗路线。ACT 准备本身不授权 ACT 玩法／资源；Encounter 任务不吸收 ACT 配表、序列或运行时。后续实现归 TASK-030／031。
 
 ## 6. ACT 静态数据模型
 
@@ -80,7 +80,7 @@ ACT 准备阶段可以更新规划文档，但不能启用 GAS、修改模块依
 - Scope Table；必须先确认 `Scope` 的具体含义。
 - Ammo Table。
 
-所有角色专属表实例使用公共的强类型 C++ RowStruct。DataTable 不形成继承层级；复用来自共享 RowStruct、稳定 ID、共享定义和显式覆写。
+ACT 内角色专属表实例共用 ACT 强类型 C++ RowStruct；Encounter 使用自己的结构。DataTable 不形成继承层级；ACT 内复用来自 RowStruct、稳定 ID、定义和显式覆写。
 
 Ability Table 是技能名册和装配索引，不是一张巨型技能文档。概念行可以包含：
 
@@ -220,7 +220,7 @@ Enhanced Input Action 和 Mapping Context 仍是 Unreal 资产。角色目录/�
 
 ## 12. GAS、插件、蓝图与工具
 
-该架构兼容 Unreal 内置 Gameplay Ability System，但加入 GAS 依赖属于未来依赖变更，需要已批准任务和项目规定的架构评审。不能为了准备 ACT，就在 Encounter 工作期间提前启用 GAS。
+ADR-0004 选择让 Encounter 与 ACT 都使用原生 GAS，模式域独立。TASK-013 拥有经评审的依赖／生命周期基础，TASK-017 拥有 Encounter，TASK-030 拥有 ACT 执行。文档本身不启用依赖；Encounter 实现不得扩大为 ACT 玩法。
 
 外部 GAS Companion 或 Aurora 插件既非必需，也未获批准。加入任一插件都需要独立 ADR，说明所有权、源码可用性、版本兼容、打包、许可、升级风险和移除策略。
 
@@ -310,3 +310,13 @@ Enhanced Input Action 和 Mapping Context 仍是 Unreal 资产。角色目录/�
 - 另一个 Agent 拥有重叠的可写文件或二进制资产。
 
 ACT Agent 绝不能静默照搬外部 Combat 原型、修改引擎/插件源码、直接改变其他模块状态，或把 Encounter 任务扩大为推测性的 ACT 实现。
+
+## 19. 独立卡片、装备阵容与模式契约
+
+较新的分离边界由 [ADR-0004](../../../Decisions/ADR-0004-Separate-Encounter-and-ACT-GAS.zh-CN.md) 规定。TASK-035 拥有独立 ACT 角色卡集合与战斗总设置角色／武器阵容；TASK-027 将地形／上下文和通过校验的阵容交给 TASK-030。基础技能卡与 Encounter 共享身份／槽位，但绑定单独配置的 ACT 效果。
+
+ACT 阶段、时钟、AttributeSet、原生技能父类和效果实例不属于 Encounter 契约。地形可限制某特性；校验须区分特性、技能、武器和整角色限制，并覆盖非 UI 直接命令。容量、操控／切换、限制时点、触发单位关联及本局／预设归属仍属 D20。只有获准本局拥有且战斗可修改状态参与完整事务／保存边界。全部未接受数值须用户逐项确认。
+
+## 静态配置交接：TASK-036
+
+消费公共 ACT/Authoring 角色／武器／技能资产及 FPadmaACTSkillRow，不在 TASK-030 ACT/Data 或 TASK-035 RosterData 中重复定义。运行配置保持独立：通过 ACT 专用且受支持的 GAS 注册表解析 AbilityImplementationId，验证选定装备，并在权威命令中执行已批准特性限制。配置校验成功不等于可战斗或取得阵容所有权。软引用在集成时需要加载／烘焙策略。空模板不提供玩法数值或序列。
