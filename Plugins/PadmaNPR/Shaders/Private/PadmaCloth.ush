@@ -1,0 +1,55 @@
+#ifndef PADMA_CLOTH_USH
+#define PADMA_CLOTH_USH
+// Public include and composition point. Algorithms live in small modules.
+#include "/Plugin/PadmaNPR/Private/PadmaMath.ush"
+#include "/Plugin/PadmaNPR/Private/PadmaClothNormal.ush"
+#include "/Plugin/PadmaNPR/Private/PadmaClothLighting.ush"
+#include "/Plugin/PadmaNPR/Private/PadmaMatcap.ush"
+
+struct FPadmaClothResult
+{
+    float3 BaseColor;
+    float3 Emissive;
+    float3 NormalWS;
+    float4 Surface; // metallic, specular, roughness, AO
+    float3 Debug;
+};
+// This is an explicit artistic hybrid, not a new BSDF. Texture bindings remain in the MI.
+FPadmaClothResult PadmaEvaluateCloth(
+    float3 albedo,float3 geometricN,float3 mappedN,float3 V,float3 L,
+    float ao,float metal,float roughnessMask,float matcapMask1,float matcapMask2,
+    float3 matcap1,float3 matcap2,
+    float4 tint,float4 normalControls,float4 lam,float4 shadowColor,float4 aoControls,
+    float4 rimShadow,float4 rimShadowColor,float4 rimHighlight,float4 rimHighlightColor,
+    float4 spec,float4 specBaseColor,float4 specMetalColor,
+    float4 matcapControls,float4 matcapTint1,float4 matcapTint2,float4 surface,int debugMode)
+{
+    FPadmaClothResult o;
+    V=PadmaSafeNormal(V,float3(0,0,1)); L=PadmaSafeNormal(L,float3(0,0,1));
+    o.NormalWS=PadmaBuildClothNormal(geometricN,mappedN,V,L,normalControls.xyz);
+    float NoL=dot(o.NormalWS,L), NoV=dot(o.NormalWS,V);
+    // x=threshold,y=feather,z=strength,w=reference remap mode.
+    float band=lam.w>1.5 ? lerp(1.0,PadmaMaskAdjust(NoL,lam.y,lam.x),saturate(lam.z)) : lam.w>0.5 ? PadmaMaskRemap(NoL,lam.y,lam.x,lam.z)
+                          : lerp(1.0,PadmaClothDiffuseBand(NoL,lam.x,lam.y),saturate(lam.z));
+    float AO=PadmaClothAO(ao,aoControls.x,aoControls.y,aoControls.z);
+    float rs=PadmaClothRim(NoV,rimShadow.x,rimShadow.y)*saturate(rimShadow.z);
+    float rh=PadmaClothRim(NoV,rimHighlight.x,rimHighlight.y)*saturate(rimHighlight.z);
+    float3 color=PadmaColorBlend(albedo*tint.rgb,shadowColor,1.0-band);
+    color*=AO;
+    color=PadmaColorBlend(color,rimShadowColor,rs);
+    color=PadmaEvaluateMatcap(color,matcap1,matcapTint1,matcapMask1,matcapControls.x);
+    color=PadmaEvaluateMatcap(color,matcap2,matcapTint2,matcapMask2,matcapControls.y);
+    float metallic=saturate(metal*surface.x);
+    float roughness=clamp(lerp(spec.x,spec.y,metallic)*roughnessMask,0.04,1.0);
+    float ndf=PadmaReferenceGGXNDF(o.NormalWS,L,roughness);
+    float highlight=PadmaMaskRemap(ndf,spec.z,spec.w,1.0)*surface.w;
+    float3 specColor=lerp(specBaseColor.rgb,specMetalColor.rgb,metallic);
+    o.BaseColor=color;
+    o.Emissive=color*surface.z + specColor*highlight + rimHighlightColor.rgb*rh;
+    o.Surface=float4(metallic,saturate(surface.y),roughness,1.0); // AO already applied artistically above.
+    o.Debug=debugMode==1?band.xxx:debugMode==2?AO.xxx:debugMode==3?rs.xxx:
+        debugMode==4?rh.xxx:debugMode==5?saturate(ndf).xxx:o.NormalWS*0.5+0.5;
+    if(debugMode>0) { o.BaseColor=0; o.Emissive=o.Debug; o.Surface=float4(0,0,1,1); }
+    return o;
+}
+#endif

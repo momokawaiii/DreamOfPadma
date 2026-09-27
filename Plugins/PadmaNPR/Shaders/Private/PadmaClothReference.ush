@@ -1,0 +1,87 @@
+#ifndef PADMA_CLOTH_REFERENCE_USH
+#define PADMA_CLOTH_REFERENCE_USH
+#include "/Plugin/PadmaNPR/Private/PadmaCloth.ush"
+#include "/Engine/Private/TonemapCommon.ush"
+
+// Detail=1 retains the mapped normal; Detail=0 uses the vertex normal.
+// The source Lam/Matcap lerps are intentionally not normalized afterwards.
+float3 PadmaReferenceBranchNormal(float3 geometricN, float3 mappedN, float detail)
+{
+    return lerp(geometricN, mappedN, saturate(detail));
+}
+
+float2 PadmaReferenceMatcapUV(float3 N, float3 V, float4 adjust)
+{
+    float3 up = abs(V.z) < 0.999 ? float3(0,0,1) : float3(0,1,0);
+    float3 T = PadmaSafeNormal(cross(V, up), float3(1,0,0));
+    float3 B = PadmaSafeNormal(cross(V, T), float3(0,1,0));
+    // Reference uses wrap addressing. Negative coordinates are meaningful.
+    return float2(dot(T,N), dot(N,B)) * adjust.xy - adjust.zw;
+}
+
+float3 PadmaReferenceBlend(float3 base, float4 blend, float mask)
+{
+    return lerp(base, lerp(base * blend.rgb, blend.rgb, blend.a), mask);
+}
+
+float PadmaReferenceSurfaceRoughness(float roughMask, float4 controls)
+{
+    return clamp(lerp(controls.y, controls.z, roughMask) * controls.w, 0.04, 1.0);
+}
+
+float PadmaReferenceHighlight(float3 N, float3 L, float3 V, float roughMask,
+    float ao, float metal, float lam, float4 ggx, float2 remap)
+{
+    float3 Q = PadmaSafeNormal(L + V * ggx.y, L);
+    float3 H = PadmaSafeNormal(N + Q, float3(0,0,0));
+    // NDF input is texture roughness, NOT final native surface roughness.
+    // Unlike the source singularity at zero, shared GGXNDF deliberately floors roughness at .04.
+    float d = PadmaGGXNDF(dot(H,N), roughMask) * ao;
+    d = lerp(d, d * metal, saturate(ggx.z));
+    d = PadmaMaskAdjust(d, remap.x, remap.y);
+    return saturate(lerp(d, d * lam, saturate(ggx.w)));
+}
+
+FPadmaClothResult PadmaEvaluateReferenceCloth(
+    float3 albedo, float3 geometricN, float3 mappedN, float3 V, float3 L,
+    float ao, float metal, float roughMask, float mask1, float mask2, float3 mc1, float3 mc2,
+    float4 tint, float4 lam, float4 shadowColor, float4 aoControls,
+    float4 rimShadow, float4 rimShadowColor, float4 rimHighlight, float4 rimHighlightColor,
+    float4 spec, float4 specColor, float4 matcapControls, float4 matcapTint1, float4 matcapTint2,
+    float4 surface, float4 reference, float4 branchNormals, float4 ggx, float4 nativeSurface,
+    float4 aoColor, float4 toneControls, int debugMode)
+{
+    FPadmaClothResult o;
+    float3 base = lerp(albedo, FilmToneMapInverse(albedo), saturate(toneControls.x));
+    base = saturate(pow(max(base, 0.0), reference.x)) * tint.rgb;
+    float3 Nlam = PadmaReferenceBranchNormal(geometricN, mappedN, branchNormals.x);
+    float band = lerp(1.0, PadmaMaskAdjust(dot(Nlam,L), lam.y, lam.x), saturate(lam.z));
+    float AO = lerp(1.0, PadmaMaskAdjust(ao, aoControls.x, aoControls.y), saturate(aoControls.z));
+    float metalMask = PadmaMaskAdjust(metal, reference.z, reference.w);
+    float3 color = lerp(base * shadowColor.rgb, base, band);
+    color = lerp(color * aoColor.rgb, color, AO);
+
+    float3 Ns = PadmaReferenceBranchNormal(geometricN, mappedN, branchNormals.y);
+    float3 Nh = PadmaReferenceBranchNormal(geometricN, mappedN, branchNormals.z);
+    float rs = (1.0 - PadmaMaskAdjust(dot(V,Ns), rimShadow.y, rimShadow.x)) * saturate(rimShadow.z);
+    float rh = saturate((1.0 - PadmaMaskAdjust(dot(V,Nh), rimHighlight.y, rimHighlight.x)) * dot(L,geometricN)) * saturate(rimHighlight.z);
+    color = PadmaReferenceBlend(color, rimShadowColor, rs);
+    color = PadmaReferenceBlend(color, rimHighlightColor, rh);
+
+    float3 Ng = PadmaReferenceBranchNormal(geometricN, mappedN, ggx.x);
+    float highlight = PadmaReferenceHighlight(Ng,L,V,roughMask,AO,metalMask,band,ggx,spec.zw) * saturate(surface.w);
+    color = PadmaReferenceBlend(color, specColor, highlight);
+    float3 matcap = (mc1 * matcapTint1.rgb * mask1 * matcapControls.x + mc2 * matcapTint2.rgb * mask2 * matcapControls.y) * AO * band;
+    color += matcap;
+
+    o.BaseColor = color;
+    o.Emissive = color * surface.z;
+    o.NormalWS = mappedN;
+    o.Surface = float4(saturate(nativeSurface.x), saturate(surface.y), PadmaReferenceSurfaceRoughness(roughMask,nativeSurface), 1.0);
+    o.Debug = debugMode==1 ? band.xxx : debugMode==2 ? AO.xxx : debugMode==3 ? rs.xxx :
+        debugMode==4 ? rh.xxx : debugMode==5 ? highlight.xxx : debugMode==6 ? mappedN*0.5+0.5 :
+        debugMode==7 ? base : debugMode==8 ? matcap : debugMode==9 ? o.Surface.zzz : metalMask.xxx;
+    if(debugMode>0){o.BaseColor=0; o.Emissive=o.Debug; o.Surface=float4(0,0,1,1);}
+    return o;
+}
+#endif

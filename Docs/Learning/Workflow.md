@@ -16,6 +16,6 @@ Do not activate a lesson simply because a legacy TASK has learning fields. Use k
 
 Record user-reported learning as user-reported. Agent explanations can establish Introduced; user practice supports Practiced; successful teach-back plus observable transfer supports Demonstrated. Missing mastery evidence does not block feature delivery unless the user explicitly makes it an acceptance criterion.
 
-Keep the artifact/check result in the TASK. Add learning evidence there only for an actual lesson; do not duplicate progress across every document or update the curriculum for routine fixes.
+Keep the artifact/check result in the owning TASK when one exists; otherwise the delivery handoff is enough. Add learning evidence there only for an actual lesson; do not duplicate progress across every document or update the curriculum for routine fixes.
 
 Examples: change one Data Asset reference and observe the model; explain why a SaveGame stores IDs; compare one bounded child prompt with a full-history prompt. Use existing project artifacts; do not expand feature scope to create a lesson.

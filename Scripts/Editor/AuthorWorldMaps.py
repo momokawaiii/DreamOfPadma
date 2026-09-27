@@ -227,33 +227,7 @@ if dialogues not in current_dialogues:
     catalog.set_editor_property("dialogue_tables", current_dialogues)
 save(catalog)
 
-levels = unreal.get_editor_subsystem(unreal.LevelEditorSubsystem)
-actors = unreal.get_editor_subsystem(unreal.EditorActorSubsystem)
-preview_map = ROOT + "/Maps/Editing/L_MapAuthoring"
-if not unreal.EditorAssetLibrary.does_asset_exist(preview_map):
-    if not levels.new_level(preview_map):
-        raise RuntimeError("Cannot create map authoring level")
-    host = actors.spawn_actor_from_class(unreal.PadmaMapAuthoringPreview, unreal.Vector())
-    host.set_actor_label("Map Authoring - select and Rebuild Preview")
-    host.set_editor_property("map", map_asset)
-    host.set_editor_property("theme", theme)
-    actors.spawn_actor_from_class(unreal.DirectionalLight, unreal.Vector(0, 0, 600), unreal.Rotator(-55, -30, 0))
-    actors.spawn_actor_from_class(unreal.SkyLight, unreal.Vector(0, 0, 400))
-    if not levels.save_current_level():
-        raise RuntimeError("Cannot save authoring level")
-if not levels.load_level(preview_map):
-    raise RuntimeError("Cannot load authoring level")
-hosts = [a for a in actors.get_all_level_actors() if isinstance(a, unreal.PadmaMapAuthoringPreview)]
-if len(hosts) != 1:
-    raise RuntimeError("Expected one editor map host")
-hosts[0].rebuild_preview()
-world = unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem).get_editor_world()
-handles = unreal.GameplayStatics.get_all_actors_of_class(world, unreal.PadmaMapNodeHandle)
-if len(handles) != len(map_asset.get_editor_property("template").get_editor_property("nodes")):
-    raise RuntimeError("Editor preview failed: " + str(hosts[0].get_editor_property("status")))
-hosts[0].clear_preview()
-if any(unreal.GameplayStatics.get_all_actors_of_class(world, cls) for cls in (unreal.PadmaWorldMapActor, unreal.PadmaWorldNodeActor, unreal.PadmaMapNodeHandle)):
-    raise RuntimeError("Transient map preview actors leaked after clear")
+# Definitions are edited directly; the standalone preview level was retired.
 with open(os.path.join(EVIDENCE, "map-authoring.json"), "w", encoding="utf-8") as stream:
-    json.dump({"created": created, "map": map_asset.get_path_name(), "theme": theme.get_path_name(), "previewHandles": len(handles)}, stream, ensure_ascii=False, indent=2)
-unreal.log("[TASK-048] Map authoring passed; definitions, checkpoints, theme and transient editor handles ready")
+    json.dump({"created": created, "map": map_asset.get_path_name(), "theme": theme.get_path_name()}, stream, ensure_ascii=False, indent=2)
+unreal.log("Map definitions, checkpoints and theme ready; validate in L_PadmaWorld")

@@ -1,10 +1,10 @@
 'use strict';
-// Export accepted HTML fixtures to UE DataTable JSON. Usage: node Scripts/Editor/ExportPlayableData.cjs [--check] [--out path]
+// Export retained turn-based fixtures to UE DataTable JSON. Usage: node Scripts/Editor/ExportPlayableData.cjs [--check] [--out path]
 const fs = require('node:fs');
 const path = require('node:path');
-const D = require('../../Prototypes/HTML/data.js');
+const D = require('../Data/PlayableData.cjs');
 const ROOT = '/Game/Padma/MVP/Playable/Definitions';
-const PROVENANCE = 'TASK-046 temporary UE Demo / Prototypes/HTML/data.js; user-authorized 2026-09-09, not final balance';
+const PROVENANCE = 'Scripts/Data/PlayableData.cjs; retained turn-based fixture, not final balance';
 const effects = {
   cut: { Magnitude: 3, RepeatCount: 1, bTrueDamage: true },
   wind: { Magnitude: 2, RepeatCount: 1 },

@@ -99,12 +99,12 @@ bool FPadmaRunSynthesisTest::RunTest(const FString& Parameters)
     TestTrue(TEXT("Preview cannot consume RNG or resources"), SameState(BeforePreview, Rules.Run()));
     if (!Do(*this, Rules.Synthesize(TEXT("card-1")))) return false;
     const auto& Record = Rules.Run().SynthesisHistory.Last();
-    // Independently obtained from Prototypes/HTML/engine.js at seed 731, day-one dawn+cherry.
-    TestEqual(TEXT("First HTML LCG roll"), Record.SelectionRoll, 0.5193687970750034);
-    TestEqual(TEXT("Second HTML LCG roll"), Record.SuccessRoll, 0.5830192428547889);
+    // Retained turn-based fixture at seed 731, day-one dawn+cherry.
+    TestEqual(TEXT("First turn-based LCG roll"), Record.SelectionRoll, 0.5193687970750034);
+    TestEqual(TEXT("Second turn-based LCG roll"), Record.SuccessRoll, 0.5830192428547889);
     TestEqual(TEXT("Exactly two random draws"), Rules.Run().RNG, 2504048581u);
     TestEqual(TEXT("Ordered softmax selection"), Record.Selected, FName(TEXT("vitruvian")));
-    TestTrue(TEXT("HTML success probability accepted"), Record.bSuccess);
+    TestTrue(TEXT("Turn-based success probability accepted"), Record.bSuccess);
     TestEqual(TEXT("A discarded"), Rules.Card(TEXT("card-1"))->Zone, FName(TEXT("discard")));
     TestEqual(TEXT("B discarded and detached"), Rules.Card(TEXT("card-2"))->AttachedTo, NAME_None);
     TestEqual(TEXT("B zone is discard"), Rules.Card(TEXT("card-2"))->Zone, FName(TEXT("discard")));

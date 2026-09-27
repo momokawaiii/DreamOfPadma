@@ -1,12 +1,12 @@
 # ADR-0010: Offline Demo Content and Baked Map Boundary
 
 - Document ID: ADR-0010
-- Version: 1.0
+- Version: 1.1
 - Status: Accepted target; implementation pending
 - Date: 2026-09-10
 - Chinese companion: [ADR-0010-Offline-Demo-Content-and-Map.zh-CN.md](ADR-0010-Offline-Demo-Content-and-Map.zh-CN.md)
 - Decision owner: User for scope/semantics; Architect for technical mapping
-- Source/evidence: [TASK-053](../Production/Tasks/TASK-053-Grill-Technical-Docs.md)
+- Source/evidence: [TASK-053](../Production/ProjectCleanup.md)
 
 ## Context and precedence
 
@@ -43,4 +43,21 @@ No source, asset or save format is changed by this ADR. Later implementation mus
 
 Q39–Q45 have no user answers: special-node dispatch mechanics, reusable subgraph organization, exact parameter/tag encoding and atomic effect design, tutorial event vocabulary, detailed card-reference authoring, sequence-binding implementation and exhaustive Shipping compiler gates remain proposals. Previously accepted runtime/presentation separation still applies.
 
-Rendering choice/migration from the current painting, concrete main-menu/ending content, final card/reward values, replay inventory ownership, failure resume policy and measurable visual/performance acceptance remain implementation or user content decisions. Do not convert these into new approved defaults.
+Q47 resolves the painting-versus-3D choice: the final map is baked 3D terrain. Its concrete representation/bake API, main-menu/ending content, final card/reward values, replay inventory ownership and failure resume policy remain implementation or user content decisions. Q85 accepts a generous development-machine baseline; exact measured budgets are still unset.
+
+## Q46–Q90 amendment
+
+The later answers refine this ADR without changing current saves or assets:
+
+| Decision | Accepted boundary / owner |
+|---|---|
+| Q47, Q50, Q56 | Baked 3D final map; typed hand-authored chapter data now, future editor emits the same runtime IDs/contracts. |
+| Q75, Q81, Q82, Q89–Q90 | Reverse-engineer Combat behavior and rebuild native Padma GAS; one complete representative ACT P0, with model/retarget/3C as the first learning task only. See [ACTDevelopmentContract](../Architecture/Modules/PadmaGameplay/ACTDevelopmentContract.md). |
+| Q72, Q78, Q84 | Full UI redesign allowed; preserve domain state/command/result semantics, not current widget hierarchy/gestures. User supplies the full interaction specification. |
+| Q61, Q69 | Local authority only; networking remains deferred. |
+| Q70, Q77, Q83, Q88 | No custom replacement tool; manual asset replacement plus provenance/reference/cook audit. Public/Steam-target packages reject civili/known prohibited sources even through renames; private learning packages are distinct. |
+| Q71, Q87 | Audio may be absent/placeholder during development; production audio is an RC gate. Voice acting is optional. |
+| Q73, Q79, Q85–Q86 | Generous measured development-machine baseline and Editor/PIE, Development, Shipping, clean offline installation evidence; no invented numerical budget. |
+| Q65, Q80 | Production work is split into one learnable unit plus a concrete result and evidence; do not restart completed basics. |
+
+[DemoDeliveryPlan](../Production/DemoDeliveryPlan.md) sequences these requirements; [ACTMigrationMatrix](../Content/ACTMigrationMatrix.md) distinguishes requested priority from independently verified playable promotion. Q39–Q45's unanswered implementation details remain open where not superseded by the later decisions above.

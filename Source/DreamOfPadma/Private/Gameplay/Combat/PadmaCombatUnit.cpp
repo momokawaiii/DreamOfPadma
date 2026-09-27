@@ -1,4 +1,7 @@
 #include "Gameplay/Combat/PadmaCombatUnit.h"
+#include "Gameplay/ACT/Runtime/PadmaACTMelee.h"
+#include "Gameplay/ACT/Runtime/PadmaACTActions.h"
+#include "Gameplay/ACT/Runtime/PadmaACTCamera.h"
 #include "Gameplay/Combat/PadmaCombatAttributes.h"
 #include "Gameplay/Combat/PadmaCombatComponent.h"
 #include "Gameplay/Encounter/PadmaEncounterAbility.h"
@@ -17,7 +20,12 @@
 
 APadmaCombatUnit::APadmaCombatUnit()
 {
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
+    PrimaryActorTick.bStartWithTickEnabled = false;
+	Melee = CreateDefaultSubobject<UPadmaACTMeleeComponent>(TEXT("ACTMelee"));
+    Actions = CreateDefaultSubobject<UPadmaACTActionsComponent>(TEXT("ACTActions"));
+    ACTCamera=CreateDefaultSubobject<UPadmaACTCameraComponent>(TEXT("ACTCamera"));
+    ACTCamera->SetupAttachment(GetRootComponent());
 	AbilitySystem = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("NativeASC"));
 	AbilitySystem->SetIsReplicated(false);
 	Attributes = CreateDefaultSubobject<UPadmaCombatAttributes>(TEXT("CombatAttributes"));
@@ -34,24 +42,68 @@ APadmaCombatUnit::APadmaCombatUnit()
 	Placeholder->SetRelativeLocation(FVector(0,0,-54)); // Demo arena unit centers are 90 above the floor.
 }
 
-void APadmaCombatUnit::InitializeCombat(UPadmaCombatComponent* Battle, const FPadmaCombatUnitSpec& InSpec, EPadmaCombatMode Mode, bool bSourceOnly)
+void APadmaCombatUnit::OnConstruction(const FTransform& Transform)
+{
+    Super::OnConstruction(Transform);
+    // Bootstrap an empty Blueprint instance only; reconstruction never replaces authored overrides.
+    if (!GetMesh()->GetSkeletalMeshAsset() && (!SceneSpec.Presentation.ACTDefinition.IsNull() || !SceneSpec.Presentation.Model.IsNull()))
+        ApplyScenePresentation();
+    Placeholder->SetVisibility(GetMesh()->GetSkeletalMeshAsset()==nullptr);
+}
+
+void APadmaCombatUnit::ApplyScenePresentation()
+{
+    Modify(); GetMesh()->Modify();
+    auto* D=SceneSpec.Presentation.ACTDefinition.LoadSynchronous();
+    auto* Model=D ? D->Model.LoadSynchronous() : SceneSpec.Presentation.Model.LoadSynchronous();
+    if (Model) GetMesh()->SetSkeletalMesh(Model);
+    if (auto* Anim=D ? D->AnimationClass.LoadSynchronous() : SceneSpec.Presentation.AnimationClass.LoadSynchronous()) GetMesh()->SetAnimInstanceClass(Anim);
+    GetMesh()->SetRelativeLocation(FVector(0,0,-90));
+    Placeholder->SetVisibility(!Model);
+    if (D)
+    {
+        GetCapsuleComponent()->SetCapsuleSize(D->CapsuleRadius,D->CapsuleHalfHeight);
+        GetMesh()->SetRelativeLocation(FVector(0,0,-D->CapsuleHalfHeight));
+        if (auto* Profile=D->MeleeProfile.LoadSynchronous())
+        {
+            GetMesh()->SetRelativeRotation(Profile->MeshRelativeRotation);
+            TArray<UStaticMeshComponent*> Components; GetComponents(Components);
+            for (int32 Index=0;Index<Profile->Weapons.Num();++Index)
+            {
+                const auto& W=Profile->Weapons[Index];
+                const FName Tag(*FString::Printf(TEXT("Padma.SceneWeapon.%d"),Index));
+                UStaticMeshComponent* C=nullptr;
+                for (auto* Existing:Components) if (Existing->ComponentHasTag(Tag)) { C=Existing; break; }
+                if (!C) { C=NewObject<UStaticMeshComponent>(this,NAME_None,RF_Transactional); C->ComponentTags.Add(Tag); AddInstanceComponent(C); C->RegisterComponent(); }
+                C->Modify(); C->SetStaticMesh(W.Mesh.LoadSynchronous()); C->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+                C->AttachToComponent(GetMesh(),FAttachmentTransformRules::SnapToTargetNotIncludingScale,W.StowedSocket.IsNone()?W.Socket:W.StowedSocket);
+                C->SetRelativeTransform(W.StowedSocket.IsNone()?FTransform::Identity:W.StowedTransform);
+                for(int32 Slot=0;Slot<W.PresentationMaterials.Num();++Slot) if(auto* Material=W.PresentationMaterials[Slot].LoadSynchronous()) C->SetMaterial(Slot,Material);
+            }
+        }
+    }
+}
+
+void APadmaCombatUnit::InitializeCombat(UPadmaCombatComponent* Battle, const FPadmaCombatUnitSpec& InSpec, EPadmaCombatMode Mode, bool bSourceOnly, bool bPreservePresentation)
 {
 	Combat = Battle;
 	Spec = InSpec;
 	bCardSource = bSourceOnly;
 	bGASCleaned = false;
+	bScenePresentation = bPreservePresentation;
+	bActed=false; WindupRemaining=0; CombatVelocity=FVector::ZeroVector;
 	ReadyTime = 100.f / FMath::Max(1.f, Spec.Speed);
 	AttackCooldown = Spec.InitialAttackDelay;
 	AbilitySystem->InitAbilityActorInfo(this, this);
 	AbilitySystem->AddAttributeSetSubobject(Attributes.Get());
-	ApplyAttribute(this, UPadmaCombatAttributes::GetMaxHealthAttribute(), Spec.MaxHealth, true);
-	ApplyAttribute(this, UPadmaCombatAttributes::GetHealthAttribute(), Spec.Health, true);
-	ApplyAttribute(this, UPadmaCombatAttributes::GetShieldAttribute(), 0, true);
-	ApplyAttribute(this, UPadmaCombatAttributes::GetBlockAttribute(), 0, true);
+	ApplyAttribute(this, UPadmaCombatAttributes::GetMaxHealthAttribute(), Spec.MaxHealth, true, TEXT("GE.Padma.Attribute.Init"));
+	ApplyAttribute(this, UPadmaCombatAttributes::GetHealthAttribute(), Spec.Health, true, TEXT("GE.Padma.Attribute.Init"));
+	ApplyAttribute(this, UPadmaCombatAttributes::GetShieldAttribute(), 0, true, TEXT("GE.Padma.Attribute.Init"));
+	ApplyAttribute(this, UPadmaCombatAttributes::GetBlockAttribute(), 0, true, TEXT("GE.Padma.Attribute.Init"));
 	TSubclassOf<UGameplayAbility> AbilityClass = Mode == EPadmaCombatMode::Encounter
 		? UPadmaEncounterAbility::StaticClass() : UPadmaACTAbility::StaticClass();
 	ModeAbility = AbilitySystem->GiveAbility(FGameplayAbilitySpec(AbilityClass, 1));
-	SetActorLocation(Spec.Location);
+	if (!bScenePresentation) SetActorLocation(Spec.Location);
 	SetActorEnableCollision(!bSourceOnly);
 	SetActorHiddenInGame(bSourceOnly);
 	if (bSourceOnly) return;
@@ -63,6 +115,8 @@ void APadmaCombatUnit::InitializeCombat(UPadmaCombatComponent* Battle, const FPa
 			if (Spec.Presentation.AnimationClass.IsNull()) Spec.Presentation.AnimationClass = Definition->AnimationClass;
 		}
 	}
+	if (!bScenePresentation)
+	{
 	if (auto* LoadedSkeletal = Spec.Presentation.Model.LoadSynchronous())
 	{
 		GetMesh()->SetSkeletalMesh(LoadedSkeletal);
@@ -71,9 +125,30 @@ void APadmaCombatUnit::InitializeCombat(UPadmaCombatComponent* Battle, const FPa
 		Placeholder->SetVisibility(false);
 	}
 	else if (auto* LoadedStatic = Spec.Presentation.StaticModel.LoadSynchronous()) Placeholder->SetStaticMesh(LoadedStatic);
+	}
+	Placeholder->SetVisibility(GetMesh()->GetSkeletalMeshAsset()==nullptr);
+	if (Mode == EPadmaCombatMode::ACT)
+		if (auto* Definition = Spec.Presentation.ACTDefinition.LoadSynchronous())
+		{
+			if (auto* Profile = Definition->MeleeProfile.LoadSynchronous()) ensureMsgf(Melee->Configure(Profile), TEXT("Invalid ACT melee profile"));
+            if (Definition->bUseCharacterActions) ensureMsgf(Actions->Configure(Definition),TEXT("Invalid ACT character actions"));
+            if (Spec.bPlayer && Definition->bUseCharacterActions && !Definition->CameraProfile.IsNull())
+                ensureMsgf(ACTCamera->Configure(Definition->CameraProfile.LoadSynchronous()),TEXT("Invalid ACT camera profile"));
+		}
 }
 
-void APadmaCombatUnit::ApplyAttribute(APadmaCombatUnit* Source, const FGameplayAttribute& Attribute, float Magnitude, bool bOverride)
+void APadmaCombatUnit::Landed(const FHitResult& Hit)
+{
+    Super::Landed(Hit);
+    Actions->Landed();
+}
+void APadmaCombatUnit::CalcCamera(float DeltaTime,FMinimalViewInfo& OutResult)
+{
+    if(ACTCamera && ACTCamera->IsConfigured()) ACTCamera->GetCameraView(DeltaTime,OutResult);
+    else Super::CalcCamera(DeltaTime,OutResult);
+}
+
+void APadmaCombatUnit::ApplyAttribute(APadmaCombatUnit* Source, const FGameplayAttribute& Attribute, float Magnitude, bool bOverride, FName GameplayEffectId)
 {
 	if (!Source || !Source->AbilitySystem || !AbilitySystem) return;
 	auto* Effect = NewObject<UPadmaCombatAttributeEffect>(GetTransientPackage());
@@ -86,6 +161,7 @@ void APadmaCombatUnit::ApplyAttribute(APadmaCombatUnit* Source, const FGameplayA
 	Context.AddSourceObject(Source);
 	FGameplayEffectSpec EffectSpec(Effect, Context, 1.f);
 	Source->AbilitySystem->ApplyGameplayEffectSpecToTarget(EffectSpec, AbilitySystem);
+	if (Combat.IsValid()) Combat->RecordGameplayEffect(Source, this, Attribute, Magnitude, bOverride, GameplayEffectId);
 }
 
 float APadmaCombatUnit::Health() const { return Attributes ? Attributes->GetHealth() : 0; }
@@ -104,6 +180,7 @@ FPadmaCombatUnitSnapshot APadmaCombatUnit::Snapshot() const
 	Result.Block = Attributes->GetBlock();
 	Result.Attack = Spec.Attack;
 	Result.Defense = Spec.Defense;
+	Result.MagicDefense = Spec.MagicDefense;
 	Result.ReadyTime = ReadyTime;
 	Result.bActed = bActed;
 	Result.WindupRemaining = WindupRemaining;
@@ -120,13 +197,19 @@ void APadmaCombatUnit::CleanupGAS()
 {
 	if (bGASCleaned) return;
 	bGASCleaned = true;
+	Melee->FinishAttack(true);
 	CombatVelocity = FVector::ZeroVector;
+    if (Actions->IsConfigured()) { GetCharacterMovement()->StopMovementImmediately(); GetCharacterMovement()->DisableMovement(); SetActorTickEnabled(false); }
 	WindupRemaining = 0;
 	StopAnimMontage();
 	AbilitySystem->CancelAllAbilities();
 	AbilitySystem->ClearAllAbilities();
 	AbilitySystem->RemoveActiveEffects(FGameplayEffectQuery());
 	AbilitySystem->ClearActorInfo();
+	Actions->ResetConfiguration();
+	Melee->ResetConfiguration();
+	ACTCamera->ResetView(); ACTCamera->SetComponentTickEnabled(false);
+	Combat.Reset();
 	ModeAbility = FGameplayAbilitySpecHandle();
 }
 

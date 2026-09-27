@@ -1,12 +1,12 @@
 # World Map Authoring
 
 - Document ID: CONTENT-WORLD-MAP-048
-- Version: 0.2
+- Version: 0.3
 - Status: Current authoring kit with a separately marked offline Demo bake target; user interaction acceptance pending
 - Chinese companion: [WorldMapAuthoring.zh-CN.md](WorldMapAuthoring.zh-CN.md)
-- Delivery evidence: [TASK-048](../Production/Tasks/TASK-048-Anchored-World-Maps.md)
+- Delivery evidence: [TASK-048](../Production/ProjectCleanup.md)
 
-Use the map Data Asset for graph values, the editing level for moving node positions, and the visual theme for presentation. A running game uses its frozen layout and checkpoint values.
+Use the map Data Asset for graph values and node positions, and the visual theme for presentation. Validate changes in L_PadmaWorld. A running game uses its frozen layout and checkpoint values.
 
 ## Open the authoring kit
 
@@ -17,12 +17,11 @@ import runpy, unreal
 runpy.run_path(unreal.Paths.project_dir() + "Scripts/Editor/AuthorWorldMaps.py", run_name="__main__")
 ```
 
-The script creates missing assets and preserves existing definitions on rerun. It fills empty map/theme catalog bindings and adds the branch dialogue table. It opens the editing level and clears its temporary preview after the script checks; press **Rebuild Preview** to display it again.
+The script creates missing assets and preserves existing definitions on rerun. It fills empty map/theme catalog bindings and adds the branch dialogue table. The standalone editing map was retired; the script no longer creates or loads it.
 
 | Purpose | Asset path |
 | --- | --- |
 | Map definition | `/Game/Padma/World/Maps/Definitions/DA_FirstRegion_Map` |
-| Editing level | `/Game/Padma/World/Maps/Editing/L_MapAuthoring` |
 | Visual theme | `/Game/Padma/World/Maps/Presentation/DA_FirstRegion_Theme` |
 | Checkpoint table | `/Game/Padma/World/Maps/Story/DT_FirstRegion_Checkpoints` |
 | Branch dialogue table | `/Game/Padma/World/Maps/Story/DT_FirstRegion_Branches` |
@@ -33,12 +32,11 @@ The script creates missing assets and preserves existing definitions on rerun. I
 ## Edit graph values and positions
 
 1. Open `DA_FirstRegion_Map`. Edit `Template.Nodes` and `Template.Edges` for IDs, terrain, ownership, encounter data and directed connections. `HomeNode` and `BossNode` reference existing, distinct node IDs; home must start owned by `player`. Operation types such as `core` and `rulerCore` remain separate from these terminal references.
-2. Open `L_MapAuthoring` and select its `PadmaMapAuthoringPreview` host. Assign `Map` and `Theme`; leave **Edit Generated Layout** disabled to edit `Template`.
-3. Press **Rebuild Preview**. In the Outliner select `Edit node: <ID>` and move its yellow handle in the horizontal plane. Press **Apply Node Transforms** on the host, then read `Status`. Handle height does not change map coordinates.
-4. Save the map Data Asset explicitly. Press **Rebuild Preview** to display the applied values. **Clear Preview** removes temporary handles and rendered preview actors; the saved definition retains applied edits.
-5. Set `bUseGenerated=false` and press **Validate** to validate the authored template, or press **Generate** to build a fresh output from it. Inspect `ValidationError` before saving.
+2. Edit node positions directly in `Template.Nodes`. Preserve stable IDs and terminal references.
+3. Set `bUseGenerated=false` and press **Validate** to validate the authored template, or press **Generate** to build a fresh output from it. Inspect `ValidationError` before saving.
+4. Save the map Data Asset and start a new run in L_PadmaWorld to check the result.
 
-Scene handles edit positions only. Add/remove nodes and edit edges in the Data Asset, then rebuild the preview. Changes to handles are not applied automatically. The editor uses the same coordinate conversion as the runtime presenter.
+The native editor preview adapter remains available for custom authoring tools; no separate preview level ships with this checkout.
 
 `FixedNPC` and `MainStory` anchors retain `Id`, `NPCId`, dialogue identity and exact coordinates during generation. Authoring `Template` can deliberately establish new fixed positions. When **Edit Generated Layout** is enabled, applying a moved/changed anchor or terminal is rejected against `Template`.
 
@@ -96,9 +94,9 @@ Source entry points: [map asset](../../Source/DreamOfPadma/Public/Game/WorldMap/
 
 | Path | Current behavior | Role in the target |
 |---|---|---|
-| Default painted tutorial | Fixed painting with GPU atmosphere and versioned hex values | Existing prototype; visual replacement/mapping still needs implementation and art acceptance |
+| Default painted tutorial | Fixed painting with GPU atmosphere and versioned hex values | Legacy rule-validation fixture; excluded as a final Chapter Zero visual option |
 | Legacy authored/generated 3D map | Continuous procedural surface and runtime cosmetic PCG | Reusable sample components; not yet the shipping bake pipeline |
-| Target Chapter Zero | Fixed Seed/anchors/edges, algorithmic terrain, editor-generated decoration and baked outputs | Packaged Development and Shipping load the same frozen content |
+| Target Chapter Zero | Fixed Seed/anchors/edges, **3D** algorithmic terrain, editor-generated decoration and baked outputs | Packaged Development and Shipping load the same frozen content |
 
 The legacy kit may add seeded gameplay branches. That capability is not permission to randomize Chapter Zero's fixed teaching route. Preserve the seven existing landmark identities (`home/fire/story/plain/gate/forge/boss`) and their roles. Exact coordinates for a new terrain renderer must be authored and versioned; do not silently apply painting coordinates as world units.
 
@@ -112,7 +110,7 @@ The legacy kit may add seeded gameplay branches. That capability is not permissi
 6. Bake the required terrain/material/decoration outputs into project assets; retain matching MapKey metadata and immutable generator manifest references. Ensure results are loaded without rerunning PCG in packaged play.
 7. Validate packaged asset inclusion and open the same map in both Development and Shipping. Save frozen gameplay layout/state and restore against the matching baked metadata.
 
-The exact terrain representation (procedural mesh, Landscape, authored tiles or another renderer), bake API, mesh/material budget and final assets are not frozen by this document. Height, surface visuals and movement classification must agree; decoration is not terrain authority.
+Q47 fixes the final choice to 3D terrain; a painting is no longer an alternative. The concrete 3D representation (procedural mesh, Landscape or authored terrain meshes), bake API, mesh/material budget and final assets remain technical work. Height, surface visuals and movement classification must agree; decoration is not terrain authority. Record development-machine load time, frame floor, memory and PCG counts early with generous measured budgets; no numerical target is invented here. Learning and assets are sequenced in [DemoDeliveryPlan](../Production/DemoDeliveryPlan.md).
 
 ### Version and iteration rules
 

@@ -4,7 +4,7 @@
 - Document ID: ARCH-RUNTIME-NAMING
 - Version: 0.1
 - Status: Current naming convention; migration verification is tracked in TASK-047
-- Delivery and evidence: [TASK-047](../Production/Tasks/TASK-047-Runtime-Naming.md)
+- Delivery and evidence: [TASK-047](../Production/ProjectCleanup.md)
 - Related implementation: [Native playable guide](../Content/NativePlayableDemo.md), [ADR-0006](../Decisions/ADR-0006-Native-HTML-Slice.md)
 
 ## Purpose and scope

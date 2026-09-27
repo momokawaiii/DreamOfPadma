@@ -1,5 +1,7 @@
 # Module Map
 
+Independent rendering plugin: `Plugins/PadmaNPR` now contains `PadmaNPRRuntime` (shader registration, Cloth Profile, MID factory) and `PadmaNPREditor` (Runtime plus Slate/material authoring). Neither depends on DreamOfPadma; the game module does not depend on the plugin. See [ADR-0013](../Decisions/ADR-0013-NPR-Cloth-Core.md).
+
 - Chinese companion: [ModuleMap.zh-CN.md](ModuleMap.zh-CN.md)
 - Status: Current folder map; offline Demo additions are targets
 
@@ -18,3 +20,9 @@ One UE runtime module, `DreamOfPadma`, contains these logical boundaries. Depend
 World Actors and cosmetic PCG consume state; current mutable world settlement is in Core/Run, coordinated by Game. The default painted tutorial uses a separate Slate presenter; it does not prove that the 3D map bake path is complete. See [WorldMapAuthoring](../Content/WorldMapAuthoring.md).
 
 Editor and Tests are logical responsibilities, not seven standalone UE modules. A module split needs a demonstrated dependency/build/test reason. Runtime cannot depend on a future Slate/UEdGraph editor. Detailed class mapping is in [RuntimeNaming](RuntimeNaming.md); current evidence is in [ProjectState](../ProjectState.md).
+
+ACT melee presentation now privately depends on AnimGraphRuntime for its native idle-to-DefaultSlot animation graph, alongside Niagara. GAS owns Montage task lifecycle; AN/ANS assets own animation timing. Core remains independent of these presentation dependencies. This stays within the existing Gameplay/ACT boundary. See TASK-055.
+
+Chen locomotion authoring additionally uses UnrealEd, AnimGraph and BlueprintGraph only when Target.bBuildEditor is true; the graph adapter is enclosed by WITH_EDITOR. Packaged movement consumes the compiled ABP and ordinary animation assets, not editor graphs.
+
+ACT asset-layout authoring uses private AssetTools and AssetRegistry dependencies only for Editor targets, behind WITH_EDITOR. Its explicitly gated commands fix ACT redirectors and process-local viewport-history references; no Core/runtime asset-management dependency is added. See [ADR-0014](../Decisions/ADR-0014-ACT-Asset-Layout.md).

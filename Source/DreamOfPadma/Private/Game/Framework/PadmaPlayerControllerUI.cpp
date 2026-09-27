@@ -73,6 +73,7 @@ void APadmaPlayerController::RefreshView()
 			V.ModalActions.Add(Button(TEXT("开始新局"),TEXT("new"),NAME_None,NAME_None,TEXT(""),!Rules().IsBattle()));
 			V.ModalActions.Add(Button(TEXT("本局行记"),TEXT("journal")));
 			V.ModalActions.Add(Button(TEXT("卡牌图鉴"),TEXT("codex")));
+			V.ModalActions.Add(Button(TEXT("今日答案！ · 日常占卜"),TEXT("divination-preview"),NAME_None,NAME_None,TEXT("钟面、翻牌与水纹动效"),!bBattleMap));
 			V.ModalActions.Add(Button(TEXT("试玩移动规则"),TEXT("mobility-menu"),NAME_None,NAME_None,TEXT("高级配置 · 修改立即生效"),!Rules().IsBattle()));
 		}
 		else if(ModalTitle==TEXT("卡牌图鉴"))
@@ -334,7 +335,7 @@ void APadmaPlayerController::BuildCombatView(FPadmaGameView& V)
 }
 bool APadmaPlayerController::HasBlockingOverlay() const
 {
-	return bTravelling||!OverlayContext().Key().IsNone()
+	return bACTTrainingOverlayOpen||bTravelling||!OverlayContext().Key().IsNone()
 		||(Session&&Rules().HasRun()&&(Rules().IsDialogue()||(!bBattleMap&&!Rules().Run().Outcome.IsNone())));
 }
 void APadmaPlayerController::NavigateTo(FName Destination)
@@ -366,6 +367,7 @@ void APadmaPlayerController::ReceiveIntent(const FPadmaUIAction& A)
 	else if(C==TEXT("mobility-menu")){ModalTitle=TEXT("试玩移动规则");ModalText=TEXT("高级试玩配置：点击切换可移动 / 不可移动 / 条件移动。每次修改立即生效。");}
 	else if(C==TEXT("journal")){ModalTitle=TEXT("本局行记");ModalText.Reset();for(const auto& E:Rules().Run().Log)ModalText+=E.Text+TEXT("\n\n");}
 	else if(C==TEXT("codex")){ModalTitle=TEXT("卡牌图鉴");ModalText.Reset();}
+	else if(C==TEXT("divination-preview")){if(bBattleMap||Rules().IsDialogue())return;ModalTitle=TEXT("占卜演出预览");ModalText.Reset();}
 	else if(C==TEXT("card-details")||C==TEXT("inspect-card")){if(Rules().Card(A.Id)){RestoreOverlay({});DetailCard=A.Id;}}
 	else if(C==TEXT("inspect-definition"))
 	{

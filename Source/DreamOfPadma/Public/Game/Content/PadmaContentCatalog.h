@@ -107,7 +107,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Content")
 	int32 ContentVersion = 1;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Content")
-	FString Provenance = TEXT("TASK-046 temporary UE Demo; accepted HTML fixture values");
+	FString Provenance = TEXT("Scripts/Data/PlayableData.cjs; retained turn-based fixture values");
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Tables", meta = (RequiredAssetDataTags = "RowStructure=/Script/DreamOfPadma.PadmaCardDefinitionRow"))
 	TArray<TSoftObjectPtr<UDataTable>> CardTables;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Tables", meta = (RequiredAssetDataTags = "RowStructure=/Script/DreamOfPadma.PadmaWorldNodeDefinitionRow"))

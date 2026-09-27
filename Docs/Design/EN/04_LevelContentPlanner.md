@@ -175,7 +175,7 @@ This baseline is intended to teach level design, graph-based content modeling, n
 
 The deployed sandbox unit is a turn-based character-card representation. When a route selects ACT, carry node/terrain context separately from the ACT character/weapon roster selected in battle settings. The ACT character collection is distinct; a one-to-one conversion from the triggering unit is not assumed. Terrain may disable an authored trait; the exact constraint target, timing, linkage and fallback policy require D20/D14 decisions.
 
-TASK-024/025 supply world and terrain views, TASK-035 supplies roster/eligibility, TASK-027 composes battle entry and TASK-030 enforces ACT execution restrictions. Placeholder assets are imported by the user after work starts. Existing maps/content are extended through task-owned fixtures and later the First Era pack, not bulk-copied from the reference prototype. See [TASK-011](../../Production/Tasks/TASK-011-Full-MVP-Task-Cluster.md).
+TASK-024/025 supply world and terrain views, TASK-035 supplies roster/eligibility, TASK-027 composes battle entry and TASK-030 enforces ACT execution restrictions. Placeholder assets are imported by the user after work starts. Existing maps/content are extended through task-owned fixtures and later the First Era pack, not bulk-copied from the reference prototype. See [TASK-011](../../Production/ProjectCleanup.md).
 
 The user confirmed preset node connections over a hex-shaped map and layered map-definition/.umap/SaveGame storage on 2026-09-08. Camera and hex layout do not imply hex-neighbor movement. See [ADR-0005](../../Decisions/ADR-0005-World-Map-Storage.md).
 

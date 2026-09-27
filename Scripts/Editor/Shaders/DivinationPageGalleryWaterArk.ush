@@ -1,0 +1,122 @@
+// UE Custom float4 body. UV is top-origin PNG space; raw source VertexColor.
+// Straight RGBA; SrcAlpha + _Dst. _Color.a is NOT used by the original shader.
+float2 uv=float2(UV.x,1-UV.y);
+float n=0;
+float2 distorted=uv;
+if (_Distortion>0)
+{
+    float2 p=uv*_Distortion_Tex_ST.xy+_Distortion_Tex_ST.zw+PreviewTime*float2(_Distortion_SpeedU,_Distortion_SpeedV);
+    float raw=Texture2DSample(_Distortion_Tex,_Distortion_TexSampler,float2(p.x,1-p.y)).r;
+    n=(_Distortion_Dir==1)?2*raw-1:raw;
+    n*=lerp(1,VertexColor.r,_RgbCtrl);
+    distorted+=n*float2(_Distortion_IntensityU,_Distortion_IntensityV);
+}
+float2 p=distorted*_BaseTex_ST.xy+_BaseTex_ST.zw+PreviewTime*float2(_BaseTex_SpeedU,_BaseTex_SpeedV);
+if (_ClampV>0) p.y=saturate(p.y);
+float2 png=float2(p.x,1-p.y);
+float4 main=Texture2DSample(_MainTex,_MainTexSampler,png);
+float4 base=Texture2DSample(_BaseTex,_BaseTexSampler,png);
+if (_BaseTex_Channel==1) { main=main.rrrr; base=base.rrrr; }
+float4 col=main*base;
+col.a*=VertexColor.a;
+if (_Dissolve>0)
+{
+    float2 uv1=(_Dissolve1_Distortion>0)?distorted:uv;
+    float2 uv2=(_Dissolve2_Distortion>0)?distorted:uv;
+    uv1=uv1*_Dissolve1_Tex_ST.xy+_Dissolve1_Tex_ST.zw+PreviewTime*_Dissolve_Speed.xy;
+    uv2=uv2*_Dissolve2_Tex_ST.xy+_Dissolve2_Tex_ST.zw+PreviewTime*_Dissolve_Speed.zw;
+    float4 t1=Texture2DSample(_Dissolve1_Tex,_Dissolve1_TexSampler,float2(uv1.x,1-uv1.y));
+    float4 t2=Texture2DSample(_Dissolve2_Tex,_Dissolve2_TexSampler,float2(uv2.x,1-uv2.y));
+    float d1=lerp(t1.r*t1.a,1-t1.r*t1.a,_Dissolve1_Invert);
+    float d2=lerp(t2.r*t2.a,1-t2.r*t2.a,_Dissolve2_Invert);
+    float threshold1=lerp(_Dissolve1_Threshold,2*VertexColor.g-1,_RgbCtrl);
+    float threshold2=lerp(_Dissolve2_Threshold,2*VertexColor.b-1,_RgbCtrl);
+    float z1=saturate((d1-threshold1)/_Dissolve1_Smoothness);
+    float z2=saturate((d2-threshold2)/_Dissolve2_Smoothness);
+    col.a*=z1*z1*(3-2*z1)*z2*z2*(3-2*z2);
+}
+if (_Mask>0)
+{
+    float2 m=uv*_Mask_Tex_ST.xy+_Mask_Tex_ST.zw;
+    float ma=Texture2DSample(_Mask_Tex,_Mask_TexSampler,float2(m.x,1-m.y)).a;
+    col.a*=lerp(ma,1-ma,_Mask_Invert);
+}
+col.rgb*=_Color.rgb*lerp(VertexColor.rgb,float3(1,1,1),_RgbCtrl);
+// Reproduce the source channel-1 union in material alpha; source screen-space rects animate per frame.
+float a=radians(MaskSelfAngle);
+float2 local=(UV-.5)*MaskSelfRect.zw;
+float2 screen=MaskSelfRect.xy+float2(local.x*cos(a)-local.y*sin(a),local.x*sin(a)+local.y*cos(a));
+float2 q=(screen-MaskCircleRect.xy)/max(abs(MaskCircleRect.z),.001)*2;
+a=radians(-MaskCircleAngle);
+q=float2(q.x*cos(a)-q.y*sin(a),q.x*sin(a)+q.y*cos(a));q.y=-q.y;
+float polarU=frac(atan2(q.y,q.x)/6.28318530718+.75),polarV=length(q),circleMask=0;
+{
+// UE Custom float4 body. UV is PNG/Slate top-origin; MaskFlowVertex is raw source
+// mesh/Graphic color BEFORE material MaskFlow_Color. PreviewTime is seconds.
+// All texture objects require a same-name auto sampler, e.g. MaskFlow_MainTexSampler.
+// Output is straight RGBA: source DXBC premultiplies final RGB for One/OneMinusSrcAlpha.
+// UE Translucent should use returned RGB + A; do NOT premultiply again there.
+struct ArkNoiseFunctions
+{
+    float3 Permute(float3 x) { return fmod((x*34.0+1.0)*x,289.0); }
+    float Simplex(float2 v)
+    {
+        const float4 C=float4(.211324865405187,.366025403784439,-.577350269189626,.024390243902439);
+        float2 i=floor(v+dot(v,C.yy));
+        float2 x0=v-i+dot(i,C.xx);
+        float2 i1=(x0.x>x0.y)?float2(1,0):float2(0,1);
+        float4 x12=x0.xyxy+C.xxzz;
+        x12.xy-=i1;
+        i=i-floor(i/289.0)*289.0;
+        float3 p=Permute(Permute(i.y+float3(0,i1.y,1))+i.x+float3(0,i1.x,1));
+        float3 m=max(.5-float3(dot(x0,x0),dot(x12.xy,x12.xy),dot(x12.zw,x12.zw)),0);
+        m*=m; m*=m;
+        float3 x=2*frac(p*C.www)-1;
+        float3 h=abs(x)-.5;
+        float3 a=x-floor(x+.5);
+        m*=1.79284291400159-.85373472095314*(a*a+h*h);
+        float3 g=float3(a.x*x0.x+h.x*x0.y,a.y*x12.x+h.y*x12.y,a.z*x12.z+h.z*x12.w);
+        return 130*dot(m,g);
+    }
+};
+ArkNoiseFunctions noise;
+float2 uv=float2(polarU,polarV);
+float4 c=MaskFlowVertex*MaskFlow_Color;
+float amount=lerp(MaskFlow_SineWaveAmount,MaskFlow_SineWaveAmount*(2*c.r-1),MaskFlow_RGBCtrl);
+float phase=lerp(MaskFlow_SineWaveOffset,20*c.g-10,MaskFlow_RGBCtrl);
+float flatPhase=lerp(MaskFlow_EndsFlatOffset,6.28318530718*c.b-3.14159265359,MaskFlow_RGBCtrl);
+float n=(MaskFlow_NoiseWave>0)?MaskFlow_NoiseAmount*noise.Simplex(float2(uv.x*MaskFlow_NoiseFreq+PreviewTime*MaskFlow_NoiseSpeed,0)):0;
+float wave=amount*(sin(uv.x*MaskFlow_SineWaveFreq+PreviewTime*MaskFlow_SineWaveSpeed+phase)+n);
+float flat=1;
+if (MaskFlow_EndsFlat>0)
+{
+    float z=saturate(((sin(uv.x*3.14159265359+flatPhase)+1)*.5-MaskFlow_EndsFlatPinch)/MaskFlow_EndsFlatSmooth);
+    flat=z*z*(3-2*z);
+}
+float2 warped=float2(uv.x,saturate(uv.y+wave*flat));
+float2 png=float2(warped.x,1-warped.y);
+float4 col=Texture2DSample(MaskFlow_MainTex,MaskFlow_MainTexSampler,png)*Texture2DSample(MaskFlow_OriginLineTexture,MaskFlow_OriginLineTextureSampler,png);
+if (MaskFlow_EndsFade>0)
+{
+    float z=saturate(((sin(uv.x*3.14159265359+MaskFlow_EndsFadeOffset)+1)*.5-MaskFlow_EndsFadePinch)/MaskFlow_EndsFadeSmooth);
+    col.a*=z*z*(3-2*z);
+}
+col*=float4(lerp(c.rgb,float3(1,1,1),MaskFlow_RGBCtrl),round(c.a*255)/255.0);
+col*=MaskFlow_Color; // yes: source VS and PS both multiply MaskFlow_Color
+circleMask=step(.001,col.a)*step(polarV,1);
+
+}
+float mask= circleMask;
+float2 textLocal=screen-MaskTarotRect.xy;
+a=radians(-MaskTarotAngle);textLocal=float2(textLocal.x*cos(a)-textLocal.y*sin(a),textLocal.x*sin(a)+textLocal.y*cos(a));
+float2 textUV=textLocal/MaskTarotRect.zw+.5;
+float inside=step(0,textUV.x)*step(textUV.x,1)*step(0,textUV.y)*step(textUV.y,1);
+mask=max(mask,inside*step(.001,Texture2DSample(MaskTarotTexture,MaskTarotTextureSampler,textUV).a*5/255.));
+textLocal=screen-MaskCardRect.xy;
+a=radians(-MaskCardAngle);textLocal=float2(textLocal.x*cos(a)-textLocal.y*sin(a),textLocal.x*sin(a)+textLocal.y*cos(a));textUV=textLocal/MaskCardRect.zw+.5;
+inside=step(0,textUV.x)*step(textUV.x,1)*step(0,textUV.y)*step(textUV.y,1);
+mask=max(mask,inside*step(.001,Texture2DSample(MaskCardTexture,MaskCardTextureSampler,textUV).a*5/255.));
+// Original RectMask2D around the whole water group (1280x720 reference, scaled by1.25).
+mask*=step(-82.705,screen.x)*step(screen.x,1215.205)*step(-83.885,screen.y)*step(screen.y,838.885);
+col.a*=mask;
+return col*_Intensity;

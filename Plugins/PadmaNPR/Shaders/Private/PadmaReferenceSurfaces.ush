@@ -1,0 +1,108 @@
+#pragma once
+
+// Feather is a half-width in SDF value space, not pixels or UV blur radius.
+// A zero feather is the original source step, including its equality case.
+float PadmaFaceShadowBand(float field, float threshold, float feather, float bias)
+{
+    threshold = saturate(threshold + bias);
+    return feather >= 1e-5 ? smoothstep(field-feather,field+feather,threshold)
+                       : step(field,threshold);
+}
+
+float PadmaFaceOverheadShadow(float shadow, float lightDotUp, float weight)
+{
+    return shadow * (1-saturate(weight)*smoothstep(.8,1,lightDotUp));
+}
+
+// Live ZMD eye path. POM and additional highlights in the source graph are
+// disconnected; do not silently add them to this reference variant.
+float3 PadmaReferenceEye(float3 textureColor, float3 tint, float power)
+{
+    return saturate(pow(max(textureColor, 0), power)) * tint;
+}
+
+// Brow power is applied AFTER tint, unlike the eye path.
+float3 PadmaReferenceBrow(float3 textureColor, float3 tint, float power)
+{
+    return saturate(pow(max(textureColor * tint, 0), power));
+}
+
+float PadmaReferenceBrowOpacity(float sceneDepth, float pixelDepth,
+    float fadeDistance, float opacity)
+{
+    return opacity * saturate((sceneDepth - pixelDepth) / max(fadeDistance, 1e-5));
+}
+
+float3 PadmaReferenceBrowOffset(float3 cameraPosition, float3 worldPosition, float offset)
+{
+    return normalize(cameraPosition - worldPosition) * offset;
+}
+
+// Cloth slot 02 is the HairLine material, not the Cloth slot 01 GGX/Matcap path.
+// Feed this result through native EyeAdaptationInverse for BaseColor/Emissive.
+float3 PadmaReferenceHairLine(float3 baseTexture, float3 tint, float basePower,
+    float3 lineTexture, float3 lineColor, float3 normalWS, float3 lightDirection,
+    float lamSmooth, float lamOffset, float3 shadowColor,
+    float aoTexture, float aoSmooth, float aoOffset, float3 aoColor)
+{
+    float3 base = saturate(pow(max(baseTexture, 0), basePower)) * tint;
+    base = lerp(base, base * lineColor, lineTexture);
+    float lightBand = saturate(dot(normalize(lightDirection), normalWS) * lamSmooth - lamOffset);
+    float3 color = lerp(base * shadowColor, base, lightBand);
+    float ao = saturate(aoTexture * aoSmooth - aoOffset);
+    return lerp(color * aoColor, color, ao);
+}
+
+// Source overlay opacity depends on background depth, not a shadow-map query.
+float PadmaReferenceHairShadowOpacity(float sceneDepth, float depthRange, float opacity)
+{
+    return (1 - saturate(sceneDepth / max(depthRange, 1e-5))) * opacity;
+}
+
+// Same branch ordering and epsilon as UE's RGB/HSV material expressions.
+float3 PadmaReferenceRGBtoHSV(float3 rgb)
+{
+    float4 p = rgb.g < rgb.b ? float4(rgb.bg, -1, 2.0 / 3.0) : float4(rgb.gb, 0, -1.0 / 3.0);
+    float4 q = rgb.r < p.x ? float4(p.xyw, rgb.r) : float4(rgb.r, p.yzx);
+    float chroma = q.x - min(q.w, q.y);
+    return float3(abs((q.w - q.y) / (6 * chroma + 1e-10) + q.z), chroma / (q.x + 1e-10), q.x);
+}
+
+float3 PadmaReferenceHSVtoRGB(float3 hsv)
+{
+    float3 rgb = saturate(float3(abs(hsv.x * 6 - 3) - 1,
+        2 - abs(hsv.x * 6 - 2), 2 - abs(hsv.x * 6 - 4)));
+    return ((rgb - 1) * hsv.y + 1) * hsv.z;
+}
+
+float3 PadmaReferenceHairShadow(float3 sceneColor, float3 hsvMultiplier, float3 tint)
+{
+    return tint * PadmaReferenceHSVtoRGB(PadmaReferenceRGBtoHSV(sceneColor) * hsvMultiplier);
+}
+
+// Optional target-project extension. Opacity=1 preserves the reference hair.
+// P.R distinguishes front bangs; the head-local height gate protects long hair.
+float PadmaReferenceBangOpacity(float packedRed, float3 position, float3 view,
+    float3 origin, float3 forward, float3 up, float bindingValid,
+    float opacity, float maxHeight)
+{
+    if (bindingValid < .5) return 1;
+    float height = dot(position - origin, up);
+    float front = saturate(dot(view, forward));
+    float region = (1 - saturate(packedRed)) * (1 - smoothstep(maxHeight, maxHeight + 2, height)) * front;
+    return lerp(1, saturate(opacity), region);
+}
+
+// Source face mask uses B, with a mirrored second sample and a 3x3 box filter.
+// The native DitherTemporalAA result is supplied as sampleSpacingMultiplier.
+float PadmaReferenceFaceSDF(Texture2D sdf, SamplerState sdfSampler, float2 uv,
+    float mirrored, float blurIntensity, float sampleSpacingMultiplier)
+{
+    uv.x = lerp(uv.x, 1 - uv.x, mirrored);
+    float spacing = sampleSpacingMultiplier / max(blurIntensity, 1e-5);
+    float sum = 0;
+    [unroll] for (int y = -1; y <= 1; ++y)
+        [unroll] for (int x = -1; x <= 1; ++x)
+            sum += Texture2DSample(sdf, sdfSampler, uv + float2(x, y) * spacing).b;
+    return sum / 9;
+}

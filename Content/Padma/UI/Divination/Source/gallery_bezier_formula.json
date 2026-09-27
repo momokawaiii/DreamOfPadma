@@ -1,0 +1,49 @@
+{
+  "source": "UIBezierCurveScrollLayoutDriver and Act54SideCardGalleryScrollLayoutDriverPlugin native methods in installed GameAssembly.dll",
+  "count": 8,
+  "slotSpacing": 0.16,
+  "slotBase": 0,
+  "curveAnchorU": 0.331,
+  "inverseNormalized": false,
+  "formula": {
+    "phaseMin": "min(slotBase-anchorU, slotBase+spacing*(N-1)-anchorU)",
+    "phaseMax": "max(slotBase-anchorU, slotBase+spacing*(N-1)-anchorU)",
+    "rawPhase": "phaseMin+(phaseMax-phaseMin)*(inverseNormalized?norm:1-norm)",
+    "overscroll": "if below min: min+(raw-min)*.218; if above max: max+(raw-max)*.218",
+    "slotU": "index*spacing+slotBase-resolvedSlotPhase",
+    "centerIndexNormalized": "Clamp01(1-index/(N-1)) for current positive spacing and inverseNormalized=false",
+    "steadyCenteredSlotU": ".331+.16*(index-centeredIndex)",
+    "position": "localPoint=Bezier.EvaluateWithExtrapolation(U); worldPoint=scrollRect.viewport.TransformPoint(localPoint.x,localPoint.y,0); child.localPosition=scrollRect.content.InverseTransformPoint(worldPoint)",
+    "extrapolateLow": "B(0)+U*Bprime(0)",
+    "extrapolateHigh": "B(1)+(U-1)*Bprime(1)"
+  },
+  "viewportPivot": [
+    0,
+    1
+  ],
+  "noAnchorPositionSubtraction": true,
+  "wrap": false,
+  "sample": {
+    "B_anchorU": [
+      340.639693646,
+      -355.034008251
+    ],
+    "screenIfViewportTopLeft800_0": [
+      1225.799617058,
+      443.792510313
+    ]
+  },
+  "methodAddresses": {
+    "_ApplySlot": "0x1814cba90",
+    "_ComputeSlotU": "0x1814cbf50",
+    "_ComputeNormalizedForAnchorIndex": "0x1814cbeb0",
+    "_ComputeUnclampedNormalizedForSlotU": "0x1814cbff0",
+    "_GetEffectivePhaseRange": "0x1814cc240",
+    "_ReadRawPhase": "0x1814cc5c0",
+    "EvaluateWithExtrapolation": "0x1814c5960",
+    "PostProcessRawPhase": "0x1812ff2b0",
+    "ResolveSlotPhase": "0x1812ff370",
+    "get_viewport": "0x18154a990",
+    "get_content": "0x1815498b0"
+  }
+}

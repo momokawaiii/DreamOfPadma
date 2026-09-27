@@ -23,7 +23,7 @@ Goal: Prepare and integrate the M1 core-rule foundation.
 Do not implement module code in this checkout.
 First create bilingual task contracts, freeze shared IDs/value types and dependency
 direction, identify write-set conflicts, and route only independently mergeable work
-to project worktrees. Use $padma-task-runner and require $padma-review before merge.
+to project worktrees. Apply Docs/Agent/Workflow.md and its risk-based review policy.
 ```
 
 The coordinator proposes task contracts such as:
@@ -54,7 +54,7 @@ An opening prompt for the Calendar Primary Agent is:
 Primary Role: module_worker
 Goal: satisfy the Calendar Slice task and nothing else.
 Task contract: Docs/Production/Tasks/TASK-004-Calendar-Slice.md
-Use $padma-task-runner. Read the canonical English time rule and PadmaCore module
+Read the relevant canonical English time rule and PadmaCore module
 document. Announce the exact write set before editing. Preserve the fixed calendar
 hierarchy and every deferred item. Delegate read-only rule/architecture checks if
 useful. Stop if the frozen public contract must change or another Goal owns a file.
@@ -99,7 +99,7 @@ The Primary Agent runs narrow tests, bilingual documentation audit when needed, 
 A separate read-only `reviewer` receives:
 
 ```text
-Use $padma-review. Review TASK-004 and its branch against main.
+Review TASK-004 and its branch against main under Docs/Agent/Workflow.md.
 Inspect the actual diff and test evidence. Prioritize calendar-rule fidelity,
 dependency direction, determinism, save implications, missing boundary fixtures,
 write-set violations, and bilingual drift. Report findings first and do not edit.

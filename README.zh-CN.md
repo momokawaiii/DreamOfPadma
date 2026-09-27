@@ -1,29 +1,11 @@
 # Dream of Padma
 
-- 英文原文（Agent 阅读）：`README.md`
+工程只保留回合制的 `L_PadmaWorld`/`L_PadmaBattle`、陈的 `L_ChenACT` 关卡和 `PadmaNPR` 插件。旧预览、网页原型和历史任务已移出工程，见[清理与恢复](Docs/Production/ProjectCleanup.zh-CN.md)。主地图数据放在 `Scripts/Data/PlayableData.cjs`。
 
-《Dream of Padma》是一个 UE5 C++ 学习与开发项目，重点是数据驱动的世界模拟、卡牌合成、战术战斗，以及 RTS/ACT/FPS 表现模式的切换。
+这是 Dream of Padma 的 UE 项目。当前目标是能安装、离线玩的第零章 Demo，不是一次做完整个游戏。
 
-## 当前状态
+先看 [项目现状](Docs/ProjectState.zh-CN.md)；试玩和配资源看 [可玩指南](Docs/Content/NativePlayableDemo.zh-CN.md)；Agent 怎么干活看 [工作流](Docs/Agent/Workflow.zh-CN.md)。
 
-当前仓库包含空白 C++ UE 工程、已经验收的高层 MVP 策划与架构基线，以及带有 Role 配置、任务/Review/学习 Skill、worktree 隔离、双语任务契约和 Git 交接规则的项目级多 Agent 工作流。明确延期的参数仍保持开放。下一个门槛是尚未完成的 PIE 基础检查，然后创建并批准 Core 契约任务，再进入 M1 规则切片。
+英文文档放完整规则和技术细节，中文只讲重点。小改动不用额外建任务文档。
 
-## 仓库规则
-
-- 开始工作前阅读 `AGENTS.md`。
-- 阅读 `Docs/00_INDEX.md`，定位当前设计和架构文档。
-- 协调多个 Agent 或 worktree 前，阅读 `Docs/Agent/CodexSetup.md` 和 `Docs/Agent/Workflow.md`。
-- 按 `Docs/Agent/GitWorkflow.md` 执行暂存、提交、集成和 GitHub 备份。
-- 使用 `Scripts/ValidateProject.ps1` 做快速仓库检查。
-- Markdown 修改后使用 `Scripts/AuditDocs.ps1` 检查英文/中文配对。
-- 只有配置了 Unreal Engine 根目录后，才使用 `Scripts/RunTests.ps1` 和 `Scripts/PackageDevelopment.ps1`。
-- 第三方资源与项目自有资源分开保存。
-- 每个 Markdown 都有英文原文和同步中文镜像；Agent 读取英文原文。
-
-## 初始验证
-
-```powershell
-Scripts\ValidateProject.ps1
-```
-
-项目当前使用 `DreamOfPadma.uproject` 中记录的引擎版本。引擎升级必须在 `Docs/Decisions/` 中记录 ADR。
+详细依据、操作和证据见[英文原文](README.md)。

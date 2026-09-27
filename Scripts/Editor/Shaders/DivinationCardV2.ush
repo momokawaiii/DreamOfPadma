@@ -1,0 +1,43 @@
+// Padma atlas + selective holographic foil; highlights move independently of the card mesh.
+float2 uv=UV;
+if(Back>1.5){
+ float3 art=Texture2DSample(CardAtlas,CardAtlasSampler,(float2(1,2)+lerp(.005,.995,uv))/3).rgb;
+ float lum=dot(art,float3(.2126,.7152,.0722));
+ float cut=smoothstep(.08,.16,lum);
+ float3 poster=lerp(float3(.0002,.001,.025),float3(.01,.45,.92),cut);
+ poster=lerp(poster,float3(.6,.96,1),smoothstep(.45,.66,lum));
+ return float4(poster,1);
+}
+float2 d=abs(uv-.5)-float2(.485,.489);
+float shape=1-smoothstep(.006,.012,length(max(d,0))+min(max(d.x,d.y),0));
+float edge=min(min(uv.x,1-uv.x),min(uv.y,1-uv.y));
+float grain=frac(sin(dot(floor(uv*float2(490,760)),float2(12.9898,78.233)))*43758.5453);
+float phase=uv.x*.85+uv.y*.4+sin(uv.y*10+PreviewTime*.27)*.06+Tilt*.1+PreviewTime*.045;
+float3 rainbow=.52+.48*cos(6.28318*(phase+float3(0,.33,.67)));
+float3 color=float3(.045,.17,.36)*(grain*.75+.6)+rainbow*.10;
+float border=1-smoothstep(.002,.006,abs(edge-.057));
+float rim=1-smoothstep(.001,.004,abs(edge-.067));
+color=lerp(color,float3(.001,.004,.008),step(.039,edge));
+color+=border*float3(.55,.85,.91)+rim*.38;
+float2 artUV=(uv-float2(.087,.095))/float2(.826,.79);
+float art=step(0,artUV.x)*step(artUV.x,1)*step(0,artUV.y)*step(artUV.y,1);
+float col=fmod(floor(ArtIndex+.1),3),row=floor(ArtIndex/3);
+float3 portrait=Texture2DSample(CardAtlas,CardAtlasSampler,(float2(col,row)+lerp(.01,.99,saturate(artUV)))/3).rgb;
+float lum=dot(portrait,float3(.2126,.7152,.0722));
+float ink=smoothstep(.035,.23,lum);
+float3 foil=lerp(float3(.001,.003,.007),lerp(portrait*.58,rainbow*.85,.62)*(grain*.25+.83),ink);
+float sweep=pow(saturate(1-abs(frac(phase*.8-PreviewTime*.08)*2-1)),14);
+foil+=sweep*float3(.26,.8,.95)*ink*.38;
+color=lerp(color,foil,art*(1-step(.5,Back)));
+float2 cp=(uv-.5)*float2(1,1.55);
+float rad=length(cp);
+float motif=(1-smoothstep(.003,.007,abs(rad-.28)))+(1-smoothstep(.002,.004,abs(rad-.235)));
+motif+=1-smoothstep(.003,.007,abs(abs(cp.x)+abs(cp.y)*.62-.17));
+color+=step(.5,Back)*motif*float3(.06,.35,.88);
+for(int i=0;i<4;i++){
+ float2 corner=float2(i%2?.925:.075,i/2?.95:.05);
+ float r=length((uv-corner)*float2(1,1.55));
+ color=lerp(color,float3(.001,.002,.004),1-smoothstep(.042,.047,r));
+ color+=(1-smoothstep(.002,.004,abs(r-.027)))*rainbow*.9;
+}
+return float4(color,shape);

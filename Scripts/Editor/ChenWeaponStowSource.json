@@ -1,0 +1,42 @@
+{
+  "source": {
+    "damper_file": "MonoBehaviour#5874_p999AE156B8131C8A.json",
+    "damper_sha256": "97723370cf3fda803373753f74d87e7a333f2ab5b7ab581316424514e919e244",
+    "idle_main": "GENERATED_wep_M_damped_child",
+    "base_bone": "wep_M",
+    "derivation": "inverse(UE bone world) * C * native bone world * movedTarget * rotationCenter * finalChild * prefab * inverse(E)",
+    "limitation": "Rest transform preserves source static equilibrium; original dynamic damper and weapon dissolve transition are not reconstructed."
+  },
+  "weapons": [
+    {
+      "index": 0,
+      "bone": "wep_m",
+      "location_cm": [
+        -20.194534301757812,
+        -16.001314163208008,
+        28.603086471557617
+      ],
+      "quaternion_xyzw": [
+        -0.02410450205206871,
+        0.9609209299087524,
+        -0.0894959419965744,
+        0.26084575057029724
+      ]
+    },
+    {
+      "index": 1,
+      "bone": "inner",
+      "location_cm": [
+        -0.000013928860425949097,
+        -0.000009655952453613281,
+        -0.000014543533325195312
+      ],
+      "quaternion_xyzw": [
+        0.7071068286895752,
+        4.790912271346315e-7,
+        -4.7448131113014824e-7,
+        0.7071067094802856
+      ]
+    }
+  ]
+}

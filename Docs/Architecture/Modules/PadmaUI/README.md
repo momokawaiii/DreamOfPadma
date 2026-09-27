@@ -1,116 +1,45 @@
-# PadmaUI Module Program Document
+# PadmaUI
 
 - Document ID: ARCH-MODULE-UI-001
-- Version: 0.2
-- Status: Planned logical boundary; no standalone UE module yet
-- Canonical language: English for Agent consumption
-- Chinese companion: README.zh-CN.md
-- Owner: UI and Input Module Agent
-- Current implementation: Source/DreamOfPadma/ is the temporary shared runtime module
-- Parent architecture: ../../ProgramArchitecture.md and ../../DataDrivenArchitecture.md
+- Version: 0.3
+- Status: Native CommonUI/Slate implementation; production UI redesign pending; no standalone UE module
+- Chinese companion: [README.zh-CN.md](README.zh-CN.md)
+- Owner: UI and Input
+- Parent: [ProgramArchitecture](../../ProgramArchitecture.md)
 
-## TASK-046 current native implementation
+## Current implementation
 
-UI/Screens uses a persistent native root with separate CommonUI page and overlay stacks (TASK-050 / ADR-0008). Gameplay pages request All input; modal details, menus and confirmations request Menu input and retain parent navigation. Native Escape/B handling provides Back without an unconfigured default action table. Value views and intents remain separate from settlement. World labels use Slate font fallback; native Slate content is skinned by project-owned texture brushes, not a designer-editable WBP collection. See [presentation layers and authoring](../../../Content/StrategyPresentation.md).
+UI/Screens has a persistent root and separate CommonUI page/overlay stacks. Gameplay pages request All input; modal details, menus and confirmations request Menu input. Native Back restores navigation. Most content is native Slate with texture brushes, not a finished designer-editable WBP collection. See [StrategyPresentation](../../../Content/StrategyPresentation.md) and [ADR-0008](../../../Decisions/ADR-0008-Activatable-Presentation-Layers.md).
 
-## 1. Purpose
+Current map clicks pin details; hover is feedback. A/B hand selection plus cell click opens deployment/attachment flows. World inspection, global preparation, shared skill repository and ACT character/weapon roster remain distinct contexts backed by their own authoritative services.
 
-PadmaUI presents authoritative results and converts local input into shared commands. It supports the strategic/RTS-like sandbox, turn-based Encounter controls, and the RealTimeAction input route without owning rule state.
+## Redesign contract
 
-## 2. Responsibilities
+Q72/Q78/Q84 authorize rebuilding the complete page hierarchy, layout, styling and gestures. Preserve **domain state, commands and result semantics**, not the old widget arrangement or hotkeys. New behavior requires an explicit command/result extension; visuals and animation do not authorize direct RunState mutation.
 
-- Input adapters for sandbox strategy, Encounter turns, RealTimeAction, mouse, keyboard, controller, ACT, and FPS presentation.
-- Encounter turn controls and end-turn feedback.
-- ACT RealTimeAction MVP `Tab` interaction: clicking `Tab` opens the repository panel, blurs the background, reveals five cards, and slows world time to 1/10.
-- While the ACT MVP repository/bullet-time state is active, movement and attack input are rejected; only basic non-A card-related input is accepted, while the battle scene preserves inertia.
-- Shared card repository interaction: `Tab` opens the repository, slots 1-5 are visible per page, and the mouse wheel requests the next page. Total page count and boundary behavior are deferred.
-- Command construction and local input validation that does not replace rules.
-- HUD, card hand, synthesis preview, map, resource, threat, and outcome views.
-- Outside-battle activation controls for ABC-card active abilities.
-- View models or read-only presentation state.
-- Display of calculation traces, command failures, combat logs, and outcome reasons in debug builds.
-- Presentation references for card art, icons, animation, VFX, audio, camera, and localization.
-- Accessibility and input feedback requirements when they become relevant.
+The user's full UI specification should provide:
 
-## 3. Non-responsibilities
+| Contract | Required information |
+|---|---|
+| Pages and transitions | Entry/exit conditions; persistent HUD versus active page versus modal overlay |
+| Read model | ViewModel fields, stable identities, update events and loading/empty/error states |
+| Player intents | Target identity, request, success/failure result and disabled explanation |
+| Input lifecycle | Focus target, mouse/keyboard routing, Back/cancel, nested modal return and input restoration |
+| Run integration | Save/continue, tutorial skip/replay, mode travel and cleanup behavior |
+| Presentation | Layout/type/color/texture, layer order, enter/exit timeline and sound/Cue bindings |
 
-PadmaUI must not own:
+Refresh only views affected by a changed value/event. Inspecting a node must not rebuild unrelated HUD/hand views or clear a pending command selection. Rendering a disabled button does not replace authoritative validation.
 
-- Authoritative resource, card, world, combat, or outcome state.
-- Synthesis, damage, AI, or victory formulas.
-- Direct mutation of GameState, WorldState, or save data.
-- Persistence of gameplay truth in widgets.
+## Ownership and presentation
 
-The UI sends commands and displays results/events. A disabled button is not a substitute for rule validation.
+UI owns temporary selection, focus and display state. Core/Game/Gameplay own resources, cards, maps, battle results and saves. Restore views from those values after loading; do not persist gameplay truth in widgets. Rules own permissions, costs, slow-time and slot semantics; the accepted redesign may change their presentation/gesture.
 
-## 4. Public contracts
+CommonUI handles activation/input/Back; UMG/Slate handles composition; shared UI materials and widget animations handle masks, scan highlights, gradients, motion and parallax. Niagara, camera and audio are presentation consumers. Start from one representative page/card before scaling. Do not require a unique material per button or AE/video playback for ordinary interactive HUD content.
 
-- Input adapter to command mapping.
-- Read-only state view models.
-- Preview request/result views.
-- Command success/failure presentation.
-- Battle-mode, action-timeline, turn-state, bullet-time, page, and numeric-slot input feedback.
-- ABC-card active-ability activation requests from the sandbox.
-- Combat log and AI trace presentation.
-- Outcome and save/load notifications.
-- Control-mode transition presentation requests.
+Keyboard/mouse is P0; hand-controller polish is deferred. The multiplayer entry is hidden or clearly unavailable. Chinese production text and stable TextIds are required; full English and voice acting are deferred. Audio placeholders/absence are allowed during functional development; RC audio is governed by [BuildMatrix](../../../Production/BuildMatrix.md).
 
-UI contracts should not expose concrete actor ownership as the only way to render a state.
+## Verification and learning
 
-## 5. Data and runtime ownership
+Check command mapping, error feedback, partial refresh, selection persistence, nested activation/Back, cancel/failed action, input restoration, mode travel and PIE teardown. Apply the final interaction specification when available; do not claim a new layout accepted from a screenshot alone.
 
-UI consumes presentation profiles, localization IDs, icon/mesh references, and read-only Core/World/Gameplay views. It owns transient view state, selection, focus, and input-adapter state.
-
-Presentation data can change without changing rule definitions. Rule assets must not depend on a widget path.
-
-## 6. Dependencies and integration
-
-PadmaUI depends on public command, result, event, and read-only view contracts. PadmaGame composes the UI with runtime services. UI must not become a dependency of PadmaCore.
-
-## 7. Tests and debug evidence
-
-Required tests:
-
-- Input maps to the correct command.
-- Invalid commands display an explanation from the rule layer.
-- Preview displays the same calculation fields as execution.
-- UI reacts to world, combat, resource, and outcome events.
-- Loading a save reconstructs views from state rather than widget history.
-- Controller and keyboard adapters preserve command semantics.
-- A basic non-A card cannot be submitted from the sandbox or outside the player's eligible Encounter action turn, and the one-card-per-turn limit is visible.
-- Clicking `Tab` opens the shared card repository, blurs the background, reveals five cards, and enters 1/10-speed ACT bullet time; slots 1-5 map one-to-one between the Encounter hand and the ACT RealTimeAction page, and the mouse wheel requests the next page.
-- While that state is active, movement and attack input are rejected, input is filtered to basic non-A card actions, scene inertia is preserved, and a quick numeric-key press maps to the intended ACT card-slot request. Total page count and boundary behavior are not assumed.
-- An ABC-card active ability can be submitted from the sandbox without entering a battle and reports its configured restrictions.
-
-Manual evidence should include screenshots or a short capture of synthesis preview, failure explanation, node mutation, combat log, and outcome reason.
-
-## 8. Implementation stages
-
-1. Implement a minimal command panel and state text view.
-2. Add card hand, ABC active-ability controls, and synthesis preview.
-3. Add map/node and resource views.
-4. Add turn-based Encounter controls and combat log.
-5. Add the complete ACT RealTimeAction bullet-time, five-slot paging, and numeric-slot battle loop after the Encounter path is stable.
-6. Add alternate mode presentation and polish.
-
-## 9. Learning targets and risks
-
-Learning targets: UMG, MVVM or view-model design, input abstraction, UI feedback, localization, accessibility, and presentation performance.
-
-Main risk: placing gameplay rules in Blueprint widgets because it is convenient to prototype.
-
-## 10. Full-MVP presentation and input boundaries
-
-Keep sandbox deployment, shared basic-skill repository and ACT battle-settings roster as distinct views. TASK-035 selects ACT characters/weapons and shows contextual eligibility; TASK-031 presents the shared basic-skill slots using ACT-owned effect data. A terrain-disabled trait has a specific reason and scope; a disabled button never replaces authoritative validation.
-
-The user specified a Civilization VI-like oblique SLG camera with node-based movement and later clarified hover information plus click entry into local node scenes. D24 now confirms inspection-only click and a separate right-side Move Here card command. TASK-024 owns authored topology/movement; TASK-037 owns inspection presentation. Camera transforms cannot change world identity or save state.
-
-TASK-014 uses user-imported placeholder models/animations through project wrappers. Final animation/rendering polish is later work. [MVP source extraction](../../../Production/MVPSourceExtraction.md) maps PDF evidence to card categories, proposed screens and unresolved source conflicts.
-
-## Preparation and node inspection composition
-
-TASK-037 owns detailed node inspection/local presentation, using TASK-024's permitted views. TASK-038 owns the common preparation shell; 035 retains ACT selection, 020 shared skills/codex and 039 relationship/bonus sources. UI never duplicates these authorities. D24/D25 confirm inspection-only click and full enemy disclosure; D26 excludes playable FPS from the first MVP. D27 open/edit/time/preset behavior and D28 concrete relationships remain open. Global preparation is separate from ACT Tab/bullet time. See [screen design](../../../Design/EN/06_MapAndPreparation.md); no new UI runtime is claimed here.
-
-## TASK-040 handoff
-
-TASK-040's neutral Presentation/Models assets/Actor contain no mode-specific source headers. UI receives views; the right-side Move Here button submits card-instance commands, never Actor transforms. FPS is a future capability in the first MVP. The HTML sketch is earlier design evidence; native preview is a separate authoring surface.
+[DemoDeliveryPlan](../../../Production/DemoDeliveryPlan.md) owns the UI/material/motion learning units and asset checklist. Existing TASK-014/031/035/037/038/040 preserve implementation history; they do not freeze the next Demo's screen design.

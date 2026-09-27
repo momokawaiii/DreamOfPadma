@@ -1,0 +1,164 @@
+#pragma once
+#include "/Plugin/PadmaNPR/Private/PadmaReferenceCommon.ush"
+float3 PadmaReferenceFace(
+    float4 FaceControls,
+    float3 HeadUp,
+    float2 UV,
+    float3 GeometricNormal,
+    float3 ViewDirection,
+    float3 LightDirection,
+    float3 WorldPosition,
+    float3 CameraPosition,
+    float3 PointLightPosition,
+    float3x3 TangentToWorld,
+    float4 P_AO_Color,
+    float P_AO_Offset,
+    float P_AO_Smooth,
+    float4 P_BaseColor,
+    float P_BaseColor_Power,
+    float P_BlurIntensity,
+    float P_Camera_Normal_Strengh,
+    float P_EyeAdaptationlnverse,
+    float4 P_HeightLightMask,
+    float P_LightNormal_Strengh,
+    float P_Lim_Mask_Offset,
+    float P_Lim_Mask_Smooth,
+    float4 P_MSRE,
+    float4 P_Matcap_Color,
+    float4 P_Matcap_UV_Adjust,
+    float P_Rim_HL_Mask_Offset,
+    float P_Rim_HL_Mask_Smooth,
+    float P_Rim_HL_SDFMask_Strengh,
+    float P_Rim_Strengh,
+    float4 P_SDF_Color,
+    float P_SDF_Location,
+    float P_SDF_Offset,
+    float P_SDF_Smooth,
+    float4 P_SeColor,
+    float P_SeColor_Offset,
+    float P_SeColor_Smooth,
+    float P_Tonemap,
+    float Exposure,
+    float ReferenceDither,
+    float4 VertexColor,
+    Texture2D T_BaseTex,
+    SamplerState T_BaseTexSampler,
+    Texture2D T_Matcap_Color,
+    SamplerState T_Matcap_ColorSampler,
+    Texture2D T_SDF_Tex,
+    SamplerState T_SDF_TexSampler,
+    Texture2D T_T_Face_M,
+    SamplerState T_T_Face_MSampler,
+    out float3 OutBaseColor,
+    out float OutMetallic,
+    out float OutSpecular,
+    out float OutRoughness,
+    out float3 OutNormal,
+    out float OutOpacity
+)
+{
+    float4 n0 = Texture2DSample(T_BaseTex,T_BaseTexSampler,UV); // MaterialExpressionTextureSampleParameter2D_3
+    float3 n1 = lerp(FilmToneMapInverse(n0.rgb),n0.rgb,saturate(P_Tonemap)); // MaterialExpressionMaterialFunctionCall_7
+    float3 n2 = pow(max(n1,0),P_BaseColor_Power); // MaterialExpressionPower_0
+    float3 n3 = saturate(n2); // MaterialExpressionSaturate_1
+    float3 n4 = (n3 * P_BaseColor.rgb); // MaterialExpressionMultiply_8
+    float4 n5 = Texture2DSample(T_T_Face_M,T_T_Face_MSampler,UV); // MaterialExpressionTextureSampleParameter2D_6
+    float n6 = (n5.r + n5.g); // MaterialExpressionAdd_1
+    float n7 = saturate(n6); // MaterialExpressionSaturate_2
+    float n8 = saturate(n7*P_SeColor_Smooth-P_SeColor_Offset); // MaterialExpressionMaterialFunctionCall_18
+    float3 n9 = lerp(n4,lerp(n4*P_SeColor.rgb,P_SeColor.rgb,P_SeColor.a),n8); // MaterialExpressionMaterialFunctionCall_19
+    float n10 = saturate(n0.a*P_AO_Smooth-P_AO_Offset); // MaterialExpressionMaterialFunctionCall_27
+    float n11 = (1-(n10)); // MaterialExpressionOneMinus_11
+    float4 n12 = Texture2DSample(T_T_Face_M,T_T_Face_MSampler,UV); // MaterialExpressionTextureSampleParameter2D_0
+    float2 n13 = UV; // MaterialExpressionTextureCoordinate_0
+    float n14 = (n13).r; // MaterialExpressionComponentMask_0
+    float n15 = (n14 / 0.010000); // MaterialExpressionDivide_0
+    float n16 = (n15 - 50.000000); // MaterialExpressionSubtract_0
+    float n17 = saturate(n16); // MaterialExpressionSaturate_0
+    float n18 = (n12.a * n17); // MaterialExpressionMultiply_0
+    float3 n19 = ViewDirection; // MaterialExpressionCameraVectorWS_0
+    float3 n20 = GeometricNormal; // MaterialExpressionVertexNormalWS_0
+    float n21 = dot(n19,n20); // MaterialExpressionDotProduct_0
+    float n22 = saturate(n21*P_Rim_HL_Mask_Smooth-P_Rim_HL_Mask_Offset); // MaterialExpressionMaterialFunctionCall_1
+    float n23 = (1-(n22)); // MaterialExpressionOneMinus_0
+    float n24 = (n18 * n23); // MaterialExpressionMultiply_1
+    float2 n25 = UV; // MaterialExpressionTextureCoordinate_4
+    float n26 = ReferenceDither; // MaterialExpressionMaterialFunctionCall_3
+    float n27 = PadmaReferenceFaceSDF(T_SDF_Tex,T_SDF_TexSampler,n25,0,P_BlurIntensity,n26); // MaterialExpressionCustom_8
+    float n28 = saturate(n27*P_SDF_Smooth-P_SDF_Offset); // MaterialExpressionMaterialFunctionCall_5
+    float n29 = PadmaFaceShadowBand(n28,P_SDF_Location,FaceControls.x,FaceControls.y);
+    float n30 = abs(P_SDF_Location); // MaterialExpressionAbs_1
+    float2 n31 = UV; // MaterialExpressionTextureCoordinate_5
+    float n32 = ReferenceDither; // MaterialExpressionMaterialFunctionCall_4
+    float n33 = PadmaReferenceFaceSDF(T_SDF_Tex,T_SDF_TexSampler,n31,1,P_BlurIntensity,n32); // MaterialExpressionCustom_9
+    float n34 = saturate(n33*P_SDF_Smooth-P_SDF_Offset); // MaterialExpressionMaterialFunctionCall_6
+    float n35 = PadmaFaceShadowBand(n34,n30,FaceControls.x,FaceControls.y);
+    float n36 = ((P_SDF_Location>(0)+0.00001)?n29:((P_SDF_Location<(0)-0.00001)?n35:n35)); // MaterialExpressionIf_2
+    // Optional top-light stabilization in calibrated head space. Zero weight
+    // preserves the reference path; do not infer top light from world Z.
+    n36 = PadmaFaceOverheadShadow(n36,dot(LightDirection,HeadUp),FaceControls.z);
+    float n37 = (1-(n36)); // MaterialExpressionOneMinus_2
+    float n38 = (n24 * n37); // MaterialExpressionMultiply_4
+    float n39 = lerp(n24,n38,P_Rim_HL_SDFMask_Strengh); // MaterialExpressionLinearInterpolate_2
+    float n40 = (n39 * P_Rim_Strengh); // MaterialExpressionMultiply_7
+    float n41 = lerp(n11,0.000000,n40); // MaterialExpressionLinearInterpolate_0
+    float3 n42 = lerp(n9,lerp(n9*P_AO_Color.rgb,P_AO_Color.rgb,P_AO_Color.a),n41); // MaterialExpressionMaterialFunctionCall_33
+    float3 n43 = lerp(n42,lerp(n42*P_HeightLightMask.rgb,P_HeightLightMask.rgb,P_HeightLightMask.a),n40); // MaterialExpressionMaterialFunctionCall_0
+    float3 n44 = CameraPosition; // MaterialExpressionCameraPositionWS_1
+    float2 n45 = (n44).rg; // MaterialExpressionComponentMask_1
+    float3 n46 = WorldPosition; // MaterialExpressionWorldPosition_1
+    float2 n47 = (n45 - n46.rg); // MaterialExpressionSubtract_3
+    float n48 = 0; // MaterialExpressionConstant_0
+    float3 n49 = float3(n47,n48); // MaterialExpressionAppendVector_0
+    float3 n50 = normalize(n49); // MaterialExpressionNormalize_3
+    float3 n51 = float3(0.000000,0.000000,1.000000); // MaterialExpressionConstant3Vector_1
+    float3 n52 = cross(n50,n51.rgb); // MaterialExpressionCrossProduct_0
+    float3 n53 = normalize(n52); // MaterialExpressionNormalize_4
+    float3 n54 = GeometricNormal; // MaterialExpressionVertexNormalWS_2
+    float n55 = dot(n53,n54); // MaterialExpressionDotProduct_6
+    float3 n56 = cross(n50,n53); // MaterialExpressionCrossProduct_1
+    float3 n57 = normalize(n56); // MaterialExpressionNormalize_7
+    float n58 = dot(n54,n57); // MaterialExpressionDotProduct_4
+    float2 n59 = float2(n55,n58); // MaterialExpressionAppendVector_1
+    float2 n60 = float2(P_Matcap_UV_Adjust.r,P_Matcap_UV_Adjust.g); // MaterialExpressionAppendVector_2
+    float2 n61 = (n59 * n60); // MaterialExpressionMultiply_10
+    float2 n62 = float2(P_Matcap_UV_Adjust.b,P_Matcap_UV_Adjust.a); // MaterialExpressionAppendVector_3
+    float2 n63 = (n61 - n62); // MaterialExpressionSubtract_2
+    float4 n64 = Texture2DSample(T_Matcap_Color,T_Matcap_ColorSampler,n63); // MaterialExpressionTextureSampleParameter2D_2
+    float3 n65 = (n64.rgb * P_Matcap_Color.rgb); // MaterialExpressionMultiply_11
+    float4 n66 = VertexColor; // MaterialExpressionVertexColor_0
+    float n67 = (1-(n66.r)); // MaterialExpressionOneMinus_1
+    float n68 = saturate(n67*P_Lim_Mask_Smooth-P_Lim_Mask_Offset); // MaterialExpressionMaterialFunctionCall_2
+    float3 n69 = (n65 * n68); // MaterialExpressionMultiply_3
+    float3 n70 = (n43 + n69); // MaterialExpressionAdd_0
+    float3 n71 = (P_SDF_Color.rgb * n70); // MaterialExpressionMultiply_2
+    float3 n72 = lerp(n71,n70,n37); // MaterialExpressionLinearInterpolate_1
+    float3 n73 = (n72 * P_MSRE.a); // MaterialExpressionMultiply_44
+    float3 n74 = (n73*exp(-(P_EyeAdaptationlnverse)*log(max(Exposure,1e-8)))); // MaterialExpressionEyeAdaptationInverse_3
+    float3 n75 = (n72*exp(-(P_EyeAdaptationlnverse)*log(max(Exposure,1e-8)))); // MaterialExpressionEyeAdaptationInverse_2
+    float3 n76 = GeometricNormal; // MaterialExpressionVertexNormalWS_5
+    float3 n77 = mul(TangentToWorld,n76); // MaterialExpressionTransform_7
+    float3 n78 = normalize(n77); // MaterialExpressionNormalize_8
+    float3 n79 = ViewDirection; // MaterialExpressionCameraVectorWS_4
+    float3 n80 = mul(TangentToWorld,n79); // MaterialExpressionTransform_8
+    float3 n81 = normalize(n80); // MaterialExpressionNormalize_9
+    float n82 = (1-(P_Camera_Normal_Strengh)); // MaterialExpressionOneMinus_9
+    float3 n83 = lerp(n81,float3(0,0,1),n82); // MaterialExpressionMaterialFunctionCall_15
+    float3 n84 = LightDirection; // MaterialExpressionSkyAtmosphereLightDirection_3
+    float3 n85 = mul(TangentToWorld,n84); // MaterialExpressionTransform_9
+    float3 n86 = normalize(n85); // MaterialExpressionNormalize_10
+    float n87 = (1-(P_LightNormal_Strengh)); // MaterialExpressionOneMinus_8
+    float3 n88 = lerp(n86,float3(0,0,1),n87); // MaterialExpressionMaterialFunctionCall_16
+    float3 n89 = PadmaReferenceBlendNormals(n83,n88); // MaterialExpressionMaterialFunctionCall_17
+    float3 n90 = PadmaReferenceBlendNormals(n78,n89); // MaterialExpressionMaterialFunctionCall_14
+    float n91 = 1.300000; // MaterialExpressionConstant_15
+    OutBaseColor = n75;
+    OutMetallic = P_MSRE.r;
+    OutSpecular = P_MSRE.g;
+    OutRoughness = P_MSRE.b;
+    OutNormal = n90;
+    OutOpacity = n91;
+    if (FaceControls.w > 1.5) return n36.xxx;
+    if (FaceControls.w > .5) return (P_SDF_Location > 0 ? n28 : n34).xxx;
+    return n74;
+}

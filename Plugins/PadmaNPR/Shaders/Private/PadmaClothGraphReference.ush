@@ -1,0 +1,281 @@
+#pragma once
+#include "/Plugin/PadmaNPR/Private/PadmaReferenceCommon.ush"
+float3 PadmaReferenceCloth(
+    float2 UV,
+    float3 GeometricNormal,
+    float3 ViewDirection,
+    float3 LightDirection,
+    float3 WorldPosition,
+    float3 CameraPosition,
+    float3 PointLightPosition,
+    float3x3 TangentToWorld,
+    float4 P_AO,
+    float4 P_AO_Color,
+    float P_AO_Mask_Offset,
+    float P_AO_Mask_Smooth,
+    float P_AlphaStrengh,
+    float4 P_BaseColor,
+    float P_BaseColor_Power,
+    float P_Base_Normal_Strengh,
+    float P_Camera_Normal_Strengh,
+    float P_EyeAdaptationlnverse,
+    float P_GGX_Camera_Strengh,
+    float4 P_GGX_Color,
+    float P_GGX_Lam_Strengh,
+    float P_GGX_Metallic_Strengh,
+    float P_GGX_Normal_Strengh,
+    float P_GGX_Offset,
+    float P_GGX_Smooth,
+    float4 P_Glossiness,
+    float P_Glossiness_Mask_Offset,
+    float P_Glossiness_Mask_Smooth,
+    float P_Lam_Normal_Mod,
+    float P_Lam_Offset,
+    float4 P_Lam_Shadow_Color,
+    float P_Lam_Smooth,
+    float P_LightNormal_Strengh,
+    float4 P_MSRE,
+    float4 P_Matallic,
+    float4 P_Matcap_Color,
+    float P_Matcap_Normal_mod,
+    float4 P_Matcap_UV_Adjust,
+    float P_Metallic_Mask_Offset,
+    float P_Metallic_Mask_Smooth,
+    float P_Noise_Offset,
+    float P_Noise_Smooth,
+    float P_Noise_UV_Scale,
+    float P_Rain01_A_Offset,
+    float P_Rain01_A_Smooth,
+    float P_Rain01_Mask_Offset,
+    float P_Rain01_Mask_Smooth,
+    float4 P_Rain01_Normal_SXYS,
+    float P_Rain02_A_Offset,
+    float P_Rain02_A_Smooth,
+    float P_Rain02_Mask_Offset,
+    float P_Rain02_Mask_Smooth,
+    float4 P_Rain02_Normal_SXYS,
+    float4 P_RainMask_Color,
+    float4 P_RainMatcap_Color,
+    float P_RainMatcap_Normal_mod,
+    float4 P_RainMatcap_UV_Adjust,
+    float P_RainNormal_Strengh,
+    float P_RainRoughness_Strengh,
+    float P_RainStrengh,
+    float4 P_Rim_HighLight_Color,
+    float P_Rim_HighLight_Normal_Mod,
+    float P_Rim_HighLight_Offset,
+    float P_Rim_HighLight_Smooth,
+    float P_Roughnessmap_Strengh,
+    float P_Tonemap,
+    float Exposure,
+    Texture2D T_BaseTex,
+    SamplerState T_BaseTexSampler,
+    Texture2D T_Matcap_Color,
+    SamplerState T_Matcap_ColorSampler,
+    Texture2D T_Normal,
+    SamplerState T_NormalSampler,
+    Texture2D T_RainMatcap_Color,
+    SamplerState T_RainMatcap_ColorSampler,
+    Texture2D T_RainNoise_Mask,
+    SamplerState T_RainNoise_MaskSampler,
+    Texture2D T_T_RGBA_P,
+    SamplerState T_T_RGBA_PSampler,
+    Texture2D T_T_Rain01,
+    SamplerState T_T_Rain01Sampler,
+    Texture2D T_T_Rain02,
+    SamplerState T_T_Rain02Sampler,
+    out float3 OutBaseColor,
+    out float OutMetallic,
+    out float OutSpecular,
+    out float OutRoughness,
+    out float3 OutNormal,
+    out float OutOpacity
+)
+{
+    float4 n0 = Texture2DSample(T_BaseTex,T_BaseTexSampler,UV); // MaterialExpressionTextureSampleParameter2D_5
+    float3 n1 = lerp(FilmToneMapInverse(n0.rgb),n0.rgb,saturate(P_Tonemap)); // MaterialExpressionMaterialFunctionCall_18
+    float3 n2 = pow(max(n1,0),P_BaseColor_Power); // MaterialExpressionPower_5
+    float3 n3 = saturate(n2); // MaterialExpressionSaturate_2
+    float3 n4 = (n3 * P_BaseColor.rgb); // MaterialExpressionMultiply_45
+    float3 n5 = (P_Lam_Shadow_Color.rgb * n4); // MaterialExpressionMultiply_2
+    float3 n6 = LightDirection; // MaterialExpressionSkyAtmosphereLightDirection_0
+    float3 n7 = normalize(n6); // MaterialExpressionNormalize_0
+    float4 n8 = Texture2DSample(T_Normal,T_NormalSampler,UV); // MaterialExpressionTextureSampleParameter2D_1
+    float3 n9 = PadmaReferenceUnpack(float2(n8.r,n8.g)); // MaterialExpressionMaterialFunctionCall_32
+    float n10 = (1-(P_Base_Normal_Strengh)); // MaterialExpressionOneMinus_0
+    float3 n11 = lerp(n9,float3(0,0,1),n10); // MaterialExpressionMaterialFunctionCall_6
+    float3 n12 = ViewDirection; // MaterialExpressionCameraVectorWS_1
+    float3 n13 = mul(TangentToWorld,n12); // MaterialExpressionTransform_1
+    float3 n14 = normalize(n13); // MaterialExpressionNormalize_5
+    float n15 = (1-(P_Camera_Normal_Strengh)); // MaterialExpressionOneMinus_7
+    float3 n16 = lerp(n14,float3(0,0,1),n15); // MaterialExpressionMaterialFunctionCall_25
+    float3 n17 = LightDirection; // MaterialExpressionSkyAtmosphereLightDirection_5
+    float3 n18 = mul(TangentToWorld,n17); // MaterialExpressionTransform_2
+    float3 n19 = normalize(n18); // MaterialExpressionNormalize_6
+    float n20 = (1-(P_LightNormal_Strengh)); // MaterialExpressionOneMinus_6
+    float3 n21 = lerp(n19,float3(0,0,1),n20); // MaterialExpressionMaterialFunctionCall_26
+    float3 n22 = PadmaReferenceBlendNormals(n16,n21); // MaterialExpressionMaterialFunctionCall_28
+    float3 n23 = PadmaReferenceBlendNormals(n11,n22); // MaterialExpressionMaterialFunctionCall_24
+    float3 n24 = float3(0.000000,0.000000,1.000000); // MaterialExpressionConstant3Vector_2
+    float2 n25 = (UV*P_Rain01_Normal_SXYS.r+float2(P_Rain01_Normal_SXYS.g,P_Rain01_Normal_SXYS.b)); // MaterialExpressionMaterialFunctionCall_19
+    float4 n26 = Texture2DSample(T_T_Rain01,T_T_Rain01Sampler,n25); // MaterialExpressionTextureSampleParameter2D_6
+    float n27 = (n26.rgba).r; // MaterialExpressionComponentMask_2
+    float n28 = (n26.rgba).g; // MaterialExpressionComponentMask_3
+    float3 n29 = PadmaReferenceUnpack(float2(n27,n28)); // MaterialExpressionMaterialFunctionCall_22
+    float n30 = (1-(P_Rain01_Normal_SXYS.a)); // MaterialExpressionOneMinus_12
+    float3 n31 = lerp(n29,float3(0,0,1),n30); // MaterialExpressionMaterialFunctionCall_23
+    float2 n32 = (UV*P_Rain02_Normal_SXYS.r+float2(P_Rain02_Normal_SXYS.g,P_Rain02_Normal_SXYS.b)); // MaterialExpressionMaterialFunctionCall_30
+    float4 n33 = Texture2DSample(T_T_Rain02,T_T_Rain02Sampler,n32); // MaterialExpressionTextureSampleParameter2D_3
+    float n34 = (n33.rgba).r; // MaterialExpressionComponentMask_5
+    float n35 = (n33.rgba).g; // MaterialExpressionComponentMask_6
+    float3 n36 = PadmaReferenceUnpack(float2(n34,n35)); // MaterialExpressionMaterialFunctionCall_29
+    float n37 = (1-(P_Rain02_Normal_SXYS.a)); // MaterialExpressionOneMinus_11
+    float3 n38 = lerp(n36,float3(0,0,1),n37); // MaterialExpressionMaterialFunctionCall_27
+    float3 n39 = PadmaReferenceBlendNormals(n31,n38); // MaterialExpressionMaterialFunctionCall_16
+    float2 n40 = UV; // MaterialExpressionTextureCoordinate_2
+    float2 n41 = (n40 * P_Noise_UV_Scale); // MaterialExpressionMultiply_17
+    float4 n42 = Texture2DSample(T_RainNoise_Mask,T_RainNoise_MaskSampler,n41); // MaterialExpressionTextureSampleParameter2D_10
+    float n43 = saturate(n42.r*P_Noise_Smooth-P_Noise_Offset); // MaterialExpressionMaterialFunctionCall_4
+    float n44 = saturate(n43); // MaterialExpressionSaturate_8
+    float3 n45 = lerp(n24.rgb,n39,n44); // MaterialExpressionLinearInterpolate_12
+    float3 n46 = PadmaReferenceBlendNormals(n23,n45); // MaterialExpressionMaterialFunctionCall_17
+    float3 n47 = lerp(n23,n46,P_RainNormal_Strengh); // MaterialExpressionLinearInterpolate_11
+    float3 n48 = lerp(n23,n47,P_RainStrengh); // MaterialExpressionLinearInterpolate_18
+    float3 n49 = mul(n48,TangentToWorld); // MaterialExpressionTransform_3
+    float3 n50 = GeometricNormal; // MaterialExpressionVertexNormalWS_0
+    float3 n51 = lerp(n49,n50,P_Lam_Normal_Mod); // MaterialExpressionLinearInterpolate_2
+    float n52 = dot(n7,n51); // MaterialExpressionDotProduct_0
+    float n53 = saturate(n52*P_Lam_Smooth-P_Lam_Offset); // MaterialExpressionMaterialFunctionCall_1
+    float3 n54 = lerp(n5,n4,n53); // MaterialExpressionLinearInterpolate_3
+    float3 n55 = (P_AO_Color.rgb * n54); // MaterialExpressionMultiply_0
+    float4 n56 = Texture2DSample(T_T_RGBA_P,T_T_RGBA_PSampler,UV); // MaterialExpressionTextureSampleParameter2D_0
+    float n57 = dot(n56.rgba,P_AO); // MaterialExpressionChannelMaskParameter_1
+    float n58 = saturate(n57.r*P_AO_Mask_Smooth-P_AO_Mask_Offset); // MaterialExpressionMaterialFunctionCall_2
+    float3 n59 = lerp(n55,n54,n58); // MaterialExpressionLinearInterpolate_0
+    float3 n60 = ViewDirection; // MaterialExpressionCameraVectorWS_2
+    float3 n61 = mul(n48,TangentToWorld); // MaterialExpressionTransform_4
+    float3 n62 = normalize(mul(n48,TangentToWorld)); // MaterialExpressionPixelNormalWS_1
+    float3 n63 = lerp(n61,n62,P_Rim_HighLight_Normal_Mod); // MaterialExpressionLinearInterpolate_4
+    float n64 = dot(n60,n63); // MaterialExpressionDotProduct_2
+    float n65 = saturate(n64*P_Rim_HighLight_Smooth-P_Rim_HighLight_Offset); // MaterialExpressionMaterialFunctionCall_7
+    float n66 = (1-(n65)); // MaterialExpressionOneMinus_2
+    float3 n67 = LightDirection; // MaterialExpressionSkyAtmosphereLightDirection_1
+    float3 n68 = normalize(n67); // MaterialExpressionNormalize_1
+    float3 n69 = GeometricNormal; // MaterialExpressionVertexNormalWS_1
+    float n70 = dot(n68,n69); // MaterialExpressionDotProduct_3
+    float n71 = (n66 * n70); // MaterialExpressionMultiply_4
+    float n72 = saturate(n71); // MaterialExpressionSaturate_5
+    float3 n73 = lerp(n59,lerp(n59*P_Rim_HighLight_Color.rgb,P_Rim_HighLight_Color.rgb,P_Rim_HighLight_Color.a),n72); // MaterialExpressionMaterialFunctionCall_9
+    float n74 = (1-(P_GGX_Normal_Strengh)); // MaterialExpressionOneMinus_3
+    float3 n75 = lerp(n48,float3(0,0,1),n74); // MaterialExpressionMaterialFunctionCall_11
+    float3 n76 = LightDirection; // MaterialExpressionSkyAtmosphereLightDirection_2
+    float3 n77 = ViewDirection; // MaterialExpressionCameraVectorWS_3
+    float3 n78 = (n76 + n77); // MaterialExpressionAdd_0
+    float3 n79 = lerp(n76,n78,P_GGX_Camera_Strengh); // MaterialExpressionLinearInterpolate_5
+    float3 n80 = normalize(n79); // MaterialExpressionNormalize_2
+    float3 n81 = mul(TangentToWorld,n80); // MaterialExpressionTransform_5
+    float n82 = dot(n56.rgba,P_Glossiness); // MaterialExpressionChannelMaskParameter_2
+    float n83 = saturate(n82.r*P_Glossiness_Mask_Smooth-P_Glossiness_Mask_Offset); // MaterialExpressionMaterialFunctionCall_3
+    float n84 = (1-(n83)); // MaterialExpressionOneMinus_4
+    float n85 = PadmaReferenceGGX(n75,n81,n84); // MaterialExpressionMaterialFunctionCall_10
+    float n86 = (n85 * n58); // MaterialExpressionMultiply_5
+    float n87 = dot(n56.rgba,P_Matallic); // MaterialExpressionChannelMaskParameter_0
+    float n88 = saturate(n87.r*P_Metallic_Mask_Smooth-P_Metallic_Mask_Offset); // MaterialExpressionMaterialFunctionCall_0
+    float n89 = (n86 * n88); // MaterialExpressionMultiply_7
+    float n90 = lerp(n86,n89,P_GGX_Metallic_Strengh); // MaterialExpressionLinearInterpolate_6
+    float n91 = saturate(n90*P_GGX_Smooth-P_GGX_Offset); // MaterialExpressionMaterialFunctionCall_12
+    float n92 = (n91 * n53); // MaterialExpressionMultiply_6
+    float n93 = lerp(n91,n92,P_GGX_Lam_Strengh); // MaterialExpressionLinearInterpolate_7
+    float n94 = saturate(n93); // MaterialExpressionSaturate_0
+    float3 n95 = lerp(n73,lerp(n73*P_GGX_Color.rgb,P_GGX_Color.rgb,P_GGX_Color.a),n94); // MaterialExpressionMaterialFunctionCall_13
+    float n96 = (n26.rgba).a; // MaterialExpressionComponentMask_0
+    float n97 = saturate(n96*P_Rain01_A_Smooth-P_Rain01_A_Offset); // MaterialExpressionMaterialFunctionCall_20
+    float n98 = (n33.rgba).a; // MaterialExpressionComponentMask_1
+    float n99 = saturate(n98*P_Rain02_A_Smooth-P_Rain02_A_Offset); // MaterialExpressionMaterialFunctionCall_21
+    float n100 = (n97 + n99); // MaterialExpressionAdd_1
+    float n101 = saturate(n100); // MaterialExpressionSaturate_7
+    float3 n102 = lerp(n95,lerp(n95*P_RainMask_Color.rgb,P_RainMask_Color.rgb,P_RainMask_Color.a),n101); // MaterialExpressionMaterialFunctionCall_15
+    float3 n103 = lerp(n95,n102,P_RainStrengh); // MaterialExpressionLinearInterpolate_19
+    float3 n104 = CameraPosition; // MaterialExpressionCameraPositionWS_0
+    float3 n105 = WorldPosition; // MaterialExpressionWorldPosition_0
+    float3 n106 = (n104 - n105.rgb); // MaterialExpressionSubtract_0
+    float3 n107 = normalize(n106); // MaterialExpressionNormalize_3
+    float3 n108 = float3(0.000000,0.000000,1.000000); // MaterialExpressionConstant3Vector_1
+    float3 n109 = cross(n107,n108.rgb); // MaterialExpressionCrossProduct_0
+    float3 n110 = normalize(n109); // MaterialExpressionNormalize_4
+    float3 n111 = mul(n48,TangentToWorld); // MaterialExpressionTransform_6
+    float3 n112 = GeometricNormal; // MaterialExpressionVertexNormalWS_2
+    float3 n113 = lerp(n111,n112,P_Matcap_Normal_mod); // MaterialExpressionLinearInterpolate_8
+    float n114 = dot(n110,n113); // MaterialExpressionDotProduct_6
+    float3 n115 = cross(n107,n110); // MaterialExpressionCrossProduct_1
+    float3 n116 = normalize(n115); // MaterialExpressionNormalize_7
+    float n117 = dot(n113,n116); // MaterialExpressionDotProduct_4
+    float2 n118 = float2(n114,n117); // MaterialExpressionAppendVector_1
+    float2 n119 = float2(P_Matcap_UV_Adjust.r,P_Matcap_UV_Adjust.g); // MaterialExpressionAppendVector_2
+    float2 n120 = (n118 * n119); // MaterialExpressionMultiply_10
+    float2 n121 = float2(P_Matcap_UV_Adjust.b,P_Matcap_UV_Adjust.a); // MaterialExpressionAppendVector_3
+    float2 n122 = (n120 - n121); // MaterialExpressionSubtract_2
+    float4 n123 = Texture2DSample(T_Matcap_Color,T_Matcap_ColorSampler,n122); // MaterialExpressionTextureSampleParameter2D_2
+    float3 n124 = (n123.rgb * P_Matcap_Color.rgb); // MaterialExpressionMultiply_11
+    float n125 = (n58 * n53); // MaterialExpressionMultiply_13
+    float3 n126 = (n124 * n125); // MaterialExpressionMultiply_12
+    float3 n127 = (n103 + n126); // MaterialExpressionAdd_3
+    float3 n128 = CameraPosition; // MaterialExpressionCameraPositionWS_3
+    float3 n129 = WorldPosition; // MaterialExpressionWorldPosition_3
+    float3 n130 = (n128 - n129.rgb); // MaterialExpressionSubtract_6
+    float3 n131 = normalize(n130); // MaterialExpressionNormalize_14
+    float3 n132 = float3(0.000000,0.000000,1.000000); // MaterialExpressionConstant3Vector_4
+    float3 n133 = cross(n131,n132.rgb); // MaterialExpressionCrossProduct_6
+    float3 n134 = normalize(n133); // MaterialExpressionNormalize_15
+    float3 n135 = mul(n48,TangentToWorld); // MaterialExpressionTransform_10
+    float3 n136 = GeometricNormal; // MaterialExpressionVertexNormalWS_5
+    float3 n137 = lerp(n135,n136,P_RainMatcap_Normal_mod); // MaterialExpressionLinearInterpolate_15
+    float n138 = dot(n134,n137); // MaterialExpressionDotProduct_12
+    float3 n139 = cross(n131,n134); // MaterialExpressionCrossProduct_7
+    float3 n140 = normalize(n139); // MaterialExpressionNormalize_16
+    float n141 = dot(n137,n140); // MaterialExpressionDotProduct_11
+    float2 n142 = float2(n138,n141); // MaterialExpressionAppendVector_11
+    float2 n143 = float2(P_RainMatcap_UV_Adjust.r,P_RainMatcap_UV_Adjust.g); // MaterialExpressionAppendVector_12
+    float2 n144 = (n142 * n143); // MaterialExpressionMultiply_30
+    float2 n145 = float2(P_RainMatcap_UV_Adjust.b,P_RainMatcap_UV_Adjust.a); // MaterialExpressionAppendVector_13
+    float2 n146 = (n144 - n145); // MaterialExpressionSubtract_7
+    float4 n147 = Texture2DSample(T_RainMatcap_Color,T_RainMatcap_ColorSampler,n146); // MaterialExpressionTextureSampleParameter2D_14
+    float3 n148 = (n147.rgb * P_RainMatcap_Color.rgb); // MaterialExpressionMultiply_31
+    float n149 = (n26.rgba).b; // MaterialExpressionComponentMask_8
+    float n150 = saturate(n149*P_Rain01_Mask_Smooth-P_Rain01_Mask_Offset); // MaterialExpressionMaterialFunctionCall_38
+    float n151 = (n33.rgba).a; // MaterialExpressionComponentMask_9
+    float n152 = saturate(n151*P_Rain02_Mask_Smooth-P_Rain02_Mask_Offset); // MaterialExpressionMaterialFunctionCall_39
+    float n153 = (n150 + n152); // MaterialExpressionAdd_5
+    float n154 = saturate(n153); // MaterialExpressionSaturate_6
+    float n155 = (n44 * n154); // MaterialExpressionMultiply_36
+    float n156 = (n155 * n53); // MaterialExpressionMultiply_34
+    float3 n157 = (n148 * n156); // MaterialExpressionMultiply_32
+    float3 n158 = (P_RainStrengh * n157); // MaterialExpressionMultiply_40
+    float3 n159 = (n127 + n158); // MaterialExpressionAdd_6
+    float n160 = 0; // MaterialExpressionConstant_5
+    float n161 = 0; // MaterialExpressionConstant_3
+    float n162 = (n160 + n161); // MaterialExpressionAdd_8
+    float3 n163 = (n159 + n162); // MaterialExpressionAdd_10
+    float n164 = 0; // MaterialExpressionConstant_7
+    float3 n165 = (n163 + n164); // MaterialExpressionAdd_2
+    float3 n166 = (n165 * P_MSRE.a); // MaterialExpressionMultiply_1
+    float n167 = 0; // MaterialExpressionConstant_6
+    float3 n168 = (n166 + n167); // MaterialExpressionAdd_7
+    float n169 = (n160 + n161); // MaterialExpressionAdd_9
+    float3 n170 = (n168 + n169); // MaterialExpressionAdd_11
+    float3 n171 = (n170*exp(-(P_EyeAdaptationlnverse)*log(max(Exposure,1e-8)))); // MaterialExpressionEyeAdaptationInverse_1
+    float3 n172 = (n165*exp(-(P_EyeAdaptationlnverse)*log(max(Exposure,1e-8)))); // MaterialExpressionEyeAdaptationInverse_0
+    float n173 = (1-(n83)); // MaterialExpressionOneMinus_5
+    float n174 = lerp(P_MSRE.b,P_Roughnessmap_Strengh,n173); // MaterialExpressionLinearInterpolate_9
+    float n175 = (n174 * P_RainRoughness_Strengh); // MaterialExpressionMultiply_42
+    float n176 = lerp(n174,n175,P_RainStrengh); // MaterialExpressionLinearInterpolate_20
+    float n177 = (n0.a * P_AlphaStrengh); // MaterialExpressionMultiply_20
+    float n178 = (n177 * P_AlphaStrengh); // MaterialExpressionMultiply_14
+    OutBaseColor = n172;
+    OutMetallic = P_MSRE.r;
+    OutSpecular = P_MSRE.g;
+    OutRoughness = n176;
+    OutNormal = n48;
+    OutOpacity = n178;
+    return n171;
+}

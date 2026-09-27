@@ -34,7 +34,7 @@ bool APadmaPlayerController::IsOverlayIntentAllowed(const FPadmaUIAction& A)cons
  if(OverlayContext().HasDetails())return false;
  if(bBattleFinished)return C==TEXT("return-world");
  if(!Rules().Run().Outcome.IsNone())return C==TEXT("save")||C==TEXT("new")||C==TEXT("map-seed")||C==TEXT("map-generate")||C==TEXT("map-authored")||C==TEXT("map-tutorial");
- if(ModalTitle==TEXT("菜单"))return C==TEXT("save")||C==TEXT("load")||C==TEXT("new")||C==TEXT("journal")||C==TEXT("codex")||C==TEXT("mobility-menu");
+ if(ModalTitle==TEXT("菜单"))return C==TEXT("save")||C==TEXT("load")||C==TEXT("new")||C==TEXT("journal")||C==TEXT("codex")||C==TEXT("mobility-menu")||C==TEXT("divination-preview");
  if(ModalTitle==TEXT("卡牌图鉴"))return C==TEXT("inspect-definition");
  if(ModalTitle==TEXT("读取存档"))return C==TEXT("load-confirm");
  if(ModalTitle==TEXT("撤退确认"))return C==TEXT("exit-confirm");

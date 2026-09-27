@@ -4,15 +4,15 @@
 - Document ID: CONTENT-NATIVE-PLAYABLE
 - Version: 0.4
 - Status: Native implementation candidate; user playtest pending
-- Delivery and evidence: [TASK-046](../Production/Tasks/TASK-046-Native-UE-HTML-Slice.md)
+- Delivery and evidence: [TASK-046](../Production/ProjectCleanup.md)
 - Architecture decision: [ADR-0006](../Decisions/ADR-0006-Native-HTML-Slice.md)
-- Runtime names and migration: [RuntimeNaming](../Architecture/RuntimeNaming.md), [TASK-047](../Production/Tasks/TASK-047-Runtime-Naming.md)
+- Runtime names and migration: [RuntimeNaming](../Architecture/RuntimeNaming.md), [TASK-047](../Production/ProjectCleanup.md)
 
 This is native UE C++/GAS with a CommonUI screen and 3D actors. It implements the supported HTML 0.4 rule subset, using user-authorized temporary UE Demo numbers. Coverage descriptions still identify unimplemented PDF abilities. FPS is preparation only; Combat's full combo system has not been migrated. Build, automation and rendering evidence belongs in TASK-046; this guide does not certify user interaction acceptance or a packaged build.
 
 ## Open and play
 
-TASK-049 arranges the live calendar/resources at the top, selected node and garrison on the right, illustrated All/A/B/C hand and codex/synthesis at the bottom, and phase advance at bottom right. Click a selected card again to cancel. Inspecting a destination preserves the source group; only a valid enemy destination shows battle-mode selection and **移动并进入战斗**. Load and battle retreat require confirmation; Esc closes details/modals or cancels targeting before leaving a page. Modal overlays block underlying gameplay input. Preparation/local-scene navigation retains drafts; returning to the map discards unsaved previews. Advanced mobility changes are immediate and live separately in **菜单 → 试玩移动规则**. Current UI evidence: [TASK-049](../Production/Tasks/TASK-049-Native-Strategy-HUD.md).
+TASK-049 arranges the live calendar/resources at the top, selected node and garrison on the right, illustrated All/A/B/C hand and codex/synthesis at the bottom, and phase advance at bottom right. Click a selected card again to cancel. Inspecting a destination preserves the source group; only a valid enemy destination shows battle-mode selection and **移动并进入战斗**. Load and battle retreat require confirmation; Esc closes details/modals or cancels targeting before leaving a page. Modal overlays block underlying gameplay input. Preparation/local-scene navigation retains drafts; returning to the map discards unsaved previews. Advanced mobility changes are immediate and live separately in **菜单 → 试玩移动规则**. Current UI evidence: [TASK-049](../Production/ProjectCleanup.md).
 
 Open `DreamOfPadma.uproject`, then open `/Game/Padma/MVP/Playable/Maps/L_PadmaWorld` in the Content Browser and press Play. This is now the default map; a new run starts automatically. `L_PadmaBattle` is entered through a pending world move; opening it alone returns to the world map. TASK-048 retires the old `/Game/Padma/Demo` chain. Use [WorldMapAuthoring](WorldMapAuthoring.md) for the new scene map, anchors, seed controls, editing level and PCG theme.
 
@@ -139,7 +139,7 @@ The relevant supporting files are relative to the project root unless marked as 
 
 The current catalog class is `UPadmaContentCatalog`; `DA_PlayableCatalog` remains the existing asset's package name. The `/Game/Padma/MVP/Playable` packages, save slot `PadmaDemo046`, app marker `padma-native-demo` and save format version 1 remain compatible. They are serialized identities, not runtime class names. CoreRedirects map exactly eight old classes and 31 old structs to their current types. Existing assets are migrated through Unreal loading/re-saving, without moving their packages or changing gameplay rules.
 
-[Runtime naming](../Architecture/RuntimeNaming.md) defines responsibility-based names and the old-to-current mappings. Demo/MVP/Playable labels remain appropriate for fixture content, test paths and this play guide's delivery description. Migration verification belongs to [TASK-047](../Production/Tasks/TASK-047-Runtime-Naming.md); the authoring commands below create missing Demo assets and do not establish migration acceptance.
+[Runtime naming](../Architecture/RuntimeNaming.md) defines responsibility-based names and the old-to-current mappings. Demo/MVP/Playable labels remain appropriate for fixture content, test paths and this play guide's delivery description. Migration verification belongs to [TASK-047](../Production/ProjectCleanup.md); the authoring commands below create missing Demo assets and do not establish migration acceptance.
 
 ## Recreate missing generated Demo assets
 

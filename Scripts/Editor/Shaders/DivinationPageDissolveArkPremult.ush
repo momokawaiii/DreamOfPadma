@@ -1,0 +1,32 @@
+// UE Custom float4 body, actual no-keyword variant. Unscaled-time variant only
+// changes the time source; supplying UI PreviewTime seconds handles it.
+// Straight RGBA; source blending is SrcAlpha + _Dst (1 additive, 10 translucent).
+float2 uv=float2(UV.x,1-UV.y);
+float4 c=VertexColor*_Color;
+float2 dp=uv*_DisturbTex_ST.xy+_DisturbTex_ST.zw+PreviewTime*float2(_DisturbUSpeed,_DisturbVSpeed);
+float n=Texture2DSample(_DisturbTex,_DisturbTexSampler,float2(dp.x,1-dp.y)).r*2-1;
+float2 maskUV=uv*_DissolveMask_ST.xy+_DissolveMask_ST.zw-.5;
+float a=radians(_DissolveMaskRotate);
+maskUV=float2(maskUV.x*cos(a)+maskUV.y*sin(a),-maskUV.x*sin(a)+maskUV.y*cos(a))+.5;
+float4 dm=Texture2DSample(_DissolveMask,_DissolveMaskSampler,float2(maskUV.x,1-maskUV.y));
+float2 dUV=uv*_DissolveTex_ST.xy+_DissolveTex_ST.zw+.1*n*_DisturbIntensity;
+dUV=lerp(dUV,uv,_DisturbModeCtrl)+PreviewTime*float2(_DissolveSpeedU,_DissolveSpeedV);
+float4 dt=Texture2DSample(_DissolveTex,_DissolveTexSampler,float2(dUV.x,1-dUV.y));
+float product=saturate(dm.r*dm.a*dt.r*dt.a);
+float intensity=lerp(1-c.g,_DissolveIntensity,_RgbCtrl);
+float threshold=.5*_DissolveSoftness+intensity*(1.05-_DissolveSoftness);
+float z=saturate((product+2*(.55-1.05*threshold)-_DissolveSoftness)/(1-2*_DissolveSoftness));
+float dissolve=z*z*(3-2*z);
+float amplitude=_DisturbIntensity*lerp(1-c.r,1,_RgbCtrl);
+float2 plain=uv*_ParticleTex_ST.xy+_ParticleTex_ST.zw;
+float2 disturbed=uv+.1*n*amplitude;
+float2 dmaskUV=uv*_DisturbMask_ST.xy+_DisturbMask_ST.zw;
+float dmask=Texture2DSample(_DisturbMask,_DisturbMaskSampler,float2(dmaskUV.x,1-dmaskUV.y)).r;
+float2 p=lerp(plain,disturbed,dmask);
+float2 png=float2(p.x,1-p.y);
+float4 col=Texture2DSample(_MainTex,_MainTexSampler,png)*Texture2DSample(_ParticleTex,_ParticleTexSampler,png);
+col.rgb*=lerp(float3(1,1,1),c.rgb,_RgbCtrl)*_MainColor.rgb;
+col.a*=c.a*_MainColor.a*dissolve;
+float4 Result=col*_MainIntensity;
+// Explicit SrcAlpha/One emission for both legacy and Substrate Slate.
+return float4(Result.rgb*Result.a,1);

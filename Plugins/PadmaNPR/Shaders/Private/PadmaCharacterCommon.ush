@@ -1,0 +1,5 @@
+#pragma once
+#include "/Plugin/PadmaNPR/Private/PadmaMath.ush"
+float PadmaBand(float x,float threshold,float feather){return smoothstep(threshold-max(feather,.0001),threshold+max(feather,.0001),x);}
+float3 PadmaCharacterCel(float3 base,float band,float ao,float3 shade,float4 fill,float aoWeight){return base*(lerp(shade,1,band)+fill.rgb*fill.a)*lerp(1,saturate(ao),aoWeight);}
+float2 PadmaCharacterMatcapUV(float3 N,float3 V){float3 axis=abs(V.z)>.99?float3(0,1,0):float3(0,0,1);float3 T=normalize(cross(V,axis));return float2(dot(N,T),-dot(N,cross(T,V)))*.5+.5;}

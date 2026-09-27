@@ -1,0 +1,22 @@
+{
+  "FileVersion": 3,
+  "Version": 3,
+  "VersionName": "0.3.0",
+  "FriendlyName": "Padma NPR",
+  "Description": "Character and cloth NPR shaders, typed profiles, native editor application and per-character bindings.",
+  "Category": "Rendering",
+  "CreatedBy": "Padma",
+  "CanContainContent": true,
+  "Modules": [
+    {
+      "Name": "PadmaNPRRuntime",
+      "Type": "Runtime",
+      "LoadingPhase": "PostConfigInit"
+    },
+    {
+      "Name": "PadmaNPREditor",
+      "Type": "Editor",
+      "LoadingPhase": "PostEngineInit"
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+#pragma once
+// Artistic warm transmission approximation, not a replacement Subsurface BSDF.
+float3 PadmaSkinResponse(float3 base,float3 N,float3 L,float4 scatter,float wrap){wrap=saturate(wrap);float w=saturate((dot(N,L)+wrap)/(1+wrap));return base*scatter.rgb*scatter.a*(1-w);}

@@ -1,28 +1,17 @@
-# TASK-000 Title
+# TASK-xxx Title
 
-- Chinese companion: TaskTemplate.zh-CN.md
-- Status: Backlog
-- Primary / Local checkout:
-- User authorization:
+- Status: In Progress | Blocked (reason) | Complete
 
-## Outcome and scope
+Use only for complex or multi-session work that benefits from a durable handoff. A routine fix needs no TASK or Chinese companion.
 
-One observable result; exact allowed paths; relevant exclusions.
-Inputs: only required English paths/sections and accepted decisions.
-Dependencies or unresolved decisions: only those affecting this result.
+## Current outcome and decisions
 
-## Acceptance
+Observable result, important accepted decisions, explicit constraints and any real concurrent write ownership. Link the relevant rules; omit unused fields.
 
-- [ ] Observable behavior:
-- [ ] Required technical checks:
-- User playtest or independent review: required only as selected in Workflow.md.
+## Acceptance and latest evidence
 
-## Evidence and remaining work
+Required behavior/checks, latest results and links to logs or captures. Do not copy full logs or imply runtime acceptance from a build.
 
-Changed paths; checks/results; unverified areas; next action.
-Link existing evidence rather than copying full logs.
-Changelog: one concise draft if delivered behavior or workflow changes.
-Integration/commit/push: record actual authorization/result, or not performed.
+## Remaining work
 
-Optional only when useful: delegation write sets, structural ADR/recovery plan,
-or a user-requested learning topic/exercise. Do not fill unused sections.
+Next action, unresolved decisions or user acceptance. Replace stale summaries; archive useful superseded detail. Git authorization/integration is separate from completion.

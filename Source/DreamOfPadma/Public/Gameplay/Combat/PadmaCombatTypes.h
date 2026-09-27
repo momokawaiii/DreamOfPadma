@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Core/Content/PadmaContentTypes.h"
+#include "GameplayTagContainer.h"
 #include "PadmaCombatTypes.generated.h"
 
 class UAnimInstance;
@@ -15,6 +16,9 @@ enum class EPadmaCombatMode : uint8 { Encounter, ACT };
 
 UENUM(BlueprintType)
 enum class EPadmaCombatSource : uint8 { Unit, Card, Environment };
+
+UENUM(BlueprintType)
+enum class EPadmaACTDamageKind : uint8 { Physical, Magical, TrueDamage };
 
 /** Presentation is supplied by Game composition; none of these assets authorize hits. */
 USTRUCT(BlueprintType)
@@ -43,12 +47,17 @@ struct DREAMOFPADMA_API FPadmaCombatUnitSpec
 	UPROPERTY(EditAnywhere) float MaxHealth = 1;
 	UPROPERTY(EditAnywhere) float Attack = 0;
 	UPROPERTY(EditAnywhere) float Defense = 0;
+	UPROPERTY(EditAnywhere) float MagicDefense = 0;
 	UPROPERTY(EditAnywhere) float AttackCost = 0;
 	UPROPERTY(EditAnywhere) int32 MaxTargets = 1;
 	UPROPERTY(EditAnywhere) float Speed = 1;
 	UPROPERTY(EditAnywhere) float AttackRange = 105;
 	UPROPERTY(EditAnywhere) float AttackInterval = 0.55f;
 	UPROPERTY(EditAnywhere) float InitialAttackDelay = 0;
+	/** Stationary training targets can still attack in range without pursuing the player. */
+	UPROPERTY(EditAnywhere) bool bCanPursueInACT = true;
+	/** Training/boss fixtures may receive execution damage without being removed by the test action. */
+	UPROPERTY(EditAnywhere) bool bExecutionImmune = false;
 	UPROPERTY(EditAnywhere) FVector Location = FVector::ZeroVector;
 	UPROPERTY(EditAnywhere) FPadmaCombatPresentation Presentation;
 };
@@ -68,6 +77,7 @@ struct DREAMOFPADMA_API FPadmaCombatUnitSnapshot
 	UPROPERTY(BlueprintReadOnly) float Block = 0;
 	UPROPERTY(BlueprintReadOnly) float Attack = 0;
 	UPROPERTY(BlueprintReadOnly) float Defense = 0;
+	UPROPERTY(BlueprintReadOnly) float MagicDefense = 0;
 	UPROPERTY(BlueprintReadOnly) float ReadyTime = 0;
 	UPROPERTY(BlueprintReadOnly) bool bActed = false;
 	UPROPERTY(BlueprintReadOnly) float WindupRemaining = 0;
@@ -84,6 +94,8 @@ struct DREAMOFPADMA_API FPadmaCombatReceipt
 	UPROPERTY(BlueprintReadOnly) FName TargetId;
 	UPROPERTY(BlueprintReadOnly) FName ActionOwnerId;
 	UPROPERTY(BlueprintReadOnly) FName Effect;
+	UPROPERTY(BlueprintReadOnly) FName ActionId;
+	UPROPERTY(BlueprintReadOnly) EPadmaACTDamageKind DamageKind = EPadmaACTDamageKind::Physical;
 	UPROPERTY(BlueprintReadOnly) float Amount = 0;
 	UPROPERTY(BlueprintReadOnly) float Absorbed = 0;
 	UPROPERTY(BlueprintReadOnly) bool bBlocked = false;
@@ -91,6 +103,23 @@ struct DREAMOFPADMA_API FPadmaCombatReceipt
 	UPROPERTY(BlueprintReadOnly) int32 Wave = 0;
 	UPROPERTY(BlueprintReadOnly) FPadmaCombatUnitSnapshot Before;
 	UPROPERTY(BlueprintReadOnly) FPadmaCombatUnitSnapshot After;
+};
+
+/** One actual native GAS attribute application, separate from the final combat receipt. */
+USTRUCT(BlueprintType)
+struct DREAMOFPADMA_API FPadmaGameplayEffectRecord
+{
+	GENERATED_BODY()
+	UPROPERTY(BlueprintReadOnly) FName GameplayEffectId;
+	UPROPERTY(BlueprintReadOnly) FName SourceId;
+	UPROPERTY(BlueprintReadOnly) FName TargetId;
+	UPROPERTY(BlueprintReadOnly) FName ActionId;
+	UPROPERTY(BlueprintReadOnly) FName AttributeId;
+	UPROPERTY(BlueprintReadOnly) float Magnitude = 0;
+	UPROPERTY(BlueprintReadOnly) bool bOverride = false;
+	UPROPERTY(BlueprintReadOnly) double TimeSeconds = 0;
+	UPROPERTY(BlueprintReadOnly) FGameplayTagContainer SourceTags;
+	UPROPERTY(BlueprintReadOnly) FGameplayTagContainer TargetTags;
 };
 
 /** The two typed maps deliberately do not resolve through each other. */

@@ -1,0 +1,208 @@
+{
+  "source": "EffectLodCfg._RefreshLod tests settingLodLevel & current quality; zero matches no quality. Native branch, not live IFix evidence.",
+  "excluded_emitters": [
+    {
+      "effect": "P_chen_exhibit_03_cut_01",
+      "index": 4,
+      "ue_name": "chen_exhibit_03_cut_01_4",
+      "path_id": -4666218746100817007,
+      "cab": "CAB-84551f2e86bded13f498e22d00f47e07",
+      "excluded": true,
+      "reason": "Source EffectLodCfg settingLodLevel has no enabled quality bit",
+      "lod_chain": [
+        {
+          "gameobject": -7545557746713664623,
+          "quality_mask": 0,
+          "target_mask": 3,
+          "platform_mask": 7
+        },
+        {
+          "gameobject": -841318105956129903,
+          "quality_mask": 15,
+          "target_mask": 3,
+          "platform_mask": 7
+        },
+        {
+          "gameobject": -6613752852383898735,
+          "quality_mask": 15,
+          "target_mask": 3,
+          "platform_mask": 7
+        }
+      ]
+    },
+    {
+      "effect": "P_chen_exhibit_03_cut_02",
+      "index": 0,
+      "ue_name": "chen_exhibit_03_cut_02_0",
+      "path_id": -8920459036569248598,
+      "cab": "CAB-e1d0c22c5e3a49663f326e954322f6d5",
+      "excluded": true,
+      "reason": "Source EffectLodCfg settingLodLevel has no enabled quality bit",
+      "lod_chain": [
+        {
+          "gameobject": -936193709450208086,
+          "quality_mask": 0,
+          "target_mask": 3,
+          "platform_mask": 7
+        },
+        {
+          "gameobject": 1835030216079301802,
+          "quality_mask": 15,
+          "target_mask": 3,
+          "platform_mask": 7
+        },
+        {
+          "gameobject": 2761176018185411754,
+          "quality_mask": 15,
+          "target_mask": 3,
+          "platform_mask": 7
+        }
+      ]
+    },
+    {
+      "effect": "P_chen_exhibit_03_cut_02_2",
+      "index": 3,
+      "ue_name": "chen_exhibit_03_cut_02_2_3",
+      "path_id": -619924786637886150,
+      "cab": "CAB-8288beb35670b730264590925b088a78",
+      "excluded": true,
+      "reason": "Source EffectLodCfg settingLodLevel has no enabled quality bit",
+      "lod_chain": [
+        {
+          "gameobject": -872554679892038342,
+          "quality_mask": 0,
+          "target_mask": 3,
+          "platform_mask": 7
+        },
+        {
+          "gameobject": 6262120681856576826,
+          "quality_mask": 15,
+          "target_mask": 3,
+          "platform_mask": 7
+        },
+        {
+          "gameobject": -3261001596888142534,
+          "quality_mask": 15,
+          "target_mask": 3,
+          "platform_mask": 7
+        }
+      ]
+    },
+    {
+      "effect": "P_chen_exhibit_03_cut_03",
+      "index": 4,
+      "ue_name": "chen_exhibit_03_cut_03_4",
+      "path_id": 429195612594625050,
+      "cab": "CAB-22341746bacb396d06fd9e64c8c956f6",
+      "excluded": true,
+      "reason": "Source EffectLodCfg settingLodLevel has no enabled quality bit",
+      "lod_chain": [
+        {
+          "gameobject": 2807998888827214362,
+          "quality_mask": 0,
+          "target_mask": 3,
+          "platform_mask": 7
+        },
+        {
+          "gameobject": -8504620400641910246,
+          "quality_mask": 15,
+          "target_mask": 3,
+          "platform_mask": 7
+        },
+        {
+          "gameobject": 6272409204456151578,
+          "quality_mask": 15,
+          "target_mask": 3,
+          "platform_mask": 7
+        }
+      ]
+    },
+    {
+      "effect": "P_chen_exhibit_03_cut_04",
+      "index": 11,
+      "ue_name": "chen_exhibit_03_cut_04_11",
+      "path_id": 8099594413141408127,
+      "cab": "CAB-be1594855d363d57fe42c2f3b842317f",
+      "excluded": true,
+      "reason": "Source EffectLodCfg settingLodLevel has no enabled quality bit",
+      "lod_chain": [
+        {
+          "gameobject": -38798483890554497,
+          "quality_mask": 0,
+          "target_mask": 3,
+          "platform_mask": 7
+        },
+        {
+          "gameobject": -6025127482331940481,
+          "quality_mask": 15,
+          "target_mask": 3,
+          "platform_mask": 7
+        },
+        {
+          "gameobject": -685162615291889281,
+          "quality_mask": 15,
+          "target_mask": 3,
+          "platform_mask": 7
+        }
+      ]
+    },
+    {
+      "effect": "P_chen_exhibit_03_hit",
+      "index": 3,
+      "ue_name": "chen_exhibit_03_hit_3",
+      "path_id": 8710303670182033919,
+      "cab": "CAB-bc07ac4e3a710968cbcf474a97952df1",
+      "excluded": true,
+      "reason": "Source EffectLodCfg settingLodLevel has no enabled quality bit",
+      "lod_chain": [
+        {
+          "gameobject": -7283373730444592641,
+          "quality_mask": 0,
+          "target_mask": 3,
+          "platform_mask": 7
+        },
+        {
+          "gameobject": -6538838669659391489,
+          "quality_mask": 15,
+          "target_mask": 3,
+          "platform_mask": 7
+        },
+        {
+          "gameobject": -8333488747868833281,
+          "quality_mask": 15,
+          "target_mask": 3,
+          "platform_mask": 7
+        }
+      ]
+    },
+    {
+      "effect": "P_fxbat_chen_common_hit_02",
+      "index": 9,
+      "ue_name": "fxbat_chen_common_hit_02_9",
+      "path_id": 6997379473234450621,
+      "cab": "CAB-685f48512fb0bdf7be9676c85cfb91d6",
+      "excluded": true,
+      "reason": "Source EffectLodCfg settingLodLevel has no enabled quality bit",
+      "lod_chain": [
+        {
+          "gameobject": 1007575401423624381,
+          "quality_mask": 0,
+          "target_mask": 1,
+          "platform_mask": 5
+        },
+        {
+          "gameobject": 241572137098664125,
+          "quality_mask": 1,
+          "target_mask": 3,
+          "platform_mask": 7
+        },
+        {
+          "gameobject": 2266873196813670589,
+          "quality_mask": 15,
+          "target_mask": 3,
+          "platform_mask": 7
+        }
+      ]
+    }
+  ]
+}

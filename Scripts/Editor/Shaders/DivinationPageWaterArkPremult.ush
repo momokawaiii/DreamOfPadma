@@ -1,0 +1,47 @@
+// UE Custom float4 body. UV is top-origin PNG space; raw source VertexColor.
+// Straight RGBA; SrcAlpha + _Dst. _Color.a is NOT used by the original shader.
+float2 uv=float2(UV.x,1-UV.y);
+float n=0;
+float2 distorted=uv;
+if (_Distortion>0)
+{
+    float2 p=uv*_Distortion_Tex_ST.xy+_Distortion_Tex_ST.zw+PreviewTime*float2(_Distortion_SpeedU,_Distortion_SpeedV);
+    float raw=Texture2DSample(_Distortion_Tex,_Distortion_TexSampler,float2(p.x,1-p.y)).r;
+    n=(_Distortion_Dir==1)?2*raw-1:raw;
+    n*=lerp(1,VertexColor.r,_RgbCtrl);
+    distorted+=n*float2(_Distortion_IntensityU,_Distortion_IntensityV);
+}
+float2 p=distorted*_BaseTex_ST.xy+_BaseTex_ST.zw+PreviewTime*float2(_BaseTex_SpeedU,_BaseTex_SpeedV);
+if (_ClampV>0) p.y=saturate(p.y);
+float2 png=float2(p.x,1-p.y);
+float4 main=Texture2DSample(_MainTex,_MainTexSampler,png);
+float4 base=Texture2DSample(_BaseTex,_BaseTexSampler,png);
+if (_BaseTex_Channel==1) { main=main.rrrr; base=base.rrrr; }
+float4 col=main*base;
+col.a*=VertexColor.a;
+if (_Dissolve>0)
+{
+    float2 uv1=(_Dissolve1_Distortion>0)?distorted:uv;
+    float2 uv2=(_Dissolve2_Distortion>0)?distorted:uv;
+    uv1=uv1*_Dissolve1_Tex_ST.xy+_Dissolve1_Tex_ST.zw+PreviewTime*_Dissolve_Speed.xy;
+    uv2=uv2*_Dissolve2_Tex_ST.xy+_Dissolve2_Tex_ST.zw+PreviewTime*_Dissolve_Speed.zw;
+    float4 t1=Texture2DSample(_Dissolve1_Tex,_Dissolve1_TexSampler,float2(uv1.x,1-uv1.y));
+    float4 t2=Texture2DSample(_Dissolve2_Tex,_Dissolve2_TexSampler,float2(uv2.x,1-uv2.y));
+    float d1=lerp(t1.r*t1.a,1-t1.r*t1.a,_Dissolve1_Invert);
+    float d2=lerp(t2.r*t2.a,1-t2.r*t2.a,_Dissolve2_Invert);
+    float threshold1=lerp(_Dissolve1_Threshold,2*VertexColor.g-1,_RgbCtrl);
+    float threshold2=lerp(_Dissolve2_Threshold,2*VertexColor.b-1,_RgbCtrl);
+    float z1=saturate((d1-threshold1)/_Dissolve1_Smoothness);
+    float z2=saturate((d2-threshold2)/_Dissolve2_Smoothness);
+    col.a*=z1*z1*(3-2*z1)*z2*z2*(3-2*z2);
+}
+if (_Mask>0)
+{
+    float2 m=uv*_Mask_Tex_ST.xy+_Mask_Tex_ST.zw;
+    float ma=Texture2DSample(_Mask_Tex,_Mask_TexSampler,float2(m.x,1-m.y)).a;
+    col.a*=lerp(ma,1-ma,_Mask_Invert);
+}
+col.rgb*=_Color.rgb*lerp(VertexColor.rgb,float3(1,1,1),_RgbCtrl);
+float4 Result=col*_Intensity;
+// Explicit SrcAlpha/One emission for both legacy and Substrate Slate.
+return float4(Result.rgb*Result.a,1);

@@ -7,8 +7,10 @@
 #include "PadmaCombatComponent.generated.h"
 
 class APadmaCombatUnit;
+struct FGameplayAttribute;
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FPadmaCombatReceiptEvent, const FPadmaCombatReceipt&);
+DECLARE_MULTICAST_DELEGATE_OneParam(FPadmaGameplayEffectEvent, const FPadmaGameplayEffectRecord&);
 DECLARE_MULTICAST_DELEGATE(FPadmaCombatChangedEvent);
 
 /** Session-owned battle executor. Durable transactions remain in Core through callbacks. */
@@ -18,7 +20,7 @@ class DREAMOFPADMA_API UPadmaCombatComponent : public UActorComponent
 	GENERATED_BODY()
 public:
 	UPadmaCombatComponent();
-	bool StartBattle(const FPadmaCombatSetup& InSetup, FString& Failure);
+	bool StartBattle(const FPadmaCombatSetup& InSetup, FString& Failure, const TArray<APadmaCombatUnit*>& ExistingUnits = {});
 	bool Attack(const TArray<FName>& Targets, FString& Failure);
 	bool Guard(FString& Failure);
 	bool UseSkill(FName SkillId, FName TargetId, FString& Failure);
@@ -48,10 +50,15 @@ public:
 	TFunction<void(float, float)> ModifyFaith;
 	TFunction<void(bool, const TArray<FPadmaCombatUnitSnapshot>&)> OnFinished;
 	FPadmaCombatReceiptEvent OnReceipt;
+	/** Every native ASC attribute modification, including damage, mitigation and buffs. */
+	FPadmaGameplayEffectEvent OnGameplayEffect;
 	FPadmaCombatChangedEvent OnChanged;
+	void RecordGameplayEffect(APadmaCombatUnit* Source, APadmaCombatUnit* Target, const FGameplayAttribute& Attribute, float Magnitude, bool bOverride, FName GameplayEffectId);
 	/** Native GAS entry, never a UI settlement path. */
 	bool CanActivateMode(const APadmaCombatUnit* Source, EPadmaCombatMode RequiredMode) const;
 	void ResolvePendingAction(APadmaCombatUnit* Source);
+	/** Called only after a traced blade contact; settlement remains authoritative here. */
+	bool ResolveMeleeContact(APadmaCombatUnit* Source, const FHitResult& Hit, float Multiplier);
 protected:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	virtual void EndPlay(const EEndPlayReason::Type Reason) override;
@@ -59,6 +66,7 @@ private:
 	enum class EAction : uint8 { None, Attack, Guard, Skill };
 	UPROPERTY(Transient) FPadmaCombatSetup Setup;
 	UPROPERTY(Transient) TArray<TObjectPtr<APadmaCombatUnit>> Units;
+	TSet<TWeakObjectPtr<APadmaCombatUnit>> BorrowedUnits;
 	UPROPERTY(Transient) TObjectPtr<APadmaCombatUnit> CardSource;
 	EAction PendingAction = EAction::None;
 	TWeakObjectPtr<APadmaCombatUnit> PendingSource;
@@ -92,9 +100,9 @@ private:
 	void ApplyEncounterSkill(const FPadmaEncounterSkillEffectRow& Skill, APadmaCombatUnit* Target);
 	void ApplyACTSkill(const FPadmaACTSkillEffectRow& Skill, APadmaCombatUnit* Target);
 	void ApplySkillEffect(const FPadmaSkillEffectRowBase& Skill, APadmaCombatUnit* Target, bool bEncounter);
-	float Damage(APadmaCombatUnit* Source, APadmaCombatUnit* Target, float Amount, bool bTrue, bool bBasic, int32 Wave = 0);
+	float Damage(APadmaCombatUnit* Source, APadmaCombatUnit* Target, float Amount, bool bTrue, bool bBasic, int32 Wave = 0, EPadmaACTDamageKind DamageKind = EPadmaACTDamageKind::Physical);
 	void Grant(APadmaCombatUnit* Source, APadmaCombatUnit* Target, FName Kind, float Amount, int32 Wave = 0);
-	void Emit(APadmaCombatUnit* Source, APadmaCombatUnit* Target, FName Effect, const FPadmaCombatUnitSnapshot& Before, float Absorbed = 0, bool bBlocked = false, bool bTrue = false, int32 Wave = 0);
+	void Emit(APadmaCombatUnit* Source, APadmaCombatUnit* Target, FName Effect, const FPadmaCombatUnitSnapshot& Before, float Absorbed = 0, bool bBlocked = false, bool bTrue = false, int32 Wave = 0, EPadmaACTDamageKind DamageKind = EPadmaACTDamageKind::Physical);
 	void CleanupDead();
 	bool CheckEnd();
 	void Finish(bool bWon);

@@ -1,0 +1,1211 @@
+{
+  "source_fps": 30,
+  "actions": [
+    {
+      "name": "Attack02",
+      "events": [
+        {
+          "time": 0.2,
+          "end": 1.6333333333333333,
+          "effect": "P_chen_attack_02_start",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": false
+        },
+        {
+          "time": 0.2,
+          "end": 1.6333333333333333,
+          "effect": "P_chen_attack_02_start2",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": false
+        }
+      ],
+      "hits": [
+        {
+          "time": 0.23333333333333334,
+          "effect": "P_fxbat_chen_common_hit_01",
+          "default_override": true
+        }
+      ],
+      "non_particle": [],
+      "source_files": [
+        {
+          "path": "C:\\Users\\lenovo\\.codex\\visualizations\\2026\\09\\10\\01a08b2b-ce23-75d2-a166-2c0dda87b938\\chen-decoded-current\\chr_0005_chen_attack2.json",
+          "sha256": "7105dc08f1e66b0b93b0f82627980142da5b498aa229848656fb561a05d4be96"
+        }
+      ]
+    },
+    {
+      "name": "Attack03",
+      "events": [
+        {
+          "time": 0.26666666666666666,
+          "end": 1.7,
+          "effect": "P_chen_attack_03_start",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": false
+        },
+        {
+          "time": 0.26666666666666666,
+          "end": 1.7,
+          "effect": "P_chen_attack_03_start2",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": false
+        },
+        {
+          "time": 0.36666666666666664,
+          "end": 1.8,
+          "effect": "P_chen_attack_03_start_right",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": false
+        }
+      ],
+      "hits": [
+        {
+          "time": 0.3,
+          "effect": "P_fxbat_chen_common_hit_01",
+          "default_override": true
+        },
+        {
+          "time": 0.4,
+          "effect": "P_fxbat_chen_common_hit_01",
+          "default_override": true
+        }
+      ],
+      "non_particle": [],
+      "source_files": [
+        {
+          "path": "C:\\Users\\lenovo\\.codex\\visualizations\\2026\\09\\10\\01a08b2b-ce23-75d2-a166-2c0dda87b938\\chen-decoded-current\\chr_0005_chen_attack3.json",
+          "sha256": "8bb2194b30c1cf10ab8b29ad183a941c5a8f82085d3500fa79b060bf1fa61c63"
+        }
+      ]
+    },
+    {
+      "name": "Attack04",
+      "events": [
+        {
+          "time": 0.1,
+          "end": 1.5333333333333334,
+          "effect": "P_chen_attack_04_start",
+          "follow": true,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": false
+        },
+        {
+          "time": 0.1,
+          "end": 1.5333333333333334,
+          "effect": "P_chen_attack_04_start2",
+          "follow": true,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": false
+        },
+        {
+          "time": 0.16666666666666666,
+          "end": 1.6,
+          "effect": "P_chen_attack_04_start_right",
+          "follow": true,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": false
+        }
+      ],
+      "hits": [
+        {
+          "time": 0.13333333333333333,
+          "effect": "P_fxbat_chen_common_hit_02",
+          "default_override": false
+        },
+        {
+          "time": 0.3333333333333333,
+          "effect": "P_fxbat_chen_common_hit_02",
+          "default_override": false
+        }
+      ],
+      "non_particle": [],
+      "source_files": [
+        {
+          "path": "C:\\Users\\lenovo\\.codex\\visualizations\\2026\\09\\10\\01a08b2b-ce23-75d2-a166-2c0dda87b938\\chen-decoded-current\\chr_0005_chen_attack4.json",
+          "sha256": "7401ca18b4edc86cf5d46ffe511cc7f5586fade8cc762221b8f87aaf8fd77653"
+        }
+      ]
+    },
+    {
+      "name": "Attack05",
+      "events": [
+        {
+          "time": 0.5,
+          "end": 1.9333333333333333,
+          "effect": "P_chen_attack_05_start",
+          "follow": true,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": false
+        },
+        {
+          "time": 0.5,
+          "end": 1.9333333333333333,
+          "effect": "P_chen_attack_05_start2",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": false
+        },
+        {
+          "time": 0.3333333333333333,
+          "end": 1.9,
+          "effect": "P_chen_attack_05_start3",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": false
+        },
+        {
+          "time": 0.0,
+          "end": 2.1,
+          "effect": "P_fxbat_chen_attack_05_dash",
+          "follow": true,
+          "mount": 52,
+          "position_ref": 1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": false
+        }
+      ],
+      "hits": [],
+      "non_particle": [
+        {
+          "time": 0.3333333333333333,
+          "end": 1.7666666666666666,
+          "effect": "P_chen_attack_05_start4_asset",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": false
+        },
+        {
+          "time": 0.3333333333333333,
+          "end": 1.7666666666666666,
+          "effect": "P_chen_attack_05_start_pp",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": false
+        }
+      ],
+      "source_files": [
+        {
+          "path": "C:\\Users\\lenovo\\.codex\\visualizations\\2026\\09\\10\\01a08b2b-ce23-75d2-a166-2c0dda87b938\\chen-decoded-current\\chr_0005_chen_attack5.json",
+          "sha256": "26021ac3b47e88479257f1bf0895465e3f0b9f9814b9a2aceec256eb1f152b93"
+        }
+      ],
+      "nested_hit_names": [
+        "P_fxbat_chen_attack_05_hit"
+      ]
+    },
+    {
+      "name": "GuiQiongYu",
+      "events": [
+        {
+          "time": 0.3333333333333333,
+          "end": 0.9333333333333333,
+          "effect": "P_chen_skill_01",
+          "follow": true,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": false
+        }
+      ],
+      "hits": [
+        {
+          "time": 0.43333333333333335,
+          "effect": "P_chen_skill_01_hit",
+          "default_override": false
+        }
+      ],
+      "non_particle": [
+        {
+          "time": 0.3333333333333333,
+          "end": 0.9333333333333333,
+          "effect": "P_chen_skill_01_pp",
+          "follow": true,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": false
+        }
+      ],
+      "source_files": [
+        {
+          "path": "C:\\Users\\lenovo\\.codex\\visualizations\\2026\\09\\10\\01a08b2b-ce23-75d2-a166-2c0dda87b938\\chen-decoded-current\\chr_0005_chen_normal_skill.json",
+          "sha256": "136696df68b28ac5fa776f5609672c1f8d1079fe1f509a952fdb698e69353873"
+        }
+      ]
+    },
+    {
+      "name": "JianTianHe",
+      "events": [
+        {
+          "time": 0.03333333333333333,
+          "end": 0.6333333333333333,
+          "effect": "P_common_teleport_01_start_ready",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            -1.5,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            3.0,
+            3.0,
+            3.0
+          ],
+          "release": false
+        },
+        {
+          "time": 0.5,
+          "end": 2.6,
+          "effect": "P_chen_combo_skill",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": false
+        }
+      ],
+      "hits": [],
+      "non_particle": [
+        {
+          "time": 0.5,
+          "end": 2.6,
+          "effect": "P_chen_combo_skill_pp",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": false
+        }
+      ],
+      "source_files": [
+        {
+          "path": "C:\\Users\\lenovo\\.codex\\visualizations\\2026\\09\\10\\01a08b2b-ce23-75d2-a166-2c0dda87b938\\chen-decoded-current\\chr_0005_chen_combo_skill.json",
+          "sha256": "03dc71901a42fb35fcb6959929c01d1a4a9fa11875a98c8cd5da312e3ed4e125"
+        }
+      ],
+      "nested_hit_names": [
+        "P_chen_combo_skill_hit"
+      ]
+    },
+    {
+      "name": "LieFengShuang",
+      "events": [
+        {
+          "time": 0.0,
+          "end": 1.7,
+          "effect": "P_chen_exhibit_start_01_beijing",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": true
+        },
+        {
+          "time": 0.0,
+          "end": 5.466666666666667,
+          "effect": "P_chen_exhibit_03_start_01",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": true
+        },
+        {
+          "time": 1.9,
+          "end": 6.3,
+          "effect": "P_chen_exhibit_03_cut_01",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": true
+        },
+        {
+          "time": 2.066666666666667,
+          "end": 6.466666666666667,
+          "effect": "P_chen_exhibit_03_cut_02",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": true
+        },
+        {
+          "time": 2.2333333333333334,
+          "end": 6.633333333333334,
+          "effect": "P_chen_exhibit_03_cut_02_2",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": true
+        },
+        {
+          "time": 2.3666666666666667,
+          "end": 6.766666666666667,
+          "effect": "P_chen_exhibit_03_cut_03",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": true
+        },
+        {
+          "time": 2.5,
+          "end": 6.9,
+          "effect": "P_chen_exhibit_03_cut_04",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": true
+        },
+        {
+          "time": 2.6333333333333333,
+          "end": 7.033333333333333,
+          "effect": "P_chen_exhibit_03_cut_07",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": true
+        },
+        {
+          "time": 2.8666666666666667,
+          "end": 8.233333333333333,
+          "effect": "P_chen_exhibit_03_cut_08",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": true
+        },
+        {
+          "time": 1.6666666666666667,
+          "end": 6.066666666666666,
+          "effect": "P_chen_exhibit_03_start_03",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": true
+        },
+        {
+          "time": 1.7666666666666666,
+          "end": 6.166666666666667,
+          "effect": "P_chen_exhibit_03_start_02",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": true
+        }
+      ],
+      "hits": [
+        {
+          "time": 1.9333333333333333,
+          "effect": "P_chen_exhibit_03_hit",
+          "default_override": false
+        },
+        {
+          "time": 2.1,
+          "effect": "P_chen_exhibit_03_hit",
+          "default_override": false
+        },
+        {
+          "time": 2.2666666666666666,
+          "effect": "P_chen_exhibit_03_hit",
+          "default_override": false
+        },
+        {
+          "time": 2.4,
+          "effect": "P_chen_exhibit_03_hit",
+          "default_override": false
+        },
+        {
+          "time": 2.533333333333333,
+          "effect": "P_chen_exhibit_03_hit",
+          "default_override": false
+        },
+        {
+          "time": 2.6666666666666665,
+          "effect": "P_chen_exhibit_03_hit",
+          "default_override": false
+        },
+        {
+          "time": 3.433333333333333,
+          "effect": "P_chen_exhibit_03_hit",
+          "default_override": false
+        }
+      ],
+      "non_particle": [
+        {
+          "time": 0.0,
+          "end": 1.7,
+          "effect": "P_lighting_chen_skill_ult",
+          "follow": false,
+          "mount": 81,
+          "position_ref": 1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": true
+        },
+        {
+          "time": 0.0,
+          "end": 2.966666666666667,
+          "effect": "P_chen_exhibit_03_lonng",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": false
+        },
+        {
+          "time": 0.0,
+          "end": 4.566666666666666,
+          "effect": "P_chen_exhibit_start_01_pp",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": false
+        }
+      ],
+      "source_files": [
+        {
+          "path": "C:\\Users\\lenovo\\.codex\\visualizations\\2026\\09\\10\\01a08b2b-ce23-75d2-a166-2c0dda87b938\\chen-decoded-current\\chr_0005_chen_ultimate_skill.json",
+          "sha256": "e4af9748727bc0791e27ea734cfac8aafd146c83aa2bab6940c7c553f9f49b1b"
+        }
+      ]
+    },
+    {
+      "name": "Execution",
+      "events": [
+        {
+          "time": 0.0,
+          "end": 1.8333333333333333,
+          "effect": "P_chen_attack_power_start",
+          "follow": true,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": false
+        },
+        {
+          "time": 0.9,
+          "end": 2.7333333333333334,
+          "effect": "P_chen_attack_power_start2",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": false
+        }
+      ],
+      "hits": [],
+      "non_particle": [
+        {
+          "time": 0.0,
+          "end": 1.4333333333333333,
+          "effect": "P_chen_attack_power_start_pp",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": false
+        }
+      ],
+      "source_files": [
+        {
+          "path": "C:\\Users\\lenovo\\.codex\\visualizations\\2026\\09\\10\\01a08b2b-ce23-75d2-a166-2c0dda87b938\\chen-decoded-current\\chr_0005_chen_power_attack.json",
+          "sha256": "b2778d318dd02b7aa44e5c5a57f4a3a2e5537ab910eeb08ac8957534b0beb5f8"
+        }
+      ]
+    },
+    {
+      "name": "Dodge",
+      "events": [],
+      "hits": [],
+      "non_particle": [
+        {
+          "time": 0.06666666666666667,
+          "end": 0.26666666666666666,
+          "effect": "P_char_canying_01_start_asset",
+          "follow": true,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": true
+        }
+      ],
+      "source_files": [
+        {
+          "path": "C:\\Users\\lenovo\\.codex\\visualizations\\2026\\09\\10\\01a08b2b-ce23-75d2-a166-2c0dda87b938\\chen-decoded-current\\chr_0005_chen_dodge.json",
+          "sha256": "6d7b0ffc2a2453ec2ab61fda4bc97fbe46a409007e72d7585b9b76cab9b0554d"
+        }
+      ]
+    },
+    {
+      "name": "PerfectDodge",
+      "events": [],
+      "hits": [],
+      "non_particle": [
+        {
+          "time": 0.06666666666666667,
+          "end": 0.26666666666666666,
+          "effect": "P_char_canying_01_start_asset",
+          "follow": true,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": true
+        }
+      ],
+      "source_files": [
+        {
+          "path": "C:\\Users\\lenovo\\.codex\\visualizations\\2026\\09\\10\\01a08b2b-ce23-75d2-a166-2c0dda87b938\\chen-decoded-current\\chr_0005_chen_dodge.json",
+          "sha256": "6d7b0ffc2a2453ec2ab61fda4bc97fbe46a409007e72d7585b9b76cab9b0554d"
+        }
+      ]
+    },
+    {
+      "name": "Plunge",
+      "events": [
+        {
+          "time": 0.6666666666666666,
+          "end": 4.0,
+          "effect": "P_chen_air_atk_start_01",
+          "follow": true,
+          "mount": 63,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": true
+        },
+        {
+          "time": 1.6666666666666665,
+          "end": 2.8,
+          "effect": "P_chen_air_atk_start_atk",
+          "follow": false,
+          "mount": 0,
+          "position_ref": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "release": false
+        }
+      ],
+      "hits": [
+        {
+          "time": 1.7,
+          "effect": "P_chen_attack_01_hit",
+          "default_override": false
+        }
+      ],
+      "non_particle": [],
+      "source_files": [
+        {
+          "path": "C:\\Users\\lenovo\\.codex\\visualizations\\2026\\09\\10\\01a08b2b-ce23-75d2-a166-2c0dda87b938\\chen-decoded-current\\chr_0005_chen_plunging_attack_start.json",
+          "sha256": "fe3e8ff24c44c664d4a6692d1374d1e5f65e898dfa039cb1f68da5dc7023d39c"
+        },
+        {
+          "path": "C:\\Users\\lenovo\\.codex\\visualizations\\2026\\09\\10\\01a08b2b-ce23-75d2-a166-2c0dda87b938\\chen-decoded-current\\chr_0005_chen_plunging_attack_end.json",
+          "sha256": "7d012e94c10eda8507a2bdcbe0b28af39216b98cb69166e53661063b646c8761"
+        }
+      ]
+    },
+    {
+      "name": "Jump",
+      "events": [],
+      "hits": [],
+      "non_particle": []
+    }
+  ],
+  "limitations": [
+    "Non-particle post-process, lighting and animated dragon are inventoried separately; Niagara does not reconstruct these by itself.",
+    "Jump has no Chen-specific source EffectAction; its ground puff is a UE adaptation using a source particle layer.",
+    "Q target position is adapted to the current caster transform; original teleport mechanics are not changed.",
+    "R explicit animation overrides at source frames 77/99/103 are restored; source hidden-interval visibility is not yet ported."
+  ]
+}

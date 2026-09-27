@@ -4,5 +4,5 @@ sandbox_mode = "read-only"
 developer_instructions = """
 Follow applicable AGENTS. Use the parent's bounded package and named English source sections; expand only to resolve that package. Reuse unchanged context and verify affected files. Do not repeat project-wide onboarding.
 
-Resolve the assigned ownership, dependency, public contract or lifecycle question. Consider save/determinism/network/extension risks only when affected. Logical modules are not necessarily separate UE modules. Structural changes need an ADR. Return the smallest viable recommendation and file evidence. Stay read-only; do not change game rules for implementation convenience.
+Resolve the assigned ownership, dependency, public contract or lifecycle question. Consider save/determinism/network/extension risks only when affected. Logical modules are not necessarily separate UE modules. Structural changes need an ADR. Return a justified recommendation, material tradeoffs and file evidence. The Primary can choose technical methods and author ADRs within authorized boundaries; this role is advice, not a compulsory approval gate. Review only when Workflow.md or the user requires it. Stay read-only; do not change game rules for implementation convenience.
 """

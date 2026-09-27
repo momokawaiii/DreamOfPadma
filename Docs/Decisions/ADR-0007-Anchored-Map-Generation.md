@@ -26,4 +26,4 @@ Seen/Completed NPC identities, resolved checkpoint decisions, ownership, used/vi
 
 ## Evidence and limits
 
-Build, automation, asset migration, PCG output and native rendering evidence are recorded in [TASK-048](../Production/Tasks/TASK-048-Anchored-World-Maps.md). Interaction acceptance remains the user's playtest. The initial chapter is a small authored graph plus optional branches, with placeholder art and temporary dialogue content. Full authored story production, landscape sculpting, free hex adjacency and symmetric competitive generation are separate scope.
+Build, automation, asset migration, PCG output and native rendering evidence are recorded in [TASK-048](../Production/ProjectCleanup.md). Interaction acceptance remains the user's playtest. The initial chapter is a small authored graph plus optional branches, with placeholder art and temporary dialogue content. Full authored story production, landscape sculpting, free hex adjacency and symmetric competitive generation are separate scope.

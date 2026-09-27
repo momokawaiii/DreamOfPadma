@@ -1,0 +1,11 @@
+// UE Custom float4 body, TILE variant actually used by bg_soft_circle.
+// Straight RGBA, source SrcAlpha/OneMinusSrcAlpha. VertexColor is raw source color.
+float2 uv=float2(UV.x,1-UV.y);
+float r=length(uv-.5);
+float outer=saturate((_OutStep-r)/_OutSmooth);
+float inner=saturate((_InStep-r)/_InSmooth);
+float mask=saturate(outer*outer*(3-2*outer)-inner*inner*(3-2*inner));
+float2 p=uv*_AdditionMap_ST.xy+_AdditionMap_ST.zw+PreviewTime*_AdditionRotateAnchorTime.z*_AddtionPannerSpeed.xy;
+float4 col=Texture2DSample(_AdditionMap,_AdditionMapSampler,float2(p.x,1-p.y));
+col.a*=mask;
+return col*VertexColor*_Color;

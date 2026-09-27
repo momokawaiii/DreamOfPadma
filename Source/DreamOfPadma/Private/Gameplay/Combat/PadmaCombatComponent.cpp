@@ -1,10 +1,14 @@
 #include "Gameplay/Combat/PadmaCombatComponent.h"
+#include "Gameplay/ACT/Runtime/PadmaACTMelee.h"
+#include "Gameplay/ACT/Runtime/PadmaACTActions.h"
 #include "Gameplay/Combat/PadmaCombatUnit.h"
 #include "Gameplay/Combat/PadmaCombatAttributes.h"
 #include "Gameplay/ACT/Authoring/PadmaACTAuthoring.h"
 #include "AbilitySystemComponent.h"
 #include "Abilities/GameplayAbility.h"
 #include "Animation/AnimMontage.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "Engine/SkeletalMesh.h"
 #include "Engine/World.h"
 #include "GameFramework/WorldSettings.h"
 #include "TimerManager.h"
@@ -27,7 +31,7 @@ UPadmaCombatComponent::UPadmaCombatComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-bool UPadmaCombatComponent::StartBattle(const FPadmaCombatSetup& InSetup, FString& Failure)
+bool UPadmaCombatComponent::StartBattle(const FPadmaCombatSetup& InSetup, FString& Failure, const TArray<APadmaCombatUnit*>& ExistingUnits)
 {
 	if (bActive || bFinishing) return Fail(Failure, TEXT("Battle already active."));
 	if (!GetWorld() || !PayCost) return Fail(Failure, TEXT("Battle requires a world and an atomic Core payment binding."));
@@ -37,7 +41,7 @@ bool UPadmaCombatComponent::StartBattle(const FPadmaCombatSetup& InSetup, FStrin
 	for (const auto& Unit : InSetup.Units)
 	{
 		if (Unit.Id.IsNone() || Ids.Contains(Unit.Id) || !FiniteNonNegative(Unit.Health) || !FiniteNonNegative(Unit.MaxHealth)
-			|| Unit.Health > Unit.MaxHealth || Unit.MaxHealth <= 0 || !FiniteNonNegative(Unit.Attack) || !FiniteNonNegative(Unit.Defense)
+			|| Unit.Health > Unit.MaxHealth || Unit.MaxHealth <= 0 || !FiniteNonNegative(Unit.Attack) || !FiniteNonNegative(Unit.Defense) || !FiniteNonNegative(Unit.MagicDefense)
 			|| !FiniteNonNegative(Unit.AttackCost) || !FMath::IsFinite(Unit.Speed) || Unit.Speed <= 0 || Unit.MaxTargets < 1 || Unit.Location.ContainsNaN()
 			|| !FMath::IsFinite(Unit.AttackInterval) || Unit.AttackInterval <= 0 || !FiniteNonNegative(Unit.AttackRange) || !FiniteNonNegative(Unit.InitialAttackDelay))
 			return Fail(Failure, TEXT("Invalid or duplicate battle unit definition."));
@@ -46,6 +50,12 @@ bool UPadmaCombatComponent::StartBattle(const FPadmaCombatSetup& InSetup, FStrin
 		if (InSetup.Mode == EPadmaCombatMode::ACT && Unit.bPlayer && !Unit.Presentation.ACTDefinition.IsNull())
 		{
 			auto* Definition = Unit.Presentation.ACTDefinition.LoadSynchronous();
+            if (Definition && Definition->bUseCharacterActions)
+            {
+                if (!UPadmaACTActionsComponent::ValidateDefinition(Definition,Failure)) return false;
+                if (!Definition->CharacterClass.IsNull() && !Definition->CharacterClass.LoadSynchronous()) return Fail(Failure,TEXT("ACT CharacterClass cannot load."));
+                continue;
+            }
 			auto* Table = Definition ? Definition->SkillTable.LoadSynchronous() : nullptr;
 			if (!Definition || !Table || Table->GetRowStruct() != FPadmaACTSkillRow::StaticStruct())
 				return Fail(Failure, TEXT("ACT presentation binding has no valid ACT skill table."));
@@ -75,6 +85,25 @@ bool UPadmaCombatComponent::StartBattle(const FPadmaCombatSetup& InSetup, FStrin
 		for (const auto& Pair : InSetup.EncounterSkills) if (Pair.Key != Pair.Value.Id || !ValidSkill(Pair.Value)) return Fail(Failure, TEXT("Invalid Encounter effect binding."));
 	}
 	else for (const auto& Pair : InSetup.ACTSkills) if (Pair.Key != Pair.Value.Id || !ValidSkill(Pair.Value)) return Fail(Failure, TEXT("Invalid ACT effect binding."));
+	if (!ExistingUnits.IsEmpty())
+	{
+		if (ExistingUnits.Num()!=InSetup.Units.Num()) return Fail(Failure,TEXT("Placed participant count differs from setup."));
+		TSet<APadmaCombatUnit*> Seen;
+		for (int32 Index=0;Index<ExistingUnits.Num();++Index)
+		{
+			auto* Unit=ExistingUnits[Index];
+			if (!IsValid(Unit) || Unit->GetWorld()!=GetWorld() || Seen.Contains(Unit) || (Unit->GetBattle() && Unit->GetBattle()->IsBattleActive()))
+				return Fail(Failure,TEXT("Invalid, duplicate or already registered placed participant."));
+			Seen.Add(Unit);
+            if (auto* D=InSetup.Units[Index].Presentation.ACTDefinition.LoadSynchronous(); D && D->bUseCharacterActions)
+            {
+                auto* Mesh=Unit->GetMesh()->GetSkeletalMeshAsset();
+                auto* Reference=D->Model.LoadSynchronous();
+                if (!Mesh || !Reference || Mesh->GetSkeleton()!=Reference->GetSkeleton() || !Unit->GetMesh()->GetAnimInstance())
+                    return Fail(Failure,TEXT("Placed ACT actor needs an authored compatible mesh and animation Blueprint; use Apply Scene Presentation in the editor."));
+            }
+		}
+	}
 	Setup = InSetup;
 	ActionOwner = NAME_None;
 	ActionTime = 0;
@@ -91,12 +120,17 @@ bool UPadmaCombatComponent::StartBattle(const FPadmaCombatSetup& InSetup, FStrin
 	FActorSpawnParameters Params;
 	Params.ObjectFlags |= RF_Transient;
 	Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	for (const auto& Spec : Setup.Units)
+	for (int32 Index=0; Index<Setup.Units.Num(); ++Index)
 	{
-		auto* Unit = GetWorld()->SpawnActor<APadmaCombatUnit>(APadmaCombatUnit::StaticClass(), Spec.Location, FRotator::ZeroRotator, Params);
+        const auto& Spec=Setup.Units[Index];
+        UClass* UnitClass=APadmaCombatUnit::StaticClass();
+        if (Setup.Mode==EPadmaCombatMode::ACT)
+            if (auto* D=Spec.Presentation.ACTDefinition.LoadSynchronous(); D && D->bUseCharacterActions && !D->CharacterClass.IsNull()) UnitClass=D->CharacterClass.LoadSynchronous();
+		auto* Unit = ExistingUnits.IsEmpty() ? GetWorld()->SpawnActor<APadmaCombatUnit>(UnitClass, Spec.Location, FRotator::ZeroRotator, Params) : ExistingUnits[Index];
 		if (!Unit) { Cleanup(); return Fail(Failure, TEXT("Failed to spawn battle unit.")); }
 		Units.Add(Unit);
-		Unit->InitializeCombat(this, Spec, Setup.Mode);
+		if (!ExistingUnits.IsEmpty()) BorrowedUnits.Add(Unit);
+		Unit->InitializeCombat(this, Spec, Setup.Mode, false, !ExistingUnits.IsEmpty());
 	}
 	CardSource = GetWorld()->SpawnActor<APadmaCombatUnit>(APadmaCombatUnit::StaticClass(), FVector::ZeroVector, FRotator::ZeroRotator, Params);
 	if (!CardSource) { Cleanup(); return Fail(Failure, TEXT("Failed to create transient card ASC.")); }
@@ -132,6 +166,24 @@ TArray<FPadmaCombatUnitSnapshot> UPadmaCombatComponent::GetSnapshots() const
 	return Result;
 }
 
+void UPadmaCombatComponent::RecordGameplayEffect(APadmaCombatUnit* Source, APadmaCombatUnit* Target, const FGameplayAttribute& Attribute, float Magnitude, bool bOverride, FName GameplayEffectId)
+{
+	if (!Source || !Target || GameplayEffectId.IsNone()) return;
+	FPadmaGameplayEffectRecord Record;
+	Record.GameplayEffectId = GameplayEffectId;
+	Record.SourceId = Source->IsCardSource() ? PendingSkill : Source->Spec.Id;
+	Record.TargetId = Target->Spec.Id;
+	Record.ActionId = Source->IsCardSource() ? PendingSkill : Source->GetActions()->GetActiveActionId();
+	if (Record.ActionId.IsNone() && Setup.Mode == EPadmaCombatMode::ACT && !Source->IsCardSource()) Record.ActionId = ActionOwner;
+	Record.AttributeId = FName(*Attribute.GetName());
+	Record.Magnitude = Magnitude;
+	Record.bOverride = bOverride;
+	Record.TimeSeconds = Elapsed;
+	if (Source->GetAbilitySystemComponent()) Source->GetAbilitySystemComponent()->GetOwnedGameplayTags(Record.SourceTags);
+	if (Target->GetAbilitySystemComponent()) Target->GetAbilitySystemComponent()->GetOwnedGameplayTags(Record.TargetTags);
+	OnGameplayEffect.Broadcast(Record);
+}
+
 TArray<FName> UPadmaCombatComponent::GetPredictedQueue(int32 Count) const
 {
 	TArray<FName> Result;
@@ -155,7 +207,14 @@ bool UPadmaCombatComponent::Attack(const TArray<FName>& Targets, FString& Failur
 	if (!bActive) return Fail(Failure, TEXT("No active battle."));
 	auto* Source = Setup.Mode == EPadmaCombatMode::Encounter ? GetUnit(ActionOwner) : GetPlayerUnit();
 	if (!Source || !Source->IsAlive() || !Source->Spec.bPlayer) return Fail(Failure, TEXT("Wait for a living player action owner."));
+    if (Setup.Mode==EPadmaCombatMode::ACT && Source->GetActions()->IsConfigured())
+        return Source->GetActions()->RequestInput(TEXT("Primary")) || Fail(Failure,TEXT("Character attack rejected by action state."));
 	if (Setup.Mode == EPadmaCombatMode::ACT && (bSkillLibraryOpen || Source->AttackCooldown > 0)) return Fail(Failure, TEXT("ACT attack input is unavailable."));
+	if (Setup.Mode == EPadmaCombatMode::ACT && Source->GetMelee()->IsConfigured())
+	{
+		if (Source->GetMelee()->IsAttacking()) return Fail(Failure, TEXT("ACT attack is already active."));
+		return ActivateAction(Source, EAction::Attack, {}, NAME_None, 0, 0, Failure);
+	}
 	const int32 Limit = Setup.Mode == EPadmaCombatMode::Encounter ? Source->Spec.MaxTargets : 1;
 	if (Targets.IsEmpty() || Targets.Num() > Limit) return Fail(Failure, TEXT("Choose the permitted number of distinct enemies."));
 	TSet<FName> Unique;
@@ -266,6 +325,12 @@ void UPadmaCombatComponent::ResolvePendingAction(APadmaCombatUnit* Source)
 	}
 	else if (PendingAction == EAction::Attack)
 	{
+		if (Setup.Mode == EPadmaCombatMode::ACT && Source->GetMelee()->IsConfigured())
+		{
+			bPendingResolved = Source->GetMelee()->BeginAttack();
+			if (bPendingResolved) Source->AttackCooldown = Source->Spec.AttackInterval;
+			return;
+		}
 		Source->PlayAttackPresentation();
 		for (FName Id : PendingTargets)
 		{
@@ -282,6 +347,20 @@ void UPadmaCombatComponent::ResolvePendingAction(APadmaCombatUnit* Source)
 		else ApplyACTSkill(Setup.ACTSkills.FindChecked(PendingSkill), Target);
 		bCardUsed = true;
 	}
+}
+
+bool UPadmaCombatComponent::ResolveMeleeContact(APadmaCombatUnit* Source, const FHitResult& Hit, float Multiplier)
+{
+    auto* Target = Cast<APadmaCombatUnit>(Hit.GetActor());
+    if (!bActive || bFinishing || Setup.Mode != EPadmaCombatMode::ACT || !Source || !Target || !Source->GetMelee()->IsAttacking()
+        || GetUnit(Source->Spec.Id) != Source || GetUnit(Target->Spec.Id) != Target || !Source->IsAlive() || !Target->IsAlive()
+        || Source->Spec.bPlayer == Target->Spec.bPlayer || !FMath::IsFinite(Multiplier) || Multiplier < 0) return false;
+    if (Source->Spec.Attack*Multiplier>0 && Target->GetActions()->TryEvade()) return false;
+    EPadmaACTDamageKind DamageKind = EPadmaACTDamageKind::Physical;
+    if (const auto* Active = Source->GetActions()->GetActiveDefinition()) DamageKind = Active->DamageKind;
+    Damage(Source, Target, Source->Spec.Attack * Multiplier, false, false, 0, DamageKind);
+    OnChanged.Broadcast();
+    return true;
 }
 
 void UPadmaCombatComponent::NextActor()
@@ -363,9 +442,11 @@ void UPadmaCombatComponent::ApplySkillEffect(const FPadmaSkillEffectRowBase& Ski
 	}
 }
 
-float UPadmaCombatComponent::Damage(APadmaCombatUnit* Source, APadmaCombatUnit* Target, float Amount, bool bTrue, bool bBasic, int32 Wave)
+float UPadmaCombatComponent::Damage(APadmaCombatUnit* Source, APadmaCombatUnit* Target, float Amount, bool bTrue, bool bBasic, int32 Wave, EPadmaACTDamageKind DamageKind)
 {
 	if (!Source || !Target || !Target->IsAlive()) return 0;
+    if (Setup.Mode==EPadmaCombatMode::ACT && Amount>0 && Target->GetActions()->TryEvade()) return 0;
+	if (bTrue) DamageKind = EPadmaACTDamageKind::TrueDamage;
 	float Value = Amount;
 	if (!bTrue)
 	{
@@ -377,26 +458,31 @@ float UPadmaCombatComponent::Damage(APadmaCombatUnit* Source, APadmaCombatUnit* 
 			if (Beats(Source->Spec.Attribute, Target->Spec.Attribute)) Factor = 2;
 			else if (Beats(Target->Spec.Attribute, Source->Spec.Attribute)) Factor = .5f;
 		}
-		Value = Amount * Factor - Target->Spec.Defense;
+		const float Mitigation = DamageKind == EPadmaACTDamageKind::Magical ? Target->Spec.MagicDefense : Target->Spec.Defense;
+		Value = Amount * Factor - Mitigation;
 		if (Value <= 0)
 		{
 			Value = 1;
 			if (!bBasic && !Source->IsCardSource() && Source->IsAlive())
 			{
 				const auto Before = Source->Snapshot();
-				Source->ApplyAttribute(Source, UPadmaCombatAttributes::GetHealthAttribute(), -1);
+				Source->ApplyAttribute(Source, UPadmaCombatAttributes::GetHealthAttribute(), -1, false, TEXT("GE.Padma.Damage.Recoil"));
 				Emit(Source, Source, TEXT("recoil"), Before, 0, false, false, Wave);
 			}
 		}
 	}
+	const bool bExecution = Setup.Mode == EPadmaCombatMode::ACT && !Source->IsCardSource()
+		&& Source->GetActions()->GetActiveDefinition()
+		&& Source->GetActions()->GetActiveDefinition()->ActionKind == EPadmaACTActionKind::Execution;
+	if (bExecution && Target->Spec.bExecutionImmune) Value = FMath::Min(Value, FMath::Max(0.f, Target->Health() - 1.f));
 	const auto Before = Target->Snapshot();
 	const bool bBlocked = Before.Block > 0;
-	if (bBlocked) { Target->ApplyAttribute(Source, UPadmaCombatAttributes::GetBlockAttribute(), -1); Value = 0; }
+	if (bBlocked) { Target->ApplyAttribute(Source, UPadmaCombatAttributes::GetBlockAttribute(), -1, false, TEXT("GE.Padma.Damage.Block")); Value = 0; }
 	const float Absorbed = FMath::Min(Before.Shield, Value);
-	if (Absorbed > 0) Target->ApplyAttribute(Source, UPadmaCombatAttributes::GetShieldAttribute(), -Absorbed);
+	if (Absorbed > 0) Target->ApplyAttribute(Source, UPadmaCombatAttributes::GetShieldAttribute(), -Absorbed, false, TEXT("GE.Padma.Damage.Shield"));
 	Value -= Absorbed;
-	if (Value > 0) Target->ApplyAttribute(Source, UPadmaCombatAttributes::GetHealthAttribute(), -Value);
-	Emit(Source, Target, TEXT("damage"), Before, Absorbed, bBlocked, bTrue, Wave);
+	if (Value > 0) Target->ApplyAttribute(Source, UPadmaCombatAttributes::GetHealthAttribute(), -Value, false, TEXT("GE.Padma.Damage.Health"));
+	Emit(Source, Target, TEXT("damage"), Before, Absorbed, bBlocked, bTrue, Wave, DamageKind);
 	return Value;
 }
 
@@ -405,11 +491,12 @@ void UPadmaCombatComponent::Grant(APadmaCombatUnit* Source, APadmaCombatUnit* Ta
 	if (!Target || !Target->IsAlive()) return;
 	const auto Before = Target->Snapshot();
 	const FGameplayAttribute Attribute = Kind == TEXT("shield") ? UPadmaCombatAttributes::GetShieldAttribute() : Kind == TEXT("block") ? UPadmaCombatAttributes::GetBlockAttribute() : UPadmaCombatAttributes::GetHealthAttribute();
-	Target->ApplyAttribute(Source, Attribute, Amount);
+	const FName GameplayEffectId = Kind == TEXT("shield") ? TEXT("GE.Padma.Grant.Shield") : Kind == TEXT("block") ? TEXT("GE.Padma.Grant.Block") : TEXT("GE.Padma.Grant.Health");
+	Target->ApplyAttribute(Source, Attribute, Amount, false, GameplayEffectId);
 	Emit(Source, Target, Kind, Before, 0, false, false, Wave);
 }
 
-void UPadmaCombatComponent::Emit(APadmaCombatUnit* Source, APadmaCombatUnit* Target, FName Effect, const FPadmaCombatUnitSnapshot& Before, float Absorbed, bool bBlocked, bool bTrue, int32 Wave)
+void UPadmaCombatComponent::Emit(APadmaCombatUnit* Source, APadmaCombatUnit* Target, FName Effect, const FPadmaCombatUnitSnapshot& Before, float Absorbed, bool bBlocked, bool bTrue, int32 Wave, EPadmaACTDamageKind DamageKind)
 {
 	FPadmaCombatReceipt Receipt;
 	Receipt.Mode = Setup.Mode;
@@ -418,6 +505,9 @@ void UPadmaCombatComponent::Emit(APadmaCombatUnit* Source, APadmaCombatUnit* Tar
 	Receipt.TargetId = Target->Spec.Id;
 	Receipt.ActionOwnerId = Setup.Mode == EPadmaCombatMode::ACT && !Source->IsCardSource() ? Source->Spec.Id : ActionOwner;
 	Receipt.Effect = Effect;
+	Receipt.ActionId = Source->IsCardSource() ? PendingSkill : Source->GetActions()->GetActiveActionId();
+	if (Receipt.ActionId.IsNone() && Setup.Mode == EPadmaCombatMode::ACT && !Source->IsCardSource()) Receipt.ActionId = ActionOwner;
+	Receipt.DamageKind = bTrue ? EPadmaACTDamageKind::TrueDamage : DamageKind;
 	Receipt.Before = Before;
 	Receipt.After = Target->Snapshot();
 	Receipt.Amount = Effect == TEXT("shield") ? Receipt.After.Shield - Before.Shield : Effect == TEXT("block") ? Receipt.After.Block - Before.Block : FMath::Abs(Receipt.After.Health - Before.Health);
@@ -494,7 +584,23 @@ void UPadmaCombatComponent::TickACT(float DeltaTime)
 {
 	auto* Player = GetPlayerUnit();
 	if (!Player) { CheckEnd(); return; }
-	if (!bSkillLibraryOpen)
+    if (Player->GetActions()->IsConfigured())
+    {
+        if (!bSkillLibraryOpen)
+        {
+            FVector2D Direction=MoveInput;
+            if (bMoveTo)
+            {
+                const FVector Difference=MoveDestination-Player->GetActorLocation();
+                if (Difference.Size2D()<=FMath::Max(5.f,Player->GetVelocity().Size2D()*DeltaTime)) { bMoveTo=false; Direction=FVector2D::ZeroVector; }
+                else Direction=FVector2D(Difference.X,Difference.Y).GetSafeNormal();
+            }
+            Player->GetActions()->Move(FVector(Direction.X,Direction.Y,0));
+        }
+    }
+    else
+    {
+	if (!bSkillLibraryOpen && !Player->GetMelee()->IsAttacking())
 	{
 		FVector2D Direction = MoveInput;
 		if (bMoveTo)
@@ -512,16 +618,18 @@ void UPadmaCombatComponent::TickACT(float DeltaTime)
 	Player->SetActorLocation(Location, false);
 	if (!Player->CombatVelocity.IsNearlyZero()) Player->SetActorRotation(Player->CombatVelocity.Rotation());
 	Player->AttackCooldown = FMath::Max(0.f, Player->AttackCooldown - DeltaTime);
-	if (!bSkillLibraryOpen && bAttackHeld && Player->AttackCooldown <= 0)
+    }
+	if (!bSkillLibraryOpen && bAttackHeld && Player->AttackCooldown <= 0 && !Player->GetMelee()->IsAttacking())
 	{
 		APadmaCombatUnit* Closest = nullptr;
 		float Distance = Player->Spec.AttackRange;
 		for (APadmaCombatUnit* Unit : Units) if (!Unit->Spec.bPlayer && Unit->IsAlive())
 		{
-			const float Candidate = FVector::Dist2D(Location, Unit->GetActorLocation());
+			const float Candidate = FVector::Dist2D(Player->GetActorLocation(), Unit->GetActorLocation());
 			if (Candidate <= Distance) { Closest = Unit; Distance = Candidate; }
 		}
-		if (Closest) { FString Failure; Attack({Closest->Spec.Id}, Failure); }
+		if (Player->GetMelee()->IsConfigured()) { FString Failure; Attack({}, Failure); }
+		else if (Closest) { FString Failure; Attack({Closest->Spec.Id}, Failure); }
 		if (!bActive) return;
 	}
 	// Commands may end and destroy all units, therefore iterate a local pointer snapshot.
@@ -549,12 +657,13 @@ void UPadmaCombatComponent::TickACT(float DeltaTime)
 			Enemy->PlayAttackPresentation();
 			OnChanged.Broadcast();
 		}
-		else if (Distance > 48)
+		else if (Distance > 48 && Enemy->Spec.bCanPursueInACT)
 		{
 			Enemy->CombatVelocity = Difference.GetSafeNormal2D() * 80;
 			Enemy->SetActorLocation(Enemy->GetActorLocation() + Enemy->CombatVelocity * DeltaTime, false);
 			Enemy->SetActorRotation(Difference.Rotation());
 		}
+		else Enemy->CombatVelocity = FVector::ZeroVector;
 	}
 	CleanupDead();
 	CheckEnd();
@@ -608,8 +717,9 @@ void UPadmaCombatComponent::Cleanup()
 	PendingAction = EAction::None;
 	PendingSource.Reset();
 	PendingTargets.Reset();
-	for (APadmaCombatUnit* Unit : Units) if (IsValid(Unit)) { Unit->CleanupGAS(); Unit->Destroy(); }
+	for (APadmaCombatUnit* Unit : Units) if (IsValid(Unit)) { Unit->CleanupGAS(); if (!BorrowedUnits.Contains(Unit)) Unit->Destroy(); }
 	Units.Reset();
+	BorrowedUnits.Reset();
 	if (IsValid(CardSource)) { CardSource->CleanupGAS(); CardSource->Destroy(); }
 	CardSource = nullptr;
 }

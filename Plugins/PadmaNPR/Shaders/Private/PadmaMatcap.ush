@@ -1,0 +1,18 @@
+#ifndef PADMAMATCAP_USH
+#define PADMAMATCAP_USH
+// View-aligned Matcap coordinates and layer blending. No scene lighting or texture ownership.
+#include "/Plugin/PadmaNPR/Private/PadmaMath.ush"
+
+float2 PadmaMatcapUV(float3 N, float3 V, float3 cameraUp)
+{
+    float3 fallbackAxis=abs(V.z)<0.99?float3(0,0,1):float3(0,1,0);
+    float3 T=PadmaSafeNormal(cross(cameraUp,V),PadmaSafeNormal(cross(fallbackAxis,V),float3(1,0,0)));
+    float3 B=PadmaSafeNormal(cross(V,T),float3(0,1,0));
+    return float2(dot(N,T),-dot(N,B))*0.5+0.5;
+}
+
+float3 PadmaEvaluateMatcap(float3 color,float3 sampleColor,float4 tint,float mask,float strength)
+{
+    return PadmaColorBlend(color,float4(sampleColor*tint.rgb,tint.a),mask*saturate(strength));
+}
+#endif

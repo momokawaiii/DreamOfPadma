@@ -5,50 +5,41 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $resolvedRoot = (Resolve-Path -LiteralPath $ProjectRoot).Path
-$excludedPattern = '\\(\.git|\.vs|\.vscode|Binaries|DerivedDataCache|Intermediate|Saved)\\'
+# Project-maintained documents only; generated output and external packages do not own this policy.
+$excludedPattern = '\\(\.git|\.vs|\.vscode|Binaries|DerivedDataCache|Intermediate|Saved|Artifacts|ThirdParty|node_modules)\\'
 $files = @(Get-ChildItem -LiteralPath $resolvedRoot -Recurse -File -Filter '*.md' -Force |
     Where-Object { $_.FullName -notmatch $excludedPattern })
-
-function Get-CompanionPath {
-    param([System.IO.FileInfo]$File)
-
-    $fullPath = $File.FullName
-    if ($fullPath -match '\\Docs\\Design\\EN\\') {
-        return $fullPath.Replace('\Docs\Design\EN\', '\Docs\Design\ZH\')
-    }
-    if ($fullPath -match '\\Docs\\Design\\ZH\\') {
-        return $fullPath.Replace('\Docs\Design\ZH\', '\Docs\Design\EN\')
-    }
-
-    $suffix = '.zh-CN.md'
-    if ($File.Name.EndsWith($suffix, [System.StringComparison]::OrdinalIgnoreCase)) {
-        $englishName = $File.Name.Substring(0, $File.Name.Length - $suffix.Length) + '.md'
-        return (Join-Path $File.DirectoryName $englishName)
-    }
-
-    return (Join-Path $File.DirectoryName ($File.BaseName + '.zh-CN.md'))
-}
-
 $missing = [System.Collections.Generic.List[string]]::new()
-$checkedPairs = @{}
-foreach ($file in $files) {
-    $companion = Get-CompanionPath -File $file
-    $pairKey = @($file.FullName.ToLowerInvariant(), $companion.ToLowerInvariant()) | Sort-Object
-    $pairKey = $pairKey -join '|'
-    if ($checkedPairs.ContainsKey($pairKey)) { continue }
-    $checkedPairs[$pairKey] = $true
+$optionalCount = 0
 
-    if (-not (Test-Path -LiteralPath $companion -PathType Leaf)) {
-        $missing.Add($companion)
+foreach ($file in $files) {
+    $path = $file.FullName
+    if ($path -match '\\Docs\\Design\\ZH\\') {
+        $companion = $path.Replace('\Docs\Design\ZH\', '\Docs\Design\EN\')
     }
+    elseif ($file.Name.EndsWith('.zh-CN.md', [System.StringComparison]::OrdinalIgnoreCase)) {
+        $companion = Join-Path $file.DirectoryName ($file.Name.Substring(0, $file.Name.Length - 9) + '.md')
+    }
+    elseif ($path -match '\\Docs\\Design\\EN\\') {
+        $companion = $path.Replace('\Docs\Design\EN\', '\Docs\Design\ZH\')
+    }
+    else {
+        $companion = Join-Path $file.DirectoryName ($file.BaseName + '.zh-CN.md')
+        # Internal task/history/evidence records may be English-only. Existing Chinese files
+        # are still checked in the branches above and must never be orphaned.
+        if ($path -match '\\Docs\\Production\\(Tasks|History|Evidence)\\') {
+            if (-not (Test-Path -LiteralPath $companion -PathType Leaf)) { $optionalCount++ }
+            continue
+        }
+    }
+    if (-not (Test-Path -LiteralPath $companion -PathType Leaf)) { $missing.Add($companion) }
 }
 
-Write-Host "Markdown files checked: $($files.Count)"
-Write-Host "Language pairs checked: $($checkedPairs.Count)"
+Write-Host "Project Markdown files checked: $($files.Count)"
+Write-Host "Allowed English-only internal records: $optionalCount"
 if ($missing.Count -gt 0) {
-    Write-Host "Missing companions: $($missing.Count)" -ForegroundColor Red
-    $missing | Sort-Object -Unique | ForEach-Object { Write-Host "  MISSING: $_" -ForegroundColor Red }
+    Write-Host "Missing required sources/summaries: $($missing.Count)" -ForegroundColor Red
+    $missing | Sort-Object -Unique | ForEach-Object { Write-Host "  MISSING: $_" }
     exit 1
 }
-
-Write-Host 'Markdown language-pair audit passed.' -ForegroundColor Green
+Write-Host 'Documentation summary/source audit passed.' -ForegroundColor Green

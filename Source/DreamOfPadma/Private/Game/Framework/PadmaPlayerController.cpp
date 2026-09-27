@@ -8,6 +8,8 @@
 #include "Gameplay/Combat/PadmaCombatComponent.h"
 #include "Gameplay/Combat/PadmaCombatUnit.h"
 #include "Gameplay/ACT/Authoring/PadmaACTAuthoring.h"
+#include "Gameplay/ACT/Runtime/PadmaACTActions.h"
+#include "Gameplay/ACT/Runtime/PadmaACTCamera.h"
 #include "Presentation/Models/PadmaModelPresentation.h"
 #include "Camera/CameraActor.h"
 #include "Camera/CameraComponent.h"
@@ -37,6 +39,21 @@
 APadmaPlayerController::APadmaPlayerController()
 {
 	PrimaryActorTick.bCanEverTick=true;
+}
+void APadmaPlayerController::SetACTTrainingOverlayOpen(bool bOpen)
+{
+	if (bACTTrainingOverlayOpen == bOpen) return;
+    if (Screen)
+    {
+        if (bOpen) { TrainingPreviousScreenVisibility=Screen->GetVisibility(); Screen->SetVisibility(ESlateVisibility::Hidden); }
+        else Screen->SetVisibility(TrainingPreviousScreenVisibility);
+    }
+	bACTTrainingOverlayOpen = bOpen;
+	if (bOpen)
+	{
+		bMouseHeld = false;
+		bMapDrag = false;
+	}
 }
 FPadmaRunRules& APadmaPlayerController::Rules() const { return Session->Rules(); }
 void APadmaPlayerController::BeginPlay()
@@ -81,14 +98,19 @@ void APadmaPlayerController::BeginPlay()
 	if(bBattleMap&&Rules().IsBattle()) StartPendingBattle();
 	else if(bBattleMap) { Travel(false);return; }
 	else { MapView=GetWorld()->SpawnActor<APadmaWorldMapActor>();RefreshGraph(); }
-	RefreshView();
-	CaptureStarted=FPlatformTime::Seconds();
+ // Once per new session, never when returning from a battle. Debug scenarios remain isolated.
+ FString StartupScenario;FParse::Value(FCommandLine::Get(),TEXT("PadmaDemoScenario="),StartupScenario);
+ if(!bBattleMap&&!bExistingRun&&(StartupScenario.IsEmpty()||StartupScenario==TEXT("intro")))
+ {ModalTitle=TEXT("莲华之梦");ModalText.Reset();}
+ RefreshView();
+ CaptureStarted=FPlatformTime::Seconds();
 #if !UE_BUILD_SHIPPING
 	FString Scenario;
 	FParse::Value(FCommandLine::Get(),TEXT("PadmaDemoScenario="),Scenario);
 	if(!bBattleMap&&!bExistingRun)
 	{
-		if(Scenario==TEXT("home")){Page=TEXT("home");HomeTab=TEXT("protagonist");RefreshStage();bNeedsRefresh=true;}
+		if(Scenario==TEXT("divination")){ReceiveIntent({TEXT("divination-preview")});bNeedsRefresh=true;}
+		else if(Scenario==TEXT("home")){Page=TEXT("home");HomeTab=TEXT("protagonist");RefreshStage();bNeedsRefresh=true;}
 		else if(Scenario==TEXT("details")||Scenario==TEXT("layers"))
 		{
 			if(Scenario==TEXT("layers")){ReceiveIntent({TEXT("menu")});RefreshView();ReceiveIntent({TEXT("codex")});RefreshView();ReceiveIntent({TEXT("inspect-definition"),TEXT("dancer")});}
@@ -273,6 +295,9 @@ FVector APadmaPlayerController::HitGround() const
 }
 void APadmaPlayerController::MousePressed()
 {
+ if (!HasBlockingOverlay() && (bACTCameraInputCaptured || (Screen && Screen->IsWorldPointerAvailable())) && Combat && Combat->IsBattleActive() && Combat->GetMode()==EPadmaCombatMode::ACT)
+    if (auto* Unit=Combat->GetPlayerUnit(); Unit && Unit->GetActions()->IsConfigured() && !Combat->IsSkillLibraryOpen())
+    { bMouseHeld=false; Unit->GetActions()->RequestInput(TEXT("Primary")); return; }
  bMouseHeld=!HasBlockingOverlay()&&Screen&&Screen->IsWorldPointerAvailable();bMouseInspected=false;MouseDownTime=FPlatformTime::Seconds();
  float X=0,Y=0;GetMousePosition(X,Y);WorldPressPosition=FVector2D(X,Y);WorldPressUnit=HitUnit();
 }
@@ -341,6 +366,18 @@ void APadmaPlayerController::TravelFailed(UWorld* FailedWorld,ETravelFailure::Ty
 void APadmaPlayerController::PlayerTick(float Delta)
 {
 	Super::PlayerTick(Delta);
+    auto* CameraUnit=Combat && Combat->IsBattleActive() ? Combat->GetPlayerUnit() : nullptr;
+    const bool UseACTView=CameraUnit && CameraUnit->GetACTCamera()->IsUsable();
+    const bool CaptureACTInput=UseACTView && !HasBlockingOverlay() && !Combat->IsSkillLibraryOpen();
+    if (UseACTView && GetViewTarget()!=CameraUnit) SetViewTarget(CameraUnit);
+    else if (!UseACTView && bACTViewActive && ViewCamera) SetViewTarget(ViewCamera);
+    if (CaptureACTInput!=bACTCameraInputCaptured || UseACTView!=bACTViewActive)
+    {
+        bShowMouseCursor=!CaptureACTInput;
+        if(CaptureACTInput) SetInputMode(FInputModeGameOnly());
+        else {FInputModeGameAndUI Input;Input.SetHideCursorDuringCapture(false);Input.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);SetInputMode(Input);}
+    }
+    bACTCameraInputCaptured=CaptureACTInput;bACTViewActive=UseACTView;
 	TickMapCamera(Delta);
 	if(!Session||!Rules().HasRun()||bTravelling)return;
 	if(bMouseHeld&&!HasBlockingOverlay()&&!bMouseInspected)
@@ -357,7 +394,26 @@ void APadmaPlayerController::PlayerTick(float Delta)
 			FVector2D V((IsInputKeyDown(EKeys::D)||IsInputKeyDown(EKeys::Right)?1:0)-(IsInputKeyDown(EKeys::A)||IsInputKeyDown(EKeys::Left)?1:0),
 				(IsInputKeyDown(EKeys::S)||IsInputKeyDown(EKeys::Down)?1:0)-(IsInputKeyDown(EKeys::W)||IsInputKeyDown(EKeys::Up)?1:0));
 			Combat->SetMoveInput(HasBlockingOverlay()?FVector2D::ZeroVector:V);
-			Combat->SetAttackHeld(!HasBlockingOverlay()&&IsInputKeyDown(EKeys::SpaceBar));
+            auto* Unit=Combat->GetPlayerUnit();
+            if (Unit && Unit->GetActions()->IsConfigured())
+            {
+                auto* Cam=Unit->GetACTCamera();
+                Cam->HandleInput(this,CaptureACTInput);
+                if(Cam->IsConfigured())
+                {
+                    const FVector Relative=Cam->CameraRelativeMovement(FVector2D(-V.Y,V.X));
+                    Combat->SetMoveInput(CaptureACTInput ? FVector2D(Relative.X,Relative.Y) : FVector2D::ZeroVector);
+                }
+                Combat->SetAttackHeld(false);
+                if (!HasBlockingOverlay())
+                {
+                    const TPair<FKey,FName> Keys[]={{EKeys::E,TEXT("SkillE")},{EKeys::Q,TEXT("SkillQ")},{EKeys::R,TEXT("SkillR")},
+                        {EKeys::SpaceBar,TEXT("Jump")},{EKeys::LeftShift,TEXT("Dodge")},{EKeys::F,TEXT("Execution")}};
+                    for (const auto& Key:Keys) if (WasInputKeyJustPressed(Key.Key)) Unit->GetActions()->RequestInput(Key.Value);
+                    if (WasInputKeyJustPressed(EKeys::LeftControl) || WasInputKeyJustPressed(EKeys::RightControl)) Unit->GetActions()->RequestInput(TEXT("ToggleRun"));
+                }
+            }
+            else Combat->SetAttackHeld(!HasBlockingOverlay()&&IsInputKeyDown(EKeys::SpaceBar));
 		}
 		if(LastActor!=Combat->GetActionOwner()){LastActor=Combat->GetActionOwner();AttackTargetCount=1;CancelTargeting();}
 	}

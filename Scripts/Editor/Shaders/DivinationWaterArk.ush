@@ -1,0 +1,12 @@
+// UE UI adaptation using the original ACT54SIDE flow textures and scrolling directions.
+float t=PreviewTime;
+float2 distortion=(Texture2DSample(FlowDetail,FlowDetailSampler,UV+float2(.06,.05)*t).rg-.5)*float2(.08,-.15);
+float entry=Texture2DSample(FlowDetail,FlowDetailSampler,UV*float2(2,1)+float2(.02,-.09)*t+distortion).r;
+float3 spread=Texture2DSample(Flow,FlowSampler,UV*float2(3,2)+float2(.02,-.09)*t+distortion).rgb;
+float2 rotated=float2(UV.x*.882-UV.y*.471,UV.x*.471+UV.y*.882);
+float secondary=Texture2DSample(FlowDetail,FlowDetailSampler,rotated*float2(6,2)+float2(.06,-.09)*t).r;
+float focal=exp(-dot((UV-float2(.52,.47))*float2(1.25,1.8),(UV-float2(.52,.47))*float2(1.25,1.8))*3.2);
+float3 base=lerp(float3(.0004,.001,.006),float3(.001,.008,.67),focal);
+float3 liquid=lerp(float3(.005,.20,.58)*(pow(entry,3)*.65+pow(secondary,5)*.13),spread*float3(.012,.19,.58)*.22,RevealPhase);
+float vignette=smoothstep(.86,.22,length((UV-.5)*float2(1.07,1.12)));
+return float4((base+liquid*WaterStrength)*(.18+.82*vignette),1);

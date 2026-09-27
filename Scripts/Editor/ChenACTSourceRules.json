@@ -1,0 +1,735 @@
+{
+  "source_fps": 30,
+  "coordinate_conversion": "Unity(x,y,z) meters -> UE(z,x,y) centimeters, volume centers relative to capsule foot. Unity ZXY Euler converted through quaternion.",
+  "native_evidence": "Artifacts/ChenQianyu/Actions/RulesReview",
+  "limitations": [
+    "Unpatched installed native and serialized data, not live input capture.",
+    "No source root motion, step, teleport, ultimate camera/time dilation or target-selection system recreation in this change.",
+    "R and F direct-target actions use nearest living opposing UE unit within source selection/cast radius, allow no-target activation.",
+    "Perfect dodge invulnerability duration retains prior test tuning.",
+    "E InputCenter1 is adapted to owner foot origin; original caller center not proven.",
+    "Source combo-offset preservation across other actions and dash attack are not implemented.",
+    "R explicit animation overrides at source frames 77/99/103 are restored; source hidden-interval visibility is not yet ported."
+  ],
+  "actions": [
+    {
+      "name": "Attack01",
+      "source": "chr_0005_chen_attack1.json",
+      "sha256": "bbc100d7f6a55393837b09c56ceaf8bfc757f547257c7142fb9c79740be58c0e",
+      "exclusive_frame": 19,
+      "duration_frame": 110,
+      "priority": 0,
+      "allow": [
+        {
+          "frames": [
+            14,
+            30
+          ],
+          "ids": [
+            "Chen.Attack02"
+          ]
+        }
+      ],
+      "cache": [
+        {
+          "frames": [
+            0,
+            30
+          ],
+          "id": "Chen.Attack02",
+          "seconds": null
+        }
+      ],
+      "hits": [
+        {
+          "frames": [
+            8,
+            9
+          ],
+          "shapes": [
+            {
+              "size": [
+                1.25,
+                2.0,
+                2.0
+              ],
+              "center": [
+                0.0,
+                1.0,
+                1.0
+              ],
+              "euler": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "position_ref": 0
+            }
+          ]
+        },
+        {
+          "frames": [
+            11,
+            12
+          ],
+          "shapes": [
+            {
+              "size": [
+                1.25,
+                2.0,
+                2.0
+              ],
+              "center": [
+                0.0,
+                1.0,
+                1.0
+              ],
+              "euler": [
+                0.0,
+                0.0,
+                28.454247
+              ],
+              "position_ref": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Attack02",
+      "source": "chr_0005_chen_attack2.json",
+      "sha256": "7105dc08f1e66b0b93b0f82627980142da5b498aa229848656fb561a05d4be96",
+      "exclusive_frame": 15,
+      "duration_frame": 127,
+      "priority": 0,
+      "allow": [
+        {
+          "frames": [
+            10,
+            26
+          ],
+          "ids": [
+            "Chen.Attack03"
+          ]
+        }
+      ],
+      "cache": [
+        {
+          "frames": [
+            0,
+            26
+          ],
+          "id": "Chen.Attack03",
+          "seconds": null
+        }
+      ],
+      "hits": [
+        {
+          "frames": [
+            7,
+            9
+          ],
+          "shapes": [
+            {
+              "size": [
+                2.0,
+                2.0,
+                2.0
+              ],
+              "center": [
+                0.0,
+                1.0,
+                1.0
+              ],
+              "euler": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "position_ref": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Attack03",
+      "source": "chr_0005_chen_attack3.json",
+      "sha256": "8bb2194b30c1cf10ab8b29ad183a941c5a8f82085d3500fa79b060bf1fa61c63",
+      "exclusive_frame": 22,
+      "duration_frame": 135,
+      "priority": 0,
+      "allow": [
+        {
+          "frames": [
+            18,
+            30
+          ],
+          "ids": [
+            "Chen.Attack04"
+          ]
+        }
+      ],
+      "cache": [
+        {
+          "frames": [
+            0,
+            30
+          ],
+          "id": "Chen.Attack04",
+          "seconds": null
+        }
+      ],
+      "hits": [
+        {
+          "frames": [
+            9,
+            10
+          ],
+          "shapes": [
+            {
+              "size": [
+                1.5,
+                2.0,
+                2.0
+              ],
+              "center": [
+                0.0,
+                1.0,
+                1.0
+              ],
+              "euler": [
+                3.168378,
+                357.068848,
+                339.334656
+              ],
+              "position_ref": 0
+            }
+          ]
+        },
+        {
+          "frames": [
+            12,
+            13
+          ],
+          "shapes": [
+            {
+              "size": [
+                1.5,
+                2.0,
+                2.5
+              ],
+              "center": [
+                0.0,
+                1.0,
+                1.0
+              ],
+              "euler": [
+                1.128324,
+                0.054798,
+                345.753998
+              ],
+              "position_ref": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Attack04",
+      "source": "chr_0005_chen_attack4.json",
+      "sha256": "7401ca18b4edc86cf5d46ffe511cc7f5586fade8cc762221b8f87aaf8fd77653",
+      "exclusive_frame": 30,
+      "duration_frame": 108,
+      "priority": 0,
+      "allow": [
+        {
+          "frames": [
+            21,
+            31
+          ],
+          "ids": [
+            "Chen.Attack05"
+          ]
+        }
+      ],
+      "cache": [
+        {
+          "frames": [
+            0,
+            31
+          ],
+          "id": "Chen.Attack05",
+          "seconds": null
+        }
+      ],
+      "hits": [
+        {
+          "frames": [
+            4,
+            5
+          ],
+          "shapes": [
+            {
+              "size": [
+                1.5,
+                2.0,
+                2.5
+              ],
+              "center": [
+                0.0,
+                1.0,
+                1.0
+              ],
+              "euler": [
+                0.0,
+                0.0,
+                321.381317
+              ],
+              "position_ref": 0
+            }
+          ]
+        },
+        {
+          "frames": [
+            10,
+            11
+          ],
+          "shapes": [
+            {
+              "size": [
+                1.5,
+                2.0,
+                2.5
+              ],
+              "center": [
+                0.0,
+                1.0,
+                1.2
+              ],
+              "euler": [
+                0.0,
+                0.0,
+                348.600433
+              ],
+              "position_ref": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Attack05",
+      "source": "chr_0005_chen_attack5.json",
+      "sha256": "26021ac3b47e88479257f1bf0895465e3f0b9f9814b9a2aceec256eb1f152b93",
+      "exclusive_frame": 42,
+      "duration_frame": 126,
+      "priority": 0,
+      "allow": [
+        {
+          "frames": [
+            32,
+            42
+          ],
+          "ids": [
+            "Chen.Attack01"
+          ]
+        }
+      ],
+      "cache": [
+        {
+          "frames": [
+            0,
+            42
+          ],
+          "id": "Chen.Attack01",
+          "seconds": null
+        }
+      ],
+      "hits": [
+        {
+          "frames": [
+            16,
+            21
+          ],
+          "shapes": [
+            {
+              "size": [
+                3.0,
+                0.2,
+                4.0
+              ],
+              "center": [
+                0.0,
+                1.061786,
+                1.5
+              ],
+              "euler": [
+                0.0,
+                359.024902,
+                0.0
+              ],
+              "position_ref": 0
+            },
+            {
+              "size": [
+                3.0,
+                2.0,
+                4.0
+              ],
+              "center": [
+                0.0,
+                1.0,
+                1.5
+              ],
+              "euler": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "position_ref": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "GuiQiongYu",
+      "source": "chr_0005_chen_normal_skill.json",
+      "sha256": "136696df68b28ac5fa776f5609672c1f8d1079fe1f509a952fdb698e69353873",
+      "exclusive_frame": 32,
+      "duration_frame": 136,
+      "priority": 2,
+      "allow": [
+        {
+          "frames": [
+            25,
+            54
+          ],
+          "ids": [
+            "Chen.GuiQiongYu"
+          ]
+        }
+      ],
+      "cache": [
+        {
+          "frames": [
+            0,
+            54
+          ],
+          "id": "Chen.GuiQiongYu",
+          "seconds": 0.3
+        }
+      ],
+      "hits": [
+        {
+          "frames": [
+            13,
+            14
+          ],
+          "shapes": [
+            {
+              "size": [
+                1.5,
+                2.0,
+                3.5
+              ],
+              "center": [
+                0.0,
+                1.0,
+                1.75
+              ],
+              "euler": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "position_ref": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "JianTianHe",
+      "source": "chr_0005_chen_combo_skill.json",
+      "sha256": "03dc71901a42fb35fcb6959929c01d1a4a9fa11875a98c8cd5da312e3ed4e125",
+      "exclusive_frame": 40,
+      "duration_frame": 168,
+      "priority": 5,
+      "allow": [
+        {
+          "frames": [
+            23,
+            40
+          ],
+          "ids": [
+            "Chen.GuiQiongYu"
+          ]
+        }
+      ],
+      "cache": [
+        {
+          "frames": [
+            0,
+            40
+          ],
+          "id": "Chen.GuiQiongYu",
+          "seconds": 0.3
+        }
+      ],
+      "hits": [
+        {
+          "frames": [
+            17,
+            27
+          ],
+          "shapes": [
+            {
+              "size": [
+                4.0,
+                3.0,
+                4.0
+              ],
+              "center": [
+                0.0,
+                1.0,
+                1.0
+              ],
+              "euler": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "position_ref": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "LieFengShuang",
+      "source": "chr_0005_chen_ultimate_skill.json",
+      "sha256": "e4af9748727bc0791e27ea734cfac8aafd146c83aa2bab6940c7c553f9f49b1b",
+      "exclusive_frame": 130,
+      "duration_frame": 264,
+      "priority": 7,
+      "allow": [
+        {
+          "frames": [
+            112,
+            130
+          ],
+          "ids": [
+            "Chen.GuiQiongYu",
+            "Chen.JianTianHe"
+          ]
+        }
+      ],
+      "cache": [
+        {
+          "frames": [
+            0,
+            130
+          ],
+          "id": "Chen.GuiQiongYu",
+          "seconds": 0.3
+        },
+        {
+          "frames": [
+            0,
+            130
+          ],
+          "id": "Chen.JianTianHe",
+          "seconds": 0.3
+        }
+      ],
+      "hits": [
+        {
+          "frames": [
+            58,
+            58
+          ],
+          "primary_target": true
+        },
+        {
+          "frames": [
+            63,
+            63
+          ],
+          "primary_target": true
+        },
+        {
+          "frames": [
+            68,
+            68
+          ],
+          "primary_target": true
+        },
+        {
+          "frames": [
+            72,
+            72
+          ],
+          "primary_target": true
+        },
+        {
+          "frames": [
+            76,
+            76
+          ],
+          "primary_target": true
+        },
+        {
+          "frames": [
+            80,
+            80
+          ],
+          "primary_target": true
+        },
+        {
+          "frames": [
+            103,
+            132
+          ],
+          "primary_target": true
+        }
+      ],
+      "target_range_cm": 400
+    },
+    {
+      "name": "Execution",
+      "source": "chr_0005_chen_power_attack.json",
+      "sha256": "b2778d318dd02b7aa44e5c5a57f4a3a2e5537ab910eeb08ac8957534b0beb5f8",
+      "exclusive_frame": 50,
+      "duration_frame": 154,
+      "priority": 1,
+      "allow": [
+        {
+          "frames": [
+            30,
+            56
+          ],
+          "ids": [
+            "Chen.GuiQiongYu",
+            "Chen.JianTianHe"
+          ]
+        }
+      ],
+      "cache": [
+        {
+          "frames": [
+            0,
+            56
+          ],
+          "id": "Chen.GuiQiongYu",
+          "seconds": 0.3
+        },
+        {
+          "frames": [
+            0,
+            56
+          ],
+          "id": "Chen.JianTianHe",
+          "seconds": 0.3
+        }
+      ],
+      "hits": [
+        {
+          "frames": [
+            29,
+            38
+          ],
+          "primary_target": true
+        },
+        {
+          "frames": [
+            5,
+            7
+          ],
+          "primary_target": true
+        }
+      ],
+      "target_range_cm": 550
+    },
+    {
+      "name": "Dodge",
+      "source": "chr_0005_chen_dodge.json",
+      "sha256": "6d7b0ffc2a2453ec2ab61fda4bc97fbe46a409007e72d7585b9b76cab9b0554d",
+      "exclusive_frame": 6,
+      "duration_frame": 86,
+      "priority": 6,
+      "allow": [
+        {
+          "frames": [
+            3,
+            6
+          ],
+          "ids": [
+            "Chen.Attack01",
+            "Chen.Attack02",
+            "Chen.Attack03",
+            "Chen.Attack04",
+            "Chen.Attack05"
+          ]
+        }
+      ],
+      "cache": [],
+      "hits": []
+    },
+    {
+      "name": "Plunge",
+      "source": "chr_0005_chen_plunging_attack_end.json",
+      "sha256": "7d012e94c10eda8507a2bdcbe0b28af39216b98cb69166e53661063b646c8761",
+      "exclusive_frame": 20,
+      "duration_frame": 122,
+      "priority": 0,
+      "allow": [],
+      "cache": [],
+      "hits": [
+        {
+          "frames": [
+            1,
+            6
+          ],
+          "shapes": [
+            {
+              "size": [
+                3.5,
+                2.0,
+                3.5
+              ],
+              "center": [
+                0.0,
+                0.837295,
+                0.534324
+              ],
+              "euler": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "position_ref": 0
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "input_cache_seconds": {
+    "Attack02": 0.15,
+    "GuiQiongYu": 0.1,
+    "Attack04": 0.15,
+    "Jump": 0.1,
+    "JianTianHe": 0.1,
+    "Attack05": 0.15,
+    "Dodge": 0.2,
+    "Attack01": 0.15,
+    "PerfectDodge": 0.2,
+    "LieFengShuang": 0.1,
+    "Plunge": 0.15,
+    "Execution": 0.15,
+    "Attack03": 0.15
+  },
+  "mapping_config_raw_sha256": "09df1392902fe3a23430d6ac02aa201d646d6985707d63695339170d3610466e"
+}

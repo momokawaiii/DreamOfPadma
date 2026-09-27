@@ -15,6 +15,7 @@ class UMaterialInstanceDynamic;
 class SPadmaTutorialMap;
 class SScrollBox;
 class SPadmaWarBalance;
+class SPadmaDivinationWidget;
 struct FSlateBrush;
 struct FPadmaUIAction
 {
@@ -155,6 +156,7 @@ private:
 	TSharedPtr<SBox> GenericDetails;
 	TSharedPtr<SScrollBox> HandScroll;
 	TSharedPtr<SPadmaWarBalance> WarBalance;
+	TSharedPtr<SPadmaDivinationWidget> Divination;
 	UPROPERTY(Transient) TArray<TObjectPtr<UMaterialInstanceDynamic>> SkinMaterials;
 	UPROPERTY(Transient) TObjectPtr<UMaterialInstanceDynamic> WarMaterial;
 	UPROPERTY(Transient) TObjectPtr<UMaterialInstanceDynamic> RevealMaterial;

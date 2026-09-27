@@ -59,7 +59,7 @@ Concrete reward contents, preserved inventory when replaying, save-slot/profile 
 
 ## Battle, input and clocks
 
-Encounter and ACT retain separate validators, GAS objects, definitions and clocks under [ADR-0004](../Decisions/ADR-0004-Separate-Encounter-and-ACT-GAS.md). Shared basic-skill identities select mode-specific bindings. Encounter's eligible action-turn card allowance and ACT's Tab/blur/0.1-time/five-slot card input are governed by [Combat](../Rules/Combat.md), not duplicated here.
+Encounter and ACT retain separate validators, GAS objects, definitions and clocks under [ADR-0004](../Decisions/ADR-0004-Separate-Encounter-and-ACT-GAS.md). Shared basic-skill identities select mode-specific bindings. Card permissions, slow-time and slot semantics are governed by [Combat](../Rules/Combat.md), not duplicated here. Current Tab/blur presentation is a prototype interaction; a new UI specification may change its gesture/layout while preserving those gameplay semantics unless the user changes them.
 
 The sandbox calendar pauses during either battle. A scene or overlay cannot settle battle results or alter the pre-battle snapshot. Inspection is read-only: current Encounter enemy autoplay waits while inspection is active; ACT inspection retains its own clock/Tab policy. Closing an overlay restores appropriate focus/input, not a new gameplay action.
 
@@ -68,3 +68,9 @@ The sandbox calendar pauses during either battle. A scene or overlay cannot sett
 Reject missing content, incompatible maps or invalid choices before changing the active state. Do not silently regenerate a saved map or redraw a saved story. Reconstruct cameras, widgets and GAS objects from stable state.
 
 Test new/continue, cancellation, first-stage assignment versus reload, checkpoint locking, tutorial completion/skip/replay rewards, battle commit/rollback and clean exit. These are target acceptance cases; current evidence is in [ProjectState](../ProjectState.md). Packaged end-to-end evidence is governed by [BuildMatrix](../Production/BuildMatrix.md).
+
+## Follow-up target integration
+
+The final map loads baked 3D terrain. The ACT node must launch the new character's complete P0 from [ACTDevelopmentContract](Modules/PadmaGameplay/ACTDevelopmentContract.md), including projectile/summon/execution in a fixed repeatable enemy scene. Existing single-action GAS settlement is a reuse point, not proof of that target. Battle exit/defeat/startup failure must clean spawned actors, tasks, camera/input ownership and reservations before restore; victory commits once.
+
+The new UI contract covers opening/closing pages, action results, focus and cancellation without widgets mutating RunState. Menu multiplayer is hidden or clearly unavailable. Text and non-voice cues can work without audio during development; the RC requires production audio. No cue, sound completion or animation notify may substitute for authoritative settlement.

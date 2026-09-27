@@ -1,0 +1,20 @@
+// Original flowing water: elongated warped ridges, moving light veils and a cobalt focal glow.
+float t=PreviewTime;
+float2 p=UV;
+float2 q=p+float2(sin(p.y*8+t*.18),cos(p.x*9-t*.13))*.08;
+float focus=exp(-dot((p-float2(.52,.46))*float2(1.25,1.8),(p-float2(.52,.46))*float2(1.25,1.8))*3.2);
+float3 color=lerp(float3(.0004,.001,.006),float3(.0008,.007,.63),focus);
+float ridge=0;
+for(int i=0;i<4;i++){
+ float k=i*1.73;
+ float wav=p.y*15+sin(q.x*10+k+t*.17)*.65+sin(q.x*23+k-t*.24)*.14-t*.23+k;
+ ridge+=pow(saturate(1-abs(sin(wav))),36)*(.06+i*.014);
+}
+float beam=pow(saturate(sin(q.x*18+q.y*5+t*.23)),38);
+float veil=pow(saturate(sin(q.x*23-q.y*3-t*.18)),12);
+float light=lerp(beam*.25+veil*.018,ridge,RevealPhase);
+color+=float3(.003,.25,.8)*light*WaterStrength*(.3+focus);
+color+=float3(0,.012,.12)*RevealPhase*focus;
+float vignette=smoothstep(.88,.18,length((p-.5)*float2(1.07,1.12)));
+color*=.25+.75*vignette;
+return float4(color,1);

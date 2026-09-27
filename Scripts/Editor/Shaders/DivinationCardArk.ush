@@ -1,0 +1,10 @@
+// Original tarot face/back, printed borders, warp normal and foil gradient.
+float4 card=Texture2DSample(CardFace,CardFaceSampler,UV);
+if(Back>.5)return Texture2DSample(CardBack,CardBackSampler,UV);
+float2 warp=Texture2DSample(Warp,WarpSampler,UV*float2(1,1.81)+PreviewTime*float2(.017,.023)).rg;
+float phase=frac(UV.x*.55+UV.y*.24+(warp.r-warp.g)*.754+Tilt*.11+PreviewTime*.035);
+float3 gradient=Texture2DSample(Gradient,GradientSampler,float2(phase,.5)).rgb;
+float mask=smoothstep(.015,.18,max(card.r,max(card.g,card.b)));
+float sheen=pow(saturate(1-abs(phase*2-1)),18)*mask;
+card.rgb=card.rgb*lerp(float3(1,1,1),gradient*1.5,mask*.6)+sheen*gradient*.20;
+return card;

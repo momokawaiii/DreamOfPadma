@@ -1,0 +1,26 @@
+#ifndef PADMAMATH_USH
+#define PADMAMATH_USH
+// Shared remap and color math. Toon divides by smooth; ZMD multiplies. Blend alpha selects multiply/replace.
+
+float3 PadmaSafeNormal(float3 v, float3 fallback)
+{
+    float l2 = dot(v,v);
+    return l2 > 1e-8 ? v * rsqrt(l2) : fallback;
+}
+
+float PadmaMaskRemap(float x, float smooth, float offset, float strength)
+{
+    return lerp(1.0, saturate(x / max(smooth, 1e-4) - offset), saturate(strength));
+}
+
+float PadmaMaskAdjust(float x,float smooth,float offset)
+{
+    return saturate(x*smooth-offset);
+}
+
+float3 PadmaColorBlend(float3 inputColor, float4 blendColor, float mask)
+{
+    return lerp(inputColor, lerp(inputColor * blendColor.rgb, blendColor.rgb,
+        saturate(blendColor.a)), saturate(mask));
+}
+#endif

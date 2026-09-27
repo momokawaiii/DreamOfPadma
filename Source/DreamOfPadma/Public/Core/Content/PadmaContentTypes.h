@@ -64,7 +64,7 @@ struct DREAMOFPADMA_API FPadmaCardDefinitionRow : public FTableRowBase
 	FName ForbiddenTerrain;
 	/** Source provenance; values are the accepted HTML fixture, not final balance. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Content")
-	FString Provenance = TEXT("TASK-046 temporary UE Demo / Prototypes/HTML/data.js");
+	FString Provenance = TEXT("Scripts/Data/PlayableData.cjs; retained turn-based fixture");
 };
 
 /** An anchor fixes authored identity and location; it does not imply a mandatory route. */
@@ -127,7 +127,7 @@ struct DREAMOFPADMA_API FPadmaWorldNodeDefinitionRow : public FTableRowBase
 	FText Description;
 	/** Source provenance; values are the accepted HTML fixture, not final balance. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Content")
-	FString Provenance = TEXT("TASK-046 temporary UE Demo / Prototypes/HTML/data.js");
+	FString Provenance = TEXT("Scripts/Data/PlayableData.cjs; retained turn-based fixture");
 };
 
 USTRUCT(BlueprintType)
@@ -144,7 +144,7 @@ struct DREAMOFPADMA_API FPadmaWorldEdgeDefinitionRow : public FTableRowBase
 	FName UnlockFlag;
 	/** Source provenance; values are the accepted HTML fixture, not final balance. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Content")
-	FString Provenance = TEXT("TASK-046 temporary UE Demo / Prototypes/HTML/data.js");
+	FString Provenance = TEXT("Scripts/Data/PlayableData.cjs; retained turn-based fixture");
 };
 
 /** A one-time story branch decision at an authored checkpoint, never inferred from travel. */
@@ -252,7 +252,7 @@ struct DREAMOFPADMA_API FPadmaBalanceParameterRow : public FTableRowBase
 	double Maximum = 0;
 	/** Source provenance; values are the accepted HTML fixture, not final balance. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Content")
-	FString Provenance = TEXT("TASK-046 temporary UE Demo / Prototypes/HTML/data.js");
+	FString Provenance = TEXT("Scripts/Data/PlayableData.cjs; retained turn-based fixture");
 };
 
 USTRUCT(BlueprintType)
@@ -281,7 +281,7 @@ struct DREAMOFPADMA_API FPadmaACTCharacterDefinitionRow : public FTableRowBase
 	double TerrainSpeedMultiplier = 1.0;
 	/** Source provenance; values are the accepted HTML fixture, not final balance. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Content")
-	FString Provenance = TEXT("TASK-046 temporary UE Demo / Prototypes/HTML/data.js");
+	FString Provenance = TEXT("Scripts/Data/PlayableData.cjs; retained turn-based fixture");
 };
 
 USTRUCT(BlueprintType)
@@ -304,7 +304,7 @@ struct DREAMOFPADMA_API FPadmaACTWeaponDefinitionRow : public FTableRowBase
 	FName DefinitionId;
 	/** Source provenance; values are the accepted HTML fixture, not final balance. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Content")
-	FString Provenance = TEXT("TASK-046 temporary UE Demo / Prototypes/HTML/data.js");
+	FString Provenance = TEXT("Scripts/Data/PlayableData.cjs; retained turn-based fixture");
 };
 
 USTRUCT(BlueprintType)
@@ -329,7 +329,7 @@ struct DREAMOFPADMA_API FPadmaAppearanceDefinitionRow : public FTableRowBase
 	FName ModelId;
 	/** Source provenance; values are the accepted HTML fixture, not final balance. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Content")
-	FString Provenance = TEXT("TASK-046 temporary UE Demo / Prototypes/HTML/data.js");
+	FString Provenance = TEXT("Scripts/Data/PlayableData.cjs; retained turn-based fixture");
 };
 
 USTRUCT(BlueprintType)
@@ -346,7 +346,7 @@ struct DREAMOFPADMA_API FPadmaFPSCharacterDefinitionRow : public FTableRowBase
 	FName ModelId;
 	/** Source provenance; values are the accepted HTML fixture, not final balance. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Content")
-	FString Provenance = TEXT("TASK-046 temporary UE Demo / Prototypes/HTML/data.js");
+	FString Provenance = TEXT("Scripts/Data/PlayableData.cjs; retained turn-based fixture");
 };
 
 USTRUCT(BlueprintType)
@@ -363,7 +363,7 @@ struct DREAMOFPADMA_API FPadmaFPSWeaponDefinitionRow : public FTableRowBase
 	FText Coverage;
 	/** Source provenance; values are the accepted HTML fixture, not final balance. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Content")
-	FString Provenance = TEXT("TASK-046 temporary UE Demo / Prototypes/HTML/data.js");
+	FString Provenance = TEXT("Scripts/Data/PlayableData.cjs; retained turn-based fixture");
 };
 
 /** Neutral values copied from the explicitly configured mode table. Not an executor. */
@@ -403,7 +403,7 @@ struct DREAMOFPADMA_API FPadmaSkillEffectRowBase : public FTableRowBase
 	FName DefinitionId;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Content")
-	FString Provenance = TEXT("TASK-046 temporary UE Demo / Prototypes/HTML/data.js and engine.js");
+	FString Provenance = TEXT("Scripts/Data/PlayableData.cjs; retained turn-based rule fixture");
 };
 
 /** Intentionally different reflected row types: Encounter and ACT cannot exchange tables. */

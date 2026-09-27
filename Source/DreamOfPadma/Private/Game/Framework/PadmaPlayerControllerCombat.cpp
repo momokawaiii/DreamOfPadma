@@ -1,4 +1,5 @@
 #include "Game/Framework/PadmaPlayerController.h"
+#include "Gameplay/ACT/Runtime/PadmaACTMelee.h"
 #include "World/Combat/PadmaCombatFeedback.h"
 #include "Game/Content/PadmaContentCatalog.h"
 #include "Game/Run/PadmaRunSubsystem.h"
@@ -80,7 +81,7 @@ void APadmaPlayerController::StartPendingBattle()
 	if(Setup.Mode==EPadmaCombatMode::ACT)
 	{
 		if(auto* BattlePlayer=Combat->GetPlayerUnit())
-		if(auto* Weapon=Catalog->ResolveACTWeapon(R.Preparation.ACTWeapon))
+		if(auto* Weapon=Catalog->ResolveACTWeapon(R.Preparation.ACTWeapon); Weapon && !BattlePlayer->GetMelee()->IsConfigured())
 		{
 			FTransform WeaponTransform=FTransform::Identity;
 			if(const auto* Row=D.ACTWeapons.Find(R.Preparation.ACTWeapon))

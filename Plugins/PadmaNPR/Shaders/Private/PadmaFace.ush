@@ -1,0 +1,11 @@
+#pragma once
+// Input SDF is the authored B channel. Light points TOWARD the source.
+float PadmaFaceSDF(float sdf,float3 L,float3 F,float3 R,float3 U,float4 controls)
+{
+ float f=dot(L,F),r=dot(L,R);float projected=length(float2(f,r));
+ float threshold=acos(clamp(f/max(projected,1e-5),-1,1))/3.14159265;
+ float band=PadmaBand(sdf,threshold+controls.x,controls.y);
+ // Near overhead light has no reliable azimuth. Blend continuously instead of flipping.
+ float overhead=saturate(abs(dot(L,U)));float vertical=PadmaBand(dot(L,U),0,.2);
+ return lerp(band,vertical,max(saturate(controls.z*overhead*overhead),smoothstep(.95,1,overhead)));
+}

@@ -6,7 +6,9 @@ Dream of Padma is a UE5 C++ learning and development project focused on a data-d
 
 ## Current status
 
-The repository contains the blank C++ UE project, an accepted high-level MVP design and architecture baseline, and a project-scoped multi-Agent workflow with Role profiles, task/review/learning Skills, worktree isolation, bilingual task contracts, and Git handoff rules. Explicitly deferred parameters remain open. The next gate is the pending PIE foundation check, followed by an approved Core-contract task and the M1 rules slices.
+The retained runnable scope is the **turn-based L_PadmaWorld/L_PadmaBattle pair**, **L_ChenACT**, and the **PadmaNPR** plugin. Retired previews, the HTML application and old task records are outside the project; see [cleanup and recovery](Docs/Production/ProjectCleanup.md). Main-map source data is `Scripts/Data/PlayableData.cjs`; validate it with `node Scripts/Editor/ExportPlayableData.cjs --check`.
+
+The repository contains the native UE project, an accepted high-level MVP design and architecture baseline, Role profiles, optional task handoffs, and Git handoff rules. The Primary chooses implementation and exploration methods within the authorized outcome; routine delivery, review and teaching need no project Skill wrapper. See [ProjectState](Docs/ProjectState.md) for current delivery priorities and remaining work. Explicitly deferred parameters remain open.
 
 ## Repository rules
 
@@ -15,10 +17,10 @@ The repository contains the blank C++ UE project, an accepted high-level MVP des
 - Read `Docs/Agent/CodexSetup.md` and `Docs/Agent/Workflow.md` before coordinating multiple Agents or worktrees.
 - Follow `Docs/Agent/GitWorkflow.md` for staging, committing, integrating, and GitHub backup.
 - Use `Scripts/ValidateProject.ps1` for a quick repository check.
-- Use `Scripts/AuditDocs.ps1` after Markdown changes to verify English/Chinese pairs.
+- Use `Scripts/AuditDocs.ps1` after Markdown changes to check the Chinese-summary policy.
 - Use `Scripts/RunTests.ps1` and `Scripts/PackageDevelopment.ps1` only when an Unreal Engine root is configured.
 - Keep third-party assets separate from project-owned assets.
-- Every Markdown file has an English source and a synchronized Chinese companion; Agents read the English source.
+- English owns detailed contracts. Chinese companions are brief plain-language summaries; new internal task/history/evidence files may be English-only. See Docs/AGENTS.md.
 
 ## Initial validation
 

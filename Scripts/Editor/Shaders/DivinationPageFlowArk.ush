@@ -1,0 +1,53 @@
+// UE Custom float4 body. UV is PNG/Slate top-origin; VertexColor is raw source
+// mesh/Graphic color BEFORE material _Color. PreviewTime is seconds.
+// All texture objects require a same-name auto sampler, e.g. _MainTexSampler.
+// Output is straight RGBA: source DXBC premultiplies final RGB for One/OneMinusSrcAlpha.
+// UE Translucent should use returned RGB + A; do NOT premultiply again there.
+struct ArkNoiseFunctions
+{
+    float3 Permute(float3 x) { return fmod((x*34.0+1.0)*x,289.0); }
+    float Simplex(float2 v)
+    {
+        const float4 C=float4(.211324865405187,.366025403784439,-.577350269189626,.024390243902439);
+        float2 i=floor(v+dot(v,C.yy));
+        float2 x0=v-i+dot(i,C.xx);
+        float2 i1=(x0.x>x0.y)?float2(1,0):float2(0,1);
+        float4 x12=x0.xyxy+C.xxzz;
+        x12.xy-=i1;
+        i=i-floor(i/289.0)*289.0;
+        float3 p=Permute(Permute(i.y+float3(0,i1.y,1))+i.x+float3(0,i1.x,1));
+        float3 m=max(.5-float3(dot(x0,x0),dot(x12.xy,x12.xy),dot(x12.zw,x12.zw)),0);
+        m*=m; m*=m;
+        float3 x=2*frac(p*C.www)-1;
+        float3 h=abs(x)-.5;
+        float3 a=x-floor(x+.5);
+        m*=1.79284291400159-.85373472095314*(a*a+h*h);
+        float3 g=float3(a.x*x0.x+h.x*x0.y,a.y*x12.x+h.y*x12.y,a.z*x12.z+h.z*x12.w);
+        return 130*dot(m,g);
+    }
+};
+ArkNoiseFunctions noise;
+float2 uv=float2(UV.x,1-UV.y);
+float4 c=VertexColor*_Color;
+float amount=lerp(_SineWaveAmount,_SineWaveAmount*(2*c.r-1),_RGBCtrl);
+float phase=lerp(_SineWaveOffset,20*c.g-10,_RGBCtrl);
+float flatPhase=lerp(_EndsFlatOffset,6.28318530718*c.b-3.14159265359,_RGBCtrl);
+float n=(_NoiseWave>0)?_NoiseAmount*noise.Simplex(float2(uv.x*_NoiseFreq+PreviewTime*_NoiseSpeed,0)):0;
+float wave=amount*(sin(uv.x*_SineWaveFreq+PreviewTime*_SineWaveSpeed+phase)+n);
+float flat=1;
+if (_EndsFlat>0)
+{
+    float z=saturate(((sin(uv.x*3.14159265359+flatPhase)+1)*.5-_EndsFlatPinch)/_EndsFlatSmooth);
+    flat=z*z*(3-2*z);
+}
+float2 warped=float2(uv.x,saturate(uv.y+wave*flat));
+float2 png=float2(warped.x,1-warped.y);
+float4 col=Texture2DSample(_MainTex,_MainTexSampler,png)*Texture2DSample(_OriginLineTexture,_OriginLineTextureSampler,png);
+if (_EndsFade>0)
+{
+    float z=saturate(((sin(uv.x*3.14159265359+_EndsFadeOffset)+1)*.5-_EndsFadePinch)/_EndsFadeSmooth);
+    col.a*=z*z*(3-2*z);
+}
+col*=float4(lerp(c.rgb,float3(1,1,1),_RGBCtrl),round(c.a*255)/255.0);
+col*=_Color; // yes: source VS and PS both multiply _Color
+return col;

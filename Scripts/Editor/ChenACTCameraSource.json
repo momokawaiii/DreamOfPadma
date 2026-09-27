@@ -1,0 +1,663 @@
+{
+  "source": {
+    "client": "local Endfield Persistent VFS; unpatched native branch evidence",
+    "asset": "assets/beyond/dynamicassets/gameplay/cameras/defaultcameracontrolconfig.asset",
+    "camera_distance_rule": "Dynamic3rdPersonFollow.UpdateDynamicValues 0x185ee76c4: height and distance curves evaluated by vertical and multiplied by zoom; FOV independent",
+    "source_fields": {
+      "_smoothDampingTime": 0.22,
+      "_smoothDampingTimeY": 0.1,
+      "_shoulderOffset": {
+        "x": 0.0,
+        "y": 1.65,
+        "z": 0.0
+      },
+      "_lookAtOffset": {
+        "x": 0.0,
+        "y": 1.4,
+        "z": 0.0
+      },
+      "_horizontalTweenSpeed": 14.0,
+      "_verticalTweenSpeed": 16.0,
+      "_zoomScaleDampTime": 1.0
+    },
+    "limitations": [
+      "UE input sensitivity, target score/range/LOS grace are adaptations",
+      "UE collision and critically damped follow approximate Cinemachine constraints",
+      "camera lock mount uses capsule center fallback, not recovered per-enemy mount",
+      "auto pitch/slope/fight orbit and full source control-state stack not ported",
+      "no live IFix or original client visual comparison"
+    ]
+  },
+  "parameters": {
+    "follow_damping": 0.22,
+    "vertical_damping": 0.1,
+    "shoulder_height": 165.0,
+    "look_height": 140.0,
+    "horizontal_tween_speed": 14.0,
+    "vertical_tween_speed": 16.0,
+    "zoom_damping": 1.0,
+    "min_zoom": 0.7,
+    "max_zoom": 0.8,
+    "initial_zoom": 0.7,
+    "initial_vertical": 0.55,
+    "collision_radius": 20.0,
+    "collision_release_damping": 2.0,
+    "auto_yaw_delay": 0.5,
+    "auto_yaw_speed": 15.0,
+    "auto_yaw_acceleration": 7.5,
+    "lock_vertical": 0.55,
+    "lock_damping": 0.6,
+    "lock_enter_time": 0.2,
+    "lock_look_weight": 0.3,
+    "lock_min_zoom": 0.7,
+    "lock_max_zoom": 0.85
+  },
+  "orbit": [
+    {
+      "vertical": 0.0,
+      "height": -200.0,
+      "distance": 20.0,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.01,
+      "height": -199.24508600275,
+      "distance": 35.9365527225,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.02,
+      "height": -198.412493002,
+      "distance": 51.57667038,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.03,
+      "height": -197.49332388425,
+      "distance": 66.93578420749999,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.04,
+      "height": -196.47868153599998,
+      "distance": 82.02932544,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.05,
+      "height": -195.35966884375,
+      "distance": 96.87272531250002,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.06,
+      "height": -194.127388694,
+      "distance": 111.48141505999997,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.07,
+      "height": -192.77294397325,
+      "distance": 125.87082591750001,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.08,
+      "height": -191.28743756800003,
+      "distance": 140.05638912,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.09,
+      "height": -189.66197236475003,
+      "distance": 154.05353590250002,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.1,
+      "height": -187.88765125000003,
+      "distance": 167.87769749999998,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.11,
+      "height": -185.95557711025,
+      "distance": 181.54430514749998,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.12,
+      "height": -183.85685283200002,
+      "distance": 195.06879007999999,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.13,
+      "height": -181.58258130175003,
+      "distance": 208.46658353249995,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.14,
+      "height": -179.12386540600002,
+      "distance": 221.75311673999997,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.15,
+      "height": -176.47180803125002,
+      "distance": 234.94382093749988,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.16,
+      "height": -173.617512064,
+      "distance": 248.05412735999997,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.17,
+      "height": -170.55208039075,
+      "distance": 261.09946724250005,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.18,
+      "height": -167.266615898,
+      "distance": 274.09527182,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.19,
+      "height": -163.75222147225003,
+      "distance": 287.05697232749986,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.2,
+      "height": -160.0,
+      "distance": 300.0,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.21,
+      "height": -155.96776283075,
+      "distance": 312.86256313999996,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.22,
+      "height": -151.62490356600003,
+      "distance": 325.56875732,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.23,
+      "height": -146.97989847025,
+      "distance": 338.11284468,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.24,
+      "height": -142.04122380799998,
+      "distance": 350.48908736,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.25,
+      "height": -136.81735584375002,
+      "distance": 362.6917475,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.26,
+      "height": -131.316770842,
+      "distance": 374.71508724,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.27,
+      "height": -125.54794506725,
+      "distance": 386.55336872000004,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.28,
+      "height": -119.519354784,
+      "distance": 398.20085408,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.29,
+      "height": -113.23947625675001,
+      "distance": 409.65180546,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.3,
+      "height": -106.71678575000003,
+      "distance": 420.90048499999995,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.31,
+      "height": -99.95975952825002,
+      "distance": 431.94115483999997,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.32,
+      "height": -92.97687385600001,
+      "distance": 442.76807712000004,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.33,
+      "height": -85.77660499775,
+      "distance": 453.37551397999994,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.34,
+      "height": -78.367429218,
+      "distance": 463.75772756,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.35,
+      "height": -70.75782278125004,
+      "distance": 473.9089799999999,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.36,
+      "height": -62.95626195200003,
+      "distance": 483.82353344,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.37,
+      "height": -54.971222994750015,
+      "distance": 493.4956500199999,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.38,
+      "height": -46.81118217399998,
+      "distance": 502.91959188000004,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.39,
+      "height": -38.48461575425005,
+      "distance": 512.08962116,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.4,
+      "height": -30.0,
+      "distance": 521.0,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.41,
+      "height": -21.350497200000042,
+      "distance": 529.6407749105,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.42,
+      "height": -12.527140600000031,
+      "distance": 538.003751124,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.43,
+      "height": -3.5352129000000287,
+      "distance": 546.0858288635,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.44,
+      "height": 5.620003199999994,
+      "distance": 553.883908352,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.45,
+      "height": 14.933224999999997,
+      "distance": 561.3948898125,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.46,
+      "height": 24.39916980000001,
+      "distance": 568.615673468,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.47,
+      "height": 34.01255489999996,
+      "distance": 575.5431595415,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.48,
+      "height": 43.768097599999976,
+      "distance": 582.174248256,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.49,
+      "height": 53.660515200000006,
+      "distance": 588.5058398345,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.5,
+      "height": 63.684525000000015,
+      "distance": 594.5348345,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.51,
+      "height": 73.83484430000003,
+      "distance": 600.2581324755001,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.52,
+      "height": 84.10619040000002,
+      "distance": 605.672633984,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.53,
+      "height": 94.49328060000003,
+      "distance": 610.7752392484999,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.54,
+      "height": 104.9908322,
+      "distance": 615.5628484920001,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.55,
+      "height": 115.59356250000002,
+      "distance": 620.0323619375,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.56,
+      "height": 126.29618880000012,
+      "distance": 624.180679808,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.57,
+      "height": 137.0934284,
+      "distance": 628.0047023265,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.58,
+      "height": 147.97999860000002,
+      "distance": 631.501329716,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.59,
+      "height": 158.95061669999993,
+      "distance": 634.6674621994999,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.6,
+      "height": 170.0,
+      "distance": 637.5,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.61,
+      "height": 181.09077069820606,
+      "distance": 639.9765337774306,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.62,
+      "height": 192.19261833564818,
+      "distance": 642.0788145861111,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.63,
+      "height": 203.3108612265625,
+      "distance": 643.8099832406249,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.64,
+      "height": 214.45081768518523,
+      "distance": 645.1731805555555,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.65,
+      "height": 225.61780602575237,
+      "distance": 646.1715473454861,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.66,
+      "height": 236.81714456250006,
+      "distance": 646.808224425,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.67,
+      "height": 248.05415160966442,
+      "distance": 647.0863526086805,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.68,
+      "height": 259.3341454814815,
+      "distance": 647.0090727111111,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.69,
+      "height": 270.66244449218743,
+      "distance": 646.5795255468751,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.7,
+      "height": 282.0443669560185,
+      "distance": 645.8008519305555,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.71,
+      "height": 293.4852311872107,
+      "distance": 644.6761926767362,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.72,
+      "height": 304.99035549999996,
+      "distance": 643.2086886,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.73,
+      "height": 316.5650582086227,
+      "distance": 641.4014805149305,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.74,
+      "height": 328.2146576273148,
+      "distance": 639.2577092361112,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.75,
+      "height": 339.9444720703125,
+      "distance": 636.780515578125,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.76,
+      "height": 351.75981985185183,
+      "distance": 633.9730403555556,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.77,
+      "height": 363.666019286169,
+      "distance": 630.8384243829861,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.78,
+      "height": 375.6683886875001,
+      "distance": 627.379808475,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.79,
+      "height": 387.7722463700811,
+      "distance": 623.6003334461805,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.8,
+      "height": 399.9829106481482,
+      "distance": 619.503140111111,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.81,
+      "height": 412.30569983593756,
+      "distance": 615.091369284375,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.82,
+      "height": 424.7459322476852,
+      "distance": 610.3681617805556,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.83,
+      "height": 437.3089261976274,
+      "distance": 605.3366584142361,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.84,
+      "height": 450.0,
+      "distance": 600.0,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.85,
+      "height": 462.76408590820307,
+      "distance": 594.3761158007812,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.86,
+      "height": 475.54678601562506,
+      "distance": 588.45224640625,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.87,
+      "height": 488.3544233964844,
+      "distance": 582.1854996210938,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.88,
+      "height": 501.1933211250001,
+      "distance": 575.5329832499999,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.89,
+      "height": 514.0698022753907,
+      "distance": 568.4518050976561,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.9,
+      "height": 526.9901899218751,
+      "distance": 560.8990729687499,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.91,
+      "height": 539.960807138672,
+      "distance": 552.8318946679688,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.92,
+      "height": 552.9879770000001,
+      "distance": 544.207378,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.93,
+      "height": 566.0780225800781,
+      "distance": 534.9826307695312,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.94,
+      "height": 579.237266953125,
+      "distance": 525.1147607812501,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.95,
+      "height": 592.4720331933593,
+      "distance": 514.5608758398439,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.96,
+      "height": 605.7886443749999,
+      "distance": 503.27808375000006,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.97,
+      "height": 619.1934235722656,
+      "distance": 491.2234923164063,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.98,
+      "height": 632.6926938593749,
+      "distance": 478.35420934375003,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 0.99,
+      "height": 646.2927783105469,
+      "distance": 464.62734263671877,
+      "vertical_fov": 58.0
+    },
+    {
+      "vertical": 1.0,
+      "height": 660.0,
+      "distance": 450.0,
+      "vertical_fov": 58.0
+    }
+  ]
+}

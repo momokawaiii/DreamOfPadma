@@ -42,6 +42,9 @@ public:
 	virtual void PlayerTick(float Delta) override;
 	virtual void EndPlay(const EEndPlayReason::Type Reason) override;
 	void ReceiveIntent(const FPadmaUIAction& Action);
+	/** Pause ACT world input while a non-CommonUI ACT overlay owns the viewport. */
+	void SetACTTrainingOverlayOpen(bool bOpen);
+	bool IsACTTrainingOverlayOpen() const { return bACTTrainingOverlayOpen; }
 private:
 	friend class FPadmaStrategyInteractionTest;
 	friend class FPadmaPlacementInteractionTest;
@@ -98,6 +101,10 @@ private:
 	float MapCameraDistance = 4000;
 	float MapCameraYaw = 0;
 	bool bMapCameraReady = false;
+    bool bACTViewActive = false;
+    bool bACTCameraInputCaptured = false;
+	bool bACTTrainingOverlayOpen = false;
+	ESlateVisibility TrainingPreviousScreenVisibility = ESlateVisibility::SelfHitTestInvisible;
 	bool bMapDrag = false;
 	FVector2D MapDragPosition = FVector2D::ZeroVector;
 	int32 MapSeedDraft = 12345;

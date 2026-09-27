@@ -1,7 +1,7 @@
 # Program Architecture
 
 - Document ID: ARCH-PROGRAM-001
-- Version: 0.4
+- Version: 0.5
 - Status: Accepted boundaries; current implementation and offline Demo target distinguished
 - Chinese companion: [ProgramArchitecture.zh-CN.md](ProgramArchitecture.zh-CN.md)
 - Owner: Lead Programmer / Architect
@@ -62,3 +62,11 @@ The current painted tutorial and the separate continuous-terrain/PCG path are pr
 ## Completion boundary
 
 PIE and targeted automation establish only their tested scope. A releasable offline Demo additionally needs the real golden path, approved production values, presentation acceptance, stable recovery and both packaged configurations in [BuildMatrix](../Production/BuildMatrix.md). Existing temporary values and art are development evidence, not final-content approval. The Slate story editor and its graph compiler are deferred; normal typed assets/tables may feed the required runtime meanwhile.
+
+## Follow-up implementation boundary
+
+Final Chapter Zero uses **baked 3D terrain**, not the painted prototype. The ACT prototype already calls native GAS; the complete one-character target, focused AbilityTasks and sequence runtime are owned by [ACTDevelopmentContract](Modules/PadmaGameplay/ACTDevelopmentContract.md). Do not migrate the whole Combat Blueprint/GASCompanion dependency graph.
+
+The forthcoming UI specification may replace pages, layouts and gestures. Preserve domain state/command/result semantics, extend them for new behaviors and keep activation/focus ownership explicit; ADR-0008 does not freeze the old screen design. Local authority remains the only implemented target: no replication, prediction, RPC, session or lobby work. Serialization and authority boundaries preserve options, not automatic future multiplayer support.
+
+[DemoDeliveryPlan](../Production/DemoDeliveryPlan.md) owns production/learning units; [BuildMatrix](../Production/BuildMatrix.md) separates development fixtures from final audio, asset-audit and package acceptance.

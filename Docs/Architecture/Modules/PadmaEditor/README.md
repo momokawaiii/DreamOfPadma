@@ -1,7 +1,7 @@
 # PadmaEditor
 
 - Document ID: ARCH-MODULE-EDITOR-001
-- Version: 0.2
+- Version: 0.3
 - Status: Existing authoring scripts/adapters; custom story editor deferred; no standalone Editor module
 - Chinese companion: [README.zh-CN.md](README.zh-CN.md)
 - Owner: Editor and Content Tools Agent
@@ -35,3 +35,11 @@ Public tool results identify source version, asset/field, severity and failure r
 Test duplicate/missing IDs, invalid references/modes, preview parity, failed-edit preservation and bake/cook consistency. Save only stable compiled content IDs at runtime; never UEdGraph or temporary preview Actors. Tools introduce no network authority.
 
 Learning topics when requested: Unreal reflection, editor extensions, validation, transactions, graph schemas and compilation. Main risk: building a second large editor product before the playable Demo path is complete.
+
+## Manual replacement and pending audit
+
+Q70/Q77 reject a dedicated asset-replacement tool. Authors use Content Browser/Details and existing reference fields. Record source/provenance and actual replacement status in [ACTMigrationMatrix](../../../Content/ACTMigrationMatrix.md); filenames alone do not prove replacement.
+
+A future validation script/commandlet may use AssetRegistry/reference traversal and final cook manifests to enforce [BuildMatrix](../../../Production/BuildMatrix.md)'s public/Steam-target asset gate. Include hard/soft/transitive references from maps, Blueprint defaults, DA/DT/catalogs, animation, Niagara, materials and sequences, even after renaming. This audit is required work, not a currently implemented capability. It must not automatically reclassify a private learning build as a public release.
+
+Chen locomotion uses Scripts/Editor/ConfigureChenLocomotion.py and the WITH_EDITOR PadmaACTLocomotionAuthoring adapter. Its UnrealEd/AnimGraph/BlueprintGraph dependencies are editor-target-only; it edits the existing Idle/Walk/Run graph and dedicated action Montage references without adding a standalone module. The explicit migration backs up ABP_ACT_CHEN, preserves source animation imports and gameplay/FX notifies, and rewrites the owned locomotion transitions. Re-running it resets those transitions and RunSpeed to the recipe values.

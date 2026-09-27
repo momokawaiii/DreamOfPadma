@@ -1,0 +1,1390 @@
+{
+  "source": "E:\\Hypergryph Launcher\\games\\Arknights Game\\Arknights_Data\\PersistentData\\Bundles\\activity\\[uc]act54side.ab",
+  "particle": {
+    "pathID": -8960609464239269385,
+    "durationSeconds": 5.0,
+    "loop": true,
+    "prewarm": true,
+    "playOnAwake": true,
+    "useUnscaledTime": false,
+    "autoRandomSeed": true,
+    "emissionPerSecond": 5,
+    "burstCount": 0,
+    "lifetimeSeconds": [
+      1,
+      2
+    ],
+    "startSizeUnits": [
+      0.4000000059604645,
+      0.800000011920929
+    ],
+    "nodeScale": [
+      100,
+      100,
+      100
+    ],
+    "startSpeed": 0,
+    "startRotationRadians": [
+      -0.2640683054924011,
+      0.2687807083129883
+    ],
+    "startRotationDegrees": [
+      -15.129999407885881,
+      15.40000020087107
+    ],
+    "shape": {
+      "enabled": true,
+      "type": 4,
+      "angle": 25.0,
+      "length": 5.0,
+      "boxThickness": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "radiusThickness": 1.0,
+      "donutRadius": 0.20000000298023224,
+      "m_Position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "m_Rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "m_Scale": {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0
+      },
+      "placementMode": 0,
+      "m_MeshMaterialIndex": 0,
+      "m_MeshNormalOffset": 0.0,
+      "m_MeshSpawn": {
+        "mode": 0,
+        "spread": 0.0,
+        "speed": {
+          "minMaxState": 0,
+          "scalar": 1.0,
+          "minScalar": 1.0,
+          "maxCurve": {
+            "m_Curve": [],
+            "m_PreInfinity": 2,
+            "m_PostInfinity": 2,
+            "m_RotationOrder": 4
+          },
+          "minCurve": {
+            "m_Curve": [],
+            "m_PreInfinity": 2,
+            "m_PostInfinity": 2,
+            "m_RotationOrder": 4
+          }
+        }
+      },
+      "m_Mesh": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "m_MeshRenderer": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "m_SkinnedMeshRenderer": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "m_Sprite": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "m_SpriteRenderer": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "m_UseMeshMaterialIndex": false,
+      "m_UseMeshColors": true,
+      "alignToDirection": false,
+      "m_Texture": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "m_TextureClipChannel": 3,
+      "m_TextureClipThreshold": 0.0,
+      "m_TextureUVChannel": 0,
+      "m_TextureColorAffectsParticles": true,
+      "m_TextureAlphaAffectsParticles": true,
+      "m_TextureBilinearFiltering": false,
+      "randomDirectionAmount": 0.0,
+      "sphericalDirectionAmount": 0.0,
+      "randomPositionAmount": 0.0,
+      "radius": {
+        "value": 1.0,
+        "mode": 0,
+        "spread": 0.0,
+        "speed": {
+          "minMaxState": 0,
+          "scalar": 1.0,
+          "minScalar": 1.0,
+          "maxCurve": {
+            "m_Curve": [],
+            "m_PreInfinity": 2,
+            "m_PostInfinity": 2,
+            "m_RotationOrder": 4
+          },
+          "minCurve": {
+            "m_Curve": [],
+            "m_PreInfinity": 2,
+            "m_PostInfinity": 2,
+            "m_RotationOrder": 4
+          }
+        }
+      },
+      "arc": {
+        "value": 360.0,
+        "mode": 0,
+        "spread": 0.0,
+        "speed": {
+          "minMaxState": 0,
+          "scalar": 1.0,
+          "minScalar": 1.0,
+          "maxCurve": {
+            "m_Curve": [],
+            "m_PreInfinity": 2,
+            "m_PostInfinity": 2,
+            "m_RotationOrder": 4
+          },
+          "minCurve": {
+            "m_Curve": [],
+            "m_PreInfinity": 2,
+            "m_PostInfinity": 2,
+            "m_RotationOrder": 4
+          }
+        }
+      }
+    },
+    "velocity": {
+      "enabled": true,
+      "x": {
+        "minMaxState": 3,
+        "scalar": 0.4000000059604645,
+        "minScalar": 0.09000000357627869,
+        "maxCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        },
+        "minCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        }
+      },
+      "y": {
+        "minMaxState": 3,
+        "scalar": 0.4300000071525574,
+        "minScalar": 0.30000001192092896,
+        "maxCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        },
+        "minCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        }
+      },
+      "z": {
+        "minMaxState": 3,
+        "scalar": 0.0,
+        "minScalar": 0.0,
+        "maxCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        },
+        "minCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        }
+      },
+      "orbitalX": {
+        "minMaxState": 0,
+        "scalar": 0.0,
+        "minScalar": 0.0,
+        "maxCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        },
+        "minCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        }
+      },
+      "orbitalY": {
+        "minMaxState": 0,
+        "scalar": 0.0,
+        "minScalar": 0.0,
+        "maxCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        },
+        "minCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        }
+      },
+      "orbitalZ": {
+        "minMaxState": 0,
+        "scalar": 0.0,
+        "minScalar": 0.0,
+        "maxCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        },
+        "minCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        }
+      },
+      "orbitalOffsetX": {
+        "minMaxState": 0,
+        "scalar": 0.0,
+        "minScalar": 0.0,
+        "maxCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        },
+        "minCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        }
+      },
+      "orbitalOffsetY": {
+        "minMaxState": 0,
+        "scalar": 0.0,
+        "minScalar": 0.0,
+        "maxCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        },
+        "minCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        }
+      },
+      "orbitalOffsetZ": {
+        "minMaxState": 0,
+        "scalar": 0.0,
+        "minScalar": 0.0,
+        "maxCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        },
+        "minCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        }
+      },
+      "radial": {
+        "minMaxState": 0,
+        "scalar": 0.0,
+        "minScalar": 0.0,
+        "maxCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        },
+        "minCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        }
+      },
+      "speedModifier": {
+        "minMaxState": 0,
+        "scalar": 1.0,
+        "minScalar": 1.0,
+        "maxCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        },
+        "minCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        }
+      },
+      "inWorldSpace": false
+    },
+    "noise": {
+      "enabled": true,
+      "strength": {
+        "minMaxState": 0,
+        "scalar": 0.10000000149011612,
+        "minScalar": 1.0,
+        "maxCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        },
+        "minCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        }
+      },
+      "strengthY": {
+        "minMaxState": 0,
+        "scalar": 1.0,
+        "minScalar": 1.0,
+        "maxCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        },
+        "minCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        }
+      },
+      "strengthZ": {
+        "minMaxState": 0,
+        "scalar": 1.0,
+        "minScalar": 1.0,
+        "maxCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        },
+        "minCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        }
+      },
+      "separateAxes": false,
+      "frequency": 0.5,
+      "damping": true,
+      "octaves": 1,
+      "octaveMultiplier": 0.5,
+      "octaveScale": 2.0,
+      "quality": 2,
+      "scrollSpeed": {
+        "minMaxState": 0,
+        "scalar": 0.0,
+        "minScalar": 0.0,
+        "maxCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        },
+        "minCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        }
+      },
+      "remap": {
+        "minMaxState": 1,
+        "scalar": 1.0,
+        "minScalar": 1.0,
+        "maxCurve": {
+          "m_Curve": [
+            {
+              "time": 0.0,
+              "value": -1.0,
+              "inSlope": 0.0,
+              "outSlope": 2.0,
+              "weightedMode": 0,
+              "inWeight": 0.3333333432674408,
+              "outWeight": 0.3333333432674408
+            },
+            {
+              "time": 1.0,
+              "value": 1.0,
+              "inSlope": 2.0,
+              "outSlope": 0.0,
+              "weightedMode": 0,
+              "inWeight": 0.3333333432674408,
+              "outWeight": 0.3333333432674408
+            }
+          ],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        },
+        "minCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        }
+      },
+      "remapY": {
+        "minMaxState": 1,
+        "scalar": 1.0,
+        "minScalar": 1.0,
+        "maxCurve": {
+          "m_Curve": [
+            {
+              "time": 0.0,
+              "value": -1.0,
+              "inSlope": 0.0,
+              "outSlope": 2.0,
+              "weightedMode": 0,
+              "inWeight": 0.3333333432674408,
+              "outWeight": 0.3333333432674408
+            },
+            {
+              "time": 1.0,
+              "value": 1.0,
+              "inSlope": 2.0,
+              "outSlope": 0.0,
+              "weightedMode": 0,
+              "inWeight": 0.3333333432674408,
+              "outWeight": 0.3333333432674408
+            }
+          ],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        },
+        "minCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        }
+      },
+      "remapZ": {
+        "minMaxState": 1,
+        "scalar": 1.0,
+        "minScalar": 1.0,
+        "maxCurve": {
+          "m_Curve": [
+            {
+              "time": 0.0,
+              "value": -1.0,
+              "inSlope": 0.0,
+              "outSlope": 2.0,
+              "weightedMode": 0,
+              "inWeight": 0.3333333432674408,
+              "outWeight": 0.3333333432674408
+            },
+            {
+              "time": 1.0,
+              "value": 1.0,
+              "inSlope": 2.0,
+              "outSlope": 0.0,
+              "weightedMode": 0,
+              "inWeight": 0.3333333432674408,
+              "outWeight": 0.3333333432674408
+            }
+          ],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        },
+        "minCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        }
+      },
+      "remapEnabled": false,
+      "positionAmount": {
+        "minMaxState": 0,
+        "scalar": 1.0,
+        "minScalar": 1.0,
+        "maxCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        },
+        "minCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        }
+      },
+      "rotationAmount": {
+        "minMaxState": 0,
+        "scalar": 0.0,
+        "minScalar": 0.0,
+        "maxCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        },
+        "minCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        }
+      },
+      "sizeAmount": {
+        "minMaxState": 0,
+        "scalar": 0.0,
+        "minScalar": 0.0,
+        "maxCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        },
+        "minCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        }
+      }
+    },
+    "uvAnimation": {
+      "enabled": true,
+      "mode": 0,
+      "timeMode": 0,
+      "fps": 30.0,
+      "frameOverTime": {
+        "minMaxState": 3,
+        "scalar": 0.9998999834060669,
+        "minScalar": 0.9998999834060669,
+        "maxCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        },
+        "minCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        }
+      },
+      "startFrame": {
+        "minMaxState": 3,
+        "scalar": 0.9998999834060669,
+        "minScalar": 0.0,
+        "maxCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        },
+        "minCurve": {
+          "m_Curve": [],
+          "m_PreInfinity": 2,
+          "m_PostInfinity": 2,
+          "m_RotationOrder": 4
+        }
+      },
+      "speedRange": {
+        "x": 0.0,
+        "y": 1.0
+      },
+      "tilesX": 2,
+      "tilesY": 1,
+      "animationType": 0,
+      "rowIndex": 0,
+      "cycles": 1.0,
+      "uvChannelMask": -1,
+      "rowMode": 1,
+      "sprites": [
+        {
+          "sprite": {
+            "m_FileID": 0,
+            "m_PathID": 0
+          }
+        }
+      ],
+      "flipU": 0.0,
+      "flipV": 0.0
+    },
+    "sizeOverLifetimeKeys": [
+      {
+        "time": 0.0,
+        "value": 0.0,
+        "inSlope": 12.144176483154297,
+        "outSlope": 12.144176483154297,
+        "weightedMode": 0,
+        "inWeight": 0.3333333432674408,
+        "outWeight": 0.3333333432674408
+      },
+      {
+        "time": 0.08234399557113647,
+        "value": 1.0,
+        "inSlope": 0.0,
+        "outSlope": 0.0,
+        "weightedMode": 0,
+        "inWeight": 0.3333333432674408,
+        "outWeight": 0.3333333432674408
+      },
+      {
+        "time": 0.23472359776496887,
+        "value": 0.7843042612075806,
+        "inSlope": 0.0,
+        "outSlope": 0.0,
+        "weightedMode": 0,
+        "inWeight": 0.3333333432674408,
+        "outWeight": 0.3333333432674408
+      },
+      {
+        "time": 0.38559186458587646,
+        "value": 0.8740673661231995,
+        "inSlope": 0.0,
+        "outSlope": 0.0,
+        "weightedMode": 0,
+        "inWeight": 0.3333333432674408,
+        "outWeight": 0.3333333432674408
+      },
+      {
+        "time": 1.0,
+        "value": 0.3670177459716797,
+        "inSlope": 0.0,
+        "outSlope": 0.0,
+        "weightedMode": 0,
+        "inWeight": 0.3333333432674408,
+        "outWeight": 0.3333333432674408
+      }
+    ],
+    "alphaOverLifetimeKeys": [
+      {
+        "time": 0.0,
+        "value": 0.0
+      },
+      {
+        "time": 0.05424582284275578,
+        "value": 1.0
+      },
+      {
+        "time": 0.370595864805066,
+        "value": 1.0
+      },
+      {
+        "time": 1.0,
+        "value": 0.0
+      }
+    ],
+    "disabledModules": [
+      "RotationModule",
+      "InheritVelocityModule",
+      "LifetimeByEmitterSpeedModule",
+      "ForceModule",
+      "ExternalForcesModule",
+      "ClampVelocityModule",
+      "SizeBySpeedModule",
+      "RotationBySpeedModule",
+      "ColorBySpeedModule",
+      "CollisionModule",
+      "TriggerModule",
+      "SubModule",
+      "LightsModule",
+      "TrailModule",
+      "CustomDataModule"
+    ],
+    "renderer": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": -2508071452869862921
+      },
+      "m_Enabled": false,
+      "m_CastShadows": 0,
+      "m_ReceiveShadows": 0,
+      "m_DynamicOccludee": 1,
+      "m_StaticShadowCaster": 0,
+      "m_MotionVectors": 1,
+      "m_LightProbeUsage": 0,
+      "m_ReflectionProbeUsage": 0,
+      "m_RayTracingMode": 0,
+      "m_RayTraceProcedural": 0,
+      "m_RenderingLayerMask": 1,
+      "m_RendererPriority": 0,
+      "m_LightmapIndex": 65535,
+      "m_LightmapIndexDynamic": 65535,
+      "m_LightmapTilingOffset": {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "m_LightmapTilingOffsetDynamic": {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "m_Materials": [
+        {
+          "m_FileID": 0,
+          "m_PathID": -8545801417212612268
+        }
+      ],
+      "m_StaticBatchInfo": {
+        "firstSubMesh": 0,
+        "subMeshCount": 0
+      },
+      "m_StaticBatchRoot": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "m_ProbeAnchor": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "m_LightProbeVolumeOverride": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "m_SortingLayerID": 0,
+      "m_SortingLayer": 0,
+      "m_SortingOrder": 0,
+      "m_RenderMode": 0,
+      "m_MeshDistribution": 0,
+      "m_SortMode": 0,
+      "m_MinParticleSize": 0.0,
+      "m_MaxParticleSize": 20.0,
+      "m_CameraVelocityScale": 0.0,
+      "m_VelocityScale": 0.0,
+      "m_LengthScale": 2.0,
+      "m_SortingFudge": 0.0,
+      "m_NormalDirection": 1.0,
+      "m_ShadowBias": 0.0,
+      "m_RenderAlignment": 0,
+      "m_Pivot": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "m_Flip": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "m_UseCustomVertexStreams": false,
+      "m_EnableGPUInstancing": true,
+      "m_ApplyActiveColorSpace": true,
+      "m_AllowRoll": true,
+      "m_FreeformStretching": false,
+      "m_RotateWithStretchDirection": true,
+      "m_VertexStreams": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "m_Mesh": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "m_Mesh1": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "m_Mesh2": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "m_Mesh3": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "m_MeshWeighting": 1.0,
+      "m_MeshWeighting1": 1.0,
+      "m_MeshWeighting2": 1.0,
+      "m_MeshWeighting3": 1.0,
+      "m_MaskInteraction": 0
+    },
+    "materialPathID": -8545801417212612268,
+    "mainTexturePathID": 5966272134737818743,
+    "shapeInterpretation": {
+      "serializedType": 4,
+      "geometryName": null,
+      "status": "unconfirmed",
+      "reason": "Internal serialized shape enum mapping has not been verified in native code."
+    }
+  },
+  "material": {
+    "m_Name": "announce_active_stars",
+    "m_Shader": {
+      "m_FileID": 2,
+      "m_PathID": 2583584123608075513
+    },
+    "m_ValidKeywords": [],
+    "m_InvalidKeywords": [],
+    "m_LightmapFlags": 4,
+    "m_EnableInstancingVariants": false,
+    "m_DoubleSidedGI": false,
+    "m_CustomRenderQueue": -1,
+    "stringTagMap": [],
+    "disabledShaderPasses": [],
+    "m_SavedProperties": {
+      "m_TexEnvs": [
+        [
+          "_MainTex",
+          {
+            "m_Texture": {
+              "m_FileID": 0,
+              "m_PathID": 5966272134737818743
+            },
+            "m_Scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "m_Offset": {
+              "x": 0.0,
+              "y": 0.0
+            }
+          }
+        ]
+      ],
+      "m_Ints": [],
+      "m_Floats": [
+        [
+          "_BumpScale",
+          1.0
+        ],
+        [
+          "_ColorMask",
+          15.0
+        ],
+        [
+          "_Cutoff",
+          0.5
+        ],
+        [
+          "_DetailNormalMapScale",
+          1.0
+        ],
+        [
+          "_DstBlend",
+          10.0
+        ],
+        [
+          "_GlossMapScale",
+          1.0
+        ],
+        [
+          "_Glossiness",
+          0.5
+        ],
+        [
+          "_GlossyReflections",
+          1.0
+        ],
+        [
+          "_Metallic",
+          0.0
+        ],
+        [
+          "_Mode",
+          0.0
+        ],
+        [
+          "_OcclusionStrength",
+          1.0
+        ],
+        [
+          "_Parallax",
+          0.019999999552965164
+        ],
+        [
+          "_SmoothnessTextureChannel",
+          0.0
+        ],
+        [
+          "_SpecularHighlights",
+          1.0
+        ],
+        [
+          "_SrcBlend",
+          1.0
+        ],
+        [
+          "_Stencil",
+          0.0
+        ],
+        [
+          "_StencilComp",
+          8.0
+        ],
+        [
+          "_StencilOp",
+          0.0
+        ],
+        [
+          "_StencilReadMask",
+          255.0
+        ],
+        [
+          "_StencilWriteMask",
+          255.0
+        ],
+        [
+          "_UVSec",
+          0.0
+        ],
+        [
+          "_ZWrite",
+          1.0
+        ]
+      ],
+      "m_Colors": [
+        [
+          "_Color",
+          {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+          }
+        ],
+        [
+          "_EmissionColor",
+          {
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0
+          }
+        ],
+        [
+          "_TintColor",
+          {
+            "r": 0.5,
+            "g": 0.5,
+            "b": 0.5,
+            "a": 1.0
+          }
+        ]
+      ]
+    },
+    "m_BuildTextureStacks": []
+  },
+  "exports": [
+    {
+      "pathID": 2353213912801319556,
+      "type": "Sprite",
+      "name": "pointer_minute",
+      "file": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\padma-act54-interaction-trace\\announce_pointer_minute.png",
+      "sha256": "6ec54b5fdaa2a4d00dda5ecae1ad793ea200f1950a3ca51459cf747dcfbf49ff",
+      "source": "E:\\Hypergryph Launcher\\games\\Arknights Game\\Arknights_Data\\PersistentData\\Bundles\\activity\\[uc]act54side.ab"
+    },
+    {
+      "pathID": 2632115546578604181,
+      "type": "Sprite",
+      "name": "icon_show_start",
+      "file": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\padma-act54-interaction-trace\\announce_icon_show_start.png",
+      "sha256": "ec605a96e325198ca4e4e7329c481495f93b8eb189994b81569668bd40a04497",
+      "source": "E:\\Hypergryph Launcher\\games\\Arknights Game\\Arknights_Data\\PersistentData\\Bundles\\activity\\[uc]act54side.ab"
+    },
+    {
+      "pathID": 3161571680120439733,
+      "type": "Sprite",
+      "name": "pointer_hour",
+      "file": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\padma-act54-interaction-trace\\announce_pointer_hour.png",
+      "sha256": "fb1311dc752158333c9ab4e3e96a10163ba831c3e502c750e9862d8c394b65c3",
+      "source": "E:\\Hypergryph Launcher\\games\\Arknights Game\\Arknights_Data\\PersistentData\\Bundles\\activity\\[uc]act54side.ab"
+    },
+    {
+      "pathID": 4750561158673530228,
+      "type": "Sprite",
+      "name": "clock_graph",
+      "file": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\padma-act54-interaction-trace\\announce_clock_graph.png",
+      "sha256": "c9deb462645b853c72ffb99c03184f02fd401b85a6411b8e6b4781c1e8572093",
+      "source": "E:\\Hypergryph Launcher\\games\\Arknights Game\\Arknights_Data\\PersistentData\\Bundles\\activity\\[uc]act54side.ab"
+    },
+    {
+      "pathID": 5306857276030922005,
+      "type": "Sprite",
+      "name": "pointer_static",
+      "file": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\padma-act54-interaction-trace\\announce_pointer_static.png",
+      "sha256": "a4c037e504d3135eff0495339f8e6ab4c086fdd916fc0102c689a7fc25637982",
+      "source": "E:\\Hypergryph Launcher\\games\\Arknights Game\\Arknights_Data\\PersistentData\\Bundles\\activity\\[uc]act54side.ab"
+    },
+    {
+      "pathID": 5966272134737818743,
+      "type": "Texture2D",
+      "name": "announce_star",
+      "file": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\padma-act54-interaction-trace\\announce_announce_star.png",
+      "sha256": "b1f1e6658ffa23c5606d9514e4f3f004c0d0e6277eea9e6b4b546ac312dfc668",
+      "source": "E:\\Hypergryph Launcher\\games\\Arknights Game\\Arknights_Data\\PersistentData\\Bundles\\activity\\[uc]act54side.ab",
+      "textureMetadata": {
+        "m_TextureFormat": 25,
+        "m_MipCount": 1,
+        "m_IsReadable": false,
+        "m_StreamingMipmaps": false,
+        "m_StreamingMipmapsPriority": 0,
+        "m_TextureSettings": {
+          "m_FilterMode": 1,
+          "m_Aniso": 0,
+          "m_MipBias": 0.0,
+          "m_WrapU": 1,
+          "m_WrapV": 1,
+          "m_WrapW": 1
+        },
+        "m_LightmapFormat": 6,
+        "m_ColorSpace": 1
+      },
+      "width": 128,
+      "height": 64
+    },
+    {
+      "pathID": 7034870274138200126,
+      "type": "Sprite",
+      "name": "unable",
+      "file": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\padma-act54-interaction-trace\\announce_unable.png",
+      "sha256": "c346e8a64c66ad2f8eb3ba1cdc4134379cf8b08d3ff73643c2900a52531d9231",
+      "source": "E:\\Hypergryph Launcher\\games\\Arknights Game\\Arknights_Data\\PersistentData\\Bundles\\activity\\[uc]act54side.ab"
+    }
+  ],
+  "button": {
+    "selectable": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": -5709157567121270281
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 1,
+        "m_PathID": 2866189912293311487
+      },
+      "m_Name": "",
+      "m_Navigation": {
+        "m_Mode": 3,
+        "m_WrapAround": 0,
+        "m_SelectOnUp": {
+          "m_FileID": 0,
+          "m_PathID": 0
+        },
+        "m_SelectOnDown": {
+          "m_FileID": 0,
+          "m_PathID": 0
+        },
+        "m_SelectOnLeft": {
+          "m_FileID": 0,
+          "m_PathID": 0
+        },
+        "m_SelectOnRight": {
+          "m_FileID": 0,
+          "m_PathID": 0
+        }
+      },
+      "m_Transition": 1,
+      "m_Colors": {
+        "m_NormalColor": {
+          "r": 1.0,
+          "g": 1.0,
+          "b": 1.0,
+          "a": 1.0
+        },
+        "m_HighlightedColor": {
+          "r": 0.9607843160629272,
+          "g": 0.9607843160629272,
+          "b": 0.9607843160629272,
+          "a": 1.0
+        },
+        "m_PressedColor": {
+          "r": 0.7843137383460999,
+          "g": 0.7843137383460999,
+          "b": 0.7843137383460999,
+          "a": 1.0
+        },
+        "m_SelectedColor": {
+          "r": 0.9607843160629272,
+          "g": 0.9607843160629272,
+          "b": 0.9607843160629272,
+          "a": 1.0
+        },
+        "m_DisabledColor": {
+          "r": 0.7843137383460999,
+          "g": 0.7843137383460999,
+          "b": 0.7843137383460999,
+          "a": 0.501960813999176
+        },
+        "m_ColorMultiplier": 1.0,
+        "m_FadeDuration": 0.10000000149011612
+      },
+      "m_SpriteState": {
+        "m_HighlightedSprite": {
+          "m_FileID": 0,
+          "m_PathID": 0
+        },
+        "m_PressedSprite": {
+          "m_FileID": 0,
+          "m_PathID": 0
+        },
+        "m_SelectedSprite": {
+          "m_FileID": 0,
+          "m_PathID": 0
+        },
+        "m_DisabledSprite": {
+          "m_FileID": 0,
+          "m_PathID": 0
+        }
+      },
+      "m_AnimationTriggers": {
+        "m_NormalTrigger": "Normal",
+        "m_HighlightedTrigger": "Highlighted",
+        "m_PressedTrigger": "Pressed",
+        "m_SelectedTrigger": "Selected",
+        "m_DisabledTrigger": "Disabled"
+      },
+      "m_Interactable": 1,
+      "m_TargetGraphic": {
+        "m_FileID": 0,
+        "m_PathID": -7854677736561845769
+      },
+      "m_OnClick": {
+        "m_PersistentCalls": {
+          "m_Calls": [
+            {
+              "m_Target": {
+                "m_FileID": 0,
+                "m_PathID": 4274094200005515767
+              },
+              "m_TargetAssemblyTypeName": "Torappu.Activity.Act54Side.Act54SideSpreadView, Assembly-CSharp",
+              "m_MethodName": "OnDivineClicked",
+              "m_Mode": 1,
+              "m_Arguments": {
+                "m_ObjectArgument": {
+                  "m_FileID": 0,
+                  "m_PathID": 0
+                },
+                "m_ObjectArgumentAssemblyTypeName": "UnityEngine.Object, UnityEngine",
+                "m_IntArgument": 0,
+                "m_FloatArgument": 0.0,
+                "m_StringArgument": "",
+                "m_BoolArgument": 0
+              },
+              "m_CallState": 2
+            }
+          ]
+        }
+      },
+      "_clickGuard": {
+        "guardMask": 30,
+        "cooldown": 0,
+        "seconds": 0.5
+      },
+      "_audio": {
+        "soundType": 0,
+        "internalType": 0,
+        "buildingSoundType": 0,
+        "signal": "",
+        "subsignal": ""
+      },
+      "_longPress": {
+        "useLongPress": 0,
+        "continuous": 1,
+        "excludeClick": 1,
+        "pThresSecs": 0.5,
+        "intervalSecs": 0.20000000298023224,
+        "events": {
+          "m_PersistentCalls": {
+            "m_Calls": []
+          }
+        }
+      },
+      "_bindKey": {
+        "bindKeyFlag": 0,
+        "bindingkeyCode": 12,
+        "bindRect": {
+          "m_FileID": 0,
+          "m_PathID": 6229638752630397431
+        }
+      }
+    },
+    "graphicProxy": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": -5709157567121270281
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 1,
+        "m_PathID": -1430417682534948329
+      },
+      "m_Name": "",
+      "m_Material": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      },
+      "m_Color": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "m_RaycastTarget": 1,
+      "m_RaycastPadding": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "_colorElements": [
+        {
+          "m_FileID": 0,
+          "m_PathID": -9120407073290987017
+        },
+        {
+          "m_FileID": 0,
+          "m_PathID": -4887608419050071561
+        },
+        {
+          "m_FileID": 0,
+          "m_PathID": 6135791326338537975
+        },
+        {
+          "m_FileID": 0,
+          "m_PathID": -630643610161784329
+        },
+        {
+          "m_FileID": 0,
+          "m_PathID": 5092437064044960247
+        }
+      ],
+      "_color": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      }
+    },
+    "colorTargetPaths": [
+      "/act54side_spread_state/btn_announce/active/clock_back",
+      "/act54side_spread_state/btn_announce/active/icon_show",
+      "/act54side_spread_state/btn_announce/active/pointer_move/pointer_hour",
+      "/act54side_spread_state/btn_announce/active/pointer_move/pointer_minute",
+      "/act54side_spread_state/btn_announce/active/pointer_static"
+    ],
+    "hotspotRect": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": -5709157567121270281
+      },
+      "m_LocalRotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      },
+      "m_LocalPosition": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "m_LocalScale": {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0
+      },
+      "m_Children": [],
+      "m_Father": {
+        "m_FileID": 0,
+        "m_PathID": 2947304953212623351
+      },
+      "m_AnchorMin": {
+        "x": 0.0,
+        "y": 0.0
+      },
+      "m_AnchorMax": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "m_AnchoredPosition": {
+        "x": -8.711000442504883,
+        "y": 0.0
+      },
+      "m_SizeDelta": {
+        "x": -17.42300033569336,
+        "y": 0.0
+      },
+      "m_Pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "stateNodes": [
+      {
+        "path": "/act54side_spread_state/btn_announce/unable",
+        "active": false
+      },
+      {
+        "path": "/act54side_spread_state/btn_announce/active",
+        "active": true
+      }
+    ]
+  },
+  "rawSourceFile": "C:\\Users\\lenovo\\AppData\\Local\\Temp\\padma-act54-interaction-trace\\announce_source_raw.json",
+  "confirmed": [
+    "ParticleSystemRenderer.m_Enabled=false; a Canvas Graphic component on the same GameObject references this ParticleSystem in _particles. The particle GameObject and its Graphic component are enabled.",
+    "Particle emission is 5 per second with prewarm, not a constant six particles.",
+    "Button Transition=1 ColorTint, 0.1 seconds. Normal white, highlighted/selected245/255, pressed200/255, disabled200/255 with alpha128/255.",
+    "The ColorTint proxy targets exactly clock_back, icon_show, pointer_hour, pointer_minute and pointer_static. Stars are excluded.",
+    "active is initially enabled, unable initially disabled; the root selector references these two GameObjects.",
+    "No Animator component or animation transition is present on this button subtree. OnClick invokes Act54SideSpreadView.OnDivineClicked."
+  ],
+  "inferencesAndLimits": [
+    "At node scale100, startSize0.4..0.8 suggests40..80 logical UI units; final viewport size also depends on UIParticle and Canvas scale. Preserve raw scaling fields for port validation.",
+    "Texture sheet 2x1 is confirmed; exact native frame indexing and RNG parity are not reverse engineered. Retain UVModule to implement equivalent random tile choice without claiming frame-identical random output.",
+    "Noise settings are confirmed but Unity noise generator parity is not established.",
+    "Root active/unable switch is semantic availability, separate from Selectable hover/press colors.",
+    "Canvas particle rendering through the attached Graphic is inferred from component bindings; native UIParticle rendering code was not decompiled in this bounded pass.",
+    "UNCONFIRMED: serialized ParticleSystem ShapeModule.type=4. No native serialization-to-runtime shape mapping was established. Do not label this Box or equate it with public ParticleSystemShapeType; retain raw enum and authored shape fields."
+  ]
+}

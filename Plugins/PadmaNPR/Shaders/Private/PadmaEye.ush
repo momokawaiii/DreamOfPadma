@@ -1,0 +1,2 @@
+#pragma once
+float3 PadmaEyeResponse(float3 N,float3 V,float3 L,float3 matcap,float4 controls){float3 H=PadmaSafeNormal(L+V,N);float spec=pow(saturate(dot(N,H)),max(controls.z,1))*controls.w;float fres=pow(1-saturate(dot(N,V)),5);return matcap*(controls.x+fres*controls.y)+spec;}

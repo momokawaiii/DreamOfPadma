@@ -6,7 +6,7 @@
 - Status: Accepted direction; concrete implementation contracts remain gated
 - Date: 2026-09-08
 - Owner: Lead Programmer / Architect, with user-owned gameplay decisions
-- Task: [TASK-011](../Production/Tasks/TASK-011-Full-MVP-Task-Cluster.md)
+- Task: [TASK-011](../Production/ProjectCleanup.md)
 - Decisions: [MVP register](../Production/MVPDecisionRegister.md)
 
 ## Context and user decisions

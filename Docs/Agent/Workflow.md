@@ -1,74 +1,37 @@
 # Agent Workflow
 
-- Chinese companion: Workflow.zh-CN.md
-- Current procedure: TASK-045; replaces generic process defaults in older examples/tasks. Specific game decisions and technical acceptance remain.
+## Delivery
 
-## Default loop
+Read the user request and current state -> inspect affected files -> implement -> run relevant checks -> report the result.
 
-Read the current state and active TASK -> inspect affected sources -> implement -> run relevant checks -> update the TASK -> user playtest where applicable.
+One Primary owns the outcome in the current Local checkout. Choose methods, exploration and necessary adjacent changes autonomously; preserve explicit user limits and other writers' work. An initial path list is a plan, not a permission gate. Ask only for unresolved game meaning, material acceptance/compatibility tradeoffs, real ownership conflicts or required authorization. Continue unaffected work.
 
-One Primary can coordinate and implement. Keep serial work in the current Local checkout; use a worktree only when actual concurrent independent writes need isolation or the user requests it. New chats are user-requested, not an automatic consequence of task length. No planner/reviewer/tutor relay for routine changes.
+Use specialists only for an authorized, useful independent question or disjoint patch. Give outcome, relevant sources, exact authority and required evidence; the Primary owns integration. No fixed role relay, automatic worktree, new chat or compulsory teaching. Keep UE build/Editor/PIE serial.
 
-## Context budget
+## Verification
 
-- AGENTS contains stable constraints; ProjectState contains current facts; TASK contains this change; roles contain specialties; Skills contain procedures.
-- Use the index to find a source, not to load the library. Read the relevant English sections only. Verify current affected files; reuse unchanged source content already read.
-- A TASK input list should name the decision or section needed. Older long lists are lookup aids. Do not reread all predecessor reports or both languages at startup.
-- Resume from outcome, current files, checks and next action. Query actual state if it can have changed.
-- Tool output should return matching sections or compact results. Do not repeatedly print whole files, unchanged status, or full successful logs.
+| Change | Evidence |
+|---|---|
+| Text or reversible visuals | Relevant document/syntax/asset checks; reproducible visual check when appearance changes |
+| Gameplay logic | Tests for changed rules/state transitions; Editor build for native code |
+| Save/rollback, determinism, public contracts, GAS ownership/lifecycle, module dependencies or shared binary integration | Targeted regression and applicable runtime/build evidence; one focused independent read-only review before integration unless the user chooses another acceptance route |
 
-## Delegate when it pays
+Reuse valid evidence for unchanged behavior. Retest after relevant edits or failures, not to satisfy a generic checklist. AuditDocs after Markdown edits; ValidateProject -Strict after shared configuration/structure changes. Compilation, automation, PIE, visual acceptance and packaged behavior are different evidence; say what remains unverified.
 
-Use a child for an independent bounded question or disjoint patch when saved time, expertise or context isolation justifies the extra model work. Keep dependent steps local. Start with one useful child; the configured capacity is a ceiling, not a target.
+## What to write down
 
-Where supported, prefer fork_turns=none with a self-contained package; otherwise supply only relevant history. Do not omit constraints merely to shorten the prompt. The package includes: result, source paths/sections and relevant decisions, authority, checks, and a short return format. Writers are told that others share the codebase and must preserve/adapt to their edits.
+- Small fixes and read-only answers: no TASK required. The conversation, diff and relevant check results are enough.
+- Multi-session or complex work with substantial decisions/acceptance: use a short TASK only when it helps someone resume. Amend the owning TASK for follow-ups; do not create one per chat.
+- A current TASK holds only the current outcome, accepted decisions, acceptance, latest evidence links and next action. Replace superseded summaries instead of appending a diary. Move valuable old investigation/evidence to History with links; do not read it at startup.
+- ProjectState holds the current goal, usable entry points, active work and major gaps. Update it only when these change.
+- Rules own gameplay meaning, ADRs own consequential structural decisions, authoring guides own reusable operations, and Artifacts holds raw logs/captures. Link evidence; do not duplicate it across documents.
+- Changelog is for milestone/release summaries or explicit requests, not each fix. Do not automatically update the index, state, changelog and module README as a bundle.
+- English contains full contracts. Chinese is a brief, plain-language explanation of the important facts and open limits. Update an existing summary when those facts change; do not translate logs or implementation diaries. New internal TASK/history/evidence may be English-only. User-facing long-term guides/rules retain Chinese summaries.
 
-Children read applicable AGENTS and assigned sources, not the whole onboarding bundle. They return paths, conclusion/change, evidence and unresolved risk. Reuse a suitable existing child for follow-up; do not rediscover its completed work without a concrete discrepancy. The Primary reconciles interfaces and remains responsible for delivery.
+For new TASKs use In Progress, Blocked (with reason), or Complete. Complete means the task's required acceptance passed; it does not imply commit, merge or push. Existing Backlog/Ready/Review/Verified/Done labels are historical; do not mechanically migrate them or infer present authorization. Track remaining user acceptance explicitly.
 
-## Verification and review
+## Handoff
 
-| Change | Minimum useful evidence | Independent review |
-|---|---|---|
-| Text, layout, reversible visual configuration | Relevant syntax/asset validation and a reproducible user check | On request or a concrete additional risk |
-| Bounded gameplay logic | Tests for changed rules/state transitions; Editor compile for changed native code | When the risk below applies |
-| Save/rollback, determinism, public contracts, GAS ownership/lifecycle, module/build dependencies, shared binary integration | Targeted regression cases plus applicable build/runtime evidence | One focused read-only pass before integration, unless the user explicitly chooses another acceptance route |
+State the outcome, changed paths, checks and remaining user action/risk. Explain or teach when requested. Do not generate a separate learning report or insist on an exercise for normal delivery.
 
-- User playtesting covers interaction/layout; it does not imply C++ compilation or save/rollback correctness.
-- Reuse checks that still apply to unchanged code/environment. Rerun affected checks after changes or failures; do not repeat a full suite just because another role joined.
-- AuditDocs after Markdown changes. ValidateProject -Strict for repository structure/shared configuration changes. UE build/Editor/PIE stays serial.
-- Review examines the actual assigned diff and evidence. Recheck fixes/affected boundaries, not another full project review. A user waiver changes review, not required technical checks.
-- Report unknowns accurately. No screenshots, videos, teach-back or extra approval solely to satisfy a generic checklist.
-
-## TASK and state
-
-A new delivery uses the compact TaskTemplate. Small fixes/clarifications within the current acceptance boundary amend the existing TASK. A read-only explanation needs no artificial implementation TASK.
-
-Backlog = not authorized; Ready = relevant decisions and scope sufficient; In Progress = owned; Review = an actual reviewer or user check remains; Verified = applicable checks/required acceptance passed; Done = separately authorized integration completed. Review can be skipped when no separate gate applies. Never infer integration/push authorization from Verified.
-
-A current user request can authorize a scoped Backlog task; record the applicable decisions and promote it before writing. Ask only for missing game meaning, a real scope/ownership conflict or required authorization; an old status alone is not a reason to ask again.
-
-Record outcome, paths, check results and remaining work in the TASK once. The Primary also owns shared state when acting as the serial coordinator. Update ProjectState for priority/status/decision changes; update rules/architecture only when their meaning changes; add one concise Changelog entry for delivered behavior or workflow. English/Chinese pairs stay synchronized.
-
-Learning is optional during delivery. Explain when requested; use the full prediction/practice/teach-back loop only for a chosen lesson, not because an old TASK has a learning section. See Docs/Learning/Workflow.md when teaching.
-
-## Reusable prompts
-
-User:
-~~~text
-Continue TASK-xxx on the current Local checkout.
-Outcome: <observable behavior or correction>.
-Acceptance: <what I will see/test>.
-Constraints: <new constraints only>.
-Teach only <topic, if wanted>.
-~~~
-
-Child:
-~~~text
-Bounded package of TASK-xxx: <result>.
-Inputs: <paths/sections + relevant accepted decisions>.
-Authority: read-only OR write only <paths>; parent owns task/state closure.
-Check: <necessary evidence>. Return: paths, result, check, unresolved risk.
-You are not alone: preserve others' changes and adapt to them.
-~~~
-
-Role setup and official references: CodexSetup.md. Historical examples are optional learning material.
+This policy replaces generic process, documentation and role requirements in old TASKs, examples and role descriptions. Accepted game/architecture decisions, explicit user constraints and necessary technical acceptance remain in force.

@@ -1,0 +1,28 @@
+#pragma once
+#include "/Engine/Private/TonemapCommon.ush"
+#include "/Plugin/PadmaNPR/Private/PadmaReferenceSurfaces.ush"
+float PadmaReferenceGGX(float3 normal, float3 lightVector, float roughness)
+{
+    float noH = dot(normalize(normal + lightVector), normal);
+    float a2 = roughness * roughness * roughness * roughness;
+    float d = (1 - noH * noH) + noH * noH * a2;
+    // Define only the degenerate zero-width lobe; preserve finite narrow lobes.
+    return a2 > 0 && d != 0 ? a2 / (3.141592653589793 * d * d) : 0;
+}
+// Source MF_UnpackNormal: RG storage, inverted green, reconstructed positive Z.
+float3 PadmaReferenceUnpack(float2 encoded){float2 xy=(encoded*2-1)*float2(1,-1);return float3(xy,sqrt(saturate(1-dot(xy,xy))));}
+// Reoriented normal mapping used by BlendAngleCorrectedNormals.
+float3 PadmaReferenceBlendNormals(float3 base, float3 detail)
+{
+    float3 t = base + float3(0,0,1);
+    float3 u = detail * float3(-1,-1,1);
+    float3 blended = t * dot(t,u) - u * t.z;
+    return dot(blended,blended) > 1e-12 ? normalize(blended) : float3(0,0,1);
+}
+// Chen reference linear-color curve. Profile Atlas is unrelated to this color ramp.
+float4 PadmaReferenceHairRamp(float t){
+ const float times[5]={0,.064652,.171410,.718575,.996783};
+ const float3 colors[5]={float3(0,0,0),float3(.043964,.057444,.067982),float3(.180236,.137340,.175210),float3(.701606,.662082,.755576),float3(1,.544393,.670284)};
+ float3 c=colors[4];[unroll]for(int i=3;i>=0;--i)if(t<times[i+1])c=lerp(colors[i],colors[i+1],saturate((t-times[i])/(times[i+1]-times[i])));
+ return float4(c,0);
+}

@@ -1,0 +1,3 @@
+#pragma once
+float PadmaHairLobe(float3 T,float3 N,float3 H,float shift,float power){float3 S=PadmaSafeNormal(T+shift*N,T);float th=dot(S,H);return pow(saturate(1-th*th),max(power,1)*.5)*smoothstep(-1,0,th);}
+float3 PadmaHairResponse(float3 N,float3 T,float3 V,float3 L,float noise,float mask,float4 lobes,float4 shifts,float3 tint){float3 H=PadmaSafeNormal(L+V,N);float s=(noise-.5)*shifts.z;float wide=PadmaHairLobe(T,N,H,shifts.x+s,lobes.x);float narrow=PadmaHairLobe(T,N,H,shifts.y+s,lobes.y);return tint*mask*(wide*lobes.z+narrow*lobes.w)*saturate(dot(N,L)+.3)+tint*shifts.w*pow(saturate(dot(-L,V)),4);}

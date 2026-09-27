@@ -1,47 +1,45 @@
-# ACT Character and Skill Authoring
+# Chen ACT Authoring
 
-- Chinese companion: ACTAuthoring.zh-CN.md
+- Chinese companion: [ACTAuthoring.zh-CN.md](ACTAuthoring.zh-CN.md)
 - Document ID: CONTENT-ACT-AUTHORING-001
-- Version: 0.1
-- Status: Authoring implementation; ACT gameplay pending
-- Owner: TASK-036
+- Version: 1.0
+- Updated: 2026-09-27
+- Status: Retained Chen ACT authoring path; generic template assets are retired
 
-## Editable assets
+## Retained assets
 
-Open Content/Padma/MVP/Definitions/ACTCharacterCards in the Content Browser. Duplicate the templates before filling them. To create a new asset, choose Miscellaneous → Data Asset and the corresponding native class.
+Use the existing Chen assets under `Content/Sandbox/ACT/Character/ChenQianyu`:
 
-| Asset / native type | Fill in |
+| Asset group | Role |
 |---|---|
-| DA_ACTCharacter_Template / PadmaACTCharacterDefinition | Stable DefinitionId, ContentVersion, DisplayName, skeletal Model soft reference, optional AnimationClass soft reference, ACT SkillTable soft reference, optional TraitIds and explicit TerrainRestrictions |
-| DT_ACTSkills_Template / DataTable, PadmaACTSkillRow | Per row: SkillId, ActivationBindingId, soft Definition reference to an ACT skill asset |
-| DA_ACTSkill_Template / PadmaACTSkillDefinition | Stable DefinitionId matching the row, DisplayName, ACT AbilityImplementationId; optional Montage soft reference |
-| DA_ACTWeapon_Template / PadmaACTWeaponDefinition | Stable DefinitionId, DisplayName, exactly one StaticModel or SkeletalModel; optional AttachmentSocket |
-| DA_ACTAuthoring_Template / PadmaACTAuthoringCatalog | Character/weapon soft references plus read-only authoring vocabulary for terrain, activation bindings and ability implementations |
+| `DA_ACTCatalog_CHEN`, `DA_ACTCharacter_CHEN`, `DA_Chen_Equipment` | Stable character, roster and weapon definitions |
+| `DT_ACTSkills_CHEN` and `AbilitySystem/Abilities/DA_Chen_*` | Input/action identity and native GAS action data |
+| `Animation/AnimBlueprints/ABP_ACT_CHEN`, Montages and sequences | Animation playback and Montage timing |
+| `Blueprints/BP_ChenACTPlaced`, `BP_ACT_CHEN` | Scene-owned/editor and runtime character presentation |
+| `Training/Maps/L_ChenACT` and `Training/WoodenDummy` | Retained training scene and target fixtures |
 
-IDs identify content independently of the display name, model path or asset filename. Do not recycle an ID for a different definition. ContentVersion records authored revisions; it is not an ability level or cost. These ACT character assets are not A/B/C cards.
+Do not recreate the retired `Content/Padma/MVP/Definitions/ACTCharacterCards` template folder. The `MVP/Playable` assets belong to the retained turn-based path; they are not a second Chen ACT catalog.
 
-The character model and animation Blueprint/montage must share a skeleton in this slice. Retarget incompatible assets explicitly before assigning them. An omitted AnimationClass permits a static authoring preview; animation and action readiness remain later runtime checks. A weapon socket is checked against the selected character during roster/runtime composition, not against an invented default character.
+## Authoring rules
+
+Keep stable IDs independent from display names and filenames. Character, ABP, Montage and weapon assets must use compatible skeletons and explicit sockets. Montage sections and AN/ANS timing own action windows; native GAS owns activation, commit, cancellation and teardown. Do not add damage, cost, cooldown or source-parity claims merely because an asset loads.
+
+The `L_ChenACT` map owns one `BP_ChenACTPlaced` and three `BP_ACTWoodenDummy` participants. Native combat may borrow and reset them; it must not silently replace the saved scene layout. Scene ownership and runtime borrowing are defined in [ADR-0012](../Decisions/ADR-0012-Scene-Owned-ACT-Participants.md).
 
 ## Validation
 
-Select the catalog asset and press **Validate Authoring** in Details. Inspect Output Log entries beginning **[ACT Authoring]**. Blueprints and automation can also call ValidateCatalog and inspect bValid / Errors.
+Use the Chen authoring scripts under `Scripts/Editor` only with the Editor closed for resource writes and one UE process at a time. Relevant checks include:
 
-The checker loads typed references, checks required IDs/display fields, nonempty ACT skill tables, matching skill identities, duplicate identities/bindings, declared executor/input IDs, skeleton compatibility and trait/terrain references. Empty templates intentionally fail until filled. Existing assets are preserved if the authoring scripts are rerun.
+- `Scripts/Editor/AuditACTAssets.py` and `VerifyACTLayout.py` for path/layout/reference inventory.
+- `Scripts/Editor/VerifyChenSceneParticipants.py` for the saved map participants.
+- The `DreamOfPadma.ACT.*` automation tests for action, camera, weapon, target and analytics contracts.
+- [Chen ACT/render lab](ChenACTRenderLab.md) for scene, camera, material and manual visual checks.
 
-TerrainRestrictions names a declared TraitId and explicit DisallowedTerrainIds. It does not ban the whole character and it does not choose when battle rules apply. Those semantics belong to the approved ACT runtime/roster policy.
+Static authoring or a successful build does not prove PIE behavior, GPU output, full source visual parity or packaged play. Known timing/visual limits remain in [ProjectState](../ProjectState.md) and [TASK-056](../Production/Tasks/TASK-056-Chen-ACT-Actions.md).
 
-## What becomes usable after filling
+## Related contracts
 
-The definitions become available to the authoring catalog and later ACT roster/loader. A table row describes how to find a skill and its logical trigger; it does not implement a new action. TASK-030 must register the corresponding native GAS ability executor, load the configured content and connect input/animation/effects. TASK-035 supplies battle settings and roster validation.
-
-Reference-catalog IDs are declared authoring vocabulary, not proof that an executor is installed. Authoring success therefore does not mean a playable ACT battle. Damage, cost, cooldown, windows, weapon policy and all unaccepted values remain unset for the user to confirm. No Encounter table is used as an ACT fallback.
-
-## Reproducible authoring
-
-The checked-in Scripts/Editor/AuthorACTTemplates.py creates five project-owned templates via UE Editor Python. It preserves existing assets and checks that empty templates remain incomplete. Enable PythonScriptPlugin only for the commandlet process if it is not enabled in the project. Do not copy third-party content into these templates; reference user-imported assets or project wrappers instead.
-
-Learning check: replace only Model and predict whether DefinitionId or the skill bindings change. Then inspect the asset. User evidence has not yet been provided.
-
-## Scene preview integration
-
-TASK-040 reads these same ACT character/weapon model fields and the selected character's SkillTable; there is no second copy. Character Mobility is new metadata only and does not enable sandbox deployment. The native model/scene preview guide is [ModelAuthoring](ModelAuthoring.md). ACT has no sourced description/numerical row schema yet; a readable row is not a registered GAS action.
+- [ACT development contract](../Architecture/Modules/PadmaGameplay/ACTDevelopmentContract.md)
+- [ACT migration matrix](ACTMigrationMatrix.md)
+- [Chen asset layout](ACTAssetLayout.md)
+- [PadmaNPR character binding](../../Plugins/PadmaNPR/Character.md)

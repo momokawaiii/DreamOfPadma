@@ -1,0 +1,18 @@
+#ifndef PADMACLOTHNORMAL_USH
+#define PADMACLOTHNORMAL_USH
+// Decode encoded RG normals and build artistic world-space normals. UE normal samples are already decoded.
+#include "/Plugin/PadmaNPR/Private/PadmaMath.ush"
+
+float3 PadmaUnpackNormalRG(float2 rg, float flipY)
+{
+    float2 xy=rg*2.0-1.0; xy.y*=lerp(1.0,-1.0,saturate(flipY));
+    return PadmaSafeNormal(float3(xy,sqrt(saturate(1.0-dot(xy,xy)))),float3(0,0,1));
+}
+
+float3 PadmaBuildClothNormal(float3 geometricN, float3 mappedN, float3 V, float3 L, float3 weights)
+{
+    float3 n = PadmaSafeNormal(lerp(geometricN, mappedN, saturate(weights.x)), geometricN);
+    n = PadmaSafeNormal(lerp(n, V, saturate(weights.y)), n);
+    return PadmaSafeNormal(lerp(n, L, saturate(weights.z)), n);
+}
+#endif

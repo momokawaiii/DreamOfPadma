@@ -25,5 +25,7 @@ Thumbs.db
 # Local logs and temporary files
 *.log
 *.tmp
+__pycache__/
+*.pyc
 
 # Keep the project source, Config, Content, Docs and scripts under version control.

@@ -1,7 +1,7 @@
 # Data-Driven Architecture
 
 - Document ID: ARCH-DATA-001
-- Version: 0.4
+- Version: 0.5
 - Status: Current catalog plus accepted Demo target; target schemas are not implemented APIs
 - Chinese companion: [DataDrivenArchitecture.zh-CN.md](DataDrivenArchitecture.zh-CN.md)
 - Owner: Lead Programmer / Architect
@@ -91,3 +91,13 @@ For the target, also validate MapKey-to-bake consistency, chapter/map node refer
 The user will provide final card data. Existing labelled prototype numbers may support development but cannot satisfy final Demo content acceptance. Content receipts should retain source/field/unit/mode/version; no new numerical defaults are approved here.
 
 Slate story authoring, UEdGraph source assets, graph compilation, text-entry/localization tools and Cue editing are **deferred**. Preserve the accepted future separation `ChapterSourceAsset → compiled ChapterDefinition`, with a restricted DAG, typed execution edges and no editor objects in Shipping. Existing Python authoring and map previews remain usable; a universal one-click content tool is not a prerequisite.
+
+## Follow-up authoring contracts
+
+Finalize stable IDs/schema and the UI's ViewModel/intent/result-event contract before dependent content. Current typed DataTables/DataAssets may directly author Chapter Zero; a later story editor must output those same runtime contracts. Rewriting story source content then does not require a second runtime. Final card documentation gates production settlement values and acceptance, not basic asset/loader work.
+
+The ACT target adds data-driven ability definitions/sequences and a transient sequence runtime; see [ACTDevelopmentContract](Modules/PadmaGameplay/ACTDevelopmentContract.md). Extend the existing ACT row/definition types deliberately instead of adding parallel number tables or duplicate sources. Static configuration must not store current targets, elapsed phases or GAS handles. GameplayTags express registered vocabulary/queries, not an entire action state machine.
+
+The user's UI specification must describe pages/transitions, ViewModels, intents/results, focus/back/cancel, disabled/error/loading states, saving and skip/replay. Current widget shape or gesture is replaceable; rule settlement remains service-owned. Production Chinese uses stable TextIds; full English and the custom story/Cue editor remain deferred.
+
+Replace art through normal Content Browser/Details soft-reference bindings; no dedicated replacement tool. Retain provenance even after renaming. The pending public-package audit must inspect hard/soft/transitive references and the final cook manifest, not merely filenames; its gate belongs to [BuildMatrix](../Production/BuildMatrix.md).

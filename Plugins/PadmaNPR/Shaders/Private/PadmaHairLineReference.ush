@@ -1,0 +1,72 @@
+#pragma once
+#include "/Plugin/PadmaNPR/Private/PadmaReferenceCommon.ush"
+float3 PadmaReferenceHairLine(
+    float2 UV,
+    float3 GeometricNormal,
+    float3 ViewDirection,
+    float3 LightDirection,
+    float3 WorldPosition,
+    float3 CameraPosition,
+    float3 PointLightPosition,
+    float3x3 TangentToWorld,
+    float4 P_AO,
+    float4 P_AO_Color,
+    float P_AO_Mask_Offset,
+    float P_AO_Mask_Smooth,
+    float4 P_BaseColor,
+    float P_BaseColor_Power,
+    float P_EyeAdaptationlnverse,
+    float4 P_HairLineColor,
+    float P_HairLine_UV_X,
+    float P_HairLine_UV_Y,
+    float P_Lam_Offset,
+    float4 P_Lam_Shadow_Color,
+    float P_Lam_Smooth,
+    float4 P_MSRE,
+    float Exposure,
+    Texture2D T_BaseTex,
+    SamplerState T_BaseTexSampler,
+    Texture2D T_HairLine,
+    SamplerState T_HairLineSampler,
+    Texture2D T_T_RGBA_P,
+    SamplerState T_T_RGBA_PSampler,
+    out float3 OutBaseColor,
+    out float OutMetallic,
+    out float OutSpecular,
+    out float OutRoughness,
+    out float OutOpacity
+)
+{
+    float4 n0 = Texture2DSample(T_BaseTex,T_BaseTexSampler,UV); // MaterialExpressionTextureSampleParameter2D_5
+    float3 n1 = pow(max(n0.rgb,0),P_BaseColor_Power); // MaterialExpressionPower_5
+    float3 n2 = saturate(n1); // MaterialExpressionSaturate_2
+    float3 n3 = (n2 * P_BaseColor.rgb); // MaterialExpressionMultiply_45
+    float3 n4 = (n3 * P_HairLineColor.rgb); // MaterialExpressionMultiply_14
+    float2 n5 = UV; // MaterialExpressionTextureCoordinate_0
+    float2 n6 = float2(P_HairLine_UV_X,P_HairLine_UV_Y); // MaterialExpressionAppendVector_4
+    float2 n7 = (n5 * n6); // MaterialExpressionMultiply_15
+    float4 n8 = Texture2DSample(T_HairLine,T_HairLineSampler,n7); // MaterialExpressionTextureSampleParameter2D_4
+    float3 n9 = lerp(n3,n4,n8.rgb); // MaterialExpressionLinearInterpolate_11
+    float3 n10 = (P_Lam_Shadow_Color.rgb * n9); // MaterialExpressionMultiply_2
+    float3 n11 = LightDirection; // MaterialExpressionSkyAtmosphereLightDirection_0
+    float3 n12 = normalize(n11); // MaterialExpressionNormalize_0
+    float3 n13 = GeometricNormal; // MaterialExpressionVertexNormalWS_0
+    float n14 = dot(n12,n13); // MaterialExpressionDotProduct_0
+    float n15 = saturate(n14*P_Lam_Smooth-P_Lam_Offset); // MaterialExpressionMaterialFunctionCall_1
+    float3 n16 = lerp(n10,n9,n15); // MaterialExpressionLinearInterpolate_3
+    float3 n17 = (P_AO_Color.rgb * n16); // MaterialExpressionMultiply_0
+    float4 n18 = Texture2DSample(T_T_RGBA_P,T_T_RGBA_PSampler,UV); // MaterialExpressionTextureSampleParameter2D_0
+    float n19 = dot(n18.rgba,P_AO); // MaterialExpressionChannelMaskParameter_1
+    float n20 = saturate(n19.r*P_AO_Mask_Smooth-P_AO_Mask_Offset); // MaterialExpressionMaterialFunctionCall_2
+    float3 n21 = lerp(n17,n16,n20); // MaterialExpressionLinearInterpolate_0
+    float3 n22 = (n21 * P_MSRE.a); // MaterialExpressionMultiply_1
+    float3 n23 = (n22*exp(-(P_EyeAdaptationlnverse)*log(max(Exposure,1e-8)))); // MaterialExpressionEyeAdaptationInverse_1
+    float3 n24 = (n21*exp(-(P_EyeAdaptationlnverse)*log(max(Exposure,1e-8)))); // MaterialExpressionEyeAdaptationInverse_0
+    float4 n25 = Texture2DSample(T_BaseTex,T_BaseTexSampler,UV); // MaterialExpressionTextureSampleParameter2D_3
+    OutBaseColor = n24;
+    OutMetallic = P_MSRE.r;
+    OutSpecular = P_MSRE.g;
+    OutRoughness = P_MSRE.b;
+    OutOpacity = n25.a;
+    return n23;
+}

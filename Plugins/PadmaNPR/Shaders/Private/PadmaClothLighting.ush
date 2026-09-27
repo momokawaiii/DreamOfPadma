@@ -1,0 +1,36 @@
+#ifndef PADMACLOTHLIGHTING_USH
+#define PADMACLOTHLIGHTING_USH
+// Diffuse/AO/Rim and NDF-only highlights. Reference NDF uses N+L, not the BRDF half-vector V+L.
+#include "/Plugin/PadmaNPR/Private/PadmaMath.ush"
+
+float PadmaClothDiffuseBand(float NoL, float threshold, float feather)
+{
+    float width = max(feather, 1e-4);
+    return smoothstep(threshold-width, threshold+width, NoL);
+}
+
+float PadmaClothAO(float ao, float smooth, float offset, float strength)
+{
+    return PadmaMaskRemap(ao, smooth, offset, strength);
+}
+
+float PadmaClothRim(float NoV, float threshold, float feather)
+{
+    return PadmaClothDiffuseBand(1.0-saturate(abs(NoV)),threshold,feather);
+}
+
+float PadmaGGXNDF(float NoH, float roughness)
+{
+    float r=max(roughness,0.04); float a2=r*r*r*r;
+    float nh2=saturate(NoH)*saturate(NoH);
+    float d=(1.0-nh2)+nh2*a2;
+    return a2/(3.14159265359*d*d);
+}
+
+float PadmaReferenceGGXNDF(float3 N, float3 L, float roughness)
+{
+    float3 sum=N+L;
+    float NoH=dot(sum,sum)>1e-8 ? dot(normalize(sum),N) : 0.0;
+    return PadmaGGXNDF(NoH,roughness);
+}
+#endif

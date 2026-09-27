@@ -9,7 +9,63 @@ This document is the concise, user-facing release summary for delivered implemen
 
 ## Unreleased
 
+- 2026-09-21: Simplified Agent workflow; optional TASKs, current-only handoffs, archived long task evidence, and plain-language Chinese summaries. Internal task/history files no longer require a translation. Documentation audit updated; no gameplay changes.
+
+- TASK-056: moving weapon dissolution now takes 0.3 seconds; perfect dodge drops all gameplay/camera input until afterimage retirement and requires held movement to be released; plunge restores its source-informed preparation before a reduced, editable descent.
+
+- TASK-056: fixed sheath-to-neutral pose handoff, made grounded walk/run dissolve weapons directly, gated perfect-dodge movement/jump until afterimage retirement and added the source 60 cm plunge-clearance requirement.
+
+- TASK-056: corrected the post-attack waiting pose to the original looping armed Idle beneath Montage blends; changed back-stow duration to 3 seconds while retaining 3-second hold and 1-second dissolve.
+
+- TASK-056: added source-baked draw/sheath Montages and editable weapon hold, stow and dissolve stages; attacks interrupt presentation, and lock loss handles destroyed targets. User playtesting remains pending.
+
+- TASK-056: added a second stationary target to the Chen action lab for user lock-on/switching checks; recorded camera and weapon-stow lessons in the global adapter skill. Gameplay acceptance is user-owned for this follow-up.
+
+- TASK-056: restored Chen's back-stowed main sword and sheathed offhand during locomotion, with action-driven drawing/stowing and safe contact-history reset.
+
+- TASK-056: aligned R final-slash animation segments with the source FX clock and restored per-particle crossing blade rotations for JianTianHe without adding emitters.
+
+- TASK-056: added a character-owned ACT follow camera, camera-relative movement, middle-mouse target locking and R return-to-live-view, with source-derived orbit data and editable adaptation settings.
+
+- TASK-056 follow-up: source LOD masks exclude seven incorrectly active particles and one dependent trail; restored the dragon metallic/specular/smoothness map and emission intensity, with fresh temporal GPU verification.
+
+- TASK-056: repaired non-Attack01 Chen source FX material/motion ordering, removed F default-impact duplication and empty Niagara tails, and added R source-curve camera and mesh fade; original visual parity remains partial.
+
+- TASK-056: wired the user's Chen BP/ABP into native GAS, five-hit combo, E/Q/R, jump/plunge, dodge/perfect dodge and restricted execution, with editable data and a separate L_ChenACT lab.
+
+- TASK-055: restored 11 disabled source prefab position offsets across three Attack01 Niagara systems; fresh whiff/contact PIE matches source positions and retains the 40-renderer inventory.
+
+- TASK-055: reduced excessive Chen Attack01 halo and restored two continuous arc particle groups, with fresh whiff/contact PIE evidence and unchanged 40-renderer inventory.
+
+- TASK-055: fixed the main-hand hit rectangle by routing its source radial-blur shader to masked scene compositing; added rebuild dispatch and saved-material regression checks.
+
+- TASK-056: imported 23 additional Chen combat/jump/dodge animations on the existing centimeter skeleton, including source-confirmed perfect-dodge variants. GAS, input and Montage/Notify authoring are deferred by the user.
+
+- TASK-055: replaced the Attack01 manual clock with native GAS Montage playback and AN/ANS tracks; verified speed changes, repeat combo, cancellation and post-pose real-contact FX.
+
+- TASK-055: traced native model-root/contact placement, resolved the character default hit prefab, removed 17 superseded assets, and preserved source FX seconds in the 60 FPS lab profile.
+
 ### Added
+
+- 2026-09-19 — **TASK-055 Attack01 correction**: rebuilt five source systems to exactly 35 emitters, removed 49 unused assets, mapped Stationary/VB_Hit placement from source configuration, and added source-limit spark deceleration. GPU tests pass; visual parity remains under review.
+
+- 2026-09-14 — **TASK-055 Attack01**: added the Chen ACT/GAS blade-contact lab and source-driven blue slash/impact Niagara reconstruction, including separate impact windows, source UV/shader curves and particle trails. Visual fidelity limits remain in TASK-055.
+
+- 2026-09-13 — **TASK-054 daily card drag**: reading-board cards now rotate independently while held, drive their own foil highlight and settle on release; simple clicks still open card details.
+
+- 2026-09-13 — **TASK-054 card drag / water**: the main tarot card responds to held pointer rotation and settles on release; gallery water blends between source drawings each frame instead of visibly stepping at 12 Hz.
+
+- 2026-09-13 — **TASK-045 duplicate entry removal**: removed the three project task/review/learning Skill wrappers and their invocation metadata; current documentation points directly to execution/review and teaching guidance. Roles, autonomy and historical evidence remain.
+
+- 2026-09-13 — **TASK-054 gallery tip**: restored the original segmented banner stretching, label padding/centering and foreground order; the small card icon no longer stretches across the acquisition hint.
+
+- 2026-09-13 — **TASK-045 autonomy**: makes Primary implementation, exploration and necessary refactoring autonomous within the authorized outcome; aligns directory rules, roles and Skills while retaining explicit user limits, child ownership and risk-based validation.
+
+- 2026-09-13 — **TASK-054 gallery clipping**: removed the erroneous right-half canvas clip and matching pointer restriction; lower Bezier cards retain their full silhouettes and can be selected/dragged across the screen midpoint.
+- 2026-09-13 — **TASK-054**: TASK-054 reference corrections are implemented and compiled: source activity-page opening, drop-to-loop character blending, normal/daily selection states, full-depth card detail and projected eight-card collection. The final UI suite passes 12/12; visual acceptance and shipping verification remain separate. See [TASK-054](Production/Tasks/TASK-054-Divination-Motion-Preview.md).
+- 2026-09-12 — **TASK-054**: TASK-054 fidelity follow-up is in progress: corrected atlas-trim UVs and normal/special character clips, source Bezier collection, ordinary one-time reveal and daily confirmation are in source. The new source/material work remains incomplete and unbuilt while the user Editor is open. Historical UI passes do not validate this revision. See [TASK-054](Production/Tasks/TASK-054-Divination-Motion-Preview.md).
+
+- 2026-09-10 — **TASK-053 follow-up**: incorporates Q46–Q90 into the baked 3D map, complete one-character ACT, replaceable UI layout, staged audio and public-package audit contracts. Adds a production/learning/asset plan and evidence-aware ACT migration matrix; retires stale ACT-not-enabled prose. Documentation only; no runtime or asset migration.
 
 - 2026-09-10 — **Playable MVP baseline integrated**: commits the complete current MVP snapshot as `00b894d` and fast-forwards local `main`; 472 tracked files covering UE code/assets/maps, data, UI, prototypes and bilingual documentation are now represented in the baseline. UE5.8 Editor Development build, documentation/project validation, staged diff check and Git LFS fsck passed. Packaging and user art/physical-hold acceptance remain unverified.
 
@@ -21,20 +77,20 @@ This document is the concise, user-facing release summary for delivered implemen
   - Fixes regional hover without rebuilding unrelated HUD/hand state; A target confirmation and B colocated-A choice/no-target cancellation revalidate the existing Core command before payment. The parchment hand wraps into five columns and scrolls vertically.
   - New tutorials use 55 cells around the same seven key positions; saved version-1 162-cell layouts remain intact. Painted Slate owns WASD/Home through the CommonUI page and handles map clicks, middle drag and wheel; cancellation clears held keys/capture. The controller retains the 3D camera without duplicate painted-key polling.
   - Adds matte navy/aged-gold/paper materials, isolated button hover scans, staged native Slate entrances and a fixed-UV portrait reveal. The central war glyph and opposing moving liquid display neutral progress as 50:50 while retaining the actual score and victory threshold.
-  - Editor builds and targeted regression checks passed. Native probes demonstrated A deployment with Flow 60→56, B no-A cancellation without payment, attachment to the `earth` A instance (地痕) with Flow 56→55, W/Home navigation and real-RHI liquid motion. Latest input-routing rechecks remain in [TASK-052](Production/Tasks/TASK-052-Tutorial-Interaction-and-Motion-UI.md). Working-tree verified candidate; user art/physical hold feel and packaged behavior remain unverified. No Git integration.
+  - Editor builds and targeted regression checks passed. Native probes demonstrated A deployment with Flow 60→56, B no-A cancellation without payment, attachment to the `earth` A instance (地痕) with Flow 56→55, W/Home navigation and real-RHI liquid motion. Latest input-routing rechecks remain in [TASK-052](Production/ProjectCleanup.md). Working-tree verified candidate; user art/physical hold feel and packaged behavior remain unverified. No Git integration.
 
 - 2026-09-09 — **TASK-051 painted tutorial and hover interaction**
   - Adds a fixed 2.5D tutorial painting, localized GPU atmosphere, reference-guided navy/gold HUD and immediate hover details with retained sidebar targets. CommonUI modal/held-card input remains isolated.
-  - Adds 162 deterministic hex cells around seven existing key nodes, paid habitable-wilderness occupation, bounded dusk AI expansion and cross-map save compatibility. Editor build, 31 focused tests, independent review and native hover/zoom/reset/modal checks passed. User aesthetic/hold-feel and packaged acceptance remain pending. [TASK-051](Production/Tasks/TASK-051-Painted-Tutorial-and-Hover.md).
+  - Adds 162 deterministic hex cells around seven existing key nodes, paid habitable-wilderness occupation, bounded dusk AI expansion and cross-map save compatibility. Editor build, 31 focused tests, independent review and native hover/zoom/reset/modal checks passed. User aesthetic/hold-feel and packaged acceptance remain pending. [TASK-051](Production/ProjectCleanup.md).
 
 - 2026-09-09 — **TASK-050 continuous landscape and activatable inspection**
   - Adds a shared-vertex terrain sample with graded roads, river margin, slope/node/road-filtered cosmetic PCG, seven editable models and eighteen materials. Uses navy/gold nine-slice HUD skins and illustrated inspection panels.
   - Adds real CommonUI page/overlay stacks, top-only input, nested Back/focus restoration and 500 ms readonly card/unit inspection. Details use current data and label unconfigured progression/art; Encounter enemy autoplay waits during inspection while ACT timing remains unchanged.
-  - Editor build, 26 focused tests, native rendering/Back-focus checks and independent lifecycle review passed. Art/physical hold acceptance and packaged validation remain pending. [TASK-050](Production/Tasks/TASK-050-Landscape-and-Activatable-UI.md), [authoring and layer guide](Content/StrategyPresentation.md).
+  - Editor build, 26 focused tests, native rendering/Back-focus checks and independent lifecycle review passed. Art/physical hold acceptance and packaged validation remain pending. [TASK-050](Production/ProjectCleanup.md), [authoring and layer guide](Content/StrategyPresentation.md).
 
 - 2026-09-09 — **TASK-049 native strategy HUD**
   - Reorganizes the native screen into calendar/resources, central map, right node/garrison actions, illustrated filtered hand, minimap and separate phase advance. Adds a nine-card concept atlas and create-only UE import script.
-  - Clarifies source/destination selection, B attachment and preparation drafts; uses actual widget geometry for input, blocks overlays and adds load/retreat confirmation. Accepted Core rules remain unchanged. Validation and outstanding user playtest are recorded in [TASK-049](Production/Tasks/TASK-049-Native-Strategy-HUD.md).
+  - Clarifies source/destination selection, B attachment and preparation drafts; uses actual widget geometry for input, blocks overlays and adds load/retreat confirmation. Accepted Core rules remain unchanged. Validation and outstanding user playtest are recorded in [TASK-049](Production/ProjectCleanup.md).
 
 - 2026-09-09 — **TASK-048 anchored 3D maps and legacy retirement**
   - Retires six old Demo assets, their 21-file runtime/test chain and old authoring script after generic-preview migration. The default map is L_PadmaWorld; unrelated changes and compatibility IDs remain preserved.
@@ -105,3 +161,7 @@ This document is the concise, user-facing release summary for delivered implemen
 
 
 - 2026-09-08 user clarification: retain A→F, B→D, C→R and revise conflicting collection labels. ACT content is not yet designed; editable model/skill-table soft-reference definitions are authorized, with no invented combat data.
+
+- TASK-056: sourced Chen combo/cache/volume and interrupt rules, dodge controller gates, same-Montage notify isolation; execution can start without a target or HP prerequisite.
+
+- TASK-056 training: execution uses ordinary test damage; the editable 10000 HP dummy stays in place while normal enemy pursuit remains enabled.

@@ -3,6 +3,7 @@
 #include "UI/Input/PadmaPressGesture.h"
 #include "UI/Screens/PadmaTutorialMapWidget.h"
 #include "UI/Screens/PadmaMotionWidgets.h"
+#include "UI/Screens/PadmaDivinationWidget.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Widgets/Layout/SScaleBox.h"
 #include "Widgets/CommonActivatableWidgetContainer.h"
@@ -234,6 +235,7 @@ TSharedRef<SWidget> UPadmaGameScreen::RebuildWidget()
 }
 void UPadmaGameScreen::ReleaseSlateResources(bool Children)
 {
+ Divination.Reset();
  // These stacks are constructed manually rather than through WidgetTree.RootWidget.
  // Release their pooled SObjectWidgets explicitly, before GC inspects the PIE session.
  if(PaintedMap)PaintedMap->CancelInteraction();
@@ -599,7 +601,7 @@ void UPadmaGameScreen::SyncLayers()
 {
  if(!PageStack||!OverlayStack||!Layout)return;
  TWeakObjectPtr<UPadmaGameScreen> Weak(this);
- auto Back=[Weak]{if(Weak.IsValid())Weak->Intent({TEXT("back")});};
+ auto Back=[Weak]{if(Weak.IsValid()){if((Weak->Current.ModalTitle==TEXT("占卜演出预览")||Weak->Current.ModalTitle==TEXT("莲华之梦"))&&Weak->Divination)Weak->Divination->RequestClose();else Weak->Intent({TEXT("back")});}};
  if(!PageLayer||PageLayer->GetLayerKey()!=Current.PageKey)
  {
   PageStack->ClearWidgets();
@@ -615,7 +617,7 @@ void UPadmaGameScreen::SyncLayers()
  TArray<FName> Desired=Current.OverlayPath;if(HasModal()&&Desired.IsEmpty())Desired.Add(FName(*Current.ModalTitle));
  int32 Shared=0;while(Shared<Desired.Num()&&Shared<OverlayLayers.Num()&&OverlayLayers[Shared]->GetLayerKey()==Desired[Shared])++Shared;
  const bool bPurePop=Shared==Desired.Num()&&Desired.Num()<OverlayLayers.Num();
- while(OverlayLayers.Num()>Shared){auto* Layer=OverlayLayers.Pop().Get();OverlayStack->RemoveWidget(*Layer);}
+ while(OverlayLayers.Num()>Shared){auto* Layer=OverlayLayers.Pop().Get();if(Layer->GetLayerKey()==TEXT("占卜演出预览")||Layer->GetLayerKey()==TEXT("莲华之梦")){Layer->SetSurface(SNullWidget::NullWidget);Divination.Reset();}OverlayStack->RemoveWidget(*Layer);}
  for(int32 I=Shared;I<Desired.Num();++I)
  {
   auto* Layer=OverlayStack->AddWidget<UPadmaActivatableLayer>(UPadmaActivatableLayer::StaticClass(),[&](UPadmaActivatableLayer& NewLayer){NewLayer.Configure(Desired[I],true,Back);NewLayer.SetSurface(BuildOverlay());});
@@ -629,6 +631,11 @@ void UPadmaGameScreen::SyncLayers()
 }
 TSharedRef<SWidget> UPadmaGameScreen::BuildOverlay()
 {
+ if(Current.ModalTitle==TEXT("占卜演出预览")||Current.ModalTitle==TEXT("莲华之梦"))
+ {
+  if(!Divination){TWeakObjectPtr<UPadmaGameScreen> Weak(this);SAssignNew(Divination,SPadmaDivinationWidget).TitleIntro(Current.ModalTitle==TEXT("莲华之梦")).OnClosed(FSimpleDelegate::CreateLambda([Weak]{if(Weak.IsValid())Weak->Intent({TEXT("close")});}));}
+  return Divination.ToSharedRef();
+ }
  const bool Details=!Current.DetailSections.IsEmpty();
  auto Body=SNew(SVerticalBox);
  Body->AddSlot().AutoHeight().Padding(0,0,0,8)[SNew(SPadmaMotionElement).Delay(.05f).Distance(-32)[Text(Current.ModalTitle,30,Gold)]];

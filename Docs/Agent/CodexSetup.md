@@ -5,15 +5,15 @@
 
 ## Responsibility split
 
-AGENTS = stable constraints; ProjectState = current facts; TASK = one delivery; Role = a specialist viewpoint; Skill = a reusable procedure. Put each instruction in its owning layer and link rather than copy. English is canonical; Chinese companions are for user reading.
+AGENTS = stable constraints; ProjectState = current facts; TASK = an optional durable handoff; Role = a specialist viewpoint. Put each instruction in its owning layer and link rather than copy. English is canonical; Chinese companions are short plain-language summaries; internal tasks need no new companion. Workflow.md overrides legacy role wording that suggests mandatory document updates.
 
-The current primary handles both coordination and serial implementation. A separate Integration Coordinator is useful only when multiple independent deliveries actually require integration. Do not open a chat or worktree simply to activate a Role.
+The current Primary owns coordination, implementation methods and exploration under Workflow.md. It may make technical decisions and maintain affected central/module documents within the authorized outcome; specialist role names are not exclusive editing or approval offices. A separate Integration Coordinator is useful only when independent deliveries need coordination. Do not open a chat or worktree simply to activate a Role.
 
 ## Available roles
 
 | Role | Use |
 |---|---|
-| module_worker | A bounded patch with exact write authority |
+| module_worker | Primary delivery autonomy, or an exact delegated child write set |
 | explorer | A specific repository question |
 | reviewer | A scoped correctness/risk review under Workflow.md |
 | architect | A real dependency, contract, lifecycle or persistence question |
@@ -32,15 +32,11 @@ Project custom profiles keep their existing names and sandbox defaults: module_w
 
 Avoid copying full conversation history to a bounded child. Use the compact work-package prompt in Workflow.md and explicit source references. More agents can save elapsed time while increasing total token use; measure before adding concurrency.
 
-Changed files are on disk; existing sessions may already contain older injected instructions. Follow the current user amendment in this task and use a fresh user-opened task to verify loading of changed profiles/Skills. Do not claim a hot reload without observing it.
+Changed files are on disk; existing sessions may already contain older injected instructions or removed Skill entries. Follow the user's current decision rather than restoring retired entries. Do not claim a hot reload without observing it.
 
-## Skills
+## Direct execution and learning
 
-- padma-task-runner: execute/update a TASK; child packages do not repeat parent setup/closure.
-- padma-review: requested or risk-triggered review; direct diff evidence, scoped recheck.
-- padma-learning-loop: requested explanation/exercise; no automatic quiz from legacy learning fields.
-
-Only load a Skill when its purpose matches the task. A selected Skill reads supporting material only when needed. Existing YAML UI metadata stays intact.
+Routine delivery, review and teaching need no project Skill wrapper. Use [Workflow](Workflow.md) for autonomy and review, the retained role profiles when useful, and [Learning Workflow](../Learning/Workflow.md) for a requested lesson. Historical TASK references to the three retired project Skills are evidence, not current invocation instructions. Other installed Skills remain available; choose them for concrete task value, not merely because a request involves editing files.
 
 ## References
 
