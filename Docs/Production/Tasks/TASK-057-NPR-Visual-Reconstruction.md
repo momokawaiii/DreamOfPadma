@@ -2,6 +2,8 @@
 
 Status: In Progress
 
+Manual interface follow-up (2026-09-27): independent explicit-key-light opaque backend, semantic slot/texture recipe, actual skeletal Slate viewport and Generate NPR Character are implemented. Existing reference workflow remains accessible. Compilation/generation, invalid-mask/collision rejection, fresh PIE seven-MID binding and Slate lifecycle/capture passed in Artifacts/PadmaNPRSDF/manual-*. This is a basic authoring slice, not reference parity, automatic matching, outline or package acceptance. See Plugins/PadmaNPR/ManualAuthoring.md and ADR-0017.
+
 ## Outcome
 
 Reconstruct every material used by the existing nine-slot Padma Chen mesh using ZMDRender Chen as the primary visual reference and Toon as a secondary algorithm reference. Deliver readable plugin shader implementations, actual saved character bindings, controlled visual comparisons and a learning guide identifying the equations and concepts actually used.

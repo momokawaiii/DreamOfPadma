@@ -119,6 +119,9 @@ struct PADMANPRRUNTIME_API FPadmaNPRSlot {
   // them onto the intentionally smaller generic NPR controls below.
   UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Reference")
   bool bReferenceResponse = false;
+  // Semantic authoring backend. Uses the same resolved maps, never Chen encodings.
+  UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Reference")
+  bool bManualResponse = false;
   UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Reference",
             meta = (EditCondition = "bReferenceResponse"))
   TMap<FName, float> ReferenceScalars;

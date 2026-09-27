@@ -1,0 +1,42 @@
+#pragma once
+// Manual v1: explicit main-light artistic response, not UE shadow-map visibility.
+// Resource sampling stays in the graph; all vectors below are world-space.
+float3 PadmaManualNormalize(float3 v, float3 fallback) {
+ return dot(v,v)>1e-8 ? normalize(v) : fallback;
+}
+float PadmaManualBand(float x,float threshold,float feather) {
+ return smoothstep(threshold-max(feather,.001),threshold+max(feather,.001),x);
+}
+float PadmaManualHair(float3 t,float3 h,float roughness) {
+ float d=dot(t,h);
+ return pow(sqrt(saturate(1-d*d)),lerp(180,8,roughness));
+}
+float3 PadmaManualEvaluate(float3 base,float3 normal,float3 tangent,float3 view,
+ float4 light,float3 forward,float3 right,float3 up,float4 tint,float4 shade,
+ float4 style,float4 surface,float4 controls,float roughness,float metallic,float ao,
+ float sdf,float mirroredSdf,float3 matcap) {
+ float3 n=PadmaManualNormalize(normal,float3(0,0,1));
+ float3 l=PadmaManualNormalize(light.xyz,float3(.3,.5,1));
+ float3 v=PadmaManualNormalize(view,float3(1,0,0));
+ float3 h=PadmaManualNormalize(l+v,n);
+ float band=PadmaManualBand(saturate(dot(n,l)),style.x,style.y);
+ if(surface.x>2.5 && surface.x<3.5 && controls.x>.5) {
+  float3 f=PadmaManualNormalize(forward,float3(1,0,0));
+  float3 r=PadmaManualNormalize(right,float3(0,1,0));
+  float2 planar=float2(dot(l,f),dot(l,r));
+  planar=dot(planar,planar)>1e-8?normalize(planar):float2(1,0);
+  float field=(planar.y*(controls.y>.5?-1:1))>0?sdf:mirroredSdf;
+  float threshold=1-(planar.x*.5+.5);
+  band=PadmaManualBand(field,threshold,style.y);
+ }
+ float rough=clamp(roughness,.04,1),metal=saturate(metallic);
+ float spec=pow(saturate(dot(n,h)),lerp(180,8,rough));
+ if(surface.x>3.5 && surface.x<4.5) {
+  float3 t=PadmaManualNormalize(tangent-n*dot(tangent,n),float3(0,0,1));
+  spec=PadmaManualHair(t,h,rough)*saturate(dot(n,l));
+ }
+ float3 color=base*tint.rgb*lerp(shade.rgb,1,band)*lerp(.35,1,saturate(ao));
+ color+=spec*style.w*lerp(float3(.04,.04,.04),base,metal);
+ color+=pow(1-saturate(dot(n,v)),3)*style.z*tint.rgb;
+ return max(color+matcap*surface.y,0);
+}

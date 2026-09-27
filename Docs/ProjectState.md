@@ -6,6 +6,8 @@
 
 ## Usable entry points
 
+- NPR manual authoring (2026-09-27): Studio accepts explicit mesh/slot/texture semantics with a real skeletal preview. Generate saves a separate basic opaque Manual backend, runtime Profile and editor recipe. Seven-slot generation, fresh PIE MID checks and Slate lifecycle/capture passed. It is explicit-key-light Unlit, not reference parity or real shadow receiving. See [usage](../Plugins/PadmaNPR/ManualAuthoring.md); existing Chen/DA workflow remains accessible.
+
 - NPR update (2026-09-27): placed Chen uses `DA_Chen_NPR_Reference` across nine slots, now calibrated for dry skin/cloth, planar/feathered face SDF and localized .88 bang opacity. Eleven automation checks and a subsequent actual-idle head-basis regression passed; final artistic and high-speed gameplay acceptance remain open in [TASK-057](Production/Tasks/TASK-057-NPR-Visual-Reconstruction.md). [Reference workflow](../Plugins/PadmaNPR/ReferenceCharacter.md).
 
 - Strategy prototype: `/Game/Padma/MVP/Playable/Maps/L_PadmaWorld`. Current painted tutorial has 55 cells, confirmed A/B placement, map navigation and native CommonUI/Slate pages. [Playable guide](Content/NativePlayableDemo.md).

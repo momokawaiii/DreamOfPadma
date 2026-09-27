@@ -65,7 +65,7 @@ bool UPadmaNPRProfile::Validate(FString &Error) const {
         StaticEnum<EPadmaNPRSurface>()->GetNameStringByValue((int64)S.Type) +
         (S.bReferenceResponse ? TEXT("_Reference") : TEXT(""));
     if (!S.Material->GetMaterial() ||
-        S.Material->GetMaterial()->GetName() != Expected) {
+        (S.bManualResponse ? (!S.bReferenceResponse || !S.Material->GetMaterial()->GetName().StartsWith(TEXT("M_NPR_Manual_"))) : S.Material->GetMaterial()->GetName() != Expected)) {
       Error = FString::Printf(TEXT("%s requires %s parent."),
                               *S.SlotName.ToString(), *Expected);
       return false;

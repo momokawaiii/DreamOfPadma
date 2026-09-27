@@ -1,5 +1,9 @@
 # Padma NPR Studio
 
+The [manual authoring interface](ManualAuthoring.md) is now implemented: semantic slot inputs, actual skeletal preview, **生成 NPR 角色**, saved recipes and Profile application. The reference workflow remains available through the top-right existing-DA action.
+
+Historical interface proposal: [Character workflow v1](CharacterWorkflow.md): current usage, Shader/C++/Studio ownership, and the proposed manual mesh/semantic-texture generation interface. Manual authoring precedes automatic matching, outline and second-character validation.
+
 The saved Chen example now uses the nine-slot [reference character variant](ReferenceCharacter.md). Its DA maps preserve source parameter semantics; the earlier generic character templates below remain available. See the [Chinese learning order](ReferenceCharacter.zh-CN.md) for the implemented equations and their limits.
 
 The plugin now includes the [minimal character workflow](Character.md), alongside the existing [Cloth core](Cloth.md).
@@ -9,7 +13,7 @@ Open **Window > Padma NPR Studio** in the Level Editor. Chinese summary: [README
 
 ## Available
 
-- Five workspace tabs: overview, character configuration, material study, preview/debug, and tools. Native AppStyle toolbar, left preview placeholder/workspace splitter, right Details inspector and collapsible category headers follow the material-instance editor's visual organization. The placeholder is not a rendered scene.
+- The existing-DA inspector retains five workspace tabs: overview, character configuration, material study, preview/debug, and tools. Native AppStyle toolbar, left preview placeholder/workspace splitter, right Details inspector and collapsible category headers follow the material-instance editor's visual organization. The placeholder is not a rendered scene.
 - Read a Content Browser selection; edit character DAs in Details.
 - Open the inspected asset in its native editor; clear the inspector without changing the asset.
 - Clear descriptions of pending capabilities, without inactive shader controls disguised as working features.
@@ -18,7 +22,7 @@ Studio Apply/Restore explicitly changes only configured slots on the selected le
 
 ## Extension boundary
 
-`PadmaNPREditor` depends on `PadmaNPRRuntime` and engine editor modules. Runtime owns shader registration, Cloth and character Profiles, the MID factory and character component. Neither depends on DreamOfPadma gameplay. Character component binding is implemented; custom passes and a dedicated preview scene remain unimplemented.
+`PadmaNPREditor` depends on `PadmaNPRRuntime` and engine editor modules. Runtime owns shader registration, Cloth and character Profiles, the MID factory and character component. Neither depends on DreamOfPadma gameplay. Character component binding is implemented; custom passes remain unimplemented. The new manual interface has a real skeletal preview scene.
 
 The inspector edits character Profiles and browses other assets. Cloth Profiles currently use the native Data Asset editor. Add a Renderer module only when a real pass requires it. Ordinary Substrate is permitted; UE 5.8 Toon BSDF and its built-in Toon profile/atlas are excluded.
 

@@ -1,5 +1,6 @@
 #include "PadmaNPRProfile.h"
 #include "PadmaNPRStudioLibrary.h"
+#include "SPadmaNPRCharacterStudio.h"
 #include "Engine/Selection.h"
 #include "Modules/ModuleManager.h"
 #include "AssetRegistry/AssetData.h"
@@ -318,6 +319,9 @@ public:
     virtual void StartupModule() override
     {
         if (IsRunningCommandlet()) { return; }
+        FGlobalTabmanager::Get()->RegisterNomadTabSpawner(TEXT("PadmaNPR.LegacyStudio"),
+            FOnSpawnTab::CreateLambda([](const FSpawnTabArgs&){return SNew(SDockTab).TabRole(ETabRole::NomadTab)[SNew(PadmaNPRStudio::SStudio)];}))
+            .SetDisplayName(LOCTEXT("LegacyTab", "Padma NPR · 已有 DA / 参考版")).SetMenuType(ETabSpawnerMenuType::Hidden);
         FGlobalTabmanager::Get()->RegisterNomadTabSpawner(PadmaNPRStudio::TabId,
             FOnSpawnTab::CreateRaw(this, &FPadmaNPREditorModule::SpawnTab))
             .SetDisplayName(LOCTEXT("TabName", "Padma NPR Studio"))
@@ -336,12 +340,14 @@ public:
             Tab->RequestCloseTab();
         }
         FGlobalTabmanager::Get()->UnregisterNomadTabSpawner(PadmaNPRStudio::TabId);
+        if(auto Tab=FGlobalTabmanager::Get()->FindExistingLiveTab(FName(TEXT("PadmaNPR.LegacyStudio")))){Tab->SetContent(SNullWidget::NullWidget);Tab->RequestCloseTab();}
+        FGlobalTabmanager::Get()->UnregisterNomadTabSpawner(TEXT("PadmaNPR.LegacyStudio"));
     }
 
 private:
     TSharedRef<SDockTab> SpawnTab(const FSpawnTabArgs&)
     {
-        return SNew(SDockTab).TabRole(ETabRole::NomadTab) [ SNew(PadmaNPRStudio::SStudio) ];
+        return SNew(SDockTab).TabRole(ETabRole::NomadTab) [ MakePadmaNPRCharacterStudio() ];
     }
 
     void RegisterMenus()
