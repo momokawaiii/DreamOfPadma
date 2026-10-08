@@ -18,6 +18,29 @@ Saved/
 Artifacts/
 Build/Artifacts/
 
+# Binary game assets stay out of Git; playable builds ship as releases.
+*.uasset
+*.umap
+*.fbx
+*.blend
+*.blend1
+*.abc
+*.glb
+*.gltf
+*.png
+*.jpg
+*.jpeg
+*.tga
+*.exr
+*.wav
+*.mp3
+*.ogg
+*.psd
+*.mp4
+*.mov
+*.ttf
+*.otf
+
 # Operating-system files
 .DS_Store
 Thumbs.db
@@ -27,5 +50,3 @@ Thumbs.db
 *.tmp
 __pycache__/
 *.pyc
-
-# Keep the project source, Config, Content, Docs and scripts under version control.
