@@ -85,7 +85,11 @@ struct FLegacyMeleeFixture
         // Shared pose/meshes/FX, but deliberately independent legacy blade/combo rules.
         // Do not copy the live Montage's volume hits, transitions or root-motion variants.
         Montage->CompositeSections.Reset();
-        Montage->AddAnimCompositeSection(TEXT("Attack01"), 0.f);
+        // AddAnimCompositeSection is editor-only in UE 5.8; the first section links the same way without it.
+        FCompositeSection LegacySection;
+        LegacySection.SectionName = TEXT("Attack01");
+        LegacySection.Link(Montage.Get(), 0.f);
+        Montage->CompositeSections.Add(LegacySection);
         Montage->Notifies.Reset();
 #if WITH_EDITOR
         // RefreshCacheData requires a valid editor track even for an unsaved Montage.
@@ -96,7 +100,9 @@ struct FLegacyMeleeFixture
         {
             auto& Entry = Montage->Notifies.AddDefaulted_GetRef();
             Entry.Link(Montage.Get(), Start);
+#if WITH_EDITOR
             Entry.TriggerTimeOffset = GetTriggerTimeOffsetForType(Montage->CalculateOffsetForNotify(Start));
+#endif
             Entry.Notify = Notify;
             Entry.NotifyStateClass = State;
             Entry.TrackIndex = 0;
